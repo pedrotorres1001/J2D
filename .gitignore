@@ -1,0 +1,45 @@
+# Ignore the Library directory
+VolcanoHeart/Library/
+
+# Ignore the Temp directory
+VolcanoHeart/Temp/
+
+# Ignore the Obj directory
+VolcanoHeart/Obj/
+
+# Ignore the Build directory
+VolcanoHeart/Build/
+
+# Ignore the UserSettings directory
+VolcanoHeart/UserSettings/
+
+# Ignore all .log files
+VolcanoHeart/**/*.log
+
+# Ignore the BurstCache directory
+VolcanoHeart/Library/BurstCache/
+
+# Ignore the APIUpdater directory
+VolcanoHeart/Library/APIUpdater/
+
+# Ignore the Artifacts directory
+VolcanoHeart/Library/Artifacts/
+
+# Ignore the Bee directory
+VolcanoHeart/Library/Bee/
+
+# Ignore the AnnotationManager file
+VolcanoHeart/Library/AnnotationManager
+
+# Ignore the ArtifactDB and ArtifactDB-lock files
+VolcanoHeart/Library/ArtifactDB
+VolcanoHeart/Library/ArtifactDB-lock
+
+# Ignore the BuildPlayer.prefs file
+VolcanoHeart/Library/BuildPlayer.prefs
+
+# Ignore the BuildSettings.asset file
+VolcanoHeart/Library/BuildSettings.asset
+
+# Ignore the EditorOnlyScriptingSettings.json file
+VolcanoHeart/Library/EditorOnlyScriptingSettings.json
