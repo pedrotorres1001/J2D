@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainGameScene : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 5.0f;
-    public float jumpForce = 5.0f;
-    private bool isGrounded;
+    [SerializeField] private float speed;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private bool isGrounded;
 
-    private Rigidbody rb;
+    private Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -21,24 +21,20 @@ public class MainGameScene : MonoBehaviour
     {
         // Get input from the user
         float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-
-        // Create a Vector3 based on the input
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
         // Apply the movement to the character
-        transform.Translate(movement * speed * Time.deltaTime, Space.World);
+        rb.velocity = new Vector2(moveHorizontal * speed, rb.velocity.y);
 
         // Check if the "W" key is pressed and the character is grounded
         if (Input.GetKeyDown(KeyCode.W) && isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
         }
     }
 
     // Check if the character is grounded
-    void OnCollisionStay(Collision collision)
+    void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
@@ -47,7 +43,7 @@ public class MainGameScene : MonoBehaviour
     }
 
     // Check if the character leaves the ground
-    void OnCollisionExit(Collision collision)
+    void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
