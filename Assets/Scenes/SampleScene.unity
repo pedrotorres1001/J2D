@@ -403,8 +403,8 @@ GameObject:
   - component: {fileID: 611152715}
   - component: {fileID: 611152719}
   m_Layer: 0
-  m_Name: Player1
-  m_TagString: Untagged
+  m_Name: Player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -434,7 +434,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &611152716
 BoxCollider2D:
@@ -560,8 +560,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc27c5da2a2746d1953f20dbb1dc605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 2
   jumpForce: 200
+  isGrounded: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,7 +788,7 @@ GameObject:
   - component: {fileID: 1625758114}
   m_Layer: 0
   m_Name: Bottom
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
