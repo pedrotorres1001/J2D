@@ -25,8 +25,8 @@ public class PlayerMovement : MonoBehaviour
         // Apply the movement to the character
         rb.velocity = new Vector2(moveHorizontal * speed, rb.velocity.y);
 
-        // Check if the "W" key is pressed and the character is grounded
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
+        // Check if the "W" or arrow_up key is pressed and the character is grounded
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
