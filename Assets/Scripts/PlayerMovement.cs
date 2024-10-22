@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private float lastDirection = 1;
 
+    public float direction;
 
     // Start is called before the first frame update
     void Start()
@@ -24,10 +25,10 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // Get input from the user
-        float moveHorizontal = Input.GetAxis("Horizontal");
+        direction = Input.GetAxis("Horizontal");
 
         // Apply the movement to the character
-        rb.velocity = new Vector2(moveHorizontal * speed, rb.velocity.y);
+        rb.velocity = new Vector2(direction * speed, rb.velocity.y);
 
 
         // Check if the "W" or arrow_up key is pressed and the character is grounded
@@ -37,13 +38,13 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = false;
         }
 
-        if (moveHorizontal != 0)
+        if (direction != 0)
         {
-            animator.SetFloat("MoveX", moveHorizontal);
-            lastDirection = moveHorizontal;
+            animator.SetFloat("MoveX", direction);
+            lastDirection = direction;
         }
 
-        if (moveHorizontal == 0)
+        if (direction == 0)
         {
             animator.SetFloat("MoveX", lastDirection);
         }

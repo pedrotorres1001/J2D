@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5e5de91d55b7d4b9eb725063b3ffbea6
+guid: 10fdad272a53345aeb7ba14b9f9e15c1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,43 +110,64 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player2_0
+      name: Player_0
       rect:
         serializedVersion: 2
         x: 0
         y: 16
-        width: 32
+        width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1ebefd259468749df9c09e9585e4749c
-      internalID: -27367529
+      spriteID: 153d08625d7084e56992982857441c1b
+      internalID: -828897453
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player2_1
+      name: Player_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
+        x: 16
+        y: 16
+        width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.34455967, y: 0.34455967}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de7ba7a7dd6174bd9960b05dd91c95cc
-      internalID: 1447063332
+      spriteID: 656c51ec21c4b4f9e85145bd76110ddc
+      internalID: -1877628595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b674785cf83542f8899ca1f9476453c
+      internalID: -1811484686
       vertices: []
       indices: 
       edges: []
@@ -162,8 +183,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Player2_0: -27367529
-      Player2_1: 1447063332
+      Player_0: -828897453
+      Player_1: -1877628595
+      Player_2: -1811484686
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
