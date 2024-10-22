@@ -8,12 +8,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private bool isGrounded;
 
+    private Animator animator;
     private Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -24,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
 
         // Apply the movement to the character
         rb.velocity = new Vector2(moveHorizontal * speed, rb.velocity.y);
+
+        animator.SetFloat("MoveX", moveHorizontal);
 
         // Check if the "W" or arrow_up key is pressed and the character is grounded
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)
