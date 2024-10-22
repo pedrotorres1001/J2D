@@ -4,27 +4,28 @@ using UnityEngine;
 
 public class PickaxeController : MonoBehaviour
 {
-    [SerializeField] private GameObject rightHand; // Posição da mão direita
-    [SerializeField] private GameObject leftHand; // Posição da mão esquerda
-    private PlayerMovement playerMovement; // Referência ao script de movimentação
+    [SerializeField] private GameObject rightHand;
+    [SerializeField] private GameObject leftHand; 
+    [SerializeField] private PlayerMovement playerMovement; 
 
-    void Start()
-    {
-        playerMovement = GetComponentInParent<PlayerMovement>(); // Obtém a referência ao script de movimentação do jogador
+    private SpriteRenderer spriteRenderer;
+
+    private void Start() {
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        // Atualiza a posição da picareta com base na direção do jogador
+        
         if (playerMovement.direction > 0)
         {
-            transform.position = rightHand.transform.position; // Posição da mão direita
-            transform.localScale = new Vector3(1, 1, 1); // Não espelha
+            transform.position = rightHand.transform.position;
+            spriteRenderer.flipX = false;
         }
         else if (playerMovement.direction < 0)
         {
-            transform.position = leftHand.transform.position; // Posição da mão esquerda
-            transform.localScale = new Vector3(-1, 1, 1); // Espelha
+            transform.position = leftHand.transform.position; 
+            spriteRenderer.flipX = true;
         }
     }
 }
