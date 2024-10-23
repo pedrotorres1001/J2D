@@ -3,30 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TilemapDestroy : MonoBehaviour
+public class PickaxeBreakBlock : MonoBehaviour
 {
-public Tilemap tilemap;                    
+    public Tilemap tilemap;                    
     public GameObject highlightObject;         
     public Transform player;                  
-    public float destroyDistance = 1.5f;      
+    public float destroyDistance;   
+
+    private Vector3Int tilePos;   
 
     void Update()
     {
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
-        Vector3Int tilePos = tilemap.WorldToCell(mouseWorldPos);
+        tilePos = tilemap.WorldToCell(mouseWorldPos);
 
         if (tilemap.HasTile(tilePos) && IsTileNearPlayer(tilePos))
         {
             HighlightTile(tilePos);    
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (IsTileNearPlayer(tilePos))
-                {
-                    tilemap.SetTile(tilePos, null);
-                }
-            }
         }
         else
         {
@@ -45,5 +39,22 @@ public Tilemap tilemap;
     {
         Vector3 tileWorldPos = tilemap.CellToWorld(tilePos);
         return Vector3.Distance(player.position, tileWorldPos) <= destroyDistance;
+    }
+    
+    public void BreakBlock() {
+            
+        if (IsTileNearPlayer(tilePos))
+        {
+            tilemap.SetTile(tilePos, null);
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (player == null)
+            return;
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(player.position, destroyDistance);
     }
 }

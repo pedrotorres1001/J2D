@@ -285,7 +285,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.23, y: -1.22, z: -10}
+  m_LocalPosition: {x: -3.67, y: -1.22, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -434,7 +434,7 @@ Transform:
   m_GameObject: {fileID: 611152714}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.23, y: -1.22, z: 0}
+  m_LocalPosition: {x: -3.67, y: -1.22, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -694,7 +694,7 @@ Transform:
   m_GameObject: {fileID: 917442231}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.23, y: -1.22, z: -10}
+  m_LocalPosition: {x: -3.67, y: -1.22, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -712,7 +712,6 @@ GameObject:
   - component: {fileID: 922020090}
   - component: {fileID: 922020093}
   - component: {fileID: 922020092}
-  - component: {fileID: 922020091}
   - component: {fileID: 922020094}
   m_Layer: 0
   m_Name: Destructable
@@ -736,22 +735,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1330357565}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &922020091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 922020089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a684bf57c47194f2fb45ba3e6f0fcc49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemap: {fileID: 922020093}
-  highlightObject: {fileID: 2081397313}
-  player: {fileID: 611152718}
-  destroyDistance: 1
 --- !u!483693784 &922020092
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -3491,7 +3474,7 @@ Transform:
   m_GameObject: {fileID: 1510941064}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.28, y: 0.29, z: 0}
+  m_LocalPosition: {x: 0.167, y: 0.154, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4800,6 +4783,7 @@ GameObject:
   - component: {fileID: 2070996124}
   - component: {fileID: 2070996125}
   - component: {fileID: 2070996126}
+  - component: {fileID: 2070996128}
   - component: {fileID: 2070996127}
   m_Layer: 0
   m_Name: Pickaxe
@@ -4892,6 +4876,7 @@ MonoBehaviour:
   leftHand: {fileID: 693186601}
   playerMovement: {fileID: 611152719}
   attackPoint: {fileID: 1510941064}
+  isPickaxeOnHand: 0
 --- !u!114 &2070996126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4904,12 +4889,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3ac653d96f7849a1b2b749dfa938719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1.14
-  attackDamage: 10
+  attackRange: 0.48
   enemyLayer:
     serializedVersion: 2
     m_Bits: 1
   attackPoint: {fileID: 1510941065}
+  attackDamage: 10
 --- !u!95 &2070996127
 Animator:
   serializedVersion: 5
@@ -4931,6 +4916,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2070996128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070996122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a684bf57c47194f2fb45ba3e6f0fcc49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilemap: {fileID: 922020093}
+  highlightObject: {fileID: 2081397313}
+  player: {fileID: 611152718}
+  destroyDistance: 0.91
 --- !u!1 &2081397313
 GameObject:
   m_ObjectHideFlags: 0

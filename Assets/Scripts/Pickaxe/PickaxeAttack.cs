@@ -4,27 +4,12 @@ using UnityEngine;
 
 public class PickaxeAttack : MonoBehaviour
 {
-    [SerializeField] private float attackRange = 1.5f;
-    [SerializeField] private int attackDamage = 10;
+    [SerializeField] private float attackRange ;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private Transform attackPoint;
+    public int attackDamage;
 
-    private Animator animator;
-
-    private void Start() {
-        animator = GetComponent<Animator>();
-    }
-
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Attack();
-            animator.SetTrigger("Swing");
-        }
-    }
-
-    void Attack()
+    public void Attack()
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
