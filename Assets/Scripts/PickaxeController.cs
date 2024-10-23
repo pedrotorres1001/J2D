@@ -12,23 +12,33 @@ public class PickaxeController : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
+    public bool isPickaxeOnHand;
+
     private void Start() {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        isPickaxeOnHand = true;
     }
 
     void Update()
     {
-        
+        if(isPickaxeOnHand)
+        {
+            CheckDirection();
+        }
+
+    }
+
+    private void CheckDirection() {
         if (playerMovement.direction > 0)
         {
             transform.position = rightHand.transform.position;
-            attackPoint.transform.position = transform.position + new Vector3(0.45f, 0.45f);    // muda o ponto de ataque para direita
+            attackPoint.transform.position = transform.position + new Vector3(0.4f, 0.4f);    // muda o ponto de ataque para direita
             spriteRenderer.flipX = false;
         }
         else if (playerMovement.direction < 0)
         {
             transform.position = leftHand.transform.position; 
-            attackPoint.transform.position = transform.position + new Vector3(-0.45f, 0.45f);    // muda o ponto de ataque para esquerda
+            attackPoint.transform.position = transform.position + new Vector3(-0.4f, 0.4f);    // muda o ponto de ataque para esquerda
             spriteRenderer.flipX = true;
         }
     }
