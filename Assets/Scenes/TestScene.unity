@@ -3250,11 +3250,12 @@ GameObject:
   - component: {fileID: 1257136137}
   - component: {fileID: 1257136136}
   - component: {fileID: 1257136138}
-  - component: {fileID: 1257136140}
   - component: {fileID: 1257136139}
+  - component: {fileID: 1257136141}
+  - component: {fileID: 1257136140}
   m_Layer: 0
   m_Name: Inimigo1
-  m_TagString: Enemy1
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3403,6 +3404,19 @@ MonoBehaviour:
   speed: 1
   leftBoundary: 17
   rightBoundary: 30
+--- !u!114 &1257136141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257136135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ec66eaab18d0455b9c2ec3bac481d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
 --- !u!1 &1330357563
 GameObject:
   m_ObjectHideFlags: 0
@@ -3449,6 +3463,37 @@ Transform:
   - {fileID: 1661417283}
   - {fileID: 922020090}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1510941064
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1510941065}
+  m_Layer: 0
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1510941065
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510941064}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.28, y: 0.29, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2070996123}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1661417282
 GameObject:
@@ -4752,6 +4797,7 @@ GameObject:
   - component: {fileID: 2070996123}
   - component: {fileID: 2070996124}
   - component: {fileID: 2070996125}
+  - component: {fileID: 2070996126}
   m_Layer: 0
   m_Name: Pickaxe
   m_TagString: Untagged
@@ -4771,7 +4817,8 @@ Transform:
   m_LocalPosition: {x: -3.9945002, y: -1.742, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1510941065}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2070996124
@@ -4841,6 +4888,25 @@ MonoBehaviour:
   rightHand: {fileID: 199776137}
   leftHand: {fileID: 693186601}
   playerMovement: {fileID: 611152719}
+  attackPoint: {fileID: 1510941064}
+--- !u!114 &2070996126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070996122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3ac653d96f7849a1b2b749dfa938719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 1.14
+  attackDamage: 10
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  attackPoint: {fileID: 1510941065}
 --- !u!1 &2081397313
 GameObject:
   m_ObjectHideFlags: 0
