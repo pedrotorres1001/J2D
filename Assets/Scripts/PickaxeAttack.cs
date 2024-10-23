@@ -9,11 +9,18 @@ public class PickaxeAttack : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private Transform attackPoint;
 
+    private Animator animator;
+
+    private void Start() {
+        animator = GetComponent<Animator>();
+    }
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             Attack();
+            animator.SetTrigger("Swing");
         }
     }
 

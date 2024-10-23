@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private float lastDirection = 1;
 
     public float direction;
+    public float altitude;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // Get input from the user
         direction = Input.GetAxis("Horizontal");
+        altitude = Input.GetAxis("Vertical");
 
         // Apply the movement to the character
         rb.velocity = new Vector2(direction * speed, rb.velocity.y);
