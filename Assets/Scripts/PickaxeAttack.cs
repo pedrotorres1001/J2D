@@ -23,7 +23,7 @@ public class PickaxeAttack : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            if (enemy.CompareTag("Enemy1"))
+            if (enemy.CompareTag("Enemy"))
             {
                 enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
             }

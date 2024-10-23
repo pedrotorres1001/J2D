@@ -8,17 +8,17 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float leftBoundary;
     [SerializeField] private float rightBoundary;
 
-    private Rigidbody2D rb1;
+    private Rigidbody2D rb;
     private float moveDirection = 1;
 
     // Start is called before the first frame update
     void Start()
     {
-        GameObject enemy1 = GameObject.FindWithTag("Enemy1");
+        GameObject enemy = GameObject.FindWithTag("Enemy");
 
-        if (enemy1 != null)
+        if (enemy != null)
         {
-            rb1 = enemy1.GetComponent<Rigidbody2D>();
+            rb = enemy.GetComponent<Rigidbody2D>();
         }
     }
 
@@ -35,6 +35,6 @@ public class EnemyMovement : MonoBehaviour
             moveDirection = 1;
         }
 
-        rb1.velocity = new Vector2(moveDirection * speed, rb1.velocity.y);
+        rb.velocity = new Vector2(moveDirection * speed, rb.velocity.y);
     }
 }
