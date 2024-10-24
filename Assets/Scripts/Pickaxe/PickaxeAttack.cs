@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PickaxeAttack : MonoBehaviour
 {
-    [SerializeField] private float attackRange ;
+    [SerializeField] private float attackRange;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private Transform attackPoint;
     public int attackDamage;

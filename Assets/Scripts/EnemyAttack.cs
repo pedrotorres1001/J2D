@@ -8,6 +8,7 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Transform attackPoint;
     public int attackDamage;
+    [SerializeField] private bool hitPlayer;
 
     public void Attack()
     {
@@ -17,23 +18,12 @@ public class EnemyAttack : MonoBehaviour
         {
             if (playerCollider.CompareTag("Player"))
             {
-                print("Player hit");
                 Player player = playerCollider.GetComponent<Player>();
                 if (player != null)
                 {
-                    print("Player damage taken");
                     player.TakeDamage(attackDamage);
                 }
             }
         }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null)
-            return;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

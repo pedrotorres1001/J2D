@@ -20,4 +20,12 @@ public class Enemy : MonoBehaviour
         // Add death logic here (e.g., play animation, destroy object)
         Destroy(gameObject);
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            GetComponent<EnemyAttack>().Attack();
+        }
+    }
 }
