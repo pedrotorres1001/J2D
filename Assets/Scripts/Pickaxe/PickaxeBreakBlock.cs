@@ -18,6 +18,8 @@ public class PickaxeBreakBlock : MonoBehaviour
         mouseWorldPos.z = 0;
         tilePos = tilemap.WorldToCell(mouseWorldPos);
 
+
+
         if (tilemap.HasTile(tilePos) && IsTileNearPlayer(tilePos))
         {
             HighlightTile(tilePos);    
@@ -38,6 +40,10 @@ public class PickaxeBreakBlock : MonoBehaviour
     bool IsTileNearPlayer(Vector3Int tilePos)
     {
         Vector3 tileWorldPos = tilemap.CellToWorld(tilePos);
+
+        print(tileWorldPos);
+        print(Vector3.Distance(player.position, tileWorldPos));
+
         return Vector3.Distance(player.position, tileWorldPos) <= destroyDistance;
     }
     

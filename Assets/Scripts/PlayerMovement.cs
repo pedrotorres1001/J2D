@@ -8,6 +8,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private bool isGrounded;
 
+    [SerializeField] private float groundCheckDistance;
+    [SerializeField] private LayerMask groundLayer;
+
     private Animator animator;
     private Rigidbody2D rb;
     private float lastDirection = 1;
@@ -32,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
         // Apply the movement to the character
         rb.velocity = new Vector2(direction * speed, rb.velocity.y);
 
+        // checkar se está no chão com raycast
+        CheckGround();
 
         // Check if the "W" or arrow_up key is pressed and the character is grounded
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)
@@ -52,19 +57,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Check if the character is grounded
-    void OnCollisionStay2D(Collision2D collision)
+    void CheckGround()
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
+
+        if (hit.collider != null)
         {
             isGrounded = true;
         }
-    }
-
-    // Check if the character leaves the ground
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
+        else
         {
             isGrounded = false;
         }

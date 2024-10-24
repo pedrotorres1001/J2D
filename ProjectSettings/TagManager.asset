@@ -4,7 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ground
   - Enemy
   layers:
   - Default
@@ -45,4 +44,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2019118463
+    locked: 0
+  - name: Ground
+    uniqueID: 4130245939
     locked: 0
