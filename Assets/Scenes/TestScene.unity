@@ -477,6 +477,7 @@ GameObject:
   - component: {fileID: 611152721}
   - component: {fileID: 611152722}
   - component: {fileID: 611152723}
+  - component: {fileID: 611152724}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -692,6 +693,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   rope: {fileID: 522095250}
+--- !u!114 &611152724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611152714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 635f260fb89be4bfd9bcf8e43ee34c14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -3414,6 +3428,7 @@ GameObject:
   - component: {fileID: 1257136139}
   - component: {fileID: 1257136141}
   - component: {fileID: 1257136140}
+  - component: {fileID: 1257136142}
   m_Layer: 0
   m_Name: Inimigo1
   m_TagString: Enemy
@@ -3547,8 +3562,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03712321, y: 0.01237575}
-  m_Size: {x: 0.85298246, y: 0.4569934}
+  m_Offset: {x: 0.046022505, y: 0.016825683}
+  m_Size: {x: 1.2089343, y: 0.67946684}
   m_Direction: 1
 --- !u!114 &1257136140
 MonoBehaviour:
@@ -3578,6 +3593,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+--- !u!114 &1257136142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257136135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba26000069a6e4aa2ae80b3bd30736db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 0.48
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  attackPoint: {fileID: 611152718}
+  attackDamage: 50
 --- !u!1 &1330357563
 GameObject:
   m_ObjectHideFlags: 0
