@@ -45,6 +45,7 @@ public class PickaxeBreakBlock : MonoBehaviour
         Vector3 tileWorldPos = tilemap.CellToWorld(tilePos);
 
         Debug.Log("Player Position: " + player.position);
+        Debug.Log("Tile Position: " + tileWorldPos);
         print(Vector3.Distance(player.position, tileWorldPos));
 
         return Vector3.Distance(player.position, tileWorldPos) <= destroyDistance;
@@ -58,12 +59,15 @@ public class PickaxeBreakBlock : MonoBehaviour
         }
     }
 
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
-        if (player == null)
-            return;
+        // Draw player position
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(player.position, 0.1f);  // Visualize the player's center
 
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(player.position, destroyDistance);
+        // Draw the tile position
+        Vector3 tileWorldPos = tilemap.CellToWorld(tilePos);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(tileWorldPos + new Vector3(tilemap.cellSize.x / 2, tilemap.cellSize.y / 2, 0), 0.1f);  // Adjust to visualize the tile center
     }
 }

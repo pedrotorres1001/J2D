@@ -285,7 +285,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.07, y: -10, z: -10}
+  m_LocalPosition: {x: 26.07, y: -10.3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -473,11 +473,11 @@ GameObject:
   - component: {fileID: 611152717}
   - component: {fileID: 611152715}
   - component: {fileID: 611152720}
+  - component: {fileID: 611152724}
   - component: {fileID: 611152719}
+  - component: {fileID: 611152723}
   - component: {fileID: 611152721}
   - component: {fileID: 611152722}
-  - component: {fileID: 611152723}
-  - component: {fileID: 611152724}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -573,7 +573,7 @@ Transform:
   m_GameObject: {fileID: 611152714}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.07, y: -10, z: 0}
+  m_LocalPosition: {x: 26.07, y: -10.3, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -636,8 +636,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.44429478, y: 0.80474985}
+  m_Offset: {x: -0.0000006357829, y: 0}
+  m_Size: {x: 0.48971176, y: 0.80474985}
   m_Direction: 0
 --- !u!95 &611152721
 Animator:
@@ -888,7 +888,7 @@ Transform:
   m_GameObject: {fileID: 917442231}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.07, y: -10, z: -10}
+  m_LocalPosition: {x: 26.07, y: -10.3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8384,7 +8384,7 @@ MonoBehaviour:
   tilemap: {fileID: 922020093}
   highlightObject: {fileID: 2081397313}
   player: {fileID: 611152718}
-  destroyDistance: 0.91
+  destroyDistance: 1.5
 --- !u!1 &2081397313
 GameObject:
   m_ObjectHideFlags: 0
