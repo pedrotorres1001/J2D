@@ -10,7 +10,8 @@ public class PickaxeBreakBlock : MonoBehaviour
     public Transform player;                  
     public float destroyDistance;   
 
-    private Vector3Int tilePos;   
+    private Vector3Int tilePos;  
+    private Vector3 tileWorldPos;   
 
     void Update()
     {
@@ -33,7 +34,9 @@ public class PickaxeBreakBlock : MonoBehaviour
     void HighlightTile(Vector3Int tilePos)
     {
         highlightObject.SetActive(true);
-        Vector3 tileWorldPos = tilemap.CellToWorld(tilePos);
+        tileWorldPos = tilemap.CellToWorld(tilePos);
+
+
         highlightObject.transform.position = tileWorldPos + new Vector3(tilemap.cellSize.x / 2, tilemap.cellSize.y / 2, 0); // Adjust for tile center
     }
 
@@ -41,7 +44,7 @@ public class PickaxeBreakBlock : MonoBehaviour
     {
         Vector3 tileWorldPos = tilemap.CellToWorld(tilePos);
 
-        print(tileWorldPos);
+        Debug.Log("Player Position: " + player.position);
         print(Vector3.Distance(player.position, tileWorldPos));
 
         return Vector3.Distance(player.position, tileWorldPos) <= destroyDistance;
