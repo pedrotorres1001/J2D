@@ -8,26 +8,27 @@ public class PickaxeAttack : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private Transform attackPoint;
     public int attackDamage;
+    public int vitalDamageMultiplier = 2; 
 
     public void Attack()
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
-        foreach (Collider2D enemy in hitEnemies)
+        foreach (Collider2D collider in hitEnemies)
         {
-            if (enemy.CompareTag("Enemy"))
+            if (collider.CompareTag("Enemy"))
             {
-                enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
+                collider.GetComponent<Enemy>().TakeDamage(attackDamage);
+            }
+
+            if (collider.CompareTag("Vital"))
+            {
+                Transform enemyTransform = collider.transform.parent;
+                if (enemyTransform != null && enemyTransform.CompareTag("Enemy"))
+                {
+                    enemyTransform.GetComponent<Enemy>().TakeDamage(attackDamage * vitalDamageMultiplier);
+                }
             }
         }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null)
-            return;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }
