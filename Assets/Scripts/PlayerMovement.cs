@@ -38,8 +38,8 @@ public class PlayerMovement : MonoBehaviour
         // checkar se está no chão com raycast
         CheckGround();
 
-        // Check if the "W" or arrow_up key is pressed and the character is grounded
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)
+        // Check if the "W" or "Space" key is pressed and the character is grounded
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
