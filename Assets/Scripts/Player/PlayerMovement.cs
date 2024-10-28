@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
         // checkar se está no chão com raycast
         CheckGround();
 
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && isGrounded && !isOnStairs)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
