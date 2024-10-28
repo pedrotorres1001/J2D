@@ -9,6 +9,9 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
+
+        StartCoroutine(ColorChangeCoroutine());
+
         if (health <= 0)
         {
             Die();
@@ -27,5 +30,21 @@ public class Enemy : MonoBehaviour
         {
             GetComponent<EnemyAttack>().Attack();
         }
+    }
+
+    private IEnumerator ColorChangeCoroutine()
+    {
+        SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
+        Color damaged = Color.red;
+        Color original = Color.white;
+
+        // Change the color
+        sprite.color = damaged;
+
+        // Wait for the duration
+        yield return new WaitForSeconds(0.5f);
+
+        // Revert to the original color
+        sprite.color = original;
     }
 }
