@@ -11,21 +11,23 @@ public class PickaxeBreakBlock : MonoBehaviour
     public float destroyDistance;   
 
     private Vector3Int tilePos;  
-    private Vector3 tileWorldPos;   
+    private Vector3 mouseWorldPos;
+    private Vector3 tileWorldPos; 
 
     [SerializeField] private LayerMask layer;
 
     void Update()
     {
         // vai buscar posição do rato
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
 
         // tile no sitio do rato
         tilePos = tilemap.WorldToCell(mouseWorldPos);
 
+        tileWorldPos = tilemap.GetCellCenterWorld(tilePos);
 
-        if (tilemap.HasTile(tilePos) && IsTileNearPlayer(tilePos))
+        if (tilemap.HasTile(tilePos) && IsTileNearPlayer(tileWorldPos))
         {
             HighlightTile(tilePos);    
         }
@@ -38,36 +40,22 @@ public class PickaxeBreakBlock : MonoBehaviour
     void HighlightTile(Vector3Int tilePos)
     {
         highlightObject.SetActive(true);
-        tileWorldPos = tilemap.CellToWorld(tilePos);
 
+        // Get the tile's world position
+        Vector3 tileWorldPos = tilemap.CellToWorld(tilePos);
 
-        highlightObject.transform.position = tileWorldPos + new Vector3(tilemap.cellSize.x / 2, tilemap.cellSize.y / 2, 0); // Adjust for tile center
+        // Offset by half of the tile size to center the highlight
+        Vector3 centeredTilePos = tileWorldPos + new Vector3(tilemap.cellSize.x / 2, tilemap.cellSize.y / 2, 0);
+
+        highlightObject.transform.position = centeredTilePos;    
     }
 
-    bool IsTileNearPlayer(Vector3Int tilePos)
+    bool IsTileNearPlayer(Vector3 tilePos)
     {
-        tileWorldPos = tilemap.CellToWorld(tilePos);
+        float distanceToTile = Vector3.Distance(player.position, tileWorldPos);
+        Debug.Log($"Player Position: {player.position}, Tile Position: {tileWorldPos}, Distance: {distanceToTile}");
 
-        // Calculate direction from player to tile
-        Vector2 direction = (tileWorldPos - player.position).normalized;
-
-        // Perform Raycast
-        RaycastHit2D hit = Physics2D.Raycast(player.position, direction, destroyDistance, layer);
-
-        // Check if Raycast hit the target tile's position within range
-        if (hit.collider != null)
-        {
-            Vector3Int hitTilePos = tilemap.WorldToCell(hit.point);
-
-            Debug.Log("Player Position: " + player.position);
-            Debug.Log("Hit Position: " + hit.point);
-            Debug.Log("Tile Position: " + tilePos);
-
-            // Check if the hit tile position matches the target tile
-            return hitTilePos == tilePos;
-        }
-
-        return false;
+        return distanceToTile <= destroyDistance;
     }
     
     // função chamada quando se quer partir bloco
@@ -79,5 +67,12 @@ public class PickaxeBreakBlock : MonoBehaviour
         }
     }
 
- 
+    void OnDrawGizmosSelected()
+    {
+        if (player == null) return;
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(player.position, destroyDistance); // Draw a radius around the player
+    }
+
 }
