@@ -16,11 +16,6 @@ public class PickaxeAttack : MonoBehaviour
 
         foreach (Collider2D collider in hitEnemies)
         {
-            if (collider.CompareTag("Enemy"))
-            {
-                collider.GetComponent<Enemy>().TakeDamage(attackDamage);
-            }
-
             if (collider.CompareTag("Vital"))
             {
                 Transform enemyTransform = collider.transform.parent;
@@ -28,6 +23,11 @@ public class PickaxeAttack : MonoBehaviour
                 {
                     enemyTransform.GetComponent<Enemy>().TakeDamage(attackDamage * vitalDamageMultiplier);
                 }
+            }
+
+            if (collider.CompareTag("Enemy"))
+            {
+                collider.GetComponent<Enemy>().TakeDamage(attackDamage);
             }
         }
     }

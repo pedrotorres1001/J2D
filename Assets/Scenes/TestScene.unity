@@ -3417,8 +3417,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.13979732, y: 0.0117060235}
-  m_Size: {x: 0.8017154, y: 0.66923326}
+  m_Offset: {x: 0.03252535, y: 0.020537887}
+  m_Size: {x: 1.1463737, y: 0.6869019}
   m_Direction: 1
 --- !u!114 &1257136140
 MonoBehaviour:
@@ -3579,9 +3579,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.49072382, y: 0.031092089}
-  m_Size: {x: 0.45067164, y: 0.45425966}
-  m_Direction: 1
+  m_Offset: {x: 0.44399136, y: 0.031092543}
+  m_Size: {x: 0.26958212, y: 0.4660357}
+  m_Direction: 0
 --- !u!1 &1404314654
 GameObject:
   m_ObjectHideFlags: 0
