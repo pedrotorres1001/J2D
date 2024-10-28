@@ -79,5 +79,25 @@ public class PickaxeBreakBlock : MonoBehaviour
         }
     }
 
- 
+    void OnDrawGizmos()
+    {
+        if (player == null) return;
+
+        // Calculate the direction from the player to the tile
+        Vector3 direction = (tileWorldPos - player.position).normalized;
+
+        // Set Gizmos color
+        Gizmos.color = Color.red;
+
+        // Draw the raycast line from player position towards the target direction, limited by destroyDistance
+        Gizmos.DrawLine(player.position, player.position + direction * destroyDistance);
+
+        // Draw the tile highlight position if it exists
+        if (tilemap != null && tilemap.HasTile(tilePos))
+        {
+            Gizmos.color = Color.green;
+            Vector3 tileCenter = tilemap.CellToWorld(tilePos) + new Vector3(tilemap.cellSize.x / 2, tilemap.cellSize.y / 2, 0);
+            Gizmos.DrawWireCube(tileCenter, tilemap.cellSize);
+        }
+    }
 }
