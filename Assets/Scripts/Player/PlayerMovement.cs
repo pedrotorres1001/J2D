@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
+    [SerializeField] private float stairsForce;
     [SerializeField] private bool isGrounded;
 
     [SerializeField] private float groundCheckDistance;
@@ -15,14 +16,19 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private float lastDirection = 1;
 
+    private bool isOnStairs;
+
     public float direction;
     public float altitude;
 
     // Start is called before the first frame update
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        isOnStairs = false;
     }
 
     // Update is called once per frame
@@ -38,11 +44,14 @@ public class PlayerMovement : MonoBehaviour
         // checkar se está no chão com raycast
         CheckGround();
 
-        // Check if the "W" or "Space" key is pressed and the character is grounded
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && isGrounded)
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && isGrounded && !isOnStairs)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
+        }
+        else if(Input.GetKey(KeyCode.W) && isOnStairs)
+        {
+            rb.AddForce(new Vector3(0, stairsForce, 0), ForceMode2D.Impulse);
         }
 
         if (direction != 0)
@@ -55,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetFloat("MoveX", lastDirection);
         }
+
     }
 
     void CheckGround()
@@ -75,4 +85,20 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position +  Vector3.down * groundCheckDistance);
     } */
+
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (other.gameObject.CompareTag("Stairs")) 
+        {
+            isOnStairs = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other) 
+    {
+        if (other.gameObject.CompareTag("Stairs")) 
+        {
+            isOnStairs = false;
+        }
+    }
 }
