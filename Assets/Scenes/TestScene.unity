@@ -598,7 +598,7 @@ MonoBehaviour:
   speed: 4
   jumpForce: 10
   isGrounded: 0
-  groundCheckDistance: 1
+  groundCheckDistance: 0.65
   groundLayer:
     serializedVersion: 2
     m_Bits: 64

@@ -8,7 +8,7 @@ public class PickaxeAttack : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private Transform attackPoint;
     public int attackDamage;
-    public int vitalDamageMultiplier = 2; 
+    public int vitalDamageMultiplier; 
 
     public void Attack()
     {
@@ -31,4 +31,11 @@ public class PickaxeAttack : MonoBehaviour
             }
         }
     }
+
+    /*
+    void OnDrawGizmos() {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+    */
 }
