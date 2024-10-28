@@ -13,12 +13,16 @@ public class PickaxeBreakBlock : MonoBehaviour
     private Vector3Int tilePos;  
     private Vector3 tileWorldPos;   
 
+    [SerializeField] private LayerMask layer;
+
     void Update()
     {
+        // vai buscar posição do rato
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
-        tilePos = tilemap.WorldToCell(mouseWorldPos);
 
+        // tile no sitio do rato
+        tilePos = tilemap.WorldToCell(mouseWorldPos);
 
 
         if (tilemap.HasTile(tilePos) && IsTileNearPlayer(tilePos))
@@ -42,15 +46,31 @@ public class PickaxeBreakBlock : MonoBehaviour
 
     bool IsTileNearPlayer(Vector3Int tilePos)
     {
-        Vector3 tileWorldPos = tilemap.CellToWorld(tilePos);
+        tileWorldPos = tilemap.CellToWorld(tilePos);
 
-        Debug.Log("Player Position: " + player.position);
-        Debug.Log("Tile Position: " + tileWorldPos);
-        print(Vector3.Distance(player.position, tileWorldPos));
+        // Calculate direction from player to tile
+        Vector2 direction = (tileWorldPos - player.position).normalized;
 
-        return Vector3.Distance(player.position, tileWorldPos) <= destroyDistance;
+        // Perform Raycast
+        RaycastHit2D hit = Physics2D.Raycast(player.position, direction, destroyDistance, layer);
+
+        // Check if Raycast hit the target tile's position within range
+        if (hit.collider != null)
+        {
+            Vector3Int hitTilePos = tilemap.WorldToCell(hit.point);
+
+            Debug.Log("Player Position: " + player.position);
+            Debug.Log("Hit Position: " + hit.point);
+            Debug.Log("Tile Position: " + tilePos);
+
+            // Check if the hit tile position matches the target tile
+            return hitTilePos == tilePos;
+        }
+
+        return false;
     }
     
+    // função chamada quando se quer partir bloco
     public void BreakBlock() {
             
         if (IsTileNearPlayer(tilePos))
@@ -59,15 +79,5 @@ public class PickaxeBreakBlock : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos()
-    {
-        // Draw player position
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(player.position, 0.1f);  // Visualize the player's center
-
-        // Draw the tile position
-        Vector3 tileWorldPos = tilemap.CellToWorld(tilePos);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(tileWorldPos + new Vector3(tilemap.cellSize.x / 2, tilemap.cellSize.y / 2, 0), 0.1f);  // Adjust to visualize the tile center
-    }
+ 
 }

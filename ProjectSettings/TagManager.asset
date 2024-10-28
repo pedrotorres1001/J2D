@@ -14,7 +14,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
+  - Destructable
   - 
   - 
   - 
@@ -48,4 +48,7 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 4130245939
+    locked: 0
+  - name: Destructable
+    uniqueID: 2535456265
     locked: 0
