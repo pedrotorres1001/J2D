@@ -6,44 +6,38 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
+    [SerializeField] private float stairsForce;
     [SerializeField] private bool isGrounded;
 
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private LayerMask groundLayer;
 
+    [SerializeField] private float gravity;
+
     private Animator animator;
     private Rigidbody2D rb;
     private float lastDirection = 1;
 
+    private bool isOnStairs;
+    private bool upPressed;
+    private bool jumpPressed;
+
     public float direction;
     public float altitude;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        isOnStairs = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Get input from the user
-        direction = Input.GetAxis("Horizontal");
-        altitude = Input.GetAxis("Vertical");
+        direction = Input.GetAxisRaw("Horizontal");
+        altitude = Input.GetAxisRaw("Vertical");
 
-        // Apply the movement to the character
-        rb.velocity = new Vector2(direction * speed, rb.velocity.y);
-
-        // checkar se está no chão com raycast
         CheckGround();
-
-        // Check if the "W" or "Space" key is pressed and the character is grounded
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
-            isGrounded = false;
-        }
 
         if (direction != 0)
         {
@@ -54,6 +48,40 @@ public class PlayerMovement : MonoBehaviour
         if (direction == 0)
         {
             animator.SetFloat("MoveX", lastDirection);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            jumpPressed = true;
+        }
+
+        if((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isOnStairs)
+        {
+            upPressed = true;
+        }
+
+    }
+
+    private void FixedUpdate() {
+        
+        rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+
+        if(jumpPressed)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+            isGrounded = false;
+            jumpPressed = false;
+        }
+
+        if(upPressed)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, altitude * speed);
+            rb.gravityScale = 0; 
+            upPressed = false;
+        }
+        else 
+        {
+            rb.gravityScale = gravity;
         }
     }
 
@@ -71,8 +99,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-/*     void OnDrawGizmos() {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position +  Vector3.down * groundCheckDistance);
-    } */
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (other.gameObject.CompareTag("Stairs")) 
+        {
+            isOnStairs = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other) 
+    {
+        if (other.gameObject.CompareTag("Stairs")) 
+        {
+            isOnStairs = false;
+        }
+    }
+
 }
