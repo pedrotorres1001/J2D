@@ -53,8 +53,6 @@ public class PickaxeBreakBlock : MonoBehaviour
     bool IsTileNearPlayer(Vector3 tilePos)
     {
         float distanceToTile = Vector3.Distance(player.position, tileWorldPos);
-        Debug.Log($"Player Position: {player.position}, Tile Position: {tileWorldPos}, Distance: {distanceToTile}");
-
         return distanceToTile <= destroyDistance;
     }
     
