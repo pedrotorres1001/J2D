@@ -12,17 +12,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private LayerMask groundLayer;
 
+    [SerializeField] private float gravity;
+
     private Animator animator;
     private Rigidbody2D rb;
     private float lastDirection = 1;
 
     private bool isOnStairs;
+    private bool upPressed;
+    private bool jumpPressed;
 
     public float direction;
     public float altitude;
-
-    // Start is called before the first frame update
-
 
     void Start()
     {
@@ -31,28 +32,12 @@ public class PlayerMovement : MonoBehaviour
         isOnStairs = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Get input from the user
-        direction = Input.GetAxis("Horizontal");
-        altitude = Input.GetAxis("Vertical");
+        direction = Input.GetAxisRaw("Horizontal");
+        altitude = Input.GetAxisRaw("Vertical");
 
-        // Apply the movement to the character
-        rb.velocity = new Vector2(direction * speed, rb.velocity.y);
-
-        // checkar se está no chão com raycast
         CheckGround();
-
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
-            isGrounded = false;
-        }
-        else if(Input.GetKey(KeyCode.W) && isOnStairs)
-        {
-            rb.AddForce(new Vector3(0, stairsForce, 0), ForceMode2D.Impulse);
-        }
 
         if (direction != 0)
         {
@@ -65,6 +50,39 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("MoveX", lastDirection);
         }
 
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            jumpPressed = true;
+        }
+
+        if((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isOnStairs)
+        {
+            upPressed = true;
+        }
+
+    }
+
+    private void FixedUpdate() {
+        
+        rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+
+        if(jumpPressed)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+            isGrounded = false;
+            jumpPressed = false;
+        }
+
+        if(upPressed)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, altitude * speed);
+            rb.gravityScale = 0; 
+            upPressed = false;
+        }
+        else 
+        {
+            rb.gravityScale = gravity;
+        }
     }
 
     void CheckGround()
@@ -81,11 +99,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-/*     void OnDrawGizmos() {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position +  Vector3.down * groundCheckDistance);
-    } */
-
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if (other.gameObject.CompareTag("Stairs")) 
@@ -101,4 +114,5 @@ public class PlayerMovement : MonoBehaviour
             isOnStairs = false;
         }
     }
+
 }
