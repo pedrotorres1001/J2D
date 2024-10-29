@@ -676,7 +676,7 @@ DistanceJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0.00000028510885, y: 0.000000014702479}
-  m_ConnectedAnchor: {x: 10.978775, y: 0.270185}
+  m_ConnectedAnchor: {x: 25.94734, y: -5.9329443}
   m_AutoConfigureDistance: 0
   m_Distance: 3.867467
   m_MaxDistanceOnly: 0
@@ -692,11 +692,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b77af95cfe81094f82e153f86e2015e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grappleLength: 1
+  grappleLength: 5
   grappleLayer:
     serializedVersion: 2
     m_Bits: 64
   rope: {fileID: 522095250}
+  ropeSpeed: 20
+  pullForce: 20
 --- !u!114 &611152724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3619,7 +3621,7 @@ Transform:
   m_GameObject: {fileID: 1404314654}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
