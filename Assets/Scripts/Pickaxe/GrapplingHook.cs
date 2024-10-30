@@ -9,6 +9,7 @@ public class GrapplingHook : MonoBehaviour
     [SerializeField] private LineRenderer rope;            // Linha do grappling hook
     [SerializeField] private float ropeSpeed = 20f;       // Velocidade da animação da corda
     [SerializeField] private float pullForce = 10f;       // Força a ser aplicada ao jogador
+    [SerializeField] private float cooldown = 0f;       // Cooldown para o grapple
 
     private Vector3 grapplePoint;                          // Ponto onde o grappling hook acertou
     private bool isGrappling = false;                     // Indica se o grappling hook está ativo
@@ -19,6 +20,7 @@ public class GrapplingHook : MonoBehaviour
 
     void Start()
     {
+        cooldown = 0f;
         rope.enabled = false; // Desabilita a linha inicialmente
         joint = GetComponent<DistanceJoint2D>();           // Obtém o DistanceJoint2D do jogador
         joint.enabled = false;                              // Garante que o joint esteja desativado inicialmente
@@ -28,7 +30,7 @@ public class GrapplingHook : MonoBehaviour
     void Update()
     {
         // Se o grappling não estiver ativo, verifica a entrada do mouse para lançar a corda
-        if (Input.GetMouseButtonDown(1) && !isGrappling)
+        if (Input.GetMouseButtonDown(1) && !isGrappling && cooldown <= 0)
         {
             StartGrappling();
         }
@@ -44,19 +46,25 @@ public class GrapplingHook : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W) && joint.distance > 1)
             {
-                joint.distance -= 0.05f;
+                joint.distance -= 5f * Time.deltaTime;
             }
-            else if (Input.GetKey(KeyCode.S) && joint.distance < 20)
+            else if (Input.GetKey(KeyCode.S) && joint.distance < grappleLength)
             {
-                joint.distance += 0.05f;
+                joint.distance += 5f * Time.deltaTime;
             }
         }
+        else
+        {
+            joint.enabled = false;
+            rope.enabled = false; // Desabilita a linha após a retração
+        }
 
-        
+        cooldown -= Time.deltaTime;
     }
 
     private void StartGrappling()
     {
+        cooldown = 100f;
         isGrappling = true; // Ativa o grappling
 
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -130,6 +138,7 @@ public class GrapplingHook : MonoBehaviour
     // Coroutine para fazer a corda retornar ao jogador
     private IEnumerator RetractRope()
     {
+        cooldown = 1f;
         // Mantém o ponto inicial da corda na posição do jogador
         Vector3 initialRopePosition = transform.position; // Mantém a posição inicial na posição do jogador
         isGrappling = false; // Define que não está mais grappling
@@ -150,5 +159,6 @@ public class GrapplingHook : MonoBehaviour
         }
 
         rope.enabled = false; // Desabilita a linha após a retração
+
     }
 }
