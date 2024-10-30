@@ -37,11 +37,28 @@ public class GrapplingHook : MonoBehaviour
         if (isGrappling)
         {
             rope.SetPosition(0, transform.position);  // Mantém o ponto inicial da corda na posição do jogador
+
+            // Inicia a retração após alcançar o ponto ou atingir o comprimento máximo
+            if (Input.GetMouseButtonUp(1))
+                StartCoroutine(RetractRope());
+
+            if (Input.GetKey(KeyCode.W) && joint.distance > 1)
+            {
+                joint.distance -= 0.05f;
+            }
+            else if (Input.GetKey(KeyCode.S) && joint.distance < 20)
+            {
+                joint.distance += 0.05f;
+            }
         }
+
+        
     }
 
     private void StartGrappling()
     {
+        isGrappling = true; // Ativa o grappling
+
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0; // Define z como 0 para 2D
 
@@ -69,7 +86,6 @@ public class GrapplingHook : MonoBehaviour
         }
 
         ropeTargetPosition = transform.position; // Posição inicial da corda
-        isGrappling = true; // Ativa o grappling
         rope.SetPosition(0, transform.position);  // Define a posição inicial da corda
         rope.SetPosition(1, transform.position);  // Define a posição final da corda
         rope.enabled = true;                      // Habilita a linha
@@ -91,6 +107,9 @@ public class GrapplingHook : MonoBehaviour
         // Se a corda atingiu um ponto válido
         if (grappleHit)
         {
+            joint.connectedAnchor = grapplePoint; // Set the anchor to the grapple point
+            joint.enabled = true;  // Enable the joint to pull player naturally towards the grapple point
+
             // Aplica a força ao jogador na direção do grapplePoint imediatamente
             Vector2 pullDirection = (grapplePoint - transform.position).normalized; // Direção correta
             playerRb.AddForce(pullDirection * pullForce, ForceMode2D.Impulse); // Aplica a força
@@ -102,9 +121,10 @@ public class GrapplingHook : MonoBehaviour
             joint.connectedAnchor = grapplePoint; // Define o ponto de conexão do joint
             joint.enabled = true; // Ativa o joint
         }
-
-        // Inicia a retração após alcançar o ponto ou atingir o comprimento máximo
-        StartCoroutine(RetractRope());
+        else
+        {
+            StartCoroutine(RetractRope());
+        }
     }
 
     // Coroutine para fazer a corda retornar ao jogador
@@ -132,23 +152,3 @@ public class GrapplingHook : MonoBehaviour
         rope.enabled = false; // Desabilita a linha após a retração
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
