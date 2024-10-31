@@ -28,7 +28,16 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            GetComponent<EnemyAttack>().Attack();
+            // Access the Attack method from the EnemyMovement component
+            EnemyMovement enemyMovement = GetComponent<EnemyMovement>();
+            if (enemyMovement != null)
+            {
+                enemyMovement.Attack();
+            }
+            else
+            {
+                Debug.LogWarning("EnemyMovement component not found on Enemy!");
+            }
         }
     }
 
