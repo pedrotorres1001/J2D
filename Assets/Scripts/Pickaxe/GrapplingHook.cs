@@ -10,6 +10,8 @@ public class GrapplingHook : MonoBehaviour
     [SerializeField] private float ropeSpeed = 20f;       // Velocidade da animação da corda
     [SerializeField] private float pullForce = 10f;       // Força a ser aplicada ao jogador
     [SerializeField] private float cooldown = 0f;       // Cooldown para o grapple
+    [SerializeField] private GameObject pickaxe;       // Pickaxe principal
+    [SerializeField] private GameObject pickaxeGrapple;       // Pickaxe da ponta do Grapple
 
     private Vector3 grapplePoint;                          // Ponto onde o grappling hook acertou
     private bool isGrappling = false;                     // Indica se o grappling hook está ativo
@@ -25,6 +27,7 @@ public class GrapplingHook : MonoBehaviour
         joint = GetComponent<DistanceJoint2D>();           // Obtém o DistanceJoint2D do jogador
         joint.enabled = false;                              // Garante que o joint esteja desativado inicialmente
         playerRb = GetComponent<Rigidbody2D>();            // Obtém o Rigidbody2D do jogador
+        pickaxeGrapple.SetActive(false);
     }
 
     void Update()
@@ -39,6 +42,8 @@ public class GrapplingHook : MonoBehaviour
         if (isGrappling)
         {
             rope.SetPosition(0, transform.position);  // Mantém o ponto inicial da corda na posição do jogador
+            
+            pickaxeGrapple.transform.position = rope.GetPosition(1); // Mantém a picareta na posiçao certa
 
             // Inicia a retração após alcançar o ponto ou atingir o comprimento máximo
             if (Input.GetMouseButtonUp(1))
@@ -56,7 +61,9 @@ public class GrapplingHook : MonoBehaviour
         else
         {
             joint.enabled = false;
-            rope.enabled = false; // Desabilita a linha após a retração
+            rope.enabled = false;
+            pickaxeGrapple.SetActive(false);
+            pickaxe.SetActive(true);
         }
 
         cooldown -= Time.deltaTime;
@@ -67,11 +74,19 @@ public class GrapplingHook : MonoBehaviour
         cooldown = 100f;
         isGrappling = true; // Ativa o grappling
 
+        pickaxeGrapple.SetActive(true);
+        pickaxe.SetActive(false);
+
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0; // Define z como 0 para 2D
 
         // Calcula a direção do hook em direção ao cursor
         Vector3 direction = (mousePosition - transform.position).normalized;
+
+        // Roda a picareta para a direçao que foi lançada
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        pickaxeGrapple.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        pickaxeGrapple.transform.Rotate(0, 0, -45);
 
         // Realiza o Raycast na direção calculada e na distância de grappleLength
         RaycastHit2D hit = Physics2D.Raycast(
@@ -109,6 +124,7 @@ public class GrapplingHook : MonoBehaviour
         {
             ropeTargetPosition = Vector3.MoveTowards(ropeTargetPosition, grapplePoint, ropeSpeed * Time.deltaTime);
             rope.SetPosition(1, ropeTargetPosition); // Atualiza a posição final da corda
+            pickaxeGrapple.transform.position = ropeTargetPosition; // Por o pickaxe na ponta do grapple
             yield return null; // Espera até o próximo frame
         }
 
@@ -151,6 +167,7 @@ public class GrapplingHook : MonoBehaviour
         {
             ropeTargetPosition = Vector3.MoveTowards(ropeTargetPosition, initialRopePosition, ropeSpeed * Time.deltaTime);
             rope.SetPosition(1, ropeTargetPosition); // Atualiza a posição final da corda
+            pickaxeGrapple.transform.position = ropeTargetPosition; // Por o pickaxe na ponta do grapple
 
             // Mantém o ponto inicial da corda na posição do jogador
             rope.SetPosition(0, transform.position); // Atualiza a posição inicial da corda
@@ -159,6 +176,8 @@ public class GrapplingHook : MonoBehaviour
         }
 
         rope.enabled = false; // Desabilita a linha após a retração
+        pickaxeGrapple.SetActive(false);
+        pickaxe.SetActive(true);
 
     }
 }
