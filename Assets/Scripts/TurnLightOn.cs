@@ -20,7 +20,8 @@ public class TurnLightOn : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player")){
             light2D.enabled = true;
-            StartCoroutine(FadeInLight());      
+            StartCoroutine(FadeInLight());
+            
         }
     }
 
@@ -36,5 +37,7 @@ public class TurnLightOn : MonoBehaviour
         }
 
         light2D.intensity = maxIntensity;
+
+        Destroy(this);  
     }
 }
