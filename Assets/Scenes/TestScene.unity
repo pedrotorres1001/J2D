@@ -260,7 +260,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5.92
+  orthographic size: 5.34
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -574,7 +574,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 36.69, y: -10.36, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 693186602}
@@ -866,7 +866,7 @@ MonoBehaviour:
   m_Follow: {fileID: 611152718}
   m_Lens:
     FieldOfView: 34
-    OrthographicSize: 5.92
+    OrthographicSize: 5.34
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -14398,7 +14398,7 @@ MonoBehaviour:
   tilemap: {fileID: 922020093}
   highlightObject: {fileID: 2081397313}
   player: {fileID: 611152718}
-  destroyDistance: 1.8
+  destroyDistance: 1.24
   layer:
     serializedVersion: 2
     m_Bits: 128
