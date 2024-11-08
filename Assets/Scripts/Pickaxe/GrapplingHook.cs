@@ -4,51 +4,96 @@ using UnityEngine;
 
 public class GrapplingHook : MonoBehaviour
 {
-    [SerializeField] private float grappleLength = 5f;  // Distância máxima de 5 tiles
+    [SerializeField] private float grappleLength = 5f;  // Distï¿½ncia mï¿½xima de 5 tiles
     [SerializeField] private LayerMask grappleLayer;     // Layer para os blocos que podem ser agarrados
     [SerializeField] private LineRenderer rope;            // Linha do grappling hook
-    [SerializeField] private float ropeSpeed = 20f;       // Velocidade da animação da corda
-    [SerializeField] private float pullForce = 10f;       // Força a ser aplicada ao jogador
+    [SerializeField] private float ropeSpeed = 20f;       // Velocidade da animaï¿½ï¿½o da corda
+    [SerializeField] private float pullForce = 10f;       // Forï¿½a a ser aplicada ao jogador
+    [SerializeField] private float launchCooldown;       // Cooldown para o grapple
+    [SerializeField] private float retractCooldown;
+    [SerializeField] private float attachedCooldown;
+    [SerializeField] private GameObject pickaxe;       // Pickaxe principal
+    [SerializeField] private GameObject pickaxeGrapple;       // Pickaxe da ponta do Grapple
 
     private Vector3 grapplePoint;                          // Ponto onde o grappling hook acertou
-    private bool isGrappling = false;                     // Indica se o grappling hook está ativo
-    private Vector3 ropeTargetPosition;                    // Posição atual do alvo da corda
-    private bool grappleHit = false;                       // Armazena se atingiu um ponto válido
-    private DistanceJoint2D joint;                        // Referência ao DistanceJoint2D
-    private Rigidbody2D playerRb;                         // Referência ao Rigidbody2D do jogador
+    private bool isGrappling = false;                     // Indica se o grappling hook estï¿½ ativo
+    private Vector3 ropeTargetPosition;                    // Posiï¿½ï¿½o atual do alvo da corda
+    private bool grappleHit = false;                       // Armazena se atingiu um ponto vï¿½lido
+    private DistanceJoint2D joint;                        // Referï¿½ncia ao DistanceJoint2D
+    private Rigidbody2D playerRb;                         // Referï¿½ncia ao Rigidbody2D do jogador
 
     void Start()
     {
+        launchCooldown = 0f;
+        retractCooldown = 0f;
+        attachedCooldown = 0f;
         rope.enabled = false; // Desabilita a linha inicialmente
-        joint = GetComponent<DistanceJoint2D>();           // Obtém o DistanceJoint2D do jogador
+        joint = GetComponent<DistanceJoint2D>();           // Obtï¿½m o DistanceJoint2D do jogador
         joint.enabled = false;                              // Garante que o joint esteja desativado inicialmente
-        playerRb = GetComponent<Rigidbody2D>();            // Obtém o Rigidbody2D do jogador
+        playerRb = GetComponent<Rigidbody2D>();            // Obtï¿½m o Rigidbody2D do jogador
+        pickaxeGrapple.SetActive(false);
     }
 
     void Update()
     {
-        // Se o grappling não estiver ativo, verifica a entrada do mouse para lançar a corda
-        if (Input.GetMouseButtonDown(1) && !isGrappling)
+        // Se o grappling nï¿½o estiver ativo, verifica a entrada do mouse para lanï¿½ar a corda
+        if ((Input.GetMouseButton(1) || Input.GetKey(KeyCode.Q)) && !isGrappling && launchCooldown == 0)
         {
             StartGrappling();
         }
 
-        // Atualiza a posição do ponto inicial da corda se estiver grappling
+        // Atualiza a posiï¿½ï¿½o do ponto inicial da corda se estiver grappling
         if (isGrappling)
         {
-            rope.SetPosition(0, transform.position);  // Mantém o ponto inicial da corda na posição do jogador
+            rope.SetPosition(0, transform.position);  // Mantï¿½m o ponto inicial da corda na posiï¿½ï¿½o do jogador
+            
+            pickaxeGrapple.transform.position = rope.GetPosition(1); // Mantï¿½m a picareta na posiï¿½ao certa
+
+            // Inicia a retraï¿½ï¿½o apï¿½s alcanï¿½ar o ponto ou atingir o comprimento mï¿½ximo
+            if (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.Q))
+                StartCoroutine(RetractRope());
+
+            if (Input.GetKey(KeyCode.W) && joint.distance > 1)
+            {
+                joint.distance -= 5f * Time.deltaTime;
+            }
+            else if (Input.GetKey(KeyCode.S) && joint.distance < grappleLength)
+            {
+                joint.distance += 5f * Time.deltaTime;
+            }
         }
+        else
+        {
+            joint.enabled = false;
+            rope.enabled = false;
+            pickaxeGrapple.SetActive(false);
+            pickaxe.SetActive(true);
+        }
+
+        launchCooldown = Mathf.Max(0, launchCooldown - Time.deltaTime);;
     }
 
     private void StartGrappling()
     {
+        launchCooldown = attachedCooldown; 
+        
+        isGrappling = true; // Ativa o grappling
+
+        pickaxeGrapple.SetActive(true);
+        pickaxe.SetActive(false);
+
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0; // Define z como 0 para 2D
 
-        // Calcula a direção do hook em direção ao cursor
+        // Calcula a direï¿½ï¿½o do hook em direï¿½ï¿½o ao cursor
         Vector3 direction = (mousePosition - transform.position).normalized;
 
-        // Realiza o Raycast na direção calculada e na distância de grappleLength
+        // Roda a picareta para a direï¿½ao que foi lanï¿½ada
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        pickaxeGrapple.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        pickaxeGrapple.transform.Rotate(0, 0, -45);
+
+        // Realiza o Raycast na direï¿½ï¿½o calculada e na distï¿½ncia de grappleLength
         RaycastHit2D hit = Physics2D.Raycast(
             origin: transform.position,
             direction: direction,
@@ -56,99 +101,95 @@ public class GrapplingHook : MonoBehaviour
             layerMask: grappleLayer
         );
 
-        // Se encontrou um ponto válido, define o grapplePoint para onde o hook irá
+        // Se encontrou um ponto vï¿½lido, define o grapplePoint para onde o hook irï¿½
         if (hit.collider != null)
         {
             grapplePoint = hit.point; // Atualiza o ponto de grappling
-            grappleHit = true; // Marcamos que acertou um ponto válido
+            grappleHit = true; // Marcamos que acertou um ponto vï¿½lido
         }
         else
         {
-            grapplePoint = transform.position + direction * grappleLength; // Se não, vai até o comprimento máximo
-            grappleHit = false; // Não acertou
+            grapplePoint = transform.position + direction * grappleLength; // Se nï¿½o, vai atï¿½ o comprimento mï¿½ximo
+            grappleHit = false; // Nï¿½o acertou
         }
 
-        ropeTargetPosition = transform.position; // Posição inicial da corda
-        isGrappling = true; // Ativa o grappling
-        rope.SetPosition(0, transform.position);  // Define a posição inicial da corda
-        rope.SetPosition(1, transform.position);  // Define a posição final da corda
+        ropeTargetPosition = transform.position; // Posiï¿½ï¿½o inicial da corda
+        rope.SetPosition(0, transform.position);  // Define a posiï¿½ï¿½o inicial da corda
+        rope.SetPosition(1, transform.position);  // Define a posiï¿½ï¿½o final da corda
         rope.enabled = true;                      // Habilita a linha
 
         // Inicia a coroutine para movimentar a corda
         StartCoroutine(MoveRope());
+        
     }
 
-    private IEnumerator MoveRope()
+private IEnumerator MoveRope()
+{
+    // Move o ponto final da corda em direÃ§Ã£o ao ponto de destino (grapplePoint)
+    while (Vector3.Distance(ropeTargetPosition, grapplePoint) > 0.1f && isGrappling)
     {
-        // Move o ponto final da corda em direção ao ponto de destino (grapplePoint)
-        while (Vector3.Distance(ropeTargetPosition, grapplePoint) > 0.1f && isGrappling)
+        ropeTargetPosition = Vector3.MoveTowards(ropeTargetPosition, grapplePoint, ropeSpeed * Time.deltaTime);
+        rope.SetPosition(1, ropeTargetPosition); // Atualiza a posiÃ§Ã£o final da corda
+        pickaxeGrapple.transform.position = ropeTargetPosition; // Posiciona a picareta no ponto do grapple
+        yield return null; // Espera atÃ© o prÃ³ximo frame
+    }
+
+    // Se a corda atingiu um ponto vÃ¡lido
+    if (grappleHit)
+    {
+        joint.connectedAnchor = grapplePoint; // Define o ponto de ancoragem
+        joint.enabled = true;  // Ativa o joint
+
+        // Define a distÃ¢ncia para o joint, garantindo que fique prÃ³ximo do jogador
+        joint.distance = 0.1f; // Define a distÃ¢ncia mÃ­nima
+
+        // Aplica uma forÃ§a imediata para puxar o jogador em direÃ§Ã£o ao ponto de grappling
+        Vector2 pullDirection = (grapplePoint - transform.position).normalized; // DireÃ§Ã£o correta
+        playerRb.AddForce(pullDirection * pullForce, ForceMode2D.Impulse); // Aplica a forÃ§a de impulso
+
+        // Espera um pequeno tempo para que a animaÃ§Ã£o de puxar ocorra
+        yield return new WaitForSeconds(0.1f); // Pequena espera para estabilizar
+
+        // Se desejar, pode continuar aplicando forÃ§a enquanto o jogador estÃ¡ grappling
+        while (isGrappling)
         {
-            ropeTargetPosition = Vector3.MoveTowards(ropeTargetPosition, grapplePoint, ropeSpeed * Time.deltaTime);
-            rope.SetPosition(1, ropeTargetPosition); // Atualiza a posição final da corda
-            yield return null; // Espera até o próximo frame
+            playerRb.AddForce(pullDirection * pullForce * Time.deltaTime, ForceMode2D.Force); // ForÃ§a contÃ­nua
+            yield return null; // Espera atÃ© o prÃ³ximo frame
         }
-
-        // Se a corda atingiu um ponto válido
-        if (grappleHit)
-        {
-            // Aplica a força ao jogador na direção do grapplePoint imediatamente
-            Vector2 pullDirection = (grapplePoint - transform.position).normalized; // Direção correta
-            playerRb.AddForce(pullDirection * pullForce, ForceMode2D.Impulse); // Aplica a força
-
-            // Espera um pequeno tempo para que a animação de puxar ocorra
-            yield return new WaitForSeconds(0.1f); // Reduzido para 0.1f para dar a sensação de puxar sem grande atraso
-
-            // Ativa o joint apenas agora, para evitar puxar o jogador antes do tempo
-            joint.connectedAnchor = grapplePoint; // Define o ponto de conexão do joint
-            joint.enabled = true; // Ativa o joint
-        }
-
-        // Inicia a retração após alcançar o ponto ou atingir o comprimento máximo
+    }
+    else
+    {
         StartCoroutine(RetractRope());
     }
+}
 
     // Coroutine para fazer a corda retornar ao jogador
     private IEnumerator RetractRope()
     {
-        // Mantém o ponto inicial da corda na posição do jogador
-        Vector3 initialRopePosition = transform.position; // Mantém a posição inicial na posição do jogador
-        isGrappling = false; // Define que não está mais grappling
+        retractCooldown = 1f;
+        // Mantï¿½m o ponto inicial da corda na posiï¿½ï¿½o do jogador
+        Vector3 initialRopePosition = transform.position; // Mantï¿½m a posiï¿½ï¿½o inicial na posiï¿½ï¿½o do jogador
+        isGrappling = false; // Define que nï¿½o estï¿½ mais grappling
 
-        // Desabilita o joint após a retração da corda
+        // Desabilita o joint apï¿½s a retraï¿½ï¿½o da corda
         joint.enabled = false;
 
-        // Volta a corda para a posição do jogador
+        // Volta a corda para a posiï¿½ï¿½o do jogador
         while (Vector3.Distance(ropeTargetPosition, initialRopePosition) > 0.1f)
         {
             ropeTargetPosition = Vector3.MoveTowards(ropeTargetPosition, initialRopePosition, ropeSpeed * Time.deltaTime);
-            rope.SetPosition(1, ropeTargetPosition); // Atualiza a posição final da corda
+            rope.SetPosition(1, ropeTargetPosition); // Atualiza a posiï¿½ï¿½o final da corda
+            pickaxeGrapple.transform.position = ropeTargetPosition; // Por o pickaxe na ponta do grapple
 
-            // Mantém o ponto inicial da corda na posição do jogador
-            rope.SetPosition(0, transform.position); // Atualiza a posição inicial da corda
+            // Mantï¿½m o ponto inicial da corda na posiï¿½ï¿½o do jogador
+            rope.SetPosition(0, transform.position); // Atualiza a posiï¿½ï¿½o inicial da corda
 
-            yield return null; // Espera até o próximo frame
+            yield return null; // Espera atï¿½ o prï¿½ximo frame
         }
 
-        rope.enabled = false; // Desabilita a linha após a retração
+        rope.enabled = false; // Desabilita a linha apï¿½s a retraï¿½ï¿½o
+        pickaxeGrapple.SetActive(false);
+        pickaxe.SetActive(true);
+
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
