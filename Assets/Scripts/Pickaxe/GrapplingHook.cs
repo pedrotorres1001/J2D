@@ -37,7 +37,7 @@ public class GrapplingHook : MonoBehaviour
     void Update()
     {
         // Se o grappling n�o estiver ativo, verifica a entrada do mouse para lan�ar a corda
-        if ((Input.GetMouseButton(1) || Input.GetKey(KeyCode.Q)) && !isGrappling && launchCooldown == 0)
+        if ((Input.GetMouseButton(1) || Input.GetKey(KeyCode.E)) && !isGrappling && launchCooldown == 0)
         {
             StartGrappling();
         }
@@ -50,7 +50,7 @@ public class GrapplingHook : MonoBehaviour
             pickaxeGrapple.transform.position = rope.GetPosition(1); // Mant�m a picareta na posi�ao certa
 
             // Inicia a retra��o ap�s alcan�ar o ponto ou atingir o comprimento m�ximo
-            if (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.Q))
+            if (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E))
                 StartCoroutine(RetractRope());
 
             if (Input.GetKey(KeyCode.W) && joint.distance > 1)
