@@ -57,7 +57,7 @@ public class GrapplingHook : MonoBehaviour
             {
                 joint.distance -= 5f * Time.deltaTime;
             }
-            else if (Input.GetKey(KeyCode.S) && joint.distance < grappleLength)
+            else if (Input.GetKey(KeyCode.S) && joint.distance < grappleLength / 2)
             {
                 joint.distance += 5f * Time.deltaTime;
             }
@@ -126,7 +126,7 @@ public class GrapplingHook : MonoBehaviour
 private IEnumerator MoveRope()
 {
     // Move o ponto final da corda em direção ao ponto de destino (grapplePoint)
-    while (Vector3.Distance(ropeTargetPosition, grapplePoint) > 0.1f && isGrappling)
+    while (Vector3.Distance(ropeTargetPosition, grapplePoint) > 0.3f && isGrappling)
     {
         ropeTargetPosition = Vector3.MoveTowards(ropeTargetPosition, grapplePoint, ropeSpeed * Time.deltaTime);
         rope.SetPosition(1, ropeTargetPosition); // Atualiza a posição final da corda
