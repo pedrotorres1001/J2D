@@ -5,7 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    public int health = 100;
+    public int health;
+    public int maxHealth;
+
+    private void Start() {
+        health = maxHealth;
+    }
 
     public void TakeDamage(int damage)
     {

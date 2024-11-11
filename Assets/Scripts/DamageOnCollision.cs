@@ -6,11 +6,12 @@ public class DamageOnCollision : MonoBehaviour
 {
     // script to damage an entity when colliding
     [SerializeField] private int damage;
+    [SerializeField] private GameObject player;
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnCollisionEnter2D(Collision2D other) {
 
         if(other.gameObject.tag == "Player") {
-            Player healthScript = other.GetComponent<Player>();
+            Player healthScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
             if(healthScript != null) 
             {
