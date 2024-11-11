@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-        private IEnumerator ColorChangeCoroutine()
+    private IEnumerator ColorChangeCoroutine()
     {
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         Color damaged = Color.red;

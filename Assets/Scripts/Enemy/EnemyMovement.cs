@@ -1,40 +1,123 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    [SerializeField] private float leftBoundary;
-    [SerializeField] private float rightBoundary;
+    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private Transform attackPoint;
+    public int attackDamage;
+    [SerializeField] private bool hitPlayer;
+    [SerializeField] private float attackCooldown = 2f;
+    private float lastAttackTime;
 
+    // Movement properties
+    [SerializeField] private float speed;
     private Rigidbody2D rb;
     private float moveDirection = 1;
 
-    // Start is called before the first frame update
+    // Patrol properties
+    public Transform[] patrolPoints;
+    private int currentPointIndex = 0;
+    public float patrolPointTolerance = 0.5f;
+
+    // Patrol area properties
+    private float leftBoundary = 17f;
+    private float rightBoundary = 30f;
+
+    private Transform player;
+
     void Start()
     {
-        GameObject enemy = GameObject.FindWithTag("Enemy");
+        rb = GetComponent<Rigidbody2D>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
-        if (enemy != null)
+    void Update()
+    {
+        if (player != null)
         {
-            rb = enemy.GetComponent<Rigidbody2D>();
+            FollowPlayer();
+        }
+        else
+        {
+            Patrol();
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    void FollowPlayer()
     {
-        // Move the enemy within the boundaries
-        if (transform.position.x >= rightBoundary)
+        Vector2 direction = (player.position - transform.position).normalized;
+        rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
+
+        // Ensure the enemy stays grounded
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f);
+        if (hit.collider == null || hit.collider.tag != "Ground")
         {
-            moveDirection = -1;
+            rb.velocity = new Vector2(rb.velocity.x, 0);
         }
-        else if (transform.position.x <= leftBoundary)
+    }
+
+    void Patrol()
+    {
+        if (patrolPoints.Length == 0) return;
+
+        Transform targetPoint = patrolPoints[currentPointIndex];
+        Vector2 direction = (targetPoint.position - transform.position).normalized;
+        rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
+
+        if (Vector2.Distance(transform.position, targetPoint.position) < patrolPointTolerance)
         {
-            moveDirection = 1;
+            currentPointIndex = (currentPointIndex + 1) % patrolPoints.Length;
         }
 
-        rb.velocity = new Vector2(moveDirection * speed, rb.velocity.y);
+        // Ensure the enemy stays within patrol boundaries
+        if (transform.position.x < leftBoundary || transform.position.x > rightBoundary)
+        {
+            moveDirection *= -1;
+            rb.velocity = new Vector2(moveDirection * speed, rb.velocity.y);
+        }
+
+        // Ensure the enemy stays grounded
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f);
+        if (hit.collider == null || hit.collider.tag != "Ground")
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+        }
+    }
+
+    public void Attack()
+    {
+        if (Time.time - lastAttackTime >= attackCooldown)
+        {
+            Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPoint.position, 0.5f, playerLayer);
+            foreach (Collider2D player in hitPlayers)
+            {
+                player.GetComponent<Player>().TakeDamage(attackDamage);
+            }
+            lastAttackTime = Time.time;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Attack();
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Attack();
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+
+        Gizmos.DrawWireSphere(attackPoint.position, 0.5f);
     }
 }
