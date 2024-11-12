@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class GrapplingHook : MonoBehaviour
 {
-    [SerializeField] private float grappleLength = 5f;  // Dist�ncia m�xima de 5 tiles
-    [SerializeField] private LayerMask grappleLayer;     // Layer para os blocos que podem ser agarrados
-    [SerializeField] private LineRenderer rope;            // Linha do grappling hook
-    [SerializeField] private float ropeSpeed = 20f;       // Velocidade da anima��o da corda
-    [SerializeField] private float pullForce = 10f;       // For�a a ser aplicada ao jogador
-    [SerializeField] private float launchCooldown;       // Cooldown para o grapple
+    [SerializeField] private float grappleLength = 5f; 
+    [SerializeField] private LayerMask grappleLayer;    
+    [SerializeField] private LineRenderer rope;            
+    [SerializeField] private float ropeSpeed = 20f;      
+    [SerializeField] private float pullForce = 10f;     
+    [SerializeField] private float launchCooldown;    
     [SerializeField] private float retractCooldown;
     [SerializeField] private float attachedCooldown;
-    [SerializeField] private GameObject pickaxe;       // Pickaxe principal
-    [SerializeField] private GameObject pickaxeGrapple;       // Pickaxe da ponta do Grapple
+    [SerializeField] private GameObject pickaxe;      
+    [SerializeField] private GameObject pickaxeGrapple;      
 
-    private Vector3 grapplePoint;                          // Ponto onde o grappling hook acertou
-    private bool isGrappling = false;                     // Indica se o grappling hook est� ativo
-    private Vector3 ropeTargetPosition;                    // Posi��o atual do alvo da corda
-    private bool grappleHit = false;                       // Armazena se atingiu um ponto v�lido
-    private DistanceJoint2D joint;                        // Refer�ncia ao DistanceJoint2D
-    private Rigidbody2D playerRb;                         // Refer�ncia ao Rigidbody2D do jogador
+    private Vector3 grapplePoint;                       
+    private bool isGrappling = false;                     
+    private Vector3 ropeTargetPosition;              
+    private bool grappleHit = false;                    
+    private DistanceJoint2D joint;               
+    private Rigidbody2D playerRb;                   
 
     void Start()
     {
@@ -150,7 +150,7 @@ private IEnumerator MoveRope()
         // Espera um pequeno tempo para que a animação de puxar ocorra
         yield return new WaitForSeconds(0.1f); // Pequena espera para estabilizar
 
-        // Se desejar, pode continuar aplicando força enquanto o jogador está grappling
+        // Aplica uma força contínua enquanto o jogador está grappling
         while (isGrappling)
         {
             playerRb.AddForce(pullDirection * pullForce * Time.deltaTime, ForceMode2D.Force); // Força contínua
@@ -159,7 +159,7 @@ private IEnumerator MoveRope()
     }
     else
     {
-        StartCoroutine(RetractRope());
+        StartCoroutine(RetractRope()); // Retraí a corda se não houver um ponto válido
     }
 }
 

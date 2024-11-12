@@ -23,11 +23,11 @@ public class PickaxeBreakBlock : MonoBehaviour
 
         if (tilemap.HasTile(tilePos) && IsTileNearPlayer(tileWorldPos))
         {
-            //HighlightTile(tilePos);
+            HighlightTile(tilePos);
         }
         else
         {
-            //highlightObject.SetActive(false);
+            highlightObject.SetActive(false);
         }
     }
 

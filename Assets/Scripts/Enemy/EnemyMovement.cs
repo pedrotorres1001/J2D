@@ -3,7 +3,6 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private Transform attackPoint;
     public int attackDamage;
     [SerializeField] private bool hitPlayer;
     [SerializeField] private float attackCooldown = 2f;
@@ -88,7 +87,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (Time.time - lastAttackTime >= attackCooldown)
         {
-            Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPoint.position, 0.5f, playerLayer);
+            Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(gameObject.transform.position, 0.5f, playerLayer);
             foreach (Collider2D player in hitPlayers)
             {
                 player.GetComponent<Player>().TakeDamage(attackDamage);
@@ -115,9 +114,9 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (attackPoint == null)
+        if (gameObject.transform.position == null)
             return;
 
-        Gizmos.DrawWireSphere(attackPoint.position, 0.5f);
+        Gizmos.DrawWireSphere(gameObject.transform.position, 0.5f);
     }
 }
