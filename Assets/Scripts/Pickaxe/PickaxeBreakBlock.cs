@@ -5,16 +5,21 @@ using UnityEngine.Tilemaps;
 
 public class PickaxeBreakBlock : MonoBehaviour
 {
-    public Tilemap tilemap;                    
-    public GameObject highlightObject;         
-    public Transform player;                  
-    public float destroyDistance;   
+    [SerializeField] private Tilemap tilemap;   
+    [SerializeField] private Tilemap goldTilemap;
+    [SerializeField] private GameObject highlightObject;         
+    [SerializeField] private Transform player;                  
+    [SerializeField] private float destroyDistance;   
+    [SerializeField] private int defaultDurability = 3;
+    [SerializeField] private int goldDurability = 5;
+    [SerializeField] private LayerMask layer;
+    [SerializeField] private LayerMask goldLayer;
 
+    private Dictionary<Vector3Int, int> tileDurabilities = new Dictionary<Vector3Int, int>();
     private Vector3Int tilePos;  
     private Vector3 mouseWorldPos;
     private Vector3 tileWorldPos; 
 
-    [SerializeField] private LayerMask layer;
 
     void Update()
     {
@@ -61,7 +66,51 @@ public class PickaxeBreakBlock : MonoBehaviour
             
         if (IsTileNearPlayer(tilePos))
         {
-            tilemap.SetTile(tilePos, null);
+            // Check if tile exists in the primary tilemap layer
+            if (tilemap.HasTile(tilePos))
+            {
+                HandleDurability(tilemap, tilePos, defaultDurability);
+            }
+            else if (goldTilemap.HasTile(tilePos))
+            {
+                HandleDurability(goldTilemap, tilePos, defaultDurability);
+            }
+        }
+    }
+
+    void HandleDurability(Tilemap targetTilemap, Vector3Int position, int startingDurability)
+    {
+        // Initialize durability if tile is hit for the first time
+        if (!tileDurabilities.ContainsKey(position))
+        {
+            tileDurabilities[position] = startingDurability;
+        }
+
+        // Decrease durability
+        tileDurabilities[position]--;
+
+        // If durability reaches zero, break the block
+        if (tileDurabilities[position] <= 0)
+        {
+            if(tilemap.HasTile(position))
+            {
+                targetTilemap.SetTile(position, null);
+                tileDurabilities.Remove(position);
+                Debug.Log("Block broken at position: " + position);
+            } 
+            else if(goldTilemap.HasTile(tilePos))
+            {
+                targetTilemap.SetTile(position, null);
+                tileDurabilities.Remove(position);
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(5);
+
+                Debug.Log("Gold broken at position: " + position);
+            }
+
+        }
+        else
+        {
+            Debug.Log("Block hit! Remaining durability: " + tileDurabilities[position]);
         }
     }
 
