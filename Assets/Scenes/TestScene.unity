@@ -1233,6 +1233,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   maxHealth: 50
+  pickaxeLevel: 0
+  experience: 0
+  maxExperience: 50
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -4451,6 +4454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  experiencePoints: 5
 --- !u!114 &1257136142
 MonoBehaviour:
   m_ObjectHideFlags: 0

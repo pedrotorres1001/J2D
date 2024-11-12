@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
 {
     public int health;
     public int maxHealth;
-
     public int pickaxeLevel;
     public int experience;
     [SerializeField] private int maxExperience;
@@ -59,5 +58,43 @@ public class Player : MonoBehaviour
 
         // Revert to the original color
         sprite.color = original;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.CompareTag("Enemy")) 
+        {
+            ApplyKnockback(collision);
+        }
+    }
+
+    bool isInvulnerable = false;
+
+    void ApplyKnockback(Collision2D collision)
+    {
+        if (!isInvulnerable)
+        {
+            Vector2 knockbackDirection = (transform.position - collision.transform.position).normalized;
+            float knockbackForce = 20f;
+            gameObject.GetComponent<Rigidbody2D>().AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+
+            StartCoroutine(InvulnerabilityCooldown());
+        }
+    }
+
+    IEnumerator InvulnerabilityCooldown()
+    {
+        isInvulnerable = true;
+
+        // Efeito de piscada
+        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+        for (int i = 0; i < 5; i++) // ajusta a quantidade de piscadas
+        {
+            sprite.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            sprite.enabled = true;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        isInvulnerable = false;
     }
 }
