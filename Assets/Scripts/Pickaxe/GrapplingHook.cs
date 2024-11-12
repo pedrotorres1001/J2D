@@ -37,7 +37,7 @@ public class GrapplingHook : MonoBehaviour
     void Update()
     {
         // Se o grappling n�o estiver ativo, verifica a entrada do mouse para lan�ar a corda
-        if ((Input.GetMouseButton(1) || Input.GetKey(KeyCode.E)) && !isGrappling && launchCooldown == 0)
+        if ((Input.GetMouseButtonDown(1) || Input.GetKey(KeyCode.E)) && !isGrappling && launchCooldown == 0)
         {
             StartGrappling();
         }
@@ -166,10 +166,12 @@ private IEnumerator MoveRope()
     // Coroutine para fazer a corda retornar ao jogador
     private IEnumerator RetractRope()
     {
+        Debug.Log("Retracting rope");
+
+
         retractCooldown = 1f;
         // Mant�m o ponto inicial da corda na posi��o do jogador
         Vector3 initialRopePosition = transform.position; // Mant�m a posi��o inicial na posi��o do jogador
-        isGrappling = false; // Define que n�o est� mais grappling
 
         // Desabilita o joint ap�s a retra��o da corda
         joint.enabled = false;
@@ -187,9 +189,15 @@ private IEnumerator MoveRope()
             yield return null; // Espera at� o pr�ximo frame
         }
 
+        isGrappling = false; // Define que n�o est� mais grappling
         rope.enabled = false; // Desabilita a linha ap�s a retra��o
         pickaxeGrapple.SetActive(false);
         pickaxe.SetActive(true);
 
+    }
+
+    public void RemoveGrapple()
+    {
+        StartCoroutine(RetractRope());
     }
 }

@@ -1210,7 +1210,7 @@ MonoBehaviour:
   grappleLength: 5
   grappleLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   rope: {fileID: 522095250}
   ropeSpeed: 16
   pullForce: 15
@@ -13683,6 +13683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemap: {fileID: 922020093}
   goldTilemap: {fileID: 2138690644}
+  grapplingHook: {fileID: 611152723}
   defaultDurability: 3
   goldDurability: 5
 --- !u!1 &1425674229

@@ -5,6 +5,7 @@ public class GrapplingHookBreakBlock : MonoBehaviour
 {
     [SerializeField] private Tilemap tilemap;   
     [SerializeField] private Tilemap goldTilemap;
+    [SerializeField] private GrapplingHook grapplingHook;
     public int defaultDurability = 3;
     public int goldDurability = 5;
 
@@ -31,6 +32,7 @@ public class GrapplingHookBreakBlock : MonoBehaviour
         if (DurabilityManager.Instance.IsTileBroken(tilePos))
         {
             targetTilemap.SetTile(tilePos, null);
+            grapplingHook.RemoveGrapple();
             Debug.Log("Block broken by grappling hook at position: " + tilePos);
         }
         else
