@@ -5,6 +5,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public int health = 100;
+    [SerializeField] private int experiencePoints;
+
 
     public void TakeDamage(int damage)
     {
@@ -20,7 +22,7 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        // Add death logic here (e.g., play animation, destroy object)
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
         Destroy(gameObject);
     }
 

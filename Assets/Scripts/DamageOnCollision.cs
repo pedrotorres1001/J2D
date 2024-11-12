@@ -4,22 +4,17 @@ using UnityEngine;
 
 public class DamageOnCollision : MonoBehaviour
 {
-    // script to damage an entity when colliding
     [SerializeField] private int damage;
-    [SerializeField] private GameObject player;
-
     private void OnCollisionEnter2D(Collision2D other) {
 
-        if(other.gameObject.tag == "Player") {
-            Player healthScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        if(other.gameObject.tag == "Player") 
+        {
+            Player script = other.gameObject.GetComponent<Player>();
 
-            if(healthScript != null) 
+            if(script != null) 
             {
-                healthScript.TakeDamage(damage); // change to respawn in last checkpoint
+                script.TakeDamage(damage);
             }
-        }
-        else if(other.gameObject.tag == "Enemy") {
-            // destroy it
         }
     }
 }

@@ -8,8 +8,13 @@ public class Player : MonoBehaviour
     public int health;
     public int maxHealth;
 
+    public int pickaxeLevel;
+    public int experience;
+    [SerializeField] private int maxExperience;
+
     private void Start() {
         health = maxHealth;
+        experience = 0;
     }
 
     public void TakeDamage(int damage)
@@ -21,6 +26,16 @@ public class Player : MonoBehaviour
         if (health <= 0)
         {
             Die();
+        }
+    }
+
+    public void AddExperiencePoints(int points)
+    {
+        experience += points;
+
+        if(experience >= maxExperience) 
+        {
+            pickaxeLevel++;
         }
     }
 
