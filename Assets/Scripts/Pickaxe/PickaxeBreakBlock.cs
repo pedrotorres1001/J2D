@@ -6,7 +6,7 @@ public class PickaxeBreakBlock : MonoBehaviour
     [SerializeField] private Tilemap tilemap;   
     [SerializeField] private Tilemap goldTilemap;
     [SerializeField] private GameObject highlightObject;
-    [SerializeField] private Transform player;
+    [SerializeField] private GameObject player;
     [SerializeField] private float destroyDistance;
     [SerializeField] private int defaultDurability = 3;
     [SerializeField] private int goldDurability = 5;
@@ -19,7 +19,7 @@ public class PickaxeBreakBlock : MonoBehaviour
     private PlayerMovement movement;
 
     private void Start() {
-        movement = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        movement = player.GetComponent<PlayerMovement>();
     }
 
     void Update()
@@ -28,8 +28,8 @@ public class PickaxeBreakBlock : MonoBehaviour
         mouseWorldPos.z = 0;
 
         // Calcula as distâncias nos eixos X e Y entre o mouse e o jogador
-        float distanceX = mouseWorldPos.x - player.position.x;
-        float distanceY = mouseWorldPos.y - player.position.y;
+        float distanceX = mouseWorldPos.x - player.transform.position.x;
+        float distanceY = mouseWorldPos.y - player.transform.position.y;
 
         // Determina a direção principal baseada na distância dominante
         if (Mathf.Abs(distanceX) > Mathf.Abs(distanceY))
@@ -37,14 +37,14 @@ public class PickaxeBreakBlock : MonoBehaviour
             // Horizontal (esquerda ou direita)
             direction = distanceX > 0 ? 1 : 0;
             int directionX = distanceX > 0 ? 1 : -1;
-            tilePos = tilemap.WorldToCell(player.position + new Vector3(directionX * tilemap.cellSize.x, 0, 0));
+            tilePos = tilemap.WorldToCell(player.transform.position + new Vector3(directionX * tilemap.cellSize.x, 0, 0));
         }
         else
         {
             // Vertical (cima ou baixo)
             direction = distanceY > 0 ? 2 : 3;
             int directionY = distanceY > 0 ? 1 : -1;
-            tilePos = tilemap.WorldToCell(player.position + new Vector3(0, directionY * tilemap.cellSize.y, 0));
+            tilePos = tilemap.WorldToCell(player.transform.position + new Vector3(0, directionY * tilemap.cellSize.y, 0));
         }
 
         tileWorldPos = tilemap.GetCellCenterWorld(tilePos);
@@ -70,7 +70,7 @@ public class PickaxeBreakBlock : MonoBehaviour
 
     bool IsTileNearPlayer(Vector3 tilePos)
     {
-        return Vector3.Distance(player.position, tileWorldPos) <= destroyDistance;
+        return Vector3.Distance(player.transform.position, tileWorldPos) <= destroyDistance;
     }
 
     public void BreakBlock()
@@ -95,28 +95,12 @@ public class PickaxeBreakBlock : MonoBehaviour
             {
                 movement.lastDirection = 1;
             }
-
-            // Define o parâmetro Direction no Animator para tocar a animação correta
-            //animator.SetTrigger("OnBreakBlock");
-            //animator.SetTrigger("BreakBlock");
-            //animator.SetInteger("Direction", direction);
-
         }
     }
 
     void HandleDurability(Tilemap targetTilemap, Vector3Int tilePos, int startingDurability)
     {
-        int currentDurability = DurabilityManager.Instance.GetOrInitializeDurability(tilePos, startingDurability);
-        DurabilityManager.Instance.ReduceDurability(tilePos);
-
-        if (DurabilityManager.Instance.IsTileBroken(tilePos))
-        {
-            targetTilemap.SetTile(tilePos, null);
-            Debug.Log("Block broken at position: " + tilePos);
-        }
-        else
-        {
-            Debug.Log("Block hit! Remaining durability: " + currentDurability);
-        }
+        int currentDurability = BlocksDurabilityManager.Instance.GetOrInitializeDurability(tilePos, startingDurability);
+        BlocksDurabilityManager.Instance.ReduceDurability(tilePos, targetTilemap);
     }
 }

@@ -11,27 +11,36 @@ public class GrapplingHookBreakBlock : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Debug the collision event to ensure it is firing
+        Debug.Log("Grappling hook collided with: " + other.gameObject.name);
+
         Vector3 hitPosition = other.ClosestPoint(transform.position);
         Vector3Int tilePos = tilemap.WorldToCell(hitPosition);
 
+        // Check if the tile position has a tile on either tilemap
         if (tilemap.HasTile(tilePos))
         {
+            Debug.Log("Tile found on regular tilemap at position: " + tilePos);
             HandleDurability(tilemap, tilePos, defaultDurability);
         }
         else if (goldTilemap.HasTile(tilePos))
         {
+            Debug.Log("Tile found on gold tilemap at position: " + tilePos);
             HandleDurability(goldTilemap, tilePos, goldDurability);
+        }
+        else
+        {
+            Debug.Log("No tile found at position: " + tilePos);
         }
     }
 
     void HandleDurability(Tilemap targetTilemap, Vector3Int tilePos, int startingDurability)
     {
-        int currentDurability = DurabilityManager.Instance.GetOrInitializeDurability(tilePos, startingDurability);
-        DurabilityManager.Instance.ReduceDurability(tilePos);
+        int currentDurability = BlocksDurabilityManager.Instance.GetOrInitializeDurability(tilePos, startingDurability);
+        BlocksDurabilityManager.Instance.ReduceDurability(tilePos, targetTilemap);
 
-        if (DurabilityManager.Instance.IsTileBroken(tilePos))
+        if (BlocksDurabilityManager.Instance.IsTileBroken(tilePos))
         {
-            targetTilemap.SetTile(tilePos, null);
             grapplingHook.RemoveGrapple();
             Debug.Log("Block broken by grappling hook at position: " + tilePos);
         }
