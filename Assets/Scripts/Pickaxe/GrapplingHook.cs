@@ -18,6 +18,7 @@ public class GrapplingHook : MonoBehaviour
     private Vector3 grapplePoint;                       
     private bool isGrappling = false;                     
     private bool isGrappleMoving = false;
+    private bool stopGrappling = false;
     private Vector3 ropeTargetPosition;              
     private bool grappleHit = false;                    
     private DistanceJoint2D joint;               
@@ -46,6 +47,12 @@ public class GrapplingHook : MonoBehaviour
             StartGrappling();
         }
 
+        if (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E))
+        {
+            Debug.Log("stop");
+            stopGrappling = true;
+        }
+
         // Atualiza a posi��o do ponto inicial da corda se estiver grappling
         if (isGrappling)
         {
@@ -55,7 +62,11 @@ public class GrapplingHook : MonoBehaviour
 
             // Inicia a retra��o ap�s alcan�ar o ponto ou atingir o comprimento m�ximo
             if (!isGrappleMoving && (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)))
+            {
+                Debug.Log("stop");
+                stopGrappling = true;
                 StartCoroutine(RetractRope());
+            }
 
             if (Input.GetKey(KeyCode.W) && joint.distance > 1)
             {
@@ -150,10 +161,10 @@ private IEnumerator MoveRope()
         yield return null; // Espera até o próximo frame
     }
 
-        isGrappleMoving = false;
+    isGrappleMoving = false;
 
-        // Se a corda atingiu um ponto válido
-        if (grappleHit)
+    // Se a corda atingiu um ponto válido
+    if (grappleHit && !stopGrappling)
     {
         joint.connectedAnchor = grapplePoint; // Define o ponto de ancoragem
         joint.enabled = true;  // Ativa o joint
@@ -209,7 +220,12 @@ private IEnumerator MoveRope()
         }
 
         isGrappleMoving = false;
+<<<<<<< Updated upstream
         launchCooldown = .2f;
+=======
+        stopGrappling = false;
+        launchCooldown = .5f;
+>>>>>>> Stashed changes
         isGrappling = false; // Define que n�o est� mais grappling
         rope.enabled = false; // Desabilita a linha ap�s a retra��o
         pickaxeGrapple.SetActive(false);
