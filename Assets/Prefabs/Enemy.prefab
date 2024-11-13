@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 968240803360495957}
   - component: {fileID: 8979323073346509208}
   - component: {fileID: 5538028247822459494}
+  - component: {fileID: 617705256544086634}
   - component: {fileID: 1745353985789747701}
   - component: {fileID: 1960630949218608530}
   m_Layer: 0
@@ -103,7 +104,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 100
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -188,6 +189,18 @@ MonoBehaviour:
   speed: 1
   patrolPoints: []
   patrolPointTolerance: 0.5
+--- !u!114 &617705256544086634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6593975325983535659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f836d4ab2e8834535a10b9991affeffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1745353985789747701
 MonoBehaviour:
   m_ObjectHideFlags: 0

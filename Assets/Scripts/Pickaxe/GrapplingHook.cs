@@ -21,7 +21,9 @@ public class GrapplingHook : MonoBehaviour
     private Vector3 ropeTargetPosition;              
     private bool grappleHit = false;                    
     private DistanceJoint2D joint;               
-    private Rigidbody2D playerRb;                   
+    private Rigidbody2D playerRb;  
+    private PlayerMovement movement;
+
 
     void Start()
     {
@@ -33,6 +35,7 @@ public class GrapplingHook : MonoBehaviour
         joint.enabled = false;                              // Garante que o joint esteja desativado inicialmente
         playerRb = GetComponent<Rigidbody2D>();            // Obt�m o Rigidbody2D do jogador
         pickaxeGrapple.SetActive(false);
+        movement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
     void Update()
@@ -82,7 +85,7 @@ public class GrapplingHook : MonoBehaviour
         isGrappleMoving = true;
 
 
-    pickaxeGrapple.SetActive(true);
+        pickaxeGrapple.SetActive(true);
         pickaxe.SetActive(false);
 
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -90,6 +93,16 @@ public class GrapplingHook : MonoBehaviour
 
         // Calcula a dire��o do hook em dire��o ao cursor
         Vector3 direction = (mousePosition - transform.position).normalized;
+
+        // Ajusta a direção do player com base na direção do clique
+        if (mousePosition.x > transform.position.x)
+        {
+            movement.lastDirection = 1;
+        }
+        else
+        {
+            movement.lastDirection = -1;
+        }
 
         // Roda a picareta para a dire�ao que foi lan�ada
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -196,7 +209,7 @@ private IEnumerator MoveRope()
         }
 
         isGrappleMoving = false;
-        launchCooldown = .5f;
+        launchCooldown = .2f;
         isGrappling = false; // Define que n�o est� mais grappling
         rope.enabled = false; // Desabilita a linha ap�s a retra��o
         pickaxeGrapple.SetActive(false);

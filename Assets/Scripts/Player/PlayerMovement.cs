@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Animator animator;
     private Rigidbody2D rb;
-    private float lastDirection = 1;
+    public float lastDirection = 1;
 
     private bool isOnStairs;
     private bool upPressed;

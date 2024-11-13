@@ -10,25 +10,55 @@ public class PickaxeBreakBlock : MonoBehaviour
     [SerializeField] private float destroyDistance;
     [SerializeField] private int defaultDurability = 3;
     [SerializeField] private int goldDurability = 5;
+    [SerializeField] private Animator animator;
 
     private Vector3Int tilePos;
     private Vector3 tileWorldPos;
+    private int direction; // 0 = Left, 1 = Right, 2 = Up, 3 = Down
+
+    private PlayerMovement movement;
+
+    private void Start() {
+        movement = GameObject.Find("Player").GetComponent<PlayerMovement>();
+    }
 
     void Update()
     {
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
-        tilePos = tilemap.WorldToCell(mouseWorldPos);
-        tileWorldPos = tilemap.GetCellCenterWorld(tilePos);
 
-        if (tilemap.HasTile(tilePos) && IsTileNearPlayer(tileWorldPos))
+        // Calcula as distâncias nos eixos X e Y entre o mouse e o jogador
+        float distanceX = mouseWorldPos.x - player.position.x;
+        float distanceY = mouseWorldPos.y - player.position.y;
+
+        // Determina a direção principal baseada na distância dominante
+        if (Mathf.Abs(distanceX) > Mathf.Abs(distanceY))
         {
-            HighlightTile(tilePos);
+            // Horizontal (esquerda ou direita)
+            direction = distanceX > 0 ? 1 : 0;
+            int directionX = distanceX > 0 ? 1 : -1;
+            tilePos = tilemap.WorldToCell(player.position + new Vector3(directionX * tilemap.cellSize.x, 0, 0));
         }
         else
         {
-            highlightObject.SetActive(false);
+            // Vertical (cima ou baixo)
+            direction = distanceY > 0 ? 2 : 3;
+            int directionY = distanceY > 0 ? 1 : -1;
+            tilePos = tilemap.WorldToCell(player.position + new Vector3(0, directionY * tilemap.cellSize.y, 0));
         }
+
+        tileWorldPos = tilemap.GetCellCenterWorld(tilePos);
+
+        // Verifica se o tile existe e se está dentro da distância de destruição
+        if (tilemap.HasTile(tilePos) && IsTileNearPlayer(tileWorldPos))
+        {
+            //HighlightTile(tilePos);
+        }
+        else
+        {
+            //highlightObject.SetActive(false);
+        }
+
     }
 
     void HighlightTile(Vector3Int tilePos)
@@ -55,6 +85,22 @@ public class PickaxeBreakBlock : MonoBehaviour
             {
                 HandleDurability(goldTilemap, tilePos, goldDurability);
             }
+
+
+            if(direction == 0) 
+            {
+                movement.lastDirection = -1;
+            }
+            else if(direction == 1)
+            {
+                movement.lastDirection = 1;
+            }
+
+            // Define o parâmetro Direction no Animator para tocar a animação correta
+            //animator.SetTrigger("OnBreakBlock");
+            //animator.SetTrigger("BreakBlock");
+            //animator.SetInteger("Direction", direction);
+
         }
     }
 
