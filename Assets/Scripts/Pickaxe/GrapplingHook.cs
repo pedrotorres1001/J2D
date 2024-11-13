@@ -220,12 +220,9 @@ private IEnumerator MoveRope()
         }
 
         isGrappleMoving = false;
-<<<<<<< Updated upstream
         launchCooldown = .2f;
-=======
         stopGrappling = false;
         launchCooldown = .5f;
->>>>>>> Stashed changes
         isGrappling = false; // Define que n�o est� mais grappling
         rope.enabled = false; // Desabilita a linha ap�s a retra��o
         pickaxeGrapple.SetActive(false);
