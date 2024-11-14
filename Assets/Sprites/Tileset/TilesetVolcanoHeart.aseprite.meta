@@ -123,7 +123,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: TilesetVolcanoHeart
     originalName: 
-    pivot: {x: 0.6923077, y: 0}
+    pivot: {x: 0.53846157, y: -0.09090909}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -132,7 +132,7 @@ ScriptedImporter:
       y: 4
       width: 416
       height: 176
-    spriteID: adc4a6a77caccee49a8684541c4995ad
+    spriteID: e0ae1e9742a27224e9218c3751c39032
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -155,10 +155,10 @@ ScriptedImporter:
       additiveSortOrder: 0
       cellRect:
         x: 0
-        y: 0
+        y: 16
         width: 416
         height: 176
-      spriteId: adc4a6a77caccee49a8684541c4995ad
+      spriteId: e0ae1e9742a27224e9218c3751c39032
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -177,4 +177,4 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 576, y: 176}
+  canvasSize: {x: 448, y: 192}
