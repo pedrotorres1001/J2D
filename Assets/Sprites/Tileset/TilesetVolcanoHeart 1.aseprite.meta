@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9dfe47a5476496449a707f4fa4cc92b6
+guid: db785320e150192418ca807f272d8339
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -121,18 +121,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: TilesetVolcanoHeart
+  - name: TilesetVolcanoHeart 1
     originalName: 
-    pivot: {x: 0.53846157, y: -0.09090909}
+    pivot: {x: 0.5, y: -0.33333334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 416
-      height: 176
-    spriteID: e0ae1e9742a27224e9218c3751c39032
+      width: 448
+      height: 240
+    spriteID: 8cd832dcd6adb3f46be36f7d19f8aa20
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,21 +144,21 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 982883216
-    name: TilesetVolcanoHeart
+    guid: 1128522323
+    name: TilesetVolcanoHeart 1
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: TilesetVolcanoHeart
+    - name: TilesetVolcanoHeart 1
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
         x: 0
-        y: 16
-        width: 416
-        height: 176
-      spriteId: e0ae1e9742a27224e9218c3751c39032
+        y: 80
+        width: 448
+        height: 240
+      spriteId: 8cd832dcd6adb3f46be36f7d19f8aa20
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -177,4 +177,4 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 448, y: 192}
+  canvasSize: {x: 448, y: 320}
