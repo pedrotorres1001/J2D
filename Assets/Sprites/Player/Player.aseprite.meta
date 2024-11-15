@@ -123,14 +123,14 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Player
     originalName: 
-    pivot: {x: 0.5217391, y: 0}
+    pivot: {x: 0.6666667, y: -0.045454543}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 23
+      width: 24
       height: 44
     spriteID: a258c941665674ba1b4226f7b81ee2f5
     spriteBone: []
@@ -155,8 +155,8 @@ ScriptedImporter:
       additiveSortOrder: 0
       cellRect:
         x: 4
-        y: 0
-        width: 23
+        y: 2
+        width: 24
         height: 44
       spriteId: a258c941665674ba1b4226f7b81ee2f5
     linkedCells: []
@@ -177,4 +177,4 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 32, y: 48}
+  canvasSize: {x: 40, y: 50}
