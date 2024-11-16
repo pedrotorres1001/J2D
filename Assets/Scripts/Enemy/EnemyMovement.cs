@@ -13,14 +13,9 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody2D rb;
     private float moveDirection = 1;
 
-    // Patrol properties
-    public Transform[] patrolPoints;
-    private int currentPointIndex = 0;
-    public float patrolPointTolerance = 0.5f;
-
-    // Patrol area properties
-    private float leftBoundary = 17f;
-    private float rightBoundary = 30f;
+    // Boundaries
+    [SerializeField] private float leftBoundary;
+    [SerializeField] private float rightBoundary;
 
     private Transform player;
 
@@ -32,13 +27,13 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
-        if (player != null)
+        if (Vector2.Distance(transform.position, player.position) <= 10)
         {
             FollowPlayer();
         }
         else
         {
-            Patrol();
+            MovementBoundaries();
         }
     }
 
@@ -46,34 +41,6 @@ public class EnemyMovement : MonoBehaviour
     {
         Vector2 direction = (player.position - transform.position).normalized;
         rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
-
-        // Ensure the enemy stays grounded
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f);
-        if (hit.collider == null || hit.collider.tag != "Ground")
-        {
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-        }
-    }
-
-    void Patrol()
-    {
-        if (patrolPoints.Length == 0) return;
-
-        Transform targetPoint = patrolPoints[currentPointIndex];
-        Vector2 direction = (targetPoint.position - transform.position).normalized;
-        rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
-
-        if (Vector2.Distance(transform.position, targetPoint.position) < patrolPointTolerance)
-        {
-            currentPointIndex = (currentPointIndex + 1) % patrolPoints.Length;
-        }
-
-        // Ensure the enemy stays within patrol boundaries
-        if (transform.position.x < leftBoundary || transform.position.x > rightBoundary)
-        {
-            moveDirection *= -1;
-            rb.velocity = new Vector2(moveDirection * speed, rb.velocity.y);
-        }
 
         // Ensure the enemy stays grounded
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f);
@@ -94,6 +61,20 @@ public class EnemyMovement : MonoBehaviour
             }
             lastAttackTime = Time.time;
         }
+    }
+
+    public void MovementBoundaries()
+    {
+        if (transform.position.x >= rightBoundary)
+        {
+            moveDirection = -1;
+        }
+        else if (transform.position.x <= leftBoundary)
+        {
+            moveDirection = 1;
+        }
+
+        rb.velocity = new Vector2(moveDirection * speed, rb.velocity.y);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

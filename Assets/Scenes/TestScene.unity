@@ -1117,6 +1117,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 448
   gravity: 3
+  lastDirection: 1
   direction: 0
   altitude: 0
 --- !u!70 &611152720
@@ -4561,6 +4562,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a67673e625ed433c848895bacfadba2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goldDamaged: {fileID: 0}
+  goldDamaged2: {fileID: 0}
+  goldDamaged3: {fileID: 0}
+  goldDamagedFull: {fileID: 0}
+  stoneFull: {fileID: 0}
+  stoneDamaged: {fileID: 0}
+  stoneAlmostBroken: {fileID: 0}
 --- !u!1 &1404314654
 GameObject:
   m_ObjectHideFlags: 0
@@ -15575,10 +15583,11 @@ MonoBehaviour:
   tilemap: {fileID: 922020093}
   goldTilemap: {fileID: 2138690644}
   highlightObject: {fileID: 2081397313}
-  player: {fileID: 611152718}
+  player: {fileID: 611152714}
   destroyDistance: 1.24
   defaultDurability: 3
   goldDurability: 5
+  animator: {fileID: 2070996127}
 --- !u!1 &2081397313
 GameObject:
   m_ObjectHideFlags: 0
@@ -15876,6 +15885,14 @@ PrefabInstance:
       propertyPath: attackPoint
       value: 
       objectReference: {fileID: 611152718}
+    - target: {fileID: 5538028247822459494, guid: 759271d0cb6e2489abf1597a1e88bce8, type: 3}
+      propertyPath: leftBoundary
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 5538028247822459494, guid: 759271d0cb6e2489abf1597a1e88bce8, type: 3}
+      propertyPath: rightBoundary
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 6593975325983535659, guid: 759271d0cb6e2489abf1597a1e88bce8, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -15886,7 +15903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7350322127625149551, guid: 759271d0cb6e2489abf1597a1e88bce8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -18.25
+      value: -18.3
       objectReference: {fileID: 0}
     - target: {fileID: 7350322127625149551, guid: 759271d0cb6e2489abf1597a1e88bce8, type: 3}
       propertyPath: m_LocalPosition.z
