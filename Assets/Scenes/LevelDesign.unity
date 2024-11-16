@@ -13875,7 +13875,7 @@ Transform:
   m_GameObject: {fileID: 113433808}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 71.9, y: -34.1, z: -10}
+  m_LocalPosition: {x: 44.39, y: -8.79, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28742,7 +28742,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c273533b41c394c26b6747c68ac98bf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
 --- !u!19719996 &927847909
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -29414,7 +29413,7 @@ Transform:
   m_GameObject: {fileID: 1287625151}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 71.9, y: -34.1, z: -10}
+  m_LocalPosition: {x: 44.39, y: -8.79, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -31012,7 +31011,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c273533b41c394c26b6747c68ac98bf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
 --- !u!19719996 &1885344238
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -33097,7 +33095,7 @@ Transform:
   m_GameObject: {fileID: 1908680426}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 71.9, y: -34.5, z: 0}
+  m_LocalPosition: {x: 44.39, y: -9.19, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
