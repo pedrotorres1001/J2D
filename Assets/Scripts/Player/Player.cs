@@ -68,33 +68,17 @@ public class Player : MonoBehaviour
     }
 
     bool isInvulnerable = false;
-
+    
     void ApplyKnockback(Collision2D collision)
     {
         if (!isInvulnerable)
         {
-            Vector2 knockbackDirection = (transform.position - collision.transform.position).normalized;
-            float knockbackForce = 20f;
+            Vector2 knockbackDirection = (transform.position - collision.transform.position);
+            knockbackDirection.y = 0; // Eliminate vertical component
+            knockbackDirection = knockbackDirection.normalized; // Normalize for consistent direction
+
+            float knockbackForce = 10f;
             gameObject.GetComponent<Rigidbody2D>().AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
-
-            StartCoroutine(InvulnerabilityCooldown());
         }
-    }
-
-    IEnumerator InvulnerabilityCooldown()
-    {
-        isInvulnerable = true;
-
-        // Efeito de piscada
-        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
-        for (int i = 0; i < 5; i++) // ajusta a quantidade de piscadas
-        {
-            sprite.enabled = false;
-            yield return new WaitForSeconds(0.1f);
-            sprite.enabled = true;
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        isInvulnerable = false;
     }
 }
