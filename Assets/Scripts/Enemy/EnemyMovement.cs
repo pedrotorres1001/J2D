@@ -13,10 +13,6 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody2D rb;
     private bool facingRight = false; // Start facing left
 
-    // Boundaries
-    [SerializeField] private float leftBoundary;
-    [SerializeField] private float rightBoundary;
-
     private Transform player;
 
     // Dash properties
@@ -24,6 +20,11 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float dashDuration = 0.2f;
     private bool isDashing = false;
     private bool hasDashed = false;
+
+    [SerializeField] private GameObject leftBoundary;
+    [SerializeField] private GameObject rightBoundary;
+    private float tolerance = 0.1f;
+
 
     void Start()
     {
@@ -96,13 +97,16 @@ public class EnemyMovement : MonoBehaviour
 
     public void MovementBoundaries()
     {
-        if (transform.position.x >= rightBoundary)
+        if (transform.position.x >= rightBoundary.transform.position.x - tolerance)
         {
+            print("go left");
             if (facingRight) Flip(); // Flip to face left
             rb.velocity = new Vector2(-speed, rb.velocity.y);
         }
-        else if (transform.position.x <= leftBoundary)
+        else if (transform.position.x <= leftBoundary.transform.position.x + tolerance)
         {
+            print("go right");
+
             if (!facingRight) Flip(); // Flip to face right
             rb.velocity = new Vector2(speed, rb.velocity.y);
         }
