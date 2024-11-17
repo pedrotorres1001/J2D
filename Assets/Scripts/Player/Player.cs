@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
             knockbackDirection.y = 0; // Eliminate vertical component
             knockbackDirection = knockbackDirection.normalized; // Normalize for consistent direction
 
-            float knockbackForce = 10f;
+            float knockbackForce = 1f;
             gameObject.GetComponent<Rigidbody2D>().AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
         }
     }
