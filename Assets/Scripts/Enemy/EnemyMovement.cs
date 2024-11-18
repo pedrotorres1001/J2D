@@ -21,10 +21,13 @@ public class EnemyMovement : MonoBehaviour
     private bool isDashing = false;
     private bool hasDashed = false;
 
+    private float moveDirection = 1;
+
     [SerializeField] private GameObject leftBoundary;
     [SerializeField] private GameObject rightBoundary;
-    private float tolerance = 0.1f;
 
+    [SerializeField] private float leftBoundary1;
+    [SerializeField] private float rightBoundary1;
 
     void Start()
     {
@@ -38,6 +41,9 @@ public class EnemyMovement : MonoBehaviour
             localScale.x *= -1; // Ensure left-facing orientation
             transform.localScale = localScale;
         }
+
+        rb.velocity = new Vector2(-speed, rb.velocity.y);
+
     }
 
     void Update()
@@ -96,17 +102,18 @@ public class EnemyMovement : MonoBehaviour
     }
 
     public void MovementBoundaries()
-    {
-        if (transform.position.x >= rightBoundary.transform.position.x - tolerance)
+    {        
+        if (transform.position.x >= rightBoundary.transform.position.x)
         {
-            print("go left");
+            print("move left");
+            moveDirection = -1;
             if (facingRight) Flip(); // Flip to face left
             rb.velocity = new Vector2(-speed, rb.velocity.y);
         }
-        else if (transform.position.x <= leftBoundary.transform.position.x + tolerance)
+        else if (transform.position.x <= leftBoundary.transform.position.x)
         {
-            print("go right");
-
+            print("move right");
+            moveDirection = 1;
             if (!facingRight) Flip(); // Flip to face right
             rb.velocity = new Vector2(speed, rb.velocity.y);
         }

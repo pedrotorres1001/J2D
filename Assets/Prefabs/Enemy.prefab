@@ -150,8 +150,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.076506846, y: -0.112453885}
-  m_Size: {x: 1.3076402, y: 0.9085756}
+  m_Offset: {x: 0.00032717368, y: -0.1124539}
+  m_Size: {x: 1.0600619, y: 0.9085767}
   m_Direction: 1
 --- !u!114 &8979323073346509208
 MonoBehaviour:
@@ -183,11 +183,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   attackDamage: 0
-  hitPlayer: 0
   attackCooldown: 2
   speed: 1
-  patrolPoints: []
-  patrolPointTolerance: 0.5
+  dashSpeed: 10
+  dashDuration: 0.2
+  leftBoundary: {fileID: 0}
+  rightBoundary: {fileID: 0}
 --- !u!114 &617705256544086634
 MonoBehaviour:
   m_ObjectHideFlags: 0
