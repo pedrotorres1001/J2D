@@ -71,7 +71,7 @@ public class GrapplingHook : MonoBehaviour
             {
                 joint.distance -= 5f * Time.deltaTime;
             }
-            else if (Input.GetKey(KeyCode.S) && joint.distance < grappleLength)
+            else if (Input.GetKey(KeyCode.S) && joint.distance < grappleLength && grapplePoint.y > transform.position.y && Mathf.Abs(grapplePoint.x - transform.position.x) < 3)
             {
                 joint.distance += 5f * Time.deltaTime;
             }
