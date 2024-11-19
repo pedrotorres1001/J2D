@@ -26,9 +26,6 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private GameObject leftBoundary;
     [SerializeField] private GameObject rightBoundary;
 
-    [SerializeField] private float leftBoundary1;
-    [SerializeField] private float rightBoundary1;
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -105,14 +102,12 @@ public class EnemyMovement : MonoBehaviour
     {        
         if (transform.position.x >= rightBoundary.transform.position.x)
         {
-            print("move left");
             moveDirection = -1;
             if (facingRight) Flip(); // Flip to face left
             rb.velocity = new Vector2(-speed, rb.velocity.y);
         }
         else if (transform.position.x <= leftBoundary.transform.position.x)
         {
-            print("move right");
             moveDirection = 1;
             if (!facingRight) Flip(); // Flip to face right
             rb.velocity = new Vector2(speed, rb.velocity.y);
