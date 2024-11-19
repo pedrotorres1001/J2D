@@ -20,7 +20,6 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isOnStairs;
     private bool upPressed;
-    private bool jumpPressed;
 
     public float direction;
     public float altitude;
@@ -45,41 +44,42 @@ public class PlayerMovement : MonoBehaviour
             lastDirection = direction;
         }
 
+        if (Input.GetKeyDown(KeyCode.W)) 
+        {
+            lastDirection = 2;
+        }
+        else if (Input.GetKeyDown(KeyCode.S)) 
+        {
+            lastDirection = 3;
+        }
+
         if (direction == 0)
         {
             animator.SetFloat("MoveX", lastDirection);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W)) && isGrounded)
         {
-            jumpPressed = true;
+            Jump();
         }
 
-        if((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isOnStairs)
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isOnStairs)
         {
             upPressed = true;
         }
-
     }
 
-    private void FixedUpdate() {
-        
+    private void FixedUpdate()
+    {
         rb.velocity = new Vector2(direction * speed, rb.velocity.y);
 
-        if(jumpPressed)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
-            isGrounded = false;
-            jumpPressed = false;
-        }
-
-        if(upPressed)
+        if (upPressed)
         {
             rb.velocity = new Vector3(rb.velocity.x, altitude * speed);
             rb.gravityScale = 0; 
             upPressed = false;
         }
-        else 
+        else
         {
             rb.gravityScale = gravity;
         }
@@ -89,17 +89,16 @@ public class PlayerMovement : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
 
-        if (hit.collider != null)
-        {
-            isGrounded = true;
-        }
-        else
-        {
-            isGrounded = false;
-        }
+        isGrounded = hit.collider != null;
     }
 
-    private void OnTriggerEnter2D(Collider2D other) 
+    private void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        isGrounded = false; // Ensures that jump only happens once per ground contact
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Stairs")) 
         {
@@ -107,12 +106,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other) 
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Stairs")) 
         {
             isOnStairs = false;
         }
     }
-
 }

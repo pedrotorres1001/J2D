@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class PickaxeBreakBlock : MonoBehaviour
 {
-    [SerializeField] private Tilemap tilemap;   
+    [SerializeField] private Tilemap tilemap;
     [SerializeField] private Tilemap goldTilemap;
     [SerializeField] private GameObject highlightObject;
     [SerializeField] private GameObject player;
@@ -14,51 +14,47 @@ public class PickaxeBreakBlock : MonoBehaviour
 
     private Vector3Int tilePos;
     private Vector3 tileWorldPos;
-    private int direction; // 0 = Left, 1 = Right, 2 = Up, 3 = Down
 
     private PlayerMovement movement;
 
-    private void Start() {
+    private void Start()
+    {
         movement = player.GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorldPos.z = 0;
+        // Determine tile position based on the last movement direction
+        Vector3 directionOffset = Vector3.zero;
 
-        // Calcula as distâncias nos eixos X e Y entre o mouse e o jogador
-        float distanceX = mouseWorldPos.x - player.transform.position.x;
-        float distanceY = mouseWorldPos.y - player.transform.position.y;
-
-        // Determina a direção principal baseada na distância dominante
-        if (Mathf.Abs(distanceX) > Mathf.Abs(distanceY))
+        switch (movement.lastDirection)
         {
-            // Horizontal (esquerda ou direita)
-            direction = distanceX > 0 ? 1 : 0;
-            int directionX = distanceX > 0 ? 1 : -1;
-            tilePos = tilemap.WorldToCell(player.transform.position + new Vector3(directionX * tilemap.cellSize.x, 0, 0));
-        }
-        else
-        {
-            // Vertical (cima ou baixo)
-            direction = distanceY > 0 ? 2 : 3;
-            int directionY = distanceY > 0 ? 1 : -1;
-            tilePos = tilemap.WorldToCell(player.transform.position + new Vector3(0, directionY * tilemap.cellSize.y, 0));
+            case -1: // Left
+                directionOffset = new Vector3(-tilemap.cellSize.x, 0, 0);
+                break;
+            case 1: // Right
+                directionOffset = new Vector3(tilemap.cellSize.x, 0, 0);
+                break;
+            case 2: // Up
+                directionOffset = new Vector3(0, tilemap.cellSize.y, 0);
+                break;
+            case 3: // Down
+                directionOffset = new Vector3(0, -tilemap.cellSize.y, 0);
+                break;
         }
 
+        tilePos = tilemap.WorldToCell(player.transform.position + directionOffset);
         tileWorldPos = tilemap.GetCellCenterWorld(tilePos);
 
-        // Verifica se o tile existe e se está dentro da distância de destruição
+        // Highlight tile if valid
         if (tilemap.HasTile(tilePos) && IsTileNearPlayer(tileWorldPos))
         {
-            //HighlightTile(tilePos);
+            HighlightTile(tilePos);
         }
         else
         {
-            //highlightObject.SetActive(false);
+            highlightObject.SetActive(false);
         }
-
     }
 
     void HighlightTile(Vector3Int tilePos)
@@ -84,16 +80,6 @@ public class PickaxeBreakBlock : MonoBehaviour
             else if (goldTilemap.HasTile(tilePos))
             {
                 HandleDurability(goldTilemap, tilePos, goldDurability);
-            }
-
-
-            if(direction == 0) 
-            {
-                movement.lastDirection = -1;
-            }
-            else if(direction == 1)
-            {
-                movement.lastDirection = 1;
             }
         }
     }
