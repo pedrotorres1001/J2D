@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GrapplingHook : MonoBehaviour
@@ -7,7 +8,7 @@ public class GrapplingHook : MonoBehaviour
     [SerializeField] private float grappleLength = 5f; 
     [SerializeField] private LayerMask grappleLayer;    
     [SerializeField] private LineRenderer rope;            
-    [SerializeField] private float ropeSpeed = 20f;      
+    [SerializeField] private float ropeSpeed = 20f;    
     [SerializeField] private float pullForce = 10f;     
     [SerializeField] private float launchCooldown;    
     [SerializeField] private float retractCooldown;
@@ -56,6 +57,9 @@ public class GrapplingHook : MonoBehaviour
         // Atualiza a posi��o do ponto inicial da corda se estiver grappling
         if (isGrappling)
         {
+            float angle = Mathf.Tan((transform.position.x - grapplePoint.x) / (transform.position.y - grapplePoint.y));
+            Debug.Log(angle);
+
             rope.SetPosition(0, transform.position);  // Mant�m o ponto inicial da corda na posi��o do jogador
             
             pickaxeGrapple.transform.position = rope.GetPosition(1); // Mant�m a picareta na posi�ao certa
