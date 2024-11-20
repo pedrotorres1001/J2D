@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("MoveX", lastDirection);
         }
 
-        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W)) && isGrounded)
+        if ((Input.GetButton("Jump")|| Input.GetKey(KeyCode.W)) && isGrounded)
         {
             Jump();
         }
