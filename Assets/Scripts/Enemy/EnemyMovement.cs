@@ -82,7 +82,8 @@ public class EnemyMovement : MonoBehaviour
     {
         if (Time.time - lastAttackTime >= attackCooldown)
         {
-            Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(transform.position, 1f, playerLayer);
+            Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(transform.position, 1f);
+            
             foreach (Collider2D target in hitPlayers)
             {
                 if (target.CompareTag("Player"))
