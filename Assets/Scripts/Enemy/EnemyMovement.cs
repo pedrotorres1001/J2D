@@ -46,10 +46,11 @@ public class EnemyMovement : MonoBehaviour
     void Update()
     {
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        float yDifference = Mathf.Abs(transform.position.y - player.position.y);
 
         if (isDashing) return;
 
-        if (distanceToPlayer <= 7)
+        if (distanceToPlayer <= 7 && yDifference <= 0.5f)
         {
             float directionX = player.position.x - transform.position.x;
             FlipTowardsPlayer(directionX);
@@ -90,10 +91,6 @@ public class EnemyMovement : MonoBehaviour
                 {
                     target.GetComponent<Player>().TakeDamage(attackDamage);
                 }
-                else if (target.CompareTag("Vital"))
-                {
-                    target.GetComponent<Player>().TakeDamage(attackDamage * 2);
-                }
             }
             lastAttackTime = Time.time;
         }
@@ -125,6 +122,7 @@ public class EnemyMovement : MonoBehaviour
 
         // Perform the dash
         Vector2 dashDirection = (player.position - transform.position).normalized;
+        dashDirection.y = 0; // Ensure the dash direction is only horizontal
         rb.velocity = dashDirection * dashSpeed;
 
         yield return new WaitForSeconds(dashDuration);

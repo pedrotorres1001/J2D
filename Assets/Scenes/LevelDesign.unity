@@ -37879,6 +37879,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 201360082}
     - target: {fileID: 5538028247822459494, guid: 759271d0cb6e2489abf1597a1e88bce8, type: 3}
+      propertyPath: attackCooldown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5538028247822459494, guid: 759271d0cb6e2489abf1597a1e88bce8, type: 3}
       propertyPath: rightBoundary1
       value: 4.07
       objectReference: {fileID: 0}
