@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2b0d87f6cb3af4a79b8e1fe25dcd6005
+guid: 9a13ea018f3af4771b46c3dbe39681c8
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerWalkingAttacking_0
+      name: EnemyCharging_0
       rect:
         serializedVersion: 2
-        x: 4
+        x: 0
         y: 0
-        width: 7
-        height: 12
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6ace29964044846c3bd398357cdbd3b4
-      internalID: -1107569190
+      spriteID: b007dd331052a491a91df6f7c93d9c32
+      internalID: -120746080
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerWalkingAttacking_1
+      name: EnemyCharging_1
       rect:
         serializedVersion: 2
-        x: 19
+        x: 16
         y: 0
-        width: 9
-        height: 12
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9125746af005f48f4bc7a10742b7dfd1
-      internalID: 468256090
+      spriteID: 3c1474aa585e04e51add9e7010f3c83d
+      internalID: -1842640994
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerWalkingAttacking_2
+      name: EnemyCharging_2
       rect:
         serializedVersion: 2
-        x: 35
+        x: 32
         y: 0
-        width: 9
-        height: 12
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,8 +166,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a417c6d2e6fb4017a6156b4087aa5d6
-      internalID: 1543776383
+      spriteID: 31d298ff31a6c4b1cb89b06ba6d13691
+      internalID: 1670839010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyCharging_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97a49526de685498f9f6e93b148e050c
+      internalID: 2046511626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyCharging_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f4699c4328944de6aab94a5106661a1
+      internalID: 1824968594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyCharging_5
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffdd0434c72904e18aa66fe6e14a5336
+      internalID: -6464655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyCharging_6
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b2a963b3303b463fb39c8cfd24ce087
+      internalID: -905781441
       vertices: []
       indices: 
       edges: []
@@ -183,9 +267,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PlayerWalkingAttacking_0: -1107569190
-      PlayerWalkingAttacking_1: 468256090
-      PlayerWalkingAttacking_2: 1543776383
+      EnemyCharging_0: -120746080
+      EnemyCharging_1: -1842640994
+      EnemyCharging_2: 1670839010
+      EnemyCharging_3: 2046511626
+      EnemyCharging_4: 1824968594
+      EnemyCharging_5: -6464655
+      EnemyCharging_6: -905781441
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

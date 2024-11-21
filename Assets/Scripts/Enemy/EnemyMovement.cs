@@ -116,9 +116,11 @@ public class EnemyMovement : MonoBehaviour
     {
         isDashing = true;
 
+        gameObject.GetComponent<Animator>().SetTrigger("attack");
+
         // Stop for a moment
         rb.velocity = Vector2.zero;
-        yield return new WaitForSeconds(0.5f); // Pause before dashing
+        yield return new WaitForSeconds(2f); // Pause before dashing
 
         // Perform the dash
         Vector2 dashDirection = (player.position - transform.position).normalized;
