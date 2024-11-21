@@ -8,13 +8,10 @@ public class PickaxeBreakBlock : MonoBehaviour
     [SerializeField] private GameObject highlightObject;
     [SerializeField] private GameObject player;
     [SerializeField] private float destroyDistance;
-    [SerializeField] private int defaultDurability = 3;
-    [SerializeField] private int goldDurability = 5;
     [SerializeField] private Animator animator;
 
     private Vector3Int tilePos;
     private Vector3 tileWorldPos;
-
     private PlayerMovement movement;
 
     private void Start()
@@ -24,46 +21,37 @@ public class PickaxeBreakBlock : MonoBehaviour
 
     void Update()
     {
-        // Determine tile position based on the last movement direction
         Vector3 directionOffset = Vector3.zero;
 
         switch (movement.lastDirection)
         {
-            case -1: // Left
-                directionOffset = new Vector3(-tilemap.cellSize.x, 0, 0);
-                break;
-            case 1: // Right
-                directionOffset = new Vector3(tilemap.cellSize.x, 0, 0);
-                break;
-            case 2: // Up
-                directionOffset = new Vector3(0, tilemap.cellSize.y, 0);
-                break;
-            case 3: // Down
-                directionOffset = new Vector3(0, -tilemap.cellSize.y, 0);
-                break;
+            case -1: directionOffset = new Vector3(-tilemap.cellSize.x, 0, 0); break;
+            case 1: directionOffset = new Vector3(tilemap.cellSize.x, 0, 0); break;
+            case 2: directionOffset = new Vector3(0, tilemap.cellSize.y, 0); break;
+            case 3: directionOffset = new Vector3(0, -tilemap.cellSize.y, 0); break;
         }
 
         tilePos = tilemap.WorldToCell(player.transform.position + directionOffset);
         tileWorldPos = tilemap.GetCellCenterWorld(tilePos);
 
-        // Highlight tile if valid
+        // Check if the tilemap contains a tile at this position
         if (tilemap.HasTile(tilePos) && IsTileNearPlayer(tileWorldPos))
         {
+            Debug.Log($"Tile at position {tilePos}: {tilemap.HasTile(tilePos)}");
             HighlightTile(tilePos);
         }
         else
         {
-            highlightObject.SetActive(false);
+            highlightObject.SetActive(false); // Ensure the highlight is disabled
         }
     }
 
     void HighlightTile(Vector3Int tilePos)
     {
+        if (!tilemap.HasTile(tilePos)) return; // Ensure there is a tile before highlighting
         highlightObject.SetActive(true);
-        Vector3 centeredTilePos = tilemap.CellToWorld(tilePos) + new Vector3(tilemap.cellSize.x / 2, tilemap.cellSize.y / 2, 0);
-        highlightObject.transform.position = centeredTilePos;
+        highlightObject.transform.position = tilemap.GetCellCenterWorld(tilePos);
     }
-
     bool IsTileNearPlayer(Vector3 tilePos)
     {
         return Vector3.Distance(player.transform.position, tileWorldPos) <= destroyDistance;
@@ -73,20 +61,8 @@ public class PickaxeBreakBlock : MonoBehaviour
     {
         if (IsTileNearPlayer(tilePos))
         {
-            if (tilemap.HasTile(tilePos))
-            {
-                HandleDurability(tilemap, tilePos, defaultDurability);
-            }
-            else if (goldTilemap.HasTile(tilePos))
-            {
-                HandleDurability(goldTilemap, tilePos, goldDurability);
-            }
+            BlocksDurabilityManager.Instance.InitializeTileDurability(tilePos, tilemap);
+            BlocksDurabilityManager.Instance.ReduceDurability(tilePos);
         }
-    }
-
-    void HandleDurability(Tilemap targetTilemap, Vector3Int tilePos, int startingDurability)
-    {
-        int currentDurability = BlocksDurabilityManager.Instance.GetOrInitializeDurability(tilePos, startingDurability);
-        BlocksDurabilityManager.Instance.ReduceDurability(tilePos, targetTilemap);
     }
 }

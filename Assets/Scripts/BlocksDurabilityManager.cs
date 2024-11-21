@@ -6,27 +6,27 @@ public class BlocksDurabilityManager : MonoBehaviour
 {
     public static BlocksDurabilityManager Instance { get; private set; }
 
-    // Define tile appearances for different durability levels
-    [SerializeField] private Tile goldDamaged;
-    [SerializeField] private Tile goldDamaged2;
-    [SerializeField] private Tile goldDamaged3;
-    [SerializeField] private Tile goldDamagedFull;
-    [SerializeField] private Tile stoneFull;
-    [SerializeField] private Tile stoneDamaged;
-    [SerializeField] private Tile stoneAlmostBroken;
+    [SerializeField] private Tile goldDamaged, goldDamaged2, goldDamaged3, goldDamagedFull;
+    [SerializeField] private Tile stoneFull, stoneDamaged, stoneAlmostBroken;
 
     private GameObject player;
 
     private Dictionary<Vector3Int, int> tileDurabilities = new Dictionary<Vector3Int, int>();
 
+    // Default durability values by tilemap or layer
+    private Dictionary<int, int> layerDurabilities = new Dictionary<int, int>();
+
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
-        // Ensure there is only one instance
         if (Instance == null)
         {
             Instance = this;
+
+            // Set default durability values for each layer
+            layerDurabilities.Add(7, 3); // Stone layer
+            layerDurabilities.Add(8, 5); // Gold layer
         }
         else
         {
@@ -34,31 +34,40 @@ public class BlocksDurabilityManager : MonoBehaviour
         }
     }
 
-    public int GetOrInitializeDurability(Vector3Int tilePos, int startingDurability)
+    public int GetDurabilityForLayer(int layer)
     {
-        if (!tileDurabilities.ContainsKey(tilePos))
-        {
-            tileDurabilities[tilePos] = startingDurability;
-        }
-        return tileDurabilities[tilePos];
+        return layerDurabilities.ContainsKey(layer) ? layerDurabilities[layer] : 1; // Default durability
     }
 
-    public void ReduceDurability(Vector3Int tilePos, Tilemap tilemap)
+    public void InitializeTileDurability(Vector3Int tilePos, Tilemap tilemap)
     {
-        if (tileDurabilities.ContainsKey(tilePos))
+        if (!tilemap.HasTile(tilePos)) return; // Only initialize for valid tiles
+
+        if (!tileDurabilities.ContainsKey(tilePos))
         {
-            tileDurabilities[tilePos]--;
+            int layer = tilemap.gameObject.layer;
+            int startingDurability = GetDurabilityForLayer(layer);
+            tileDurabilities[tilePos] = startingDurability;
+        }
+    }
 
-            // Update tile appearance based on new durability level
-            UpdateTileAppearance(tilePos, tileDurabilities[tilePos], tilemap);
+    public void ReduceDurability(Vector3Int tilePos)
+    {
+        if (!tileDurabilities.ContainsKey(tilePos)) return;
 
-            // If the tile is broken, remove it from the dictionary and the tilemap
-            if (tileDurabilities[tilePos] <= 0)
+        tileDurabilities[tilePos]--;
+
+        UpdateTileAppearance(tilePos, tileDurabilities[tilePos]);
+
+        if (tileDurabilities[tilePos] <= 0)
+        {
+            Tilemap tilemap = FindTilemapForTile(tilePos);
+            if (tilemap != null)
             {
-                tilemap.SetTile(tilePos, null);  // Remove the tile from the tilemap
-                tileDurabilities.Remove(tilePos); // Remove tile if broken
+                tilemap.SetTile(tilePos, null);
+                tileDurabilities.Remove(tilePos);
 
-                if(tilemap.gameObject.layer == 8)
+                if (tilemap.gameObject.layer == 8) // Gold layer
                 {
                     player.GetComponent<Player>().AddExperiencePoints(5);
                 }
@@ -71,53 +80,41 @@ public class BlocksDurabilityManager : MonoBehaviour
         return !tileDurabilities.ContainsKey(tilePos);
     }
 
-    private void UpdateTileAppearance(Vector3Int tilePos, int currentDurability, Tilemap tilemap)
+    private void UpdateTileAppearance(Vector3Int tilePos, int currentDurability)
     {
+        Tilemap tilemap = FindTilemapForTile(tilePos);
+        if (tilemap == null) return;
+
         Tile newTile = null;
 
-        if(tilemap.gameObject.layer == 7) 
+        int layer = tilemap.gameObject.layer;
+        if (layer == 7) // Stone layer
         {
-            // Choose the tile appearance based on durability
-            if (currentDurability >= 3)
-            {
-                newTile = stoneFull;  // Full durability
-            }
-            else if (currentDurability == 2)
-            {
-                newTile = stoneDamaged;  // Medium durability
-            }
-            else if (currentDurability == 1)
-            {
-                newTile = stoneAlmostBroken;  // Almost broken
-            }
+            if (currentDurability >= 3) newTile = stoneFull;
+            else if (currentDurability == 2) newTile = stoneDamaged;
+            else if (currentDurability == 1) newTile = stoneAlmostBroken;
         }
-        else if (tilemap.gameObject.layer == 8)
+        else if (layer == 8) // Gold layer
         {
-            // Choose the tile appearance based on durability
-            if (currentDurability == 4)
-            {
-                newTile = goldDamaged;  // Full durability
-            }
-            else if (currentDurability == 3)
-            {
-                newTile = goldDamaged2;  // Medium durability
-            }
-            else if (currentDurability == 2)
-            {
-                newTile = goldDamaged3;  // Medium durability
-            }
-            else if (currentDurability == 1)
-            {
-                newTile = goldDamagedFull;  // Almost broken
-            }
+            if (currentDurability == 4) newTile = goldDamaged;
+            else if (currentDurability == 3) newTile = goldDamaged2;
+            else if (currentDurability == 2) newTile = goldDamaged3;
+            else if (currentDurability == 1) newTile = goldDamagedFull;
         }
 
-
-
-        // Update the tile on the tilemap
         if (newTile != null)
         {
             tilemap.SetTile(tilePos, newTile);
         }
+    }
+
+    private Tilemap FindTilemapForTile(Vector3Int tilePos)
+    {
+        Tilemap[] tilemaps = FindObjectsOfType<Tilemap>();
+        foreach (Tilemap tilemap in tilemaps)
+        {
+            if (tilemap.HasTile(tilePos)) return tilemap;
+        }
+        return null;
     }
 }

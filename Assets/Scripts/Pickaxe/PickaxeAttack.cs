@@ -10,26 +10,31 @@ public class PickaxeAttack : MonoBehaviour
     public int attackDamage;
     public int vitalDamageMultiplier; 
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("Vital"))
-            {
-                Transform enemyTransform = other.transform.parent;
-                if (enemyTransform != null && enemyTransform.CompareTag("Enemy"))
-                {
-                    enemyTransform.GetComponent<Enemy>().TakeDamage(attackDamage * vitalDamageMultiplier);
-                }
-            }
+    private bool isAttacking;
 
-            if (other.CompareTag("Enemy"))
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        // Only check for collisions with the enemy or vital parts
+        if (other.CompareTag("Enemy") && isAttacking)
+        {
+            // Apply regular damage
+            other.GetComponent<Enemy>().TakeDamage(attackDamage);
+            isAttacking = false;
+        }
+        else if (other.CompareTag("Vital") && isAttacking)
+        {
+            // Apply vital damage
+            Transform enemyTransform = other.transform.parent;
+            if (enemyTransform != null && enemyTransform.CompareTag("Enemy"))
             {
-                other.GetComponent<Enemy>().TakeDamage(attackDamage);
+                enemyTransform.GetComponent<Enemy>().TakeDamage(attackDamage * vitalDamageMultiplier);
+                isAttacking = false;
             }
+        }
     }
 
-    /*
-    void OnDrawGizmos() {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+    public void Attack() 
+    {
+        isAttacking = true;
     }
-    */
 }

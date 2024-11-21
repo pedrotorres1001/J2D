@@ -28,5 +28,6 @@ public class PickaxeController : MonoBehaviour
         animator.SetTrigger("Swing");
 
         GetComponent<PickaxeBreakBlock>().BreakBlock();
+        GetComponent<PickaxeAttack>().Attack();
     }
 }
