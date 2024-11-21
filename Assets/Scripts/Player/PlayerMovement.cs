@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         isOnStairs = false;
+        lastDirection = -1;
+        animator.SetFloat("LastDirection", lastDirection);
     }
 
     void Update()
