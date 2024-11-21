@@ -21,6 +21,24 @@ public class UIManager : MonoBehaviour
     {
         healthBar.value = player.GetComponent<Player>().health;
         experienceBar.value = player.GetComponent<Player>().experience;
-
+    
     }
+
+    // public void UpgradePickaxe()
+    // {
+    //     Player player = player.GetComponent<Player>();
+    //     PickaxeAttack pickaxe = player.GetComponent<PickaxeAttack>();
+
+    //     if (player.experience >= 100)
+    //     {
+    //         player.experience -= 100;
+    //         pickaxe.attackDamage += 10;
+    //         UpdateExperienceBar();
+    //     }
+    // }
+
+    // public void UpdateExperienceBar()
+    // {
+    //     experienceBar.value = player.GetComponent<Player>().experience;
+    // }
 }
