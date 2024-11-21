@@ -17,7 +17,7 @@ public class GrapplingHook : MonoBehaviour
     [SerializeField] private GameObject pickaxeGrapple;      
 
     private Vector3 grapplePoint;                       
-    private bool isGrappling = false;                     
+    public bool isGrappling = false;                     
     private bool isGrappleMoving = false;
     private bool stopGrappling = false;
     private Vector3 ropeTargetPosition;              

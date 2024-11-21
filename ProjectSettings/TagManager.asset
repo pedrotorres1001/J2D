@@ -8,6 +8,7 @@ TagManager:
   - Vital
   - Stairs
   - Lava
+  - Ground
   layers:
   - Default
   - TransparentFX

@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
 
     [SerializeField] private float gravity;
+    [SerializeField] private GameObject player;
 
     private Animator animator;
     private Rigidbody2D rb;
@@ -23,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
 
     public float direction;
     public float altitude;
+
+    private bool canWallJump = false;
+    private bool isGrappling = false;
 
     void Start()
     {
@@ -35,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        isGrappling = player.GetComponent<GrapplingHook>();
         direction = Input.GetAxisRaw("Horizontal");
         altitude = Input.GetAxisRaw("Vertical");
 
@@ -64,9 +69,15 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsWalking", false);
         }
 
-        if ((Input.GetButton("Jump")|| Input.GetKey(KeyCode.W)) && isGrounded)
+        if ((Input.GetButton("Jump") || Input.GetKey(KeyCode.W)) && isGrounded)
         {
             Jump();
+        }
+
+        // Handle wall jump
+        if (Input.GetButtonDown("Jump") && canWallJump && !isGrounded && !isOnStairs)
+        {
+            WallJump();
         }
 
         if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isOnStairs)
@@ -104,11 +115,23 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = false; // Ensures that jump only happens once per ground contact
     }
 
+    private void WallJump()
+    {
+        // Apply a force to simulate a wall jump
+        Vector2 wallJumpDirection = new Vector2(-Mathf.Sign(transform.localScale.x) * 7f, 9f); // Apply force in the opposite direction of the wall
+        rb.velocity = new Vector2(wallJumpDirection.x, wallJumpDirection.y);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Stairs")) 
         {
             isOnStairs = true;
+        }
+
+        if (other.CompareTag("Ground") && !isGrounded && !isOnStairs)
+        {
+            canWallJump = true;
         }
     }
 
@@ -117,6 +140,11 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Stairs")) 
         {
             isOnStairs = false;
+        }
+
+        if (other.CompareTag("Ground"))
+        {
+            canWallJump = false;
         }
     }
 }

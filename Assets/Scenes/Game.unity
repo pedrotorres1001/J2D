@@ -14393,7 +14393,7 @@ Transform:
   m_GameObject: {fileID: 113433808}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 46.24, y: -9.110001, z: -10}
+  m_LocalPosition: {x: 19.8, y: -15.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23943,7 +23943,7 @@ GameObject:
   - component: {fileID: 858914673}
   m_Layer: 6
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38505,6 +38505,7 @@ GameObject:
   - component: {fileID: 1254265122}
   - component: {fileID: 1254265121}
   - component: {fileID: 1254265126}
+  - component: {fileID: 1254265127}
   - component: {fileID: 1254265124}
   - component: {fileID: 1254265125}
   m_Layer: 0
@@ -38660,6 +38661,20 @@ MonoBehaviour:
   grapplingHook: {fileID: 1908680429}
   defaultDurability: 3
   goldDurability: 5
+--- !u!114 &1254265127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254265120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eddc8cf6a1e024e2190f2bd95bbb31e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 1
+  vitalDamageMultiplier: 2
 --- !u!1 &1287625151
 GameObject:
   m_ObjectHideFlags: 0
@@ -38725,7 +38740,7 @@ Transform:
   m_GameObject: {fileID: 1287625151}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 46.24, y: -9.110001, z: -10}
+  m_LocalPosition: {x: 19.8, y: -15.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -39757,7 +39772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.24, g: 0.24, b: 0.24, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -39980,7 +39995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.24313726, g: 0.24313726, b: 0.24313726, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -43771,6 +43786,7 @@ MonoBehaviour:
   attachedCooldown: 1
   pickaxe: {fileID: 1795110423}
   pickaxeGrapple: {fileID: 1254265120}
+  isGrappling: 0
 --- !u!114 &1908680430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43792,6 +43808,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 448
   gravity: 5
+  player: {fileID: 1908680426}
   lastDirection: 1
   direction: 0
   altitude: 0
@@ -43900,7 +43917,7 @@ Transform:
   m_GameObject: {fileID: 1908680426}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 46.24, y: -9.51, z: 0}
+  m_LocalPosition: {x: 19.8, y: -15.9, z: 0}
   m_LocalScale: {x: 1.14, y: 1.14, z: 0.9499999}
   m_ConstrainProportionsScale: 1
   m_Children:
