@@ -10,26 +10,20 @@ public class PickaxeAttack : MonoBehaviour
     public int attackDamage;
     public int vitalDamageMultiplier; 
 
-    public void Attack()
-    {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
-
-        foreach (Collider2D collider in hitEnemies)
-        {
-            if (collider.CompareTag("Vital"))
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.CompareTag("Vital"))
             {
-                Transform enemyTransform = collider.transform.parent;
+                Transform enemyTransform = other.transform.parent;
                 if (enemyTransform != null && enemyTransform.CompareTag("Enemy"))
                 {
                     enemyTransform.GetComponent<Enemy>().TakeDamage(attackDamage * vitalDamageMultiplier);
                 }
             }
 
-            if (collider.CompareTag("Enemy"))
+            if (other.CompareTag("Enemy"))
             {
-                collider.GetComponent<Enemy>().TakeDamage(attackDamage);
+                other.GetComponent<Enemy>().TakeDamage(attackDamage);
             }
-        }
     }
 
     /*
