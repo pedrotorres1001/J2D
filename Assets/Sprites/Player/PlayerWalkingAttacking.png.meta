@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 10fdad272a53345aeb7ba14b9f9e15c1
+guid: 2b0d87f6cb3af4a79b8e1fe25dcd6005
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,70 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_0
+      name: PlayerWalkingAttacking_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 32
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ace29964044846c3bd398357cdbd3b4
+      internalID: -1107569190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerWalkingAttacking_1
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 32
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9125746af005f48f4bc7a10742b7dfd1
+      internalID: 468256090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerWalkingAttacking_2
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 32
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a417c6d2e6fb4017a6156b4087aa5d6
+      internalID: 1543776383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerWalkingAttacking_3
       rect:
         serializedVersion: 2
         x: 4
@@ -118,41 +181,62 @@ TextureImporter:
         width: 7
         height: 12
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 153d08625d7084e56992982857441c1b
-      internalID: -828897453
+      spriteID: f41822d56a1e54e13810bb76744c0bb2
+      internalID: 1334396989
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_1
+      name: PlayerWalkingAttacking_4
       rect:
         serializedVersion: 2
-        x: 16
+        x: 19
         y: 16
-        width: 16
-        height: 16
-      alignment: 9
-      pivot: {x: 0.341681, y: 0.34455907}
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 656c51ec21c4b4f9e85145bd76110ddc
-      internalID: -1877628595
+      spriteID: 0dcbe4b2ad5d54c6b929699e591067c1
+      internalID: 1525411984
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_2
+      name: PlayerWalkingAttacking_5
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 16
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d74593c14832400787a37213f28d569
+      internalID: -1450802935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerWalkingAttacking_6
       rect:
         serializedVersion: 2
         x: 4
@@ -160,56 +244,56 @@ TextureImporter:
         width: 7
         height: 12
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3b674785cf83542f8899ca1f9476453c
-      internalID: -1811484686
+      spriteID: 033a1d10363fd4ebeafbc39484c954a8
+      internalID: -1795832627
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_3
+      name: PlayerWalkingAttacking_7
       rect:
         serializedVersion: 2
-        x: 20
+        x: 19
         y: 0
-        width: 7
+        width: 9
         height: 12
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4f554e49464744aeb7f4fe0db0233a0
-      internalID: 710820237
+      spriteID: 4dead0964e96d4fa7a9ffb5d73e89978
+      internalID: 1687193068
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_4
+      name: PlayerWalkingAttacking_8
       rect:
         serializedVersion: 2
-        x: 36
+        x: 35
         y: 0
-        width: 7
+        width: 9
         height: 12
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e515f7f81067b41ab9610234d2cd63de
-      internalID: -1492537811
+      spriteID: c01eecb7cc86543bca9561fb3f9eae0d
+      internalID: -824647553
       vertices: []
       indices: 
       edges: []
@@ -225,11 +309,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Player_0: -828897453
-      Player_1: -1877628595
-      Player_2: -1811484686
-      Player_3: 710820237
-      Player_4: -1492537811
+      PlayerWalkingAttacking_0: -1107569190
+      PlayerWalkingAttacking_1: 468256090
+      PlayerWalkingAttacking_2: 1543776383
+      PlayerWalkingAttacking_3: 1334396989
+      PlayerWalkingAttacking_4: 1525411984
+      PlayerWalkingAttacking_5: -1450802935
+      PlayerWalkingAttacking_6: -1795832627
+      PlayerWalkingAttacking_7: 1687193068
+      PlayerWalkingAttacking_8: -824647553
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

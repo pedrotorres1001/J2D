@@ -40,8 +40,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (direction != 0)
         {
-            animator.SetFloat("MoveX", direction);
+            animator.SetFloat("Direction", direction);
+            animator.SetFloat("LastDirection", lastDirection);
             lastDirection = direction;
+            animator.SetBool("IsWalking", true);
         }
 
         if (Input.GetKeyDown(KeyCode.W)) 
@@ -55,7 +57,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (direction == 0)
         {
-            animator.SetFloat("MoveX", lastDirection);
+            animator.SetFloat("Direction", direction);
+            animator.SetFloat("LastDirection", lastDirection);
+            animator.SetBool("IsWalking", false);
         }
 
         if ((Input.GetButton("Jump")|| Input.GetKey(KeyCode.W)) && isGrounded)
