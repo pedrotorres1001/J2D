@@ -6,19 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-<<<<<<< Updated upstream
-    path: Assets/Scenes/TestScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
-    path: Assets/Scenes/Village.unity
-    guid: 6edadb3752d4e4f7c81b3c7ab187aa5f
-  - enabled: 1
-    path: Assets/Scenes/Game.unity
-=======
     path: Assets/Scenes/MainMenu.unity
     guid: f9950dcccf007443c9ac2fa3fc3ef004
   - enabled: 1
-    path: Assets/Scenes/LevelDesign.unity
->>>>>>> Stashed changes
+    path: Assets/Scenes/Game.unity
     guid: b22b61d9c381e42319732169b5bb9e3e
   m_configObjects: {}
