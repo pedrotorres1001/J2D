@@ -20,7 +20,7 @@ public class BossMovement : MonoBehaviour
     private bool isDashing = false;
     private bool hasDashed = false;
 
-    private float moveDirection = 1;
+    private float moveDirection;
 
     [SerializeField] private GameObject leftBoundary;
     [SerializeField] private GameObject rightBoundary;
@@ -122,9 +122,7 @@ public class BossMovement : MonoBehaviour
         dashDirection.y = 0;
         rb.velocity = dashDirection * dashSpeed;
 
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        float timeToReachPlayer = distanceToPlayer / dashSpeed;
-        yield return new WaitForSeconds(timeToReachPlayer);
+        yield return new WaitForSeconds(0.5f); // Adjust the duration as needed
 
         rb.velocity = Vector2.zero;
         isDashing = false;
