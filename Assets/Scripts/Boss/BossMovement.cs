@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class EnemyMovement : MonoBehaviour
+public class BossMovement : MonoBehaviour
 {
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] public int attackDamage;
@@ -17,7 +17,6 @@ public class EnemyMovement : MonoBehaviour
 
     // Dash properties
     [SerializeField] private float dashSpeed = 10f;
-    [SerializeField] private float dashDuration = 0.2f;
     private bool isDashing = false;
     private bool hasDashed = false;
 
@@ -39,7 +38,6 @@ public class EnemyMovement : MonoBehaviour
         }
 
         rb.velocity = new Vector2(-speed, rb.velocity.y);
-
     }
 
     void Update()
@@ -124,11 +122,25 @@ public class EnemyMovement : MonoBehaviour
         dashDirection.y = 0;
         rb.velocity = dashDirection * dashSpeed;
 
-        yield return new WaitForSeconds(dashDuration);
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        float timeToReachPlayer = distanceToPlayer / dashSpeed;
+        yield return new WaitForSeconds(timeToReachPlayer);
 
         rb.velocity = Vector2.zero;
         isDashing = false;
         hasDashed = true;
+
+        ProjectPlayer(dashDirection);
+    }
+
+    private void ProjectPlayer(Vector2 dashDirection)
+    {
+        Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+        if (playerRb != null)
+        {
+            Vector2 projectionForce = dashDirection * 5f; // Adjust the force as needed
+            playerRb.AddForce(projectionForce, ForceMode2D.Impulse);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
