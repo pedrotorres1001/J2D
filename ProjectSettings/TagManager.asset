@@ -9,7 +9,6 @@ TagManager:
   - Stairs
   - Lava
   - Ground
-  - Audio
   layers:
   - Default
   - TransparentFX
