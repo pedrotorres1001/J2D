@@ -207,7 +207,6 @@ GameObject:
   m_Component:
   - component: {fileID: 85222714}
   - component: {fileID: 85222713}
-  - component: {fileID: 85222715}
   m_Layer: 0
   m_Name: CursorManager
   m_TagString: Untagged
@@ -244,21 +243,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &85222715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85222712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1bf69cf7c47d46d19ad3b8be0107397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blockHighlight: {fileID: 1954737974}
-  movementThreshold: 5
-  hideCursorDelay: 1
 --- !u!1 &87047357
 GameObject:
   m_ObjectHideFlags: 0
@@ -22360,7 +22344,7 @@ Transform:
   m_GameObject: {fileID: 541511673}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.06, y: 0.378, z: 0}
+  m_LocalPosition: {x: -0.01, y: 0.62, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22382,7 +22366,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.52
-  m_Color: {r: 1, g: 0.8875356, b: 0.7216981, a: 1}
+  m_Color: {r: 0.8113208, g: 0.5651639, b: 0.37121755, a: 1}
   m_Intensity: 2.2
   m_LightVolumeIntensity: 0
   m_LightVolumeIntensityEnabled: 0

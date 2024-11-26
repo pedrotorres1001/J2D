@@ -38,7 +38,7 @@ public class MouseVisibilityController : MonoBehaviour
             lastMousePosition = Input.mousePosition; // Update the last mouse position
         }
         else
-        {
+        {   
             // Increment the inactivity timer
             inactivityTimer += Time.deltaTime;
 
