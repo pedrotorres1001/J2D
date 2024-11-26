@@ -22633,7 +22633,7 @@ GameObject:
   - component: {fileID: 626469304}
   m_Layer: 0
   m_Name: Audio Manager
-  m_TagString: Untagged
+  m_TagString: Audio
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33160,6 +33160,10 @@ CompositeCollider2D:
       - {x: 21.999971, y: -30}
       - {x: 19, y: -30.000029}
       - {x: 19.000029, y: -31}
+    - - {x: 58.99997, y: -32}
+      - {x: 58.99997, y: -31}
+      - {x: 58, y: -31.000029}
+      - {x: 58.000034, y: -32}
     - - {x: 69.99997, y: -50}
       - {x: 69.99997, y: -41}
       - {x: 61, y: -40.999973}
@@ -33218,10 +33222,6 @@ CompositeCollider2D:
       - {x: 60.000034, y: -49}
       - {x: 61, y: -49.00003}
       - {x: 61.000034, y: -50}
-    - - {x: 58.99997, y: -32}
-      - {x: 58.99997, y: -31}
-      - {x: 58, y: -31.000029}
-      - {x: 58.000034, y: -32}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
@@ -41664,7 +41664,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0

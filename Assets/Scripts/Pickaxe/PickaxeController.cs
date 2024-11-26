@@ -7,10 +7,11 @@ public class PickaxeController : MonoBehaviour
 
     [SerializeField] private Animator animator;
     public bool isPickaxeOnHand;
-
+    AudioManager audioManager;
 
     private void Start() {
         isPickaxeOnHand = true;
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     void Update()
@@ -27,6 +28,7 @@ public class PickaxeController : MonoBehaviour
     private void SwingPickaxe() {
         animator.SetTrigger("Swing");
 
+        audioManager.PlaySFX(audioManager.swing);
         GetComponent<PickaxeBreakBlock>().BreakBlock();
         GetComponent<PickaxeAttack>().Attack();
     }

@@ -6,12 +6,18 @@ public class Enemy : MonoBehaviour
 {
     public int health = 100;
     [SerializeField] private int experiencePoints;
+    AudioManager audioManager;
 
+    public void Start()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     public void TakeDamage(int damage)
     {
         health -= damage;
 
+        audioManager.PlaySFX(audioManager.enemyDeath);
         StartCoroutine(ColorChangeCoroutine());
 
         if (health <= 0)
