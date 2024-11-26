@@ -88,7 +88,7 @@ public class GrapplingHook : MonoBehaviour
             pickaxe.SetActive(true);
         }
 
-        launchCooldown = Mathf.Max(0, launchCooldown - Time.deltaTime);;
+        launchCooldown = Mathf.Max(0, launchCooldown - Time.deltaTime);
     }
 
     private void StartGrappling()

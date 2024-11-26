@@ -5,12 +5,17 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public int health = 100;
+    public int maxHealth = 100;
+    public GameObject health_bar;
     [SerializeField] private int experiencePoints;
     AudioManager audioManager;
 
     public void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
+        health_bar.transform.position = new Vector3(0, .5f);
+        health_bar = Instantiate(health_bar, transform);
     }
 
     public void TakeDamage(int damage)
@@ -20,9 +25,12 @@ public class Enemy : MonoBehaviour
         audioManager.PlaySFX(audioManager.enemyDeath);
         StartCoroutine(ColorChangeCoroutine());
 
+        health_bar.GetComponent<HealthBar>().Update_health(health, maxHealth);
+
         if (health <= 0)
         {
             Die();
+            Destroy(health_bar);
         }
     }
 

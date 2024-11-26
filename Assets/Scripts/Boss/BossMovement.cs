@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class BossMovement : MonoBehaviour
 {
@@ -24,9 +25,15 @@ public class BossMovement : MonoBehaviour
 
     [SerializeField] private GameObject leftBoundary;
     [SerializeField] private GameObject rightBoundary;
+    [SerializeField] private float dashCooldown;
+    private float dashCooldownCurrent;
+
+    private string state;
 
     void Start()
     {
+        dashCooldownCurrent = 0;
+        state = "idle";
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
@@ -45,27 +52,50 @@ public class BossMovement : MonoBehaviour
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         float yDifference = Mathf.Abs(transform.position.y - player.position.y);
 
+        switch (state)
+        {
+            case "idle":
+                if (distanceToPlayer <= 7 && yDifference <= 3f)
+                {
+                    float directionX = player.position.x - transform.position.x;
+                    FlipTowardsPlayer(directionX);
+
+                    if (distanceToPlayer <= 5 && !hasDashed)
+                    {
+                        state = "predash";
+                        StartCoroutine(PrepareAndDash());
+                    }
+                    else if (distanceToPlayer > 5 || hasDashed)
+                    {
+                        FollowPlayer();
+                    }
+                }
+                else
+                {
+                    hasDashed = false;
+                    MovementBoundaries();
+                }
+                break;
+            case "predash":
+                break;
+            case "dash":
+                break;
+            case "postdash":
+                if (dashCooldownCurrent <= 0)
+                    state = "idle";
+
+                dashCooldownCurrent -= Time.deltaTime;
+                Debug.Log(state + ", cooldown: " + dashCooldownCurrent);
+                break;
+            case "hit":
+                break;
+            default:
+                break;
+        }
+
         if (isDashing) return;
 
-        if (distanceToPlayer <= 7 && yDifference <= 0.2f)
-        {
-            float directionX = player.position.x - transform.position.x;
-            FlipTowardsPlayer(directionX);
-
-            if (distanceToPlayer <= 5 && !hasDashed)
-            {
-                StartCoroutine(PrepareAndDash());
-            }
-            else if (distanceToPlayer > 5 || hasDashed)
-            {
-                FollowPlayer();
-            }
-        }
-        else
-        {
-            hasDashed = false; 
-            MovementBoundaries();
-        }
+        
     }
 
     void FollowPlayer()
@@ -129,6 +159,8 @@ public class BossMovement : MonoBehaviour
         hasDashed = true;
 
         ProjectPlayer(dashDirection);
+        state = "postdash";
+        dashCooldownCurrent = dashCooldown;
     }
 
     private void ProjectPlayer(Vector2 dashDirection)
