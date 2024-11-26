@@ -113,12 +113,12 @@ TextureImporter:
       name: PlayerAttack_0
       rect:
         serializedVersion: 2
-        x: 3
+        x: 0
         y: 32
-        width: 9
-        height: 12
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,12 +134,12 @@ TextureImporter:
       name: PlayerAttack_1
       rect:
         serializedVersion: 2
-        x: 19
+        x: 16
         y: 32
-        width: 9
-        height: 12
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -155,12 +155,12 @@ TextureImporter:
       name: PlayerAttack_2
       rect:
         serializedVersion: 2
-        x: 3
+        x: 0
         y: 16
-        width: 9
-        height: 12
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -176,12 +176,12 @@ TextureImporter:
       name: PlayerAttack_3
       rect:
         serializedVersion: 2
-        x: 18
+        x: 16
         y: 16
-        width: 11
-        height: 12
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -197,12 +197,12 @@ TextureImporter:
       name: PlayerAttack_4
       rect:
         serializedVersion: 2
-        x: 3
+        x: 0
         y: 0
-        width: 9
-        height: 12
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -218,12 +218,12 @@ TextureImporter:
       name: PlayerAttack_5
       rect:
         serializedVersion: 2
-        x: 19
+        x: 16
         y: 0
-        width: 9
-        height: 12
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

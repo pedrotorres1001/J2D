@@ -113,10 +113,10 @@ TextureImporter:
       name: PlayerWalking_0
       rect:
         serializedVersion: 2
-        x: 4
+        x: 2
         y: 0
-        width: 7
-        height: 12
+        width: 12
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,10 +134,10 @@ TextureImporter:
       name: PlayerWalking_1
       rect:
         serializedVersion: 2
-        x: 20
+        x: 18
         y: 0
-        width: 7
-        height: 12
+        width: 12
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -155,10 +155,10 @@ TextureImporter:
       name: PlayerWalking_2
       rect:
         serializedVersion: 2
-        x: 36
+        x: 34
         y: 0
-        width: 7
-        height: 12
+        width: 12
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -176,10 +176,10 @@ TextureImporter:
       name: PlayerWalking_3
       rect:
         serializedVersion: 2
-        x: 52
+        x: 50
         y: 0
-        width: 7
-        height: 12
+        width: 12
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
