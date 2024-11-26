@@ -16,11 +16,9 @@ public class PickaxeBreakBlock : MonoBehaviour
     private Vector3 tileWorldPos;
 
     private PlayerMovement movement;
-    private AudioManager audioManager;
 
     private void Start()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         movement = player.GetComponent<PlayerMovement>();
     }
 
@@ -77,12 +75,10 @@ public class PickaxeBreakBlock : MonoBehaviour
         {
             if (tilemap.HasTile(tilePos))
             {
-                audioManager.PlaySFX(audioManager.hitRock);
                 HandleDurability(tilemap, tilePos, defaultDurability);
             }
             else if (goldTilemap.HasTile(tilePos))
             {
-                audioManager.PlaySFX(audioManager.hitRock);
                 HandleDurability(goldTilemap, tilePos, goldDurability);
             }
         }
@@ -91,6 +87,8 @@ public class PickaxeBreakBlock : MonoBehaviour
     void HandleDurability(Tilemap targetTilemap, Vector3Int tilePos, int startingDurability)
     {
         int currentDurability = BlocksDurabilityManager.Instance.GetOrInitializeDurability(tilePos, startingDurability);
+        
+        // Use the BlocksDurabilityManager to reduce durability and update the tile appearance
         BlocksDurabilityManager.Instance.ReduceDurability(tilePos, targetTilemap);
     }
 }
