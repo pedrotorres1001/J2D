@@ -17,7 +17,7 @@ public class GrapplingHook : MonoBehaviour
     [SerializeField] private GameObject pickaxeGrapple;      
 
     private Vector3 grapplePoint;                       
-    public bool isGrappling = false;                     
+    private bool isGrappling = false;                     
     private bool isGrappleMoving = false;
     private bool stopGrappling = false;
     private Vector3 ropeTargetPosition;              
@@ -25,11 +25,10 @@ public class GrapplingHook : MonoBehaviour
     private DistanceJoint2D joint;               
     private Rigidbody2D playerRb;  
     private PlayerMovement movement;
-    private AudioManager audioManager;
+
 
     void Start()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         launchCooldown = 0f;
         retractCooldown = 0f;
         attachedCooldown = 0f;
@@ -94,9 +93,7 @@ public class GrapplingHook : MonoBehaviour
 
     private void StartGrappling()
     {
-        launchCooldown = attachedCooldown;
-
-        audioManager.PlaySFX(audioManager.swing);
+        launchCooldown = attachedCooldown; 
         
         isGrappling = true; // Ativa o grappling
         isGrappleMoving = true;
@@ -168,10 +165,6 @@ public class GrapplingHook : MonoBehaviour
         }
 
         isGrappleMoving = false;
-
-        if (grappleHit)
-            audioManager.PlaySFX(audioManager.hitRock);
-
 
         // Se a corda atingiu um ponto válido
         if (grappleHit && !stopGrappling)
