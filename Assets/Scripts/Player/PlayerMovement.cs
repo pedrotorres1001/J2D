@@ -53,11 +53,11 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsWalking", true);
         }
 
-        if (Input.GetKeyDown(KeyCode.W)) 
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) 
         {
             lastDirection = 2;
         }
-        else if (Input.GetKeyDown(KeyCode.S)) 
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) 
         {
             lastDirection = 3;
         }
@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsWalking", false);
         }
 
-        if ((Input.GetButton("Jump") || Input.GetKey(KeyCode.W)) && isGrounded)
+        if ((Input.GetButton("Jump") || Input.GetKey(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)
         {
             Jump();
         }
