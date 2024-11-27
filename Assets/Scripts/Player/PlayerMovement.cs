@@ -145,8 +145,11 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, wallCheckDistance, groundLayer);
         RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, wallCheckDistance, groundLayer);
 
-        // Verifica se o jogador não está no chão, mas tocando uma parede
-        if (!isGrounded && (hitRight.collider != null || hitLeft.collider != null) && rb.velocity.y < 0)
+        // Verifica a distância do jogador em relação ao chão
+        float groundDistance = CheckGroundDistance();
+
+        // Verifica se o jogador está a mais de 2 unidades acima do chão e se ele não está tocando o chão
+        if (!isGrounded && (hitRight.collider != null || hitLeft.collider != null) && rb.velocity.y < 0 && groundDistance > 2f)
         {
             if (!isSliding)
             {
@@ -191,13 +194,8 @@ public class PlayerMovement : MonoBehaviour
             isSliding = false;
             animator.SetBool("IsSliding", false);
         }
-
-        // Desenhar os raycasts para depuração no editor
-        Debug.DrawRay(transform.position, Vector2.right * wallCheckDistance, Color.red); // Raycast à direita
-        Debug.DrawRay(transform.position, Vector2.left * wallCheckDistance, Color.blue);  // Raycast à esquerda
     }
 
-    
 
     private bool IsTouchingWall()
     {
