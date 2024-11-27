@@ -10,9 +10,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isGrounded;
 
     [SerializeField] private float groundCheckDistance;
+    [SerializeField] private float wallCheckDistance;
     [SerializeField] private LayerMask groundLayer;
 
     [SerializeField] private float gravity;
+    [SerializeField] private float wallSlideSpeed;
+    [SerializeField] private float wallSlideDuration = 2f; // Limit slide time
+
     [SerializeField] private GameObject player;
 
     private Animator animator;
@@ -25,8 +29,9 @@ public class PlayerMovement : MonoBehaviour
     public float direction;
     public float altitude;
 
-    private bool canWallJump = false;
     private bool isGrappling = false;
+    private bool isSliding = false;
+    private float slideTimer;
 
     void Start()
     {
@@ -39,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        isGrappling = player.GetComponent<GrapplingHook>();
+        isGrappling = player.GetComponent<GrapplingHook>().isGrappling;
         direction = Input.GetAxisRaw("Horizontal");
         altitude = Input.GetAxisRaw("Vertical");
 
@@ -50,7 +55,9 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("Direction", direction);
             animator.SetFloat("LastDirection", lastDirection);
             lastDirection = direction;
-            animator.SetBool("IsWalking", true);
+            
+            if(isGrounded)
+                animator.SetBool("IsWalking", true);
         }
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) 
@@ -74,21 +81,30 @@ public class PlayerMovement : MonoBehaviour
             Jump();
         }
 
-        // Handle wall jump
-        if (Input.GetButtonDown("Jump") && canWallJump && !isGrounded && !isOnStairs)
-        {
-            WallJump();
-        }
-
         if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isOnStairs)
         {
             upPressed = true;
         }
+
+        if(isGrappling) 
+        {
+            animator.SetBool("IsGrappling", true);
+        }
+        else if(!isGrappling)
+        {
+            animator.SetBool("IsGrappling", false);
+        }
+
+        HandleWallSlide();
+        
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+        if (!isSliding)
+        {
+            rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+        }
 
         if (upPressed)
         {
@@ -105,21 +121,89 @@ public class PlayerMovement : MonoBehaviour
     void CheckGround()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
-
         isGrounded = hit.collider != null;
     }
 
+    private float CheckGroundDistance()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, Mathf.Infinity, groundLayer);
+        if (hit.collider != null)
+        {
+            return hit.distance; // Returns the distance to the ground
+        }
+        return Mathf.Infinity; // If no ground is detected, assume infinite distance
+    }
     private void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         isGrounded = false; // Ensures that jump only happens once per ground contact
     }
 
-    private void WallJump()
+    private void HandleWallSlide()
     {
-        // Apply a force to simulate a wall jump
-        Vector2 wallJumpDirection = new Vector2(-Mathf.Sign(transform.localScale.x) * 7f, 9f); // Apply force in the opposite direction of the wall
-        rb.velocity = new Vector2(wallJumpDirection.x, wallJumpDirection.y);
+        // Raycasts para verificar se há uma parede à esquerda e à direita
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, wallCheckDistance, groundLayer);
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, wallCheckDistance, groundLayer);
+
+        // Verifica se o jogador não está no chão, mas tocando uma parede
+        if (!isGrounded && (hitRight.collider != null || hitLeft.collider != null) && rb.velocity.y < 0)
+        {
+            if (!isSliding)
+            {
+                isSliding = true;
+                slideTimer = wallSlideDuration;
+            }
+
+            slideTimer -= Time.deltaTime;
+
+            // Se pressionar para a direita e estiver tocando a parede direita, libera a parede
+            if (direction > 0)
+            {
+                // Libera a parede e começa a andar para a direita
+                isSliding = false;
+                rb.velocity = new Vector2(speed, rb.velocity.y); // Começa a se mover para a direita
+            }
+            // Se pressionar para a esquerda e estiver tocando a parede esquerda, libera a parede
+            else if (direction < 0)
+            {
+                // Libera a parede e começa a andar para a esquerda
+                isSliding = false;
+                rb.velocity = new Vector2(-speed, rb.velocity.y); // Começa a se mover para a esquerda
+            }
+
+            // Se ainda estiver tocando a parede, mas não pressionando nada, mantém a velocidade de deslize
+            if (hitRight.collider != null)
+            {
+                animator.SetFloat("LastDirection", 1); // Definir animação para a direita
+                rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -wallSlideSpeed)); // Deslizar para a direita
+            }
+            else if (hitLeft.collider != null)
+            {
+                animator.SetFloat("LastDirection", -1); // Definir animação para a esquerda
+                rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -wallSlideSpeed)); // Deslizar para a esquerda
+            }
+
+            animator.SetBool("IsSliding", true); // Ativar animação de deslizamento
+        }
+        else
+        {
+            // Se não há paredes ou o jogador está no chão, parar o deslize
+            isSliding = false;
+            animator.SetBool("IsSliding", false);
+        }
+
+        // Desenhar os raycasts para depuração no editor
+        Debug.DrawRay(transform.position, Vector2.right * wallCheckDistance, Color.red); // Raycast à direita
+        Debug.DrawRay(transform.position, Vector2.left * wallCheckDistance, Color.blue);  // Raycast à esquerda
+    }
+
+    
+
+    private bool IsTouchingWall()
+    {
+        Vector2 directionToCheck = Vector2.right * Mathf.Sign(direction);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToCheck, wallCheckDistance, groundLayer);
+        return hit.collider != null;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -128,11 +212,6 @@ public class PlayerMovement : MonoBehaviour
         {
             isOnStairs = true;
         }
-
-        if (other.CompareTag("Ground") && !isGrounded && !isOnStairs)
-        {
-            canWallJump = true;
-        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -140,11 +219,6 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Stairs")) 
         {
             isOnStairs = false;
-        }
-
-        if (other.CompareTag("Ground"))
-        {
-            canWallJump = false;
         }
     }
 }

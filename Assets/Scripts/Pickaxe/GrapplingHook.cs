@@ -17,7 +17,7 @@ public class GrapplingHook : MonoBehaviour
     [SerializeField] private GameObject pickaxeGrapple;      
 
     private Vector3 grapplePoint;                       
-    private bool isGrappling = false;                     
+    public bool isGrappling = false;                     
     private bool isGrappleMoving = false;
     private bool stopGrappling = false;
     private Vector3 ropeTargetPosition;              
@@ -58,7 +58,7 @@ public class GrapplingHook : MonoBehaviour
         if (isGrappling)
         {
             float angle = Mathf.Tan((transform.position.x - grapplePoint.x) / (transform.position.y - grapplePoint.y));
-            Debug.Log(angle);
+            //Debug.Log(angle);
 
             rope.SetPosition(0, transform.position);  // Mant�m o ponto inicial da corda na posi��o do jogador
             
@@ -124,12 +124,7 @@ public class GrapplingHook : MonoBehaviour
         pickaxeGrapple.transform.Rotate(0, 0, -45);
 
         // Realiza o Raycast na dire��o calculada e na dist�ncia de grappleLength
-        RaycastHit2D hit = Physics2D.Raycast(
-            origin: transform.position,
-            direction: direction,
-            distance: grappleLength,
-            layerMask: grappleLayer
-        );
+        RaycastHit2D hit = Physics2D.Raycast(origin: transform.position, direction: direction, distance: grappleLength, layerMask: grappleLayer);
 
         // Se encontrou um ponto v�lido, define o grapplePoint para onde o hook ir�
         if (hit.collider != null)
@@ -205,7 +200,6 @@ public class GrapplingHook : MonoBehaviour
             yield return new WaitForSeconds(0.1f); // Pequena espera para estabilizar
 
             StartCoroutine(RetractRope()); // Retraí a corda se não houver um ponto válido
-
         }
         else
         {

@@ -46,8 +46,8 @@ public class PickaxeBreakBlock : MonoBehaviour
         tilePos = tilemap.WorldToCell(player.transform.position + directionOffset);
         tileWorldPos = tilemap.GetCellCenterWorld(tilePos);
 
-        // Highlight tile if valid
-        if (tilemap.HasTile(tilePos) && IsTileNearPlayer(tileWorldPos))
+        // Highlight tile if valid in either tilemap
+        if ((tilemap.HasTile(tilePos) || goldTilemap.HasTile(tilePos)) && IsTileNearPlayer(tileWorldPos))
         {
             HighlightTile(tilePos);
         }
