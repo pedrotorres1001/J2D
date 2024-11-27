@@ -10,10 +10,7 @@ public class PlayerCollisions : MonoBehaviour
 
     private void Update()
     {
-        if(isColliding && Input.GetKeyDown(KeyCode.Q))
-        {
-            print("text");
-        }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
