@@ -97,7 +97,8 @@ public class DialogManager : MonoBehaviour
         dialogUI.SetActive(false);
         player.GetComponent<PlayerMovement>().enabled = true; // Enable player movement
         player.GetComponent<Animator>().enabled = true;
-        Debug.Log("Dialog ended.");
+        // when the dialog finishes, its supposed to activate the pickaxe
+        GetChildObject(player, "Pickaxe").SetActive(true);
     }
 
     void CancelDialog()
@@ -108,7 +109,19 @@ public class DialogManager : MonoBehaviour
             dialogUI.SetActive(false);
             player.GetComponent<PlayerMovement>().enabled = true; // Enable player movement 
             player.GetComponent<Animator>().enabled = true;
-            Debug.Log("Dialog canceled due to distance.");
         }
+    }
+
+    GameObject GetChildObject(GameObject parent, string childName)
+    {
+        Transform[] transforms = parent.GetComponentsInChildren<Transform>(true);
+        foreach (Transform t in transforms)
+        {
+            if (t.gameObject.name == childName)
+            {
+                return t.gameObject;
+            }
+        }
+        return null;
     }
 }
