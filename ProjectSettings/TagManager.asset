@@ -10,6 +10,8 @@ TagManager:
   - Lava
   - Ground
   - Audio
+  - Gold
+  - Destructable
   layers:
   - Default
   - TransparentFX

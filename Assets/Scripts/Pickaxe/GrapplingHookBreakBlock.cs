@@ -3,61 +3,53 @@ using UnityEngine.Tilemaps;
 
 public class GrapplingHookBreakBlock : MonoBehaviour
 {
-    [SerializeField] private Tilemap tilemap;
+    [SerializeField] private Tilemap destructableTilemap;
     [SerializeField] private Tilemap goldTilemap;
-    [SerializeField] private GrapplingHook grapplingHook;
-    public int defaultDurability = 3;
-    public int goldDurability = 5;
+    [SerializeField] private GameObject highlightObject;
+    [SerializeField] private float destroyDistance;
+    [SerializeField] private int defaultDurability = 3;
+    [SerializeField] private int goldDurability = 5;
 
-    [SerializeField] private float collisionRadius = 1f;  // Radius to detect collision
+    private Collider2D grapplingHookCollider;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void Awake()
     {
-        // Debug the collision event to ensure it is firing
-        Debug.Log("Grappling hook collided with: " + other.gameObject.name);
+        grapplingHookCollider = GetComponent<Collider2D>();
+    }
 
-        // Get the position of the collision
-        Vector3 hitPosition = other.ClosestPoint(transform.position);
-        Vector3Int tilePos = tilemap.WorldToCell(hitPosition);
-
-        // Perform a radius check for collision
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, collisionRadius);
-        foreach (var hitCollider in hitColliders)
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Verifica se a colisão foi com um tilemap destrutível
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Destructable"))
         {
-            if (hitCollider.CompareTag("Destructable") || hitCollider.CompareTag("Gold"))
+            Vector3 hitPosition = collision.ClosestPoint(transform.position); // Posição de impacto do grappling hook
+            Vector3Int tilePos = destructableTilemap.WorldToCell(hitPosition); // Posição do tile no tilemap
+
+            // Se o tile for encontrado, reduce a durabilidade e quebra o bloco
+            if (destructableTilemap.HasTile(tilePos))
             {
-                Vector3Int currentTilePos = tilemap.WorldToCell(hitCollider.transform.position);
-                // Handle tile breaking based on the map layer
-                if (tilemap.HasTile(currentTilePos))
-                {
-                    HandleDurability(tilemap, currentTilePos, defaultDurability);
-                }
-                else if (goldTilemap.HasTile(currentTilePos))
-                {
-                    HandleDurability(goldTilemap, currentTilePos, goldDurability);
-                }
+                HandleDurability(destructableTilemap, tilePos, defaultDurability);
+            }
+        }
+        // Verifica se a colisão foi com o tilemap de ouro
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Gold"))
+        {
+            Vector3 hitPosition = collision.ClosestPoint(transform.position); // Posição de impacto do grappling hook
+            Vector3Int tilePos = goldTilemap.WorldToCell(hitPosition); // Posição do tile no tilemap de ouro
+
+            // Se o tile de ouro for encontrado, reduz a durabilidade e quebra o bloco
+            if (goldTilemap.HasTile(tilePos))
+            {
+                HandleDurability(goldTilemap, tilePos, goldDurability);
             }
         }
     }
 
     void HandleDurability(Tilemap targetTilemap, Vector3Int tilePos, int startingDurability)
     {
-        // Get or initialize the durability of the tile
         int currentDurability = BlocksDurabilityManager.Instance.GetOrInitializeDurability(tilePos, startingDurability);
-        
-        // Reduce the durability of the tile using the BlocksDurabilityManager
-        BlocksDurabilityManager.Instance.ReduceDurability(tilePos, targetTilemap);
 
-        // Check if the tile is broken
-        if (BlocksDurabilityManager.Instance.IsTileBroken(tilePos))
-        {
-            grapplingHook.RemoveGrapple();
-            Debug.Log("Block broken by grappling hook at position: " + tilePos);
-        }
-        else
-        {
-            // Log remaining durability
-            Debug.Log("Block hit by grappling hook! Remaining durability: " + currentDurability);
-        }
+        // Use o BlocksDurabilityManager para reduzir a durabilidade e atualizar o tile
+        BlocksDurabilityManager.Instance.ReduceDurability(tilePos, targetTilemap);
     }
 }

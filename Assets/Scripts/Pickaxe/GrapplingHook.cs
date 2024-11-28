@@ -108,15 +108,8 @@ public class GrapplingHook : MonoBehaviour
         // Calcula a dire��o do hook em dire��o ao cursor
         Vector3 direction = (mousePosition - transform.position).normalized;
 
-        // Ajusta a direção do player com base na direção do clique
-        if (mousePosition.x > transform.position.x)
-        {
-            movement.lastDirection = 1;
-        }
-        else
-        {
-            movement.lastDirection = -1;
-        }
+
+        movement.lastDirection = 2;
 
         // Roda a picareta para a dire�ao que foi lan�ada
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -211,7 +204,6 @@ public class GrapplingHook : MonoBehaviour
     private IEnumerator RetractRope()
     {
         isGrappleMoving = true;
-        Debug.Log("Retracting rope");
 
 
         retractCooldown = 1f;

@@ -44,7 +44,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        isGrappling = player.GetComponent<GrapplingHook>().isGrappling;
+
+        if(player.GetComponent<GrapplingHook>() != null)
+        {
+            isGrappling = player.GetComponent<GrapplingHook>().isGrappling;
+        }
+        
         direction = Input.GetAxisRaw("Horizontal");
         altitude = Input.GetAxisRaw("Vertical");
 
