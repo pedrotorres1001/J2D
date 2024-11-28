@@ -1,71 +1,114 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections.Generic;
+
+[System.Serializable]
+public class DialogLine
+{
+    public string characterName;
+    public Sprite characterImage;
+    public string text;
+}
 
 public class DialogManager : MonoBehaviour
 {
-    public TextMeshProUGUI speakerNameText; // Reference to speaker name UI
-    public TextMeshProUGUI dialogContentText; // Reference to dialog text UI
-    public Image portraitImage; // Optional: character portrait
-    public GameObject dialogBox; // The dialog panel
-
-    private Queue<DialogLine> dialogLines; // Stores the dialog lines
+    public GameObject player;
+    public GameObject enemy;
+    public float dialogRange = 2.0f;
+    public GameObject dialogUI;
+    public TextMeshProUGUI dialogText;
+    public TextMeshProUGUI characterNameText;
+    public Image characterImage;
+    public DialogLine[] dialogLines;
+    private int currentLineIndex = 0;
     private bool isDialogActive = false;
-
-    void Start()
-    {
-        dialogLines = new Queue<DialogLine>();
-        dialogBox.SetActive(false);
-    }
-
-    public void StartDialog(DialogLine[] lines)
-    {
-        dialogLines.Clear();
-        foreach (var line in lines)
-        {
-            dialogLines.Enqueue(line);
-        }
-
-        dialogBox.SetActive(true);
-        isDialogActive = true;
-        DisplayNextLine();
-    }
-
-    public void DisplayNextLine()
-    {
-        if (dialogLines.Count == 0)
-        {
-            EndDialog();
-            return;
-        }
-
-        var line = dialogLines.Dequeue();
-        speakerNameText.text = line.speaker;
-        dialogContentText.text = line.content;
-
-        if (portraitImage != null && line.portrait != null)
-        {
-            portraitImage.sprite = line.portrait;
-            portraitImage.gameObject.SetActive(true);
-        }
-        else if (portraitImage != null)
-        {
-            portraitImage.gameObject.SetActive(false);
-        }
-    }
-
-    public void EndDialog()
-    {
-        dialogBox.SetActive(false);
-        isDialogActive = false;
-    }
 
     void Update()
     {
-        if (isDialogActive && Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            DisplayNextLine();
+            float distance = Vector3.Distance(player.transform.position, enemy.transform.position);
+            if (distance <= dialogRange)
+            {
+                if (!isDialogActive)
+                {
+                    StartDialog();
+                }
+            }
+            else
+            {
+                CancelDialog();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (isDialogActive)
+            {
+                ContinueDialog();
+            }
+        }
+    }
+
+    void StartDialog()
+    {
+        if (!isDialogActive)
+        {
+            isDialogActive = true;
+            dialogUI.SetActive(true);
+            currentLineIndex = 0;
+            ShowDialogLine();
+            player.GetComponent<PlayerMovement>().enabled = false;
+            player.GetComponent<Animator>().enabled = false;
+            Debug.Log("Dialog started between player and enemy.");
+        }
+    }
+
+    void ContinueDialog()
+    {
+        if (isDialogActive)
+        {
+            currentLineIndex++;
+            if (currentLineIndex < dialogLines.Length)
+            {
+                ShowDialogLine();
+            }
+            else
+            {
+                EndDialog();
+            }
+        }
+    }
+
+    void ShowDialogLine()
+    {
+        if (currentLineIndex < dialogLines.Length)
+        {
+            DialogLine line = dialogLines[currentLineIndex];
+            dialogText.text = line.text;
+            characterNameText.text = line.characterName;
+            characterImage.sprite = line.characterImage;
+        }
+    }
+
+    void EndDialog()
+    {
+        isDialogActive = false;
+        dialogUI.SetActive(false);
+        player.GetComponent<PlayerMovement>().enabled = true; // Enable player movement
+        player.GetComponent<Animator>().enabled = true;
+        Debug.Log("Dialog ended.");
+    }
+
+    void CancelDialog()
+    {
+        if (isDialogActive)
+        {
+            isDialogActive = false;
+            dialogUI.SetActive(false);
+            player.GetComponent<PlayerMovement>().enabled = true; // Enable player movement 
+            player.GetComponent<Animator>().enabled = true;
+            Debug.Log("Dialog canceled due to distance.");
         }
     }
 }
