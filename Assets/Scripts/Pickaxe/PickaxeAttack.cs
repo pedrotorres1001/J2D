@@ -14,22 +14,44 @@ public class PickaxeAttack : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        // Only check for collisions with the enemy or vital parts
-        if (other.CompareTag("Enemy") && isAttacking)
+        switch (isAttacking)
         {
-            // Apply regular damage
-            other.GetComponent<Enemy>().TakeDamage(attackDamage);
-            isAttacking = false;
-        }
-        else if (other.CompareTag("Vital") && isAttacking)
-        {
-            // Apply vital damage
-            Transform enemyTransform = other.transform.parent;
-            if (enemyTransform != null && enemyTransform.CompareTag("Enemy"))
-            {
-                enemyTransform.GetComponent<Enemy>().TakeDamage(attackDamage * vitalDamageMultiplier);
-                isAttacking = false;
-            }
+            case true:
+                // Only check for collisions with the enemy or vital parts
+                if (other.CompareTag("Enemy"))
+                {
+                    // Apply regular damage
+                    if (other.GetComponent<Enemy>() != null)
+                    {
+                        other.GetComponent<Enemy>().TakeDamage(attackDamage);
+                    }
+                    else if (other.transform.parent.GetComponent<BossMovement>() != null)
+                    {
+                        other.transform.parent.GetComponent<BossMovement>().TakeDamage(attackDamage);
+                    }
+                    isAttacking = false;
+                }
+                else if (other.CompareTag("Vital"))
+                {
+                    // Apply vital damage
+                    Transform enemyTransform = other.transform.parent;
+                    if (enemyTransform != null && enemyTransform.CompareTag("Enemy"))
+                    {
+                        if (enemyTransform.GetComponent<Enemy>() != null)
+                        {
+                            enemyTransform.GetComponent<Enemy>().TakeDamage(attackDamage * vitalDamageMultiplier);
+                        }
+                        else if (enemyTransform.transform.parent.GetComponent<BossMovement>() != null)
+                        {
+                            enemyTransform.transform.parent.GetComponent<BossMovement>().TakeDamage(attackDamage * vitalDamageMultiplier);
+                        }
+
+                        isAttacking = false;
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
 

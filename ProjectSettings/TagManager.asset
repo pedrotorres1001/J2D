@@ -12,6 +12,8 @@ TagManager:
   - Audio
   - Gold
   - Destructable
+  - Confiner
+  - Pickaxe
   layers:
   - Default
   - TransparentFX
@@ -22,7 +24,7 @@ TagManager:
   - Ground
   - Destructable
   - Gold
-  - 
+  - Boss
   - 
   - 
   - 

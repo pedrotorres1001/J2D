@@ -4,9 +4,20 @@ using System;
 
 public class BossMovement : MonoBehaviour
 {
+    public int health = 800;
+    [SerializeField] public int maxHealth = 800;
+    [SerializeField] private int damage = 10;
+
+    [SerializeField] private int experiencePoints;
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private GameObject attackTrigger;
+
     [SerializeField] public int attackDamage;
     [SerializeField] private float attackCooldown = 2f;
+    [SerializeField] private float prepareCooldown = 2f;
+    [SerializeField] private float stunCooldown = 1f;
+    [SerializeField] public float dashCooldown = 1f;
+    private float cooldown;
     private float lastAttackTime;
 
     // Movement properties
@@ -22,17 +33,21 @@ public class BossMovement : MonoBehaviour
     private bool hasDashed = false;
 
     private float moveDirection;
+    private Vector2 dashDirection;
 
     [SerializeField] private GameObject leftBoundary;
     [SerializeField] private GameObject rightBoundary;
-    [SerializeField] private float dashCooldown;
-    private float dashCooldownCurrent;
 
-    private string state;
+    [SerializeField] private string state;
+
+    AudioManager audioManager;
 
     void Start()
     {
-        dashCooldownCurrent = 0;
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
+        health = maxHealth;
+        cooldown = 0;
         state = "idle";
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -62,8 +77,9 @@ public class BossMovement : MonoBehaviour
 
                     if (distanceToPlayer <= 5 && !hasDashed)
                     {
+                        cooldown = prepareCooldown;
+                        gameObject.GetComponent<Animator>().SetTrigger("attack");
                         state = "predash";
-                        StartCoroutine(PrepareAndDash());
                     }
                     else if (distanceToPlayer > 5 || hasDashed)
                     {
@@ -77,15 +93,30 @@ public class BossMovement : MonoBehaviour
                 }
                 break;
             case "predash":
+
+
+                rb.velocity = Vector2.zero;
+                if (cooldown == 0)
+                {
+                    isDashing = false;
+                    attackTrigger.SetActive(true);
+                    state = "dash";
+                }
+
                 break;
             case "dash":
+                if (!isDashing)
+                {
+                    dashDirection = (player.position - transform.position).normalized;
+                    dashDirection.y = 0;
+                    rb.velocity = dashDirection * dashSpeed;
+                    isDashing = true;
+                }
+
                 break;
             case "postdash":
-                if (dashCooldownCurrent <= 0)
+                if (cooldown == 0)
                     state = "idle";
-
-                dashCooldownCurrent -= Time.deltaTime;
-                Debug.Log(state + ", cooldown: " + dashCooldownCurrent);
                 break;
             case "hit":
                 break;
@@ -93,9 +124,11 @@ public class BossMovement : MonoBehaviour
                 break;
         }
 
-        if (isDashing) return;
+        cooldown = Mathf.Max(0, cooldown - Time.deltaTime);
+        if (cooldown == 2)
+            Debug.Log($"Cooldown: {cooldown}");
 
-        
+
     }
 
     void FollowPlayer()
@@ -139,38 +172,39 @@ public class BossMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator PrepareAndDash()
-    {
-        isDashing = true;
-
-        gameObject.GetComponent<Animator>().SetTrigger("attack");
-
-        rb.velocity = Vector2.zero;
-        yield return new WaitForSeconds(2f);
-
-        Vector2 dashDirection = (player.position - transform.position).normalized;
-        dashDirection.y = 0;
-        rb.velocity = dashDirection * dashSpeed;
-
-        yield return new WaitForSeconds(0.5f); // Adjust the duration as needed
-
-        rb.velocity = Vector2.zero;
-        isDashing = false;
-        hasDashed = true;
-
-        ProjectPlayer(dashDirection);
-        state = "postdash";
-        dashCooldownCurrent = dashCooldown;
-    }
-
-    private void ProjectPlayer(Vector2 dashDirection)
+    public void ProjectPlayer()
     {
         Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+        player.GetComponent<Player>().TakeDamage(damage);
+
         if (playerRb != null)
         {
-            Vector2 projectionForce = dashDirection * 5f; // Adjust the force as needed
+            playerRb.velocity = Vector2.zero;
+            Vector2 projectionForce = (player.position - transform.position).normalized * 20f;
             playerRb.AddForce(projectionForce, ForceMode2D.Impulse);
         }
+        else
+        {
+            Debug.LogWarning("Player Rigidbody2D not found!");
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        audioManager.PlaySFX(audioManager.enemyDeath);
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
+        Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -212,5 +246,15 @@ public class BossMovement : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, 0.5f);
+    }
+
+    internal void ChangeState(string state)
+    {
+        if (state == "postdash")
+        {
+            cooldown = dashCooldown;
+            rb.velocity = Vector2.zero;
+        }
+        this.state = state;
     }
 }
