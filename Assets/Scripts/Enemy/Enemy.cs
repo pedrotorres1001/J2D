@@ -18,8 +18,8 @@ public abstract class Enemy : MonoBehaviour
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
-        //health_bar.transform.position = new Vector3(0, .5f);
-        //health_bar = Instantiate(health_bar, transform);
+        health_bar.transform.position = new Vector3(0, .5f);
+        health_bar = Instantiate(health_bar, transform);
     }
 
     public abstract void Attack();
@@ -31,7 +31,7 @@ public abstract class Enemy : MonoBehaviour
         audioManager.PlaySFX(audioManager.enemyDeath);
         StartCoroutine(ColorChangeCoroutine());
 
-        //health_bar.GetComponent<HealthBar>().Update_health(health, maxHealth);
+        health_bar.GetComponent<HealthBar>().Update_health(health, maxHealth);
 
         if (health <= 0)
         {
