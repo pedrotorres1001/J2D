@@ -126,7 +126,6 @@ public class BossMovement : MonoBehaviour
                 {
                     dashDirection = (player.position - transform.position).normalized;
                     dashDirection.y = 0;
-                    rb.velocity = dashDirection * dashSpeed;
                     isDashing = true;
                 }
 
@@ -267,7 +266,7 @@ public class BossMovement : MonoBehaviour
     void Die()
     {
         GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
-        bossHealthBar.SetActive(true);
+        bossHealthBar.SetActive(false);
         Destroy(gameObject);
     }
 

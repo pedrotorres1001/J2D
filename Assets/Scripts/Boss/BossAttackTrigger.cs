@@ -8,9 +8,12 @@ public class BossAttackTrigger : MonoBehaviour
     [SerializeField] private BossMovement boss;
     private Transform player;
 
+    AudioManager audioManager;
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -30,8 +33,11 @@ public class BossAttackTrigger : MonoBehaviour
             player.GetComponent<Player>().TakeDamage(boss.damage);
             StartCoroutine(boss.ProjectPlayer());
         }
-
-        boss.ChangeState("postdash");
-        this.gameObject.SetActive(false);
+        else
+        {
+            audioManager.PlaySFX(audioManager.BossHitRock);
+            boss.ChangeState("postdash");
+            this.gameObject.SetActive(false);
+        }
     }
 }

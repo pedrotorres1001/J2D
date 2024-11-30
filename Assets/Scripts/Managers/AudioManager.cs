@@ -13,6 +13,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip enemyDeath;
     public AudioClip hitRock;
     public AudioClip swing;
+    public AudioClip BossHitRock;
 
     private void Start()
     {
