@@ -18,7 +18,7 @@ public abstract class Enemy : MonoBehaviour
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
-        health_bar.transform.position = new Vector3(0, .5f);
+        health_bar.transform.position = new Vector3(0, .7f);
         health_bar = Instantiate(health_bar, transform);
     }
 

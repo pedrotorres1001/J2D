@@ -6,7 +6,12 @@ public class BossAttackTrigger : MonoBehaviour
 {
     [SerializeField] private string[] ignoredTags; // Tags to ignore
     [SerializeField] private BossMovement boss;
+    private Transform player;
 
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+    }
     void OnTriggerEnter2D(Collider2D other)
     {
         // Check if the other object has a tag in the ignored list
@@ -21,7 +26,10 @@ public class BossAttackTrigger : MonoBehaviour
         }
 
         if (other.CompareTag("Player"))
-            boss.ProjectPlayer();
+        {
+            player.GetComponent<Player>().TakeDamage(boss.damage);
+            StartCoroutine(boss.ProjectPlayer());
+        }
 
         boss.ChangeState("postdash");
         this.gameObject.SetActive(false);

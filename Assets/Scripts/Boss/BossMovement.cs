@@ -4,9 +4,10 @@ using System;
 
 public class BossMovement : MonoBehaviour
 {
+    [SerializeField] private GameObject bossHealthBar;
     public int health = 800;
     [SerializeField] public int maxHealth = 800;
-    [SerializeField] private int damage = 10;
+    [SerializeField] public int damage = 10;
 
     [SerializeField] private int experiencePoints;
     [SerializeField] private LayerMask playerLayer;
@@ -24,6 +25,7 @@ public class BossMovement : MonoBehaviour
     [SerializeField] private float speed;
     private Rigidbody2D rb;
     private bool facingRight = false;
+    public bool engaged = false;
 
     private Transform player;
 
@@ -46,6 +48,7 @@ public class BossMovement : MonoBehaviour
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
+        engaged = false;
         health = maxHealth;
         cooldown = 0;
         state = "idle";
@@ -67,21 +70,24 @@ public class BossMovement : MonoBehaviour
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         float yDifference = Mathf.Abs(transform.position.y - player.position.y);
 
-        switch (state)
+        switch (engaged) 
         {
+        case true:
+            switch (state)
+            {
             case "idle":
-                if (distanceToPlayer <= 7 && yDifference <= 3f)
+                if (yDifference <= 3f)
                 {
                     float directionX = player.position.x - transform.position.x;
                     FlipTowardsPlayer(directionX);
 
-                    if (distanceToPlayer <= 5 && !hasDashed)
+                    if (distanceToPlayer <= 7 && !hasDashed)
                     {
                         cooldown = prepareCooldown;
                         gameObject.GetComponent<Animator>().SetTrigger("attack");
                         state = "predash";
                     }
-                    else if (distanceToPlayer > 5 || hasDashed)
+                    else if (distanceToPlayer > 7 || hasDashed)
                     {
                         FollowPlayer();
                     }
@@ -113,6 +119,19 @@ public class BossMovement : MonoBehaviour
                     isDashing = true;
                 }
 
+                // Gradual acceleration variables
+                float elapsedTime = 0f;
+                float chargeAccelerationTime = 1f; // Time it takes to reach max speed
+                float currentSpeed = 0f;
+
+                // Gradually increase speed
+                while (elapsedTime < chargeAccelerationTime)
+                {
+                    elapsedTime += Time.deltaTime;
+                    currentSpeed = Mathf.Lerp(0, dashSpeed, elapsedTime / chargeAccelerationTime); // Gradually interpolate speed
+                    rb.velocity = dashDirection * currentSpeed;
+                }
+
                 break;
             case "postdash":
                 if (cooldown == 0)
@@ -122,7 +141,12 @@ public class BossMovement : MonoBehaviour
                 break;
             default:
                 break;
-        }
+            }
+            break;
+        default:
+            break;
+    }
+        
 
         cooldown = Mathf.Max(0, cooldown - Time.deltaTime);
         if (cooldown == 2)
@@ -172,16 +196,24 @@ public class BossMovement : MonoBehaviour
         }
     }
 
-    public void ProjectPlayer()
+    public IEnumerator ProjectPlayer()
     {
         Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
-        player.GetComponent<Player>().TakeDamage(damage);
 
         if (playerRb != null)
         {
             playerRb.velocity = Vector2.zero;
             Vector2 projectionForce = (player.position - transform.position).normalized * 20f;
             playerRb.AddForce(projectionForce, ForceMode2D.Impulse);
+
+            yield return new WaitForSeconds(0.1f); // Pequena espera para estabilizar
+
+            // Aplica uma força contínua enquanto o jogador está grappling
+            while (true)
+            {
+                playerRb.AddForce(projectionForce, ForceMode2D.Impulse); // Força contínua
+                yield return null; // Espera até o próximo frame
+            }
         }
         else
         {
@@ -189,9 +221,29 @@ public class BossMovement : MonoBehaviour
         }
     }
 
+    private bool HasLineOfSight()
+    {
+
+        int layerMask = LayerMask.GetMask("Player");
+
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, 6, layerMask);
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, 6, layerMask);
+
+        if (hitLeft.collider != null && hitLeft.collider.CompareTag("Player") || hitRight.collider != null && hitRight.collider.CompareTag("Player"))
+        {
+            // Line of sight is clear to the player
+            return true;
+        }
+
+        // Line of sight is blocked
+        return false;
+    }
+
     public void TakeDamage(int damage)
     {
         health -= damage;
+
+        bossHealthBar.GetComponent<HealthBar>().Update_health(health, maxHealth);
 
         audioManager.PlaySFX(audioManager.enemyDeath);
 
@@ -204,6 +256,7 @@ public class BossMovement : MonoBehaviour
     void Die()
     {
         GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
+        bossHealthBar.SetActive(true);
         Destroy(gameObject);
     }
 
