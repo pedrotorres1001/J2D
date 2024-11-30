@@ -31,7 +31,9 @@ public class BossAttackTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             player.GetComponent<Player>().TakeDamage(boss.damage);
-            StartCoroutine(boss.ProjectPlayer());
+            boss.ProjectPlayer();
+            boss.ChangeState("hit");
+            this.gameObject.SetActive(false);
         }
         else
         {

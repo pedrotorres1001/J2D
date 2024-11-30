@@ -68,6 +68,7 @@ public class BossMovement : MonoBehaviour
     {
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         float yDifference = Mathf.Abs(transform.position.y - player.position.y);
+        float directionX;
 
         switch (engaged) 
         {
@@ -77,10 +78,10 @@ public class BossMovement : MonoBehaviour
             case "idle":
                 if (yDifference <= 3f)
                 {
-                    float directionX = player.position.x - transform.position.x;
+                    directionX = player.position.x - transform.position.x;
                     FlipTowardsPlayer(directionX);
 
-                    if (distanceToPlayer <= 4.5f)
+                    if (distanceToPlayer <= 5)
                     {
                         Vector2 direction = (transform.position - player.position).normalized;
                         if ((direction.x < 0 && transform.position.x <= rightBoundary.transform.position.x) 
@@ -113,6 +114,8 @@ public class BossMovement : MonoBehaviour
                 break;
             case "predash":
                 rb.velocity = Vector2.zero;
+                directionX = player.position.x - transform.position.x;
+                FlipTowardsPlayer(directionX);
                 if (cooldown == 0)
                 {
                     isDashing = false;
@@ -124,30 +127,38 @@ public class BossMovement : MonoBehaviour
             case "dash":
                 if (!isDashing)
                 {
-                    dashDirection = (player.position - transform.position).normalized;
+                    if (player.position.x - transform.position.x <= 0)
+                    {
+                        dashDirection.x = -1;
+                    }
+                    else
+                    {
+                        dashDirection.x = 1;
+
+                    }
                     dashDirection.y = 0;
                     isDashing = true;
+                    rb.velocity = dashDirection * dashSpeed;
                 }
-
-                // Gradual acceleration variables
-                float elapsedTime = 0f;
-                float chargeAccelerationTime = 1f; // Time it takes to reach max speed
-                float currentSpeed = 0f;
-
-                // Gradually increase speed
-                while (elapsedTime < chargeAccelerationTime)
-                {
-                    elapsedTime += Time.deltaTime;
-                    currentSpeed = Mathf.Lerp(0, dashSpeed, elapsedTime / chargeAccelerationTime); // Gradually interpolate speed
-                    rb.velocity = dashDirection * currentSpeed;
-                }
-
                 break;
             case "postdash":
                 if (cooldown == 0)
                     state = "idle";
                 break;
             case "hit":
+                if (cooldown == 0)
+                    state = "idle";
+
+                if (transform.transform.position.x > leftBoundary.transform.position.x 
+                && transform.transform.position.x < rightBoundary.transform.position.x)
+                {
+                    rb.velocity = rb.velocity * .99f;
+                }
+                else
+                {
+                    rb.velocity = Vector2.zero;
+                }
+
                 break;
             default:
                 break;
@@ -206,24 +217,16 @@ public class BossMovement : MonoBehaviour
         }
     }
 
-    public IEnumerator ProjectPlayer()
+    public void ProjectPlayer()
     {
         Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
 
         if (playerRb != null)
         {
             playerRb.velocity = Vector2.zero;
-            Vector2 projectionForce = (player.position - transform.position).normalized * 20f;
-            playerRb.AddForce(projectionForce, ForceMode2D.Impulse);
-
-            yield return new WaitForSeconds(0.1f); // Pequena espera para estabilizar
-
-            // Aplica uma força contínua enquanto o jogador está grappling
-            while (true)
-            {
-                playerRb.AddForce(projectionForce, ForceMode2D.Impulse); // Força contínua
-                yield return null; // Espera até o próximo frame
-            }
+            Vector2 projectionForce = (player.position - transform.position).normalized * 10000f;
+            projectionForce.y = 1f;
+            playerRb.AddForce(projectionForce, ForceMode2D.Force);
         }
         else
         {
@@ -315,8 +318,13 @@ public class BossMovement : MonoBehaviour
     {
         if (state == "postdash")
         {
-            cooldown = dashCooldown;
+            cooldown = dashCooldown * 1.5f;
             rb.velocity = Vector2.zero;
+        }
+
+        if (state == "hit")
+        {
+            cooldown = dashCooldown;
         }
         this.state = state;
     }
