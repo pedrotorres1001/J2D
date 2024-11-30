@@ -32,7 +32,6 @@ public class BossMovement : MonoBehaviour
     // Dash properties
     [SerializeField] private float dashSpeed = 10f;
     private bool isDashing = false;
-    private bool hasDashed = false;
 
     private float moveDirection;
     private Vector2 dashDirection;
@@ -81,26 +80,38 @@ public class BossMovement : MonoBehaviour
                     float directionX = player.position.x - transform.position.x;
                     FlipTowardsPlayer(directionX);
 
-                    if (distanceToPlayer <= 7 && !hasDashed)
+                    if (distanceToPlayer <= 4.5f)
+                    {
+                        Vector2 direction = (transform.position - player.position).normalized;
+                        if ((direction.x < 0 && transform.position.x <= rightBoundary.transform.position.x) 
+                        || (direction.x > 0 && transform.position.x >= leftBoundary.transform.position.x))
+                        {
+                            rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
+                        }
+                        else
+                        {
+                            cooldown = prepareCooldown;
+                            gameObject.GetComponent<Animator>().SetTrigger("attack");
+                            state = "predash";
+                        }
+                    }
+                    else if (distanceToPlayer <= 7)
                     {
                         cooldown = prepareCooldown;
                         gameObject.GetComponent<Animator>().SetTrigger("attack");
                         state = "predash";
                     }
-                    else if (distanceToPlayer > 7 || hasDashed)
+                    else if (distanceToPlayer > 7)
                     {
                         FollowPlayer();
                     }
                 }
                 else
                 {
-                    hasDashed = false;
                     MovementBoundaries();
                 }
                 break;
             case "predash":
-
-
                 rb.velocity = Vector2.zero;
                 if (cooldown == 0)
                 {
