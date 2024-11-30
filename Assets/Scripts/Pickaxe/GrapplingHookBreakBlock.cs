@@ -19,25 +19,25 @@ public class GrapplingHookBreakBlock : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Verifica se a colisão foi com um tilemap destrutível
+        // Check if the collision is with the destructible tilemap
         if (collision.gameObject.layer == LayerMask.NameToLayer("Destructable"))
         {
-            Vector3 hitPosition = collision.ClosestPoint(transform.position); // Posição de impacto do grappling hook
-            Vector3Int tilePos = destructableTilemap.WorldToCell(hitPosition); // Posição do tile no tilemap
+            Vector3 hitPosition = collision.ClosestPoint(transform.position); // Grappling hook impact position
+            Vector3Int tilePos = destructableTilemap.WorldToCell(hitPosition); // Get the tile position on the destructible tilemap
 
-            // Se o tile for encontrado, reduce a durabilidade e quebra o bloco
+            // If the tile is found, handle durability and break the block
             if (destructableTilemap.HasTile(tilePos))
             {
                 HandleDurability(destructableTilemap, tilePos, defaultDurability);
             }
         }
-        // Verifica se a colisão foi com o tilemap de ouro
+        // Check if the collision is with the gold tilemap
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Gold"))
         {
-            Vector3 hitPosition = collision.ClosestPoint(transform.position); // Posição de impacto do grappling hook
-            Vector3Int tilePos = goldTilemap.WorldToCell(hitPosition); // Posição do tile no tilemap de ouro
+            Vector3 hitPosition = collision.ClosestPoint(transform.position); // Grappling hook impact position
+            Vector3Int tilePos = goldTilemap.WorldToCell(hitPosition); // Get the tile position on the gold tilemap
 
-            // Se o tile de ouro for encontrado, reduz a durabilidade e quebra o bloco
+            // If the gold tile is found, handle durability and break the block
             if (goldTilemap.HasTile(tilePos))
             {
                 HandleDurability(goldTilemap, tilePos, goldDurability);
@@ -49,7 +49,29 @@ public class GrapplingHookBreakBlock : MonoBehaviour
     {
         int currentDurability = BlocksDurabilityManager.Instance.GetOrInitializeDurability(tilePos, startingDurability);
 
-        // Use o BlocksDurabilityManager para reduzir a durabilidade e atualizar o tile
+        // Use the BlocksDurabilityManager to reduce durability and update the tile
         BlocksDurabilityManager.Instance.ReduceDurability(tilePos, targetTilemap);
+
+        // Check if the tile is destroyed after reducing durability
+        if (currentDurability <= 0)
+        {
+            DestroyTile(targetTilemap, tilePos); // Destroy the tile if durability reaches 0
+        }
+    }
+
+    void DestroyTile(Tilemap targetTilemap, Vector3Int tilePos)
+    {
+        // Set the tile to null, effectively destroying it
+        targetTilemap.SetTile(tilePos, null);
+    }
+
+    private Vector3Int GetTileAtPosition(RaycastHit2D hit, Tilemap tilemap)
+    {
+        // Calculate the position of the tile based on the Raycast hit
+        Vector3 hitPosition = Vector3.zero;
+        hitPosition.x = hit.point.x - 0.01f * hit.normal.x;
+        hitPosition.y = hit.point.y - 0.01f * hit.normal.y;
+        Vector3Int cell = tilemap.WorldToCell(hitPosition);
+        return cell;
     }
 }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5047315483100703088}
   - component: {fileID: 5573366573326567358}
   - component: {fileID: 968240803360495957}
-  - component: {fileID: 8979323073346509208}
   - component: {fileID: 5538028247822459494}
   - component: {fileID: 617705256544086634}
   - component: {fileID: 1960630949218608530}
@@ -33,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 23.86, y: -18.25, z: 0}
-  m_LocalScale: {x: 1.7, y: 1.68657, z: 0.18888889}
+  m_LocalScale: {x: 1.9999999, y: 1.9841999, z: 0.22222221}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7745184214926878802}
@@ -114,7 +113,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -153,22 +152,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.00032717368, y: -0.1124539}
   m_Size: {x: 1.0600619, y: 0.9085767}
   m_Direction: 1
---- !u!114 &8979323073346509208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6593975325983535659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ec66eaab18d0455b9c2ec3bac481d42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 100
-  maxHealth: 100
-  health_bar: {fileID: 2534852450365961737, guid: a5f63a67a06deb244bcc2fa5e71eb479, type: 3}
-  experiencePoints: 5
 --- !u!114 &5538028247822459494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,16 +164,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8bb5e9d6678997498f9c36d6337862b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
   attackDamage: 5
-  attackCooldown: 2
-  speed: 0.5
-  dashSpeed: 10
-  dashDuration: 0.2
   leftBoundary: {fileID: 0}
   rightBoundary: {fileID: 0}
+  patrolSpeed: 0.5
+  isFollowingPlayer: 0
 --- !u!114 &617705256544086634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +181,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f836d4ab2e8834535a10b9991affeffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
+  maxHealth: 100
+  health_bar: {fileID: 0}
+  experiencePoints: 5
+  speed: 0.5
+  sightRange: 10
+  dashSpeed: 10
+  dashDuration: 0.2
+  attackCooldown: 2
+  attackDamage: 5
 --- !u!95 &1960630949218608530
 Animator:
   serializedVersion: 5

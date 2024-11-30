@@ -113,10 +113,10 @@ TextureImporter:
       name: Pickaxe_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 5
-        width: 7
-        height: 7
+        x: 4
+        y: 4
+        width: 10
+        height: 10
       alignment: 9
       pivot: {x: 0.06904357, y: 0.070505075}
       border: {x: 0, y: 0, z: 0, w: 0}

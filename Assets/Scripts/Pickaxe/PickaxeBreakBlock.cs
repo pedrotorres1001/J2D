@@ -91,4 +91,5 @@ public class PickaxeBreakBlock : MonoBehaviour
         // Use the BlocksDurabilityManager to reduce durability and update the tile appearance
         BlocksDurabilityManager.Instance.ReduceDurability(tilePos, targetTilemap);
     }
+    
 }

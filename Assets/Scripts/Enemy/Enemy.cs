@@ -1,22 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
-    public int health = 100;
-    public int maxHealth = 100;
+    [SerializeField] protected int health = 100;
+    [SerializeField] protected int maxHealth = 100;
     public GameObject health_bar;
-    [SerializeField] private int experiencePoints;
-    AudioManager audioManager;
+    [SerializeField] protected int experiencePoints;
+    [SerializeField] protected float speed;
+    [SerializeField] protected float sightRange;
 
-    public void Start()
+    private AudioManager audioManager;
+
+    protected virtual void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
-        health_bar.transform.position = new Vector3(0, .5f);
-        health_bar = Instantiate(health_bar, transform);
+        //health_bar.transform.position = new Vector3(0, .5f);
+        //health_bar = Instantiate(health_bar, transform);
     }
+
+    public abstract void Attack();
 
     public void TakeDamage(int damage)
     {
@@ -25,7 +31,7 @@ public class Enemy : MonoBehaviour
         audioManager.PlaySFX(audioManager.enemyDeath);
         StartCoroutine(ColorChangeCoroutine());
 
-        health_bar.GetComponent<HealthBar>().Update_health(health, maxHealth);
+        //health_bar.GetComponent<HealthBar>().Update_health(health, maxHealth);
 
         if (health <= 0)
         {
@@ -38,14 +44,6 @@ public class Enemy : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
         Destroy(gameObject);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            GetComponent<EnemyMovement>().Attack();
-        }
     }
 
     private IEnumerator ColorChangeCoroutine()
