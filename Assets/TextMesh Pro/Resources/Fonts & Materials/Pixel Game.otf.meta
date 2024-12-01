@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7128fcef6115e354dbe6c918e9c46644
+guid: 283baf039e917f445adc31421b912e53
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Tiny5
+  - Pixel Game
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
