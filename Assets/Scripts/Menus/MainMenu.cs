@@ -9,6 +9,11 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Village");
     }
+    
+    public void Settings()
+    {
+        SceneManager.LoadScene("SettingsMenu");
+    }
 
     public void QuitGame()
     {

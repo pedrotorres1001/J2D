@@ -50,6 +50,11 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
     }
 
+    public void Settings()
+    {
+        SceneManager.LoadScene("SettingsMenu");
+    }
+
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;
