@@ -19,6 +19,7 @@ public class DialogManager : MonoBehaviour
     public TextMeshProUGUI dialogText;
     public TextMeshProUGUI characterNameText;
     public Image characterImage;
+    public GameObject speechBubble;
     public DialogLine[] dialogLines;
     private int currentLineIndex = 0;
     private bool isDialogActive = false;
@@ -97,7 +98,7 @@ public class DialogManager : MonoBehaviour
         dialogUI.SetActive(false);
         player.GetComponent<PlayerMovement>().enabled = true; // Enable player movement
         player.GetComponent<Animator>().enabled = true;
-        // when the dialog finishes, its supposed to activate the pickaxe
+        speechBubble.SetActive(false);
         GetChildObject(player, "Pickaxe").SetActive(true);
     }
 
@@ -109,6 +110,7 @@ public class DialogManager : MonoBehaviour
             dialogUI.SetActive(false);
             player.GetComponent<PlayerMovement>().enabled = true; // Enable player movement 
             player.GetComponent<Animator>().enabled = true;
+            speechBubble.SetActive(false);
         }
     }
 
