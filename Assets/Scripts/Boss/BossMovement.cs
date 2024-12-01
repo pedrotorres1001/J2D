@@ -138,8 +138,9 @@ public class BossMovement : MonoBehaviour
                     }
                     dashDirection.y = 0;
                     isDashing = true;
-                    rb.velocity = dashDirection * dashSpeed;
                 }
+
+                rb.velocity = dashDirection * dashSpeed;
                 break;
             case "postdash":
                 if (cooldown == 0)
