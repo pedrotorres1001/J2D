@@ -79,17 +79,18 @@ public class BossMovement : MonoBehaviour
                 switch (state)
                 {
                     case "idle":
-                        animator.SetBool("isWalking", true);
                         if (yDifference <= 3f)
                         {
+                            animator.SetBool("isWalking", true);
+
                             directionX = player.position.x - transform.position.x;
                             FlipTowardsPlayer(directionX);
 
                             if (distanceToPlayer <= 5)
                             {
                                 Vector2 direction = (transform.position - player.position).normalized;
-                                if ((direction.x < 0 && transform.position.x <= rightBoundary.transform.position.x) 
-                                && (direction.x > 0 && transform.position.x >= leftBoundary.transform.position.x))
+                                if ((direction.x < 0 && transform.position.x <= rightBoundary.transform.position.x && Vector2.Distance(transform.position, leftBoundary.transform.position) >= 5) 
+                                || (direction.x > 0 && transform.position.x >= leftBoundary.transform.position.x && Vector2.Distance(transform.position, rightBoundary.transform.position) >= 5))
                                 {
                                     rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
                                 }
@@ -99,6 +100,7 @@ public class BossMovement : MonoBehaviour
                                     gameObject.GetComponent<Animator>().SetTrigger("attack");
                                     state = "predash";
                                     animator.SetBool("isWalking", false);
+                                    animator.SetBool("startCharge", true);
                                 }
                             }
                             else if (distanceToPlayer <= 7)
@@ -107,6 +109,7 @@ public class BossMovement : MonoBehaviour
                                 gameObject.GetComponent<Animator>().SetTrigger("attack");
                                 state = "predash";
                                 animator.SetBool("isWalking", false);
+                                animator.SetBool("startCharge", true);
                             }
                             else if (distanceToPlayer > 7)
                             {
@@ -115,7 +118,8 @@ public class BossMovement : MonoBehaviour
                         }
                         else
                         {
-                            MovementBoundaries();
+                            animator.SetBool("isWalking", false);
+                            MovementWithinBoundaries();
                         }
                         break;
                     case "predash":
@@ -127,13 +131,14 @@ public class BossMovement : MonoBehaviour
                             isDashing = false;
                             attackTrigger.SetActive(true);
                             state = "dash";
+                            animator.SetBool("startCharge", false);
+                            animator.SetBool("isCharging", true);
                         }
 
                         break;
                     case "dash":
                         if (!isDashing)
                         {
-                            animator.SetBool("isWalking", true);
                             if (player.position.x - transform.position.x <= 0)
                             {
                                 dashDirection.x = -1;
@@ -211,20 +216,40 @@ public class BossMovement : MonoBehaviour
         }
     }
 
-    public void MovementBoundaries()
-    {        
-        if (transform.position.x >= rightBoundary.transform.position.x)
+    public void MovementWithinBoundaries()
+    {
+        if (cooldown == 0 && facingRight && Vector2.Distance(transform.position, rightBoundary.transform.position) >= 4)
         {
-            moveDirection = -1;
-            if (facingRight) Flip();
-            rb.velocity = new Vector2(-speed, rb.velocity.y);
-        }
-        else if (transform.position.x <= leftBoundary.transform.position.x)
-        {
+            animator.SetBool("isWalking", true);
             moveDirection = 1;
-            if (!facingRight) Flip();
             rb.velocity = new Vector2(speed, rb.velocity.y);
+            if (Vector2.Distance(transform.position, rightBoundary.transform.position) <= 5)
+            {
+                rb.velocity = Vector2.zero;
+                animator.SetBool("isWalking", false);
+                cooldown = 1.2f;
+            }
         }
+        else if (cooldown == 0 && !facingRight && Vector2.Distance(transform.position, leftBoundary.transform.position) >= 4)
+        {
+            animator.SetBool("isWalking", true);
+            moveDirection = -1;
+            rb.velocity = new Vector2(-speed, rb.velocity.y);
+
+            if (Vector2.Distance(transform.position, leftBoundary.transform.position) <= 5)
+            {
+                rb.velocity = Vector2.zero;
+                animator.SetBool("isWalking", false);
+                cooldown = 1.2f;
+            }
+        }
+        else if (cooldown == 0)
+        {
+            Flip();
+        }
+
+        cooldown = Mathf.Max(0, cooldown - Time.deltaTime);
+
     }
 
     public void ProjectPlayer()
@@ -331,12 +356,12 @@ public class BossMovement : MonoBehaviour
         {
             cooldown = dashCooldown * 1.5f;
             rb.velocity = Vector2.zero;
-            animator.SetBool("isWalking", false);
+            animator.SetBool("isCharging", false);
         }
         else if (state == "hit")
         {
             cooldown = dashCooldown;
-            animator.SetBool("isWalking", false);
+            animator.SetBool("isCharging", false);
         }
         this.state = state;
     }
