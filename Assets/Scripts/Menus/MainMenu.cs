@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public GameObject settingsMenu;
+    public GameObject mainMenu;
     public void PlayGame()
     {
         SceneManager.LoadScene("Village");
@@ -12,7 +14,8 @@ public class MainMenu : MonoBehaviour
     
     public void Settings()
     {
-        SceneManager.LoadScene("SettingsMenu");
+        mainMenu.SetActive(false);
+        settingsMenu.SetActive(true);
     }
 
     public void QuitGame()
