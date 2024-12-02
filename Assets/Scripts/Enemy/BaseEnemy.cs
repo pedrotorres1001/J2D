@@ -215,8 +215,8 @@ public class BaseEnemy : Enemy
 
     private void OnDrawGizmos() {
         
-        Debug.DrawRay(transform.position, Vector2.left * sightRange, Color.red);
-        Debug.DrawRay(transform.position, Vector2.right * sightRange, Color.red);
+        //Debug.DrawRay(transform.position, Vector2.left * sightRange, Color.red);
+        //Debug.DrawRay(transform.position, Vector2.right * sightRange, Color.red);
     }
     
 

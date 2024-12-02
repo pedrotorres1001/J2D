@@ -3029,10 +3029,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Ola greg
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 572eab813df045342860140526956ad5, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: dbec3ff99c40a44d98361ef7a4507d09, type: 2}
+  m_sharedMaterial: {fileID: -6211006374845270656, guid: dbec3ff99c40a44d98361ef7a4507d09, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3056,15 +3056,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 45
+  m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -3095,7 +3095,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0.000030560914, z: -1.5183716, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &752318419
@@ -4841,8 +4841,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -610, y: 45}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -611, y: 43.685}
+  m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.49999967, y: 0.5}
 --- !u!114 &1394385253
 MonoBehaviour:
@@ -5415,7 +5415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.8584906, g: 0.8220452, b: 0.8220452, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5696,6 +5696,8 @@ MonoBehaviour:
   dialogText: {fileID: 752318418}
   characterNameText: {fileID: 2133855154}
   characterImage: {fileID: 1394385253}
+  dougImage: {fileID: 21300000, guid: 9fcd6b7e8ac1b46a69d3d90655336ec4, type: 3}
+  gregImage: {fileID: 0}
   speechBubble: {fileID: 1427623347}
   dialogLines:
   - characterName: Doug
@@ -5751,6 +5753,7 @@ MonoBehaviour:
   - characterName: Greg
     characterImage: {fileID: 0}
     text: No trouble, Doug. Keep yer wits sharp and yer feet steady down there!
+  pressF: {fileID: 0}
 --- !u!4 &1787662746
 Transform:
   m_ObjectHideFlags: 0
@@ -5796,7 +5799,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 487045429}
-  startRespawnPoint: {fileID: 0}
 --- !u!4 &1790813471
 Transform:
   m_ObjectHideFlags: 0
@@ -6036,7 +6038,7 @@ Tilemap:
       - {fileID: 1563867021, guid: e4942098c62e6451ba24f7bb1f0180a6, type: 3}
       - {fileID: 808888547, guid: e4942098c62e6451ba24f7bb1f0180a6, type: 3}
       - {fileID: -986472732, guid: e4942098c62e6451ba24f7bb1f0180a6, type: 3}
-      m_AnimationSpeed: 4.5000005
+      m_AnimationSpeed: 4.5
       m_AnimationTimeOffset: 0
       m_Flags: 0
   m_TileAssetArray:
@@ -6263,7 +6265,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -611, y: -72}
+  m_AnchoredPosition: {x: -611, y: -76}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2133855154
@@ -6288,8 +6290,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 572eab813df045342860140526956ad5, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: dbec3ff99c40a44d98361ef7a4507d09, type: 2}
+  m_sharedMaterial: {fileID: -6211006374845270656, guid: dbec3ff99c40a44d98361ef7a4507d09, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6425,7 +6427,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3012713887270403159, guid: a596c589dd5106d47aca5b1ae851ca17, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3830166264895902957, guid: a596c589dd5106d47aca5b1ae851ca17, type: 3}
       propertyPath: m_SizeDelta.x
@@ -6573,11 +6575,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6773463518632654023, guid: a596c589dd5106d47aca5b1ae851ca17, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7230625313884582709, guid: a596c589dd5106d47aca5b1ae851ca17, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7541134177999909465, guid: a596c589dd5106d47aca5b1ae851ca17, type: 3}
       propertyPath: m_Name

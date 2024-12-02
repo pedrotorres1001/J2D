@@ -117,7 +117,9 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(direction * speed, rb.velocity.y);
         }
-        else 
+        
+
+        if(knockbackCounter > 0)
         {
             if(knockbackFromRight) 
             {
@@ -152,13 +154,14 @@ public class PlayerMovement : MonoBehaviour
 
     private float CheckGroundDistance()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, Mathf.Infinity, groundLayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 2f, groundLayer);
         if (hit.collider != null)
         {
-            return hit.distance; // Returns the distance to the ground
+            return hit.distance;
         }
-        return Mathf.Infinity; // If no ground is detected, assume infinite distance
+        return Mathf.Infinity;
     }
+
     private void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);

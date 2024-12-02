@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 [System.Serializable]
 public class DialogLine
@@ -19,10 +20,13 @@ public class DialogManager : MonoBehaviour
     public TextMeshProUGUI dialogText;
     public TextMeshProUGUI characterNameText;
     public Image characterImage;
+    public Sprite dougImage;
+    public Sprite gregImage;
     public GameObject speechBubble;
     public DialogLine[] dialogLines;
     private int currentLineIndex = 0;
     private bool isDialogActive = false;
+    [SerializeField] private TextMeshProUGUI pressF;
 
     void Update()
     {
@@ -60,7 +64,6 @@ public class DialogManager : MonoBehaviour
             currentLineIndex = 0;
             ShowDialogLine();
             player.GetComponent<PlayerMovement>().enabled = false;
-            player.GetComponent<Animator>().enabled = false;
         }
     }
 
@@ -87,7 +90,16 @@ public class DialogManager : MonoBehaviour
             DialogLine line = dialogLines[currentLineIndex];
             dialogText.text = line.text;
             characterNameText.text = line.characterName;
-            characterImage.sprite = line.characterImage;
+
+            if(line.characterName == "Doug")
+            {
+                characterImage.sprite = dougImage;
+            }
+            else if(line.characterName == "Greg")
+            {
+                characterImage.sprite = gregImage;
+            }
+            
         }
     }
 
@@ -96,7 +108,6 @@ public class DialogManager : MonoBehaviour
         isDialogActive = false;
         dialogUI.SetActive(false);
         player.GetComponent<PlayerMovement>().enabled = true; // Enable player movement
-        player.GetComponent<Animator>().enabled = true;
         speechBubble.SetActive(false);
         GetChildObject(player, "Pickaxe").SetActive(true);
     }
@@ -108,7 +119,6 @@ public class DialogManager : MonoBehaviour
             isDialogActive = false;
             dialogUI.SetActive(false);
             player.GetComponent<PlayerMovement>().enabled = true; // Enable player movement 
-            player.GetComponent<Animator>().enabled = true;
             speechBubble.SetActive(false);
         }
     }
@@ -125,4 +135,17 @@ public class DialogManager : MonoBehaviour
         }
         return null;
     }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            pressF.enabled = true;
+        }
+    }
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            pressF.enabled = false;
+        }    }
 }

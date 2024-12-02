@@ -15,6 +15,7 @@ TagManager:
   - Confiner
   - Pickaxe
   - Grapple
+  - SceneManager
   layers:
   - Default
   - TransparentFX

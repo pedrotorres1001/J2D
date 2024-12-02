@@ -6,18 +6,12 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
-    public GameObject startRespawnPoint;
 
     public static bool isPaused;
     // Start is called before the first frame update
     void Start()
     {
         pauseMenu.SetActive(false);
-
-        // set the first respawn point
-        PlayerPrefs.SetFloat("RespawnX", startRespawnPoint.transform.position.x);
-        PlayerPrefs.SetFloat("RespawnY", startRespawnPoint.transform.position.y);
-
     }
 
     // Update is called once per frame
