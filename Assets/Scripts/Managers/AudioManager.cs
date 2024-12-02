@@ -15,11 +15,11 @@ public class AudioManager : MonoBehaviour
     public AudioClip hitRock;
     public AudioClip swing;
     public AudioClip BossHitRock;
+    public AudioClip fire;
 
     private void Start()
     {
         musicSource.clip = background;
-        musicSource.Play();
     }
 
     public void PlaySFX(AudioClip clip)

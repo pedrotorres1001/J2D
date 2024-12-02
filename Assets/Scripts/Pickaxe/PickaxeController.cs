@@ -6,7 +6,7 @@ public class PickaxeController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     public bool isPickaxeOnHand;
-    AudioManager audioManager;
+    private AudioManager audioManager;
 
     public float attackSpeed;
     private float lastAttackTime;

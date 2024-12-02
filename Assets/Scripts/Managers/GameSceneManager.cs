@@ -6,11 +6,17 @@ using UnityEngine;
 public class GameSceneManager : MonoBehaviour
 {
     [SerializeField] GameObject startRespawnPoint;
+    private AudioManager audioManager;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.GetComponent<SceneFadeManager>().FadeIn();
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
+        audioManager.PlaySFX(audioManager.background);
+
+        //gameObject.GetComponent<SceneFadeManager>().FadeIn();
 
         // set the first respawn point
         PlayerPrefs.SetFloat("RespawnX", startRespawnPoint.transform.position.x);
