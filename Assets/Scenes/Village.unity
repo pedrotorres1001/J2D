@@ -757,7 +757,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5273626148270482856, guid: a8c5932a37578ff49b6523298fcd9250, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7140346514055510043, guid: a8c5932a37578ff49b6523298fcd9250, type: 3}
       propertyPath: m_Pivot.x
@@ -3029,7 +3029,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ola greg
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dbec3ff99c40a44d98361ef7a4507d09, type: 2}
   m_sharedMaterial: {fileID: -6211006374845270656, guid: dbec3ff99c40a44d98361ef7a4507d09, type: 2}
