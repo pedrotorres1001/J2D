@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("--------- Audio Clip ---------")]
     public AudioClip background;
+    public AudioClip enemyDamage;
     public AudioClip enemyDeath;
     public AudioClip hitRock;
     public AudioClip swing;

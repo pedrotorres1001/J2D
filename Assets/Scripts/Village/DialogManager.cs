@@ -26,7 +26,6 @@ public class DialogManager : MonoBehaviour
     public DialogLine[] dialogLines;
     private int currentLineIndex = 0;
     private bool isDialogActive = false;
-    [SerializeField] private TextMeshProUGUI pressF;
 
     void Update()
     {
@@ -135,17 +134,4 @@ public class DialogManager : MonoBehaviour
         }
         return null;
     }
-
-    private void OnTriggerEnter2D(Collider2D other) {
-        if(other.gameObject.CompareTag("Player"))
-        {
-            pressF.enabled = true;
-        }
-    }
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if(other.gameObject.CompareTag("Player"))
-        {
-            pressF.enabled = false;
-        }    }
 }

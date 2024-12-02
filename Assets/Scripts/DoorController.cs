@@ -24,7 +24,8 @@ public class DoorController : MonoBehaviour
             spriteRenderer.sprite = closedDoor;
         }
         else if (isOpen) 
-        {
+        {   
+            Destroy(gameObject.GetComponent<Collider2D>());
             //spriteRenderer.sprite = openedDoor;
         }
     }
