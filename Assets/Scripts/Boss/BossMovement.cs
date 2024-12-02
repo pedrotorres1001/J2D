@@ -35,6 +35,7 @@ public class BossMovement : MonoBehaviour
 
     private float moveDirection;
     private Vector2 dashDirection;
+    private Animator animator;
 
     [SerializeField] private GameObject leftBoundary;
     [SerializeField] private GameObject rightBoundary;
@@ -46,6 +47,7 @@ public class BossMovement : MonoBehaviour
     void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        animator = gameObject.GetComponent<Animator>();
 
         engaged = false;
         health = maxHealth;
@@ -70,103 +72,110 @@ public class BossMovement : MonoBehaviour
         float yDifference = Mathf.Abs(transform.position.y - player.position.y);
         float directionX;
 
+
         switch (engaged) 
         {
-        case true:
-            switch (state)
-            {
-            case "idle":
-                if (yDifference <= 3f)
+            case true:
+                switch (state)
                 {
-                    directionX = player.position.x - transform.position.x;
-                    FlipTowardsPlayer(directionX);
-
-                    if (distanceToPlayer <= 5)
-                    {
-                        Vector2 direction = (transform.position - player.position).normalized;
-                        if ((direction.x < 0 && transform.position.x <= rightBoundary.transform.position.x) 
-                        || (direction.x > 0 && transform.position.x >= leftBoundary.transform.position.x))
+                    case "idle":
+                        animator.SetBool("isWalking", true);
+                        if (yDifference <= 3f)
                         {
-                            rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
+                            directionX = player.position.x - transform.position.x;
+                            FlipTowardsPlayer(directionX);
+
+                            if (distanceToPlayer <= 5)
+                            {
+                                Vector2 direction = (transform.position - player.position).normalized;
+                                if ((direction.x < 0 && transform.position.x <= rightBoundary.transform.position.x) 
+                                && (direction.x > 0 && transform.position.x >= leftBoundary.transform.position.x))
+                                {
+                                    rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
+                                }
+                                else
+                                {
+                                    cooldown = prepareCooldown;
+                                    gameObject.GetComponent<Animator>().SetTrigger("attack");
+                                    state = "predash";
+                                    animator.SetBool("isWalking", false);
+                                }
+                            }
+                            else if (distanceToPlayer <= 7)
+                            {
+                                cooldown = prepareCooldown;
+                                gameObject.GetComponent<Animator>().SetTrigger("attack");
+                                state = "predash";
+                                animator.SetBool("isWalking", false);
+                            }
+                            else if (distanceToPlayer > 7)
+                            {
+                                FollowPlayer();
+                            }
                         }
                         else
                         {
-                            cooldown = prepareCooldown;
-                            gameObject.GetComponent<Animator>().SetTrigger("attack");
-                            state = "predash";
+                            MovementBoundaries();
                         }
-                    }
-                    else if (distanceToPlayer <= 7)
-                    {
-                        cooldown = prepareCooldown;
-                        gameObject.GetComponent<Animator>().SetTrigger("attack");
-                        state = "predash";
-                    }
-                    else if (distanceToPlayer > 7)
-                    {
-                        FollowPlayer();
-                    }
-                }
-                else
-                {
-                    MovementBoundaries();
-                }
-                break;
-            case "predash":
-                rb.velocity = Vector2.zero;
-                directionX = player.position.x - transform.position.x;
-                FlipTowardsPlayer(directionX);
-                if (cooldown == 0)
-                {
-                    isDashing = false;
-                    attackTrigger.SetActive(true);
-                    state = "dash";
-                }
+                        break;
+                    case "predash":
+                        rb.velocity = Vector2.zero;
+                        directionX = player.position.x - transform.position.x;
+                        FlipTowardsPlayer(directionX);
+                        if (cooldown == 0)
+                        {
+                            isDashing = false;
+                            attackTrigger.SetActive(true);
+                            state = "dash";
+                        }
 
-                break;
-            case "dash":
-                if (!isDashing)
-                {
-                    if (player.position.x - transform.position.x <= 0)
-                    {
-                        dashDirection.x = -1;
+                        break;
+                    case "dash":
+                        if (!isDashing)
+                        {
+                            animator.SetBool("isWalking", true);
+                            if (player.position.x - transform.position.x <= 0)
+                            {
+                                dashDirection.x = -1;
+                            }
+                            else
+                            {
+                                dashDirection.x = 1;
+
+                            }
+                            dashDirection.y = 0;
+                            isDashing = true;
+                        }
+
+                        rb.velocity = dashDirection * dashSpeed;
+                        break;
+                    case "postdash":
+                        animator.SetBool("isWalking", false);
+                        if (cooldown == 0)
+                            state = "idle";
+                        break;
+                    case "hit":
+                        if (cooldown == 0)
+                            state = "idle";
+
+                        if (transform.transform.position.x > leftBoundary.transform.position.x 
+                        && transform.transform.position.x < rightBoundary.transform.position.x)
+                        {
+                            // Gradually decrease speed
+                            rb.velocity = rb.velocity * .9f;
+                        }
+                        else
+                        {
+                            rb.velocity = Vector2.zero;
+                        }
+
+                        break;
+                    default:
+                        break;
                     }
-                    else
-                    {
-                        dashDirection.x = 1;
-
-                    }
-                    dashDirection.y = 0;
-                    isDashing = true;
-                }
-
-                rb.velocity = dashDirection * dashSpeed;
-                break;
-            case "postdash":
-                if (cooldown == 0)
-                    state = "idle";
-                break;
-            case "hit":
-                if (cooldown == 0)
-                    state = "idle";
-
-                if (transform.transform.position.x > leftBoundary.transform.position.x 
-                && transform.transform.position.x < rightBoundary.transform.position.x)
-                {
-                    rb.velocity = rb.velocity * .99f;
-                }
-                else
-                {
-                    rb.velocity = Vector2.zero;
-                }
-
-                break;
+                    break;
             default:
                 break;
-            }
-            break;
-        default:
-            break;
     }
         
 
@@ -321,11 +330,12 @@ public class BossMovement : MonoBehaviour
         {
             cooldown = dashCooldown * 1.5f;
             rb.velocity = Vector2.zero;
+            animator.SetBool("isWalking", false);
         }
-
-        if (state == "hit")
+        else if (state == "hit")
         {
             cooldown = dashCooldown;
+            animator.SetBool("isWalking", false);
         }
         this.state = state;
     }
