@@ -16,6 +16,11 @@ public class Player : MonoBehaviour
         experience = 0;
     }
 
+    public int getMaxExperience()
+    {
+        return maxExperience;
+    }
+
     public void TakeDamage(int damage)
     {
         health -= damage;

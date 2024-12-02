@@ -52,7 +52,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Settings()
     {
-        SceneManager.LoadScene("SettingsMenu");
+        SceneTracker.LoadSettingsMenu();
     }
 
     public void GoToMainMenu()

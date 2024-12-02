@@ -61,7 +61,6 @@ public class DialogManager : MonoBehaviour
             ShowDialogLine();
             player.GetComponent<PlayerMovement>().enabled = false;
             player.GetComponent<Animator>().enabled = false;
-            Debug.Log("Dialog started between player and enemy.");
         }
     }
 
