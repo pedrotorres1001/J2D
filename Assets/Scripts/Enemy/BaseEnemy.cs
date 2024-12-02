@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BaseEnemy : Enemy
@@ -7,13 +8,12 @@ public class BaseEnemy : Enemy
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float attackCooldown = 2f;
-    [SerializeField] public int attackDamage;
-
+    [SerializeField] private int attackDamage;
 
     private bool hasDashed = false;
     // Dash properties
     private float lastAttackTime;
-    private Transform player;
+    private GameObject player;
     private float distanceToPlayer;
     private Rigidbody2D rb;
     private bool isDashing;
@@ -24,92 +24,106 @@ public class BaseEnemy : Enemy
     private Vector2 playerLastKnownPosition;
 
 
+    private bool isAttacking;
+    private bool canSeePlayer;
+
+    private PlayerMovement playerMovement;    
     protected override void Start() {
         base.Start();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player");
         rb = gameObject.GetComponent<Rigidbody2D>();
         enemyPatrol = gameObject.GetComponent<EnemyPatrol>();
         animator = gameObject.GetComponent<Animator>();
+        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
 
         isDashing = false;
+        isAttacking = false;
+        canSeePlayer = false;
     }
 
     private void Update() 
     {
-        if (isPerformingAction) return; // Skip Update logic during special actions
+        if (isPerformingAction || isAttacking) return; // Skip Update logic during special actions or attacks
 
-        distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
-        bool canSeePlayer = HasLineOfSight();
+        canSeePlayer = HasLineOfSight();
 
-        if (canSeePlayer && distanceToPlayer > 6) {
-            enemyPatrol.isFollowingPlayer = true;
+        if (canSeePlayer && distanceToPlayer < 6 && distanceToPlayer >= 2) 
+        {
             FollowPlayer();
         }
-        else if (canSeePlayer && distanceToPlayer <= 6) {
-            enemyPatrol.isFollowingPlayer = true;
-            StartCoroutine(PrepareAndDash());
+        else {
+            animator.SetBool("isRunning", false);
         }
-        else if(!canSeePlayer) {
-            enemyPatrol.isFollowingPlayer = false;
-        }
-    }
 
-    public void AttackPlayer() 
-    {
-        if (distanceToPlayer <= 5 && !hasDashed) {
+        if (canSeePlayer && distanceToPlayer >= 6) 
+        {
             StartCoroutine(PrepareAndDash());
         }
-        else if (distanceToPlayer > 5 || hasDashed) {
-            FollowPlayer();
+        else if (canSeePlayer && distanceToPlayer < 1f) 
+        {
+            Attack();
+        }
+        else if (!canSeePlayer) 
+        {
+            if (enemyPatrol != null) 
+            {
+                enemyPatrol.Patrol();
+            }
         }
     }
 
     void FollowPlayer() 
     {
-        Vector2 playerDirection = (player.position - transform.position).normalized;
+        Vector2 playerDirection = (player.transform.position - transform.position).normalized;
 
         float direction = playerDirection.x > 0 ? 1 : -1; // Determine facing direction
         animator.SetFloat("Direction", direction); // Update animation direction
-        rb.velocity = new Vector2(playerDirection.x * speed, 0); // Move only in X-axis
+        animator.SetBool("isRunning", true); // Update animation direction
+        rb.velocity = new Vector2(playerDirection.x * (speed * 3), 0); // Move only in X-axis
     }
 
     private bool HasLineOfSight() 
     {
+        LayerMask playerMask = LayerMask.GetMask("Player", "Ground", "Destructable");
 
-        int layerMask = LayerMask.GetMask("Player");
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, sightRange, playerMask);
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, sightRange, playerMask);
 
-        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, 6, layerMask);
-        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, 6, layerMask);
-
-        if (hitLeft.collider != null && hitLeft.collider.CompareTag("Player") || hitRight.collider != null && hitRight.collider.CompareTag("Player")) 
+        if (hitLeft.collider != null && hitLeft.collider.CompareTag("Player") 
+        || hitRight.collider != null && hitRight.collider.CompareTag("Player")) 
         {
-            // Line of sight is clear to the player
             return true;
         }
+        else if(hitLeft.collider != null && hitLeft.collider.CompareTag("Ground") || 
+            hitRight.collider != null && hitRight.collider.CompareTag("Ground")) 
+        {
+            return false;  // Line of sight blocked by ground
+        }
 
-        // Line of sight is blocked
         return false;
     }
 
-
-
     public override void Attack()
     {
-        if (Time.time - lastAttackTime >= attackCooldown)
-        {
-            Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(transform.position, 1f);
-            
-            foreach (Collider2D target in hitPlayers)
-            {
-                if (target.CompareTag("Player"))
-                {
-                    rb.velocity = Vector2.zero;
-                    target.GetComponent<Player>().TakeDamage(attackDamage);
-                }
-            }
-            lastAttackTime = Time.time;
-        }
+        if (isAttacking || isPerformingAction) return; // Prevent multiple attacks or interruptions
+
+        if (Time.time - lastAttackTime < attackCooldown) return; // Respect cooldown
+
+        isAttacking = true; // Mark as attacking
+
+        // Stop enemy movement during attack
+        rb.velocity = Vector2.zero;
+
+        // Reset attack state after the cooldown
+        StartCoroutine(ResetAttack());
+    }
+
+    private IEnumerator ResetAttack()
+    {
+        yield return new WaitForSeconds(attackCooldown); // Wait for cooldown
+        isAttacking = false; // Allow other actions
     }
 
     private IEnumerator PrepareAndDash() 
@@ -117,7 +131,7 @@ public class BaseEnemy : Enemy
         isPerformingAction = true;
 
         // Record the player's position before charging
-        playerLastKnownPosition = player.position;
+        playerLastKnownPosition = player.transform.position;
 
         // Calculate dash direction (X-axis only)
         Vector2 dashDirection = new Vector2(playerLastKnownPosition.x - transform.position.x, 0).normalized;
@@ -153,27 +167,57 @@ public class BaseEnemy : Enemy
 
         animator.SetBool("isCharging", false);
 
-        // Stop and wait after charging
-        rb.velocity = Vector2.zero;
-        animator.SetBool("isIdle", true);
-        yield return new WaitForSeconds(2);
-        animator.SetBool("isIdle", false);
-
         // Reset state
         isPerformingAction = false;
         hasDashed = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("Player")) {
-            Attack();
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            //StartCoroutine(WaitSeconds(0.5f));
+        
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("Player")) {
-            Attack();
+    private IEnumerator WaitSeconds(float seconds) 
+    {
+        yield return new WaitForSeconds(seconds);
+        Knockback();
+    }
+    
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            other.gameObject.GetComponent<Player>().TakeDamage(attackDamage);
+            animator.SetTrigger("onAttack"); // Play attack animation
+
+
+            Knockback();
+        
         }
     }
+
+    private void Knockback() {
+            playerMovement.knockbackCounter = playerMovement.knockbackTotalTime;
+
+            if(player.transform.position.x <= transform.position.x)
+            {
+                playerMovement.knockbackFromRight = true;
+            }
+            if(player.transform.position.x > transform.position.x)
+            {
+                playerMovement.knockbackFromRight = false;
+            }  
+    }
+
+    private void OnDrawGizmos() {
+        
+        Debug.DrawRay(transform.position, Vector2.left * sightRange, Color.red);
+        Debug.DrawRay(transform.position, Vector2.right * sightRange, Color.red);
+    }
+    
 
 }

@@ -64,26 +64,4 @@ public class Player : MonoBehaviour
         // Revert to the original color
         sprite.color = original;
     }
-
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("Enemy")) 
-        {
-            ApplyKnockback(collision);
-        }
-    }
-
-    bool isInvulnerable = false;
-    
-    void ApplyKnockback(Collision2D collision)
-    {
-        if (!isInvulnerable)
-        {
-            Vector2 knockbackDirection = (transform.position - collision.transform.position);
-            knockbackDirection.y = 0; // Eliminate vertical component
-            knockbackDirection = knockbackDirection.normalized; // Normalize for consistent direction
-
-            float knockbackForce = 1f;
-            gameObject.GetComponent<Rigidbody2D>().AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
-        }
-    }
 }

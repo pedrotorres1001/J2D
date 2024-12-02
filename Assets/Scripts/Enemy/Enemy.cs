@@ -14,6 +14,7 @@ public abstract class Enemy : MonoBehaviour
 
     private AudioManager audioManager;
 
+
     protected virtual void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -61,4 +62,6 @@ public abstract class Enemy : MonoBehaviour
         // Revert to the original color
         sprite.color = original;
     }
+
+
 }

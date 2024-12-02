@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 7350322127625149551}
   - component: {fileID: 5047315483100703088}
   - component: {fileID: 5573366573326567358}
+  - component: {fileID: 6827776376145918251}
   - component: {fileID: 968240803360495957}
-  - component: {fileID: 5538028247822459494}
   - component: {fileID: 617705256544086634}
+  - component: {fileID: 5538028247822459494}
   - component: {fileID: 1960630949218608530}
   m_Layer: 0
   m_Name: Enemy
@@ -117,6 +118,41 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!70 &6827776376145918251
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6593975325983535659}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.4451375, y: -0.06357735}
+  m_Size: {x: 0.19578362, y: 0.38350567}
+  m_Direction: 0
 --- !u!70 &968240803360495957
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -152,23 +188,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.00032717368, y: -0.1124539}
   m_Size: {x: 1.0600619, y: 0.9085767}
   m_Direction: 1
---- !u!114 &5538028247822459494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6593975325983535659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8bb5e9d6678997498f9c36d6337862b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackDamage: 5
-  leftBoundary: {fileID: 0}
-  rightBoundary: {fileID: 0}
-  patrolSpeed: 0.5
-  isFollowingPlayer: 0
 --- !u!114 &617705256544086634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +210,19 @@ MonoBehaviour:
   dashDuration: 0.2
   attackCooldown: 2
   attackDamage: 5
+--- !u!114 &5538028247822459494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6593975325983535659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bb5e9d6678997498f9c36d6337862b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolSpeed: 0.5
 --- !u!95 &1960630949218608530
 Animator:
   serializedVersion: 5

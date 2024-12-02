@@ -19,6 +19,11 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private GameObject player;
 
+    public float knockbackForce;
+    public float knockbackCounter;
+    public float knockbackTotalTime;
+    public bool knockbackFromRight;
+
     private Animator animator;
     private Rigidbody2D rb;
     public float lastDirection = 1;
@@ -32,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrappling = false;
     private bool isSliding = false;
     private float slideTimer;
+    private bool isInvulnerable = false;
+
 
     void Start()
     {
@@ -106,9 +113,23 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isSliding)
+        if (!isSliding && knockbackCounter <= 0)
         {
             rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+        }
+        else 
+        {
+            if(knockbackFromRight) 
+            {
+                rb.velocity = new Vector2(-knockbackForce, knockbackForce);
+            }
+            if(!knockbackFromRight)
+            {
+                rb.velocity = new Vector2(knockbackForce, knockbackForce);
+            }
+
+            knockbackCounter -= Time.deltaTime;
+            knockbackCounter = Mathf.Max(knockbackCounter, 0); // Clamp to zero
         }
 
         if (upPressed)
