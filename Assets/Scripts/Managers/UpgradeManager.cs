@@ -20,7 +20,7 @@ public class UpgradeManager : MonoBehaviour
         upgradeAttackSpeedButton.onClick.AddListener(UpgradeAttackSpeed);
         pickaxeAttack = pickaxe.GetComponent<PickaxeAttack>();
         pickaxeController = pickaxe.GetComponent<PickaxeController>();
-        player = GameObject.Find("Player").GetComponent<Player>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     void Update()
