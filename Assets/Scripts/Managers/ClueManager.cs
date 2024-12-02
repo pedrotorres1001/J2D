@@ -104,23 +104,4 @@ public class ClueManager : MonoBehaviour
         isDialogActive = false;
         Time.timeScale = 1;
     }
-
-    GameObject GetClosestObject(Vector3Int playerPos)
-    {
-        GameObject[] objects = { artifact1st, artifact2nd, crazyJoe1st, crazyJoe2nd };
-        GameObject closestObject = null;
-        float closestDistance = dialogRange;
-
-        foreach (GameObject obj in objects)
-        {
-            float distance = Vector3.Distance(player.transform.position, obj.transform.position);
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestObject = obj;
-            }
-        }
-
-        return closestObject;
-    }
 }
