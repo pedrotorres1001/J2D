@@ -7,66 +7,56 @@ using UnityEngine.UI;
 public class UpgradeManager : MonoBehaviour
 {
     public GameObject upgradeMenu;
-    public GameObject player;
+    public Player player;
     public Button upgradeAttackDamageButton;
     public Button upgradeAttackSpeedButton;
-
-    private Player playerComponent;
+    public GameObject pickaxe;
     private PickaxeAttack pickaxeAttack;
     private PickaxeController pickaxeController;
 
     void Start()
     {
-        if (upgradeMenu != null)
-        {
-            upgradeMenu.SetActive(false);
-        }
-
-        if (upgradeAttackDamageButton != null)
-        {
-            upgradeAttackDamageButton.onClick.AddListener(UpgradeAttackDamage);
-        }
-
-        if (upgradeAttackSpeedButton != null)
-        {
-            upgradeAttackSpeedButton.onClick.AddListener(UpgradeAttackSpeed);
-        }
-
-        if (player != null)
-        {
-            playerComponent = player.GetComponent<Player>();
-            pickaxeAttack = player.GetComponent<PickaxeAttack>();
-            pickaxeController = player.GetComponent<PickaxeController>();
-        }
+        upgradeAttackDamageButton.onClick.AddListener(UpgradeAttackDamage);
+        upgradeAttackSpeedButton.onClick.AddListener(UpgradeAttackSpeed);
+        pickaxeAttack = pickaxe.GetComponent<PickaxeAttack>();
+        pickaxeController = pickaxe.GetComponent<PickaxeController>();
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     void Update()
     {
-        if (playerComponent != null && playerComponent.experience >= playerComponent.getMaxExperience())
+        if (player == null)
+        {
+            player = GameObject.Find("Player").GetComponent<Player>();
+        }
+
+        if (player != null && player.experience >= player.getMaxExperience())
         {
             upgradeMenu.SetActive(true);
+        }
+        else
+        {
+            upgradeMenu.SetActive(false);
         }
     }
 
     public void UpgradeAttackDamage()
     {
-        if (pickaxeAttack != null)
+        if (player != null && player.experience >= player.getMaxExperience())
         {
-            pickaxeAttack.attackDamage += 1;
-            playerComponent.experience = 0;
-            Debug.Log("Attack Damage Upgraded");
-            upgradeMenu.SetActive(false);
+            pickaxeAttack.attackDamage += 10;
+            player.experience = 0;
+            Debug.Log("Attack Damage Upgraded!");
         }
     }
 
     public void UpgradeAttackSpeed()
     {
-        if (pickaxeController != null)
+        if (player != null && player.experience >= player.getMaxExperience())
         {
+            player.experience = 0;
             pickaxeController.attackSpeed -= 0.1f;
-            playerComponent.experience = 0;
-            Debug.Log("Attack Speed Upgraded");
-            upgradeMenu.SetActive(false);
+            Debug.Log("Attack Speed Upgraded!");
         }
     }
 }
