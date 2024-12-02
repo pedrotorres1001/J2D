@@ -291,6 +291,8 @@ public class BossMovement : MonoBehaviour
     {
         health -= damage;
 
+        StartCoroutine(ColorChangeCoroutine());
+
         bossHealthBar.GetComponent<HealthBar>().Update_health(health, maxHealth);
 
         audioManager.PlaySFX(audioManager.enemyDeath);
@@ -299,6 +301,22 @@ public class BossMovement : MonoBehaviour
         {
             Die();
         }
+    }
+
+    private IEnumerator ColorChangeCoroutine()
+    {
+        SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
+        Color damaged = Color.red;
+        Color original = Color.white;
+
+        // Change the color
+        sprite.color = damaged;
+
+        // Wait for the duration
+        yield return new WaitForSeconds(0.5f);
+
+        // Revert to the original color
+        sprite.color = original;
     }
 
     void Die()

@@ -9,7 +9,7 @@ public class GrapplingHookTutorial : MonoBehaviour
     private bool playerCollided;
 
     private void Update() {
-        if((Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.E)) && playerCollided)
+        if((Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.E)) && playerCollided)
         {
             mouseInteraction.SetActive(false);
             Destroy(gameObject);
