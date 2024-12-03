@@ -5,8 +5,8 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     [Header("--------- Audio Source ---------")]
-    [SerializeField] AudioSource musicSource;
-    [SerializeField] AudioSource SFXSource;
+    [SerializeField] public AudioSource musicSource;
+    [SerializeField] public AudioSource SFXSource;
 
     [Header("--------- Audio Clip ---------")]
     public AudioClip background;
@@ -25,5 +25,35 @@ public class AudioManager : MonoBehaviour
     public void PlaySFX(AudioClip clip)
     {
         SFXSource.PlayOneShot(clip);
+    }
+
+    public void loadSettings()
+    {
+        musicSource.volume = PlayerPrefs.GetFloat("MusicVolume");
+        SFXSource.volume = PlayerPrefs.GetFloat("SFXVolume");
+    }
+
+    public void GetSoundVolume(string volume)
+    {
+        if (volume == "Music")
+        {
+            PlayerPrefs.SetFloat("MusicVolume", musicSource.volume);
+        }
+        else if (volume == "SFX")
+        {
+            PlayerPrefs.SetFloat("SFXVolume", SFXSource.volume);
+        }
+    }
+
+    public void ChangeVolume(float volume, string type)
+    {
+        if (type == "Music")
+        {
+            musicSource.volume = volume;
+        }
+        else if (type == "SFX")
+        {
+            SFXSource.volume = volume;
+        }
     }
 }
