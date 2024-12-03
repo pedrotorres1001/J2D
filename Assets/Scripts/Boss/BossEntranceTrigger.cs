@@ -9,13 +9,12 @@ public class BossEntranceTrigger : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        int layerMask = LayerMask.GetMask("Player");
-
         if (other.CompareTag("Player"))
         {
             boss.engaged = true;
             bossHealthBar.GetComponent<HealthBar>().Update_health(boss.health, boss.maxHealth);
             bossHealthBar.SetActive(true);
+            this.gameObject.SetActive(false);
         }
     }
 }
