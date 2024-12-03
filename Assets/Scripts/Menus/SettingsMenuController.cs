@@ -12,9 +12,11 @@ public class SettingsMenuController : MonoBehaviour
 
     private Resolution[] resolutions;
 
+    [SerializeField] private GameObject lastMenu;
+
     void Start()
     {
-        audioSlider.value = PlayerPrefs.GetFloat("AudioVolume", 1.0f);
+        audioSlider.value = PlayerPrefs.GetFloat("AudioVolume", 0.5f);
 
         resolutions = Screen.resolutions;
 
@@ -37,7 +39,10 @@ public class SettingsMenuController : MonoBehaviour
 
         resolutionDropdown.AddOptions(resolutionOptions);
 
-        fullscreenToggle.isOn = PlayerPrefs.GetInt("Fullscreen", 1) == 1;
+        if(fullscreenToggle != null)
+        {
+            fullscreenToggle.isOn = PlayerPrefs.GetInt("Fullscreen", 1) == 1;
+        }
     }
 
     public void SetAudioVolume(float volume)
@@ -57,8 +62,9 @@ public class SettingsMenuController : MonoBehaviour
         PlayerPrefs.SetInt("Fullscreen", isFullscreen ? 1 : 0);
     }
 
-    public void ReturnToMainMenu()
+    public void ReturnToLastMenu()
     {
-        SceneTracker.ReturnToLastScene();
+        lastMenu.SetActive(true);
+        gameObject.SetActive(false);
     }
 }

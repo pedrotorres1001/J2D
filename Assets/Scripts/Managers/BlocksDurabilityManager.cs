@@ -14,6 +14,7 @@ public class BlocksDurabilityManager : MonoBehaviour
     [SerializeField] private Tile stoneFull;
     [SerializeField] private Tile stoneDamaged;
     [SerializeField] private Tile stoneAlmostBroken;
+    [SerializeField] private int goldExperience;
 
     private GameObject player;
 
@@ -60,7 +61,7 @@ public class BlocksDurabilityManager : MonoBehaviour
 
                 if(tilemap.gameObject.layer == 8)
                 {
-                    player.GetComponent<Player>().AddExperiencePoints(5);
+                    player.GetComponent<Player>().AddExperiencePoints(goldExperience);
                 }
             }
         }

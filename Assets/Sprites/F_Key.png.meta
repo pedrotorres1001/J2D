@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2756250ad022249948e5921b38264279
+guid: 5e274d4f6576d4a84b3c204907bed1f3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Mouse_0
+      name: F_Key_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3bfbd6d728804ab7b95551d7618e2f0
-      internalID: -380056683
+      spriteID: b348530b303e647baa3b34c63683bb91
+      internalID: 1289920461
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Mouse_1
+      name: F_Key_1
       rect:
         serializedVersion: 2
         x: 16
@@ -145,8 +145,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7765c797f6d87495895c83357dc33da1
-      internalID: 1311436619
+      spriteID: ec19387f8ab184f178e85ed4d3812401
+      internalID: -1150264208
       vertices: []
       indices: 
       edges: []
@@ -162,8 +162,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Mouse_0: -380056683
-      Mouse_1: 1311436619
+      F_Key_0: 1289920461
+      F_Key_1: -1150264208
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

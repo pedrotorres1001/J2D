@@ -10,15 +10,16 @@ public class AudioManager : MonoBehaviour
 
     [Header("--------- Audio Clip ---------")]
     public AudioClip background;
+    public AudioClip enemyDamage;
     public AudioClip enemyDeath;
     public AudioClip hitRock;
     public AudioClip swing;
     public AudioClip BossHitRock;
+    public AudioClip fire;
 
     private void Start()
     {
         musicSource.clip = background;
-        musicSource.Play();
     }
 
     public void PlaySFX(AudioClip clip)

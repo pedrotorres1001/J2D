@@ -9,9 +9,15 @@ public class PauseMenu : MonoBehaviour
     public GameObject settingsMenu;
     public GameObject startRespawnPoint;
     public static bool isPaused;
+
+    private AudioManager audioManager;
+
     void Start()
     {
         pauseMenu.SetActive(false);
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
+        audioManager.PlaySFX(audioManager.fire);
     }
 
     // Update is called once per frame

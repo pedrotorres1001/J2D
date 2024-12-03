@@ -11,6 +11,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int experiencePoints;
     [SerializeField] protected float speed;
     [SerializeField] protected float sightRange;
+    [SerializeField] private GameObject deathPrefab;
 
     private AudioManager audioManager;
 
@@ -29,7 +30,6 @@ public abstract class Enemy : MonoBehaviour
     {
         health -= damage;
 
-        audioManager.PlaySFX(audioManager.enemyDeath);
         StartCoroutine(ColorChangeCoroutine());
 
         health_bar.GetComponent<HealthBar>().Update_health(health, maxHealth);
@@ -37,13 +37,25 @@ public abstract class Enemy : MonoBehaviour
         if (health <= 0)
         {
             Die();
-            Destroy(health_bar);
         }
     }
 
     void Die()
     {
+        // Play death sound
+        audioManager.PlaySFX(audioManager.enemyDeath);
+
+        // Add experience points to the player
         GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
+
+        // Instantiate the death prefab at the current position and rotation
+
+        if (deathPrefab != null)
+        {
+            Instantiate(deathPrefab, transform.position, Quaternion.identity);
+        }
+        
+        // Destroy the enemy
         Destroy(gameObject);
     }
 
