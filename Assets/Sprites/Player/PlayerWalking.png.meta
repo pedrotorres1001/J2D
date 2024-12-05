@@ -113,9 +113,9 @@ TextureImporter:
       name: PlayerWalking_0
       rect:
         serializedVersion: 2
-        x: 2
+        x: 0
         y: 0
-        width: 12
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -134,9 +134,9 @@ TextureImporter:
       name: PlayerWalking_1
       rect:
         serializedVersion: 2
-        x: 18
+        x: 16
         y: 0
-        width: 12
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -155,9 +155,9 @@ TextureImporter:
       name: PlayerWalking_2
       rect:
         serializedVersion: 2
-        x: 34
+        x: 32
         y: 0
-        width: 12
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -176,9 +176,9 @@ TextureImporter:
       name: PlayerWalking_3
       rect:
         serializedVersion: 2
-        x: 50
+        x: 48
         y: 0
-        width: 12
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -189,6 +189,27 @@ TextureImporter:
       bones: []
       spriteID: 09c0e13d2dc9f4a40a851e778aba7926
       internalID: 2071244378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerWalking_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f11c877989c8d4e6a9b1296d542bf966
+      internalID: -635678252
       vertices: []
       indices: 
       edges: []
@@ -208,6 +229,7 @@ TextureImporter:
       PlayerWalking_1: 1824693292
       PlayerWalking_2: -1791599483
       PlayerWalking_3: 2071244378
+      PlayerWalking_4: -635678252
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
