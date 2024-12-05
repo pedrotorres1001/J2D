@@ -448,7 +448,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 4bb50fdbee01a41d1a129fa3795d0e16, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3578f5bc3ff9c45749b870716102d8bb, type: 3}
   m_Color: {r: 0.8156863, g: 1, b: 0.85237825, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5935,7 +5935,7 @@ Transform:
   m_GameObject: {fileID: 1427623347}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.41, y: 1.23, z: -0.10775911}
+  m_LocalPosition: {x: -0.04, y: 1.08, z: -0.10775911}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -6638,33 +6638,33 @@ MonoBehaviour:
   characterNameText: {fileID: 2133855154}
   characterImage: {fileID: 1394385253}
   dougImage: {fileID: 21300000, guid: 9fcd6b7e8ac1b46a69d3d90655336ec4, type: 3}
-  gregImage: {fileID: 0}
+  gregImage: {fileID: 21300000, guid: f86e0c65ba74a494f935a98a6358c73c, type: 3}
   speechBubble: {fileID: 1427623347}
   dialogLines:
   - characterName: Doug
     characterImage: {fileID: 21300000, guid: 4bb50fdbee01a41d1a129fa3795d0e16, type: 3}
     text: Aye, Greg, still swinging that same old hammer of yours?
   - characterName: Greg
-    characterImage: {fileID: 0}
+    characterImage: {fileID: 21300000, guid: f86e0c65ba74a494f935a98a6358c73c, type: 3}
     text: Ho there, Doug! Good to see your ugly mug 'round here. How fares the forge?
   - characterName: Doug
     characterImage: {fileID: 21300000, guid: 4bb50fdbee01a41d1a129fa3795d0e16, type: 3}
     text: The beard's still growin' longer, so I reckon I'm holdin' steady.
   - characterName: Greg
-    characterImage: {fileID: 0}
+    characterImage: {fileID: 21300000, guid: f86e0c65ba74a494f935a98a6358c73c, type: 3}
     text: Have ye heard the news lately?
   - characterName: Doug
     characterImage: {fileID: 21300000, guid: 4bb50fdbee01a41d1a129fa3795d0e16, type: 3}
     text: "Nay, what\u2019s gone amiss now?"
   - characterName: Greg
-    characterImage: {fileID: 0}
+    characterImage: {fileID: 21300000, guid: f86e0c65ba74a494f935a98a6358c73c, type: 3}
     text: You mean to say ye don't know? Bah, this is a right mess, cousin. Chaos,
       I tell ye!
   - characterName: Doug
     characterImage: {fileID: 21300000, guid: 4bb50fdbee01a41d1a129fa3795d0e16, type: 3}
     text: Well, spit it out! Don't keep me in the dark, it's makin' me beard itch!
   - characterName: Greg
-    characterImage: {fileID: 0}
+    characterImage: {fileID: 21300000, guid: f86e0c65ba74a494f935a98a6358c73c, type: 3}
     text: The King's been sendin' more supplies out o' the hold, and our lads are
       losin' their wits over it!
   - characterName: Doug
@@ -6672,7 +6672,7 @@ MonoBehaviour:
     text: Aye, this madness has been brewin' for years. Our lot's livin' worse by
       the day. Somethin's got to change.
   - characterName: Greg
-    characterImage: {fileID: 0}
+    characterImage: {fileID: 21300000, guid: f86e0c65ba74a494f935a98a6358c73c, type: 3}
     text: And have ye noticed the rumblin' from the mountain? Somethin' ain't right
       with the volcano.
   - characterName: Doug
@@ -6680,17 +6680,17 @@ MonoBehaviour:
     text: You're not wrong there. Just t'other day, I was hammerin' in the depths
       when the roof near caved in on me!
   - characterName: Greg
-    characterImage: {fileID: 0}
+    characterImage: {fileID: 21300000, guid: f86e0c65ba74a494f935a98a6358c73c, type: 3}
     text: Mining's always been a dangerous lot, but this feels like trouble brewin'.
   - characterName: Greg
-    characterImage: {fileID: 0}
+    characterImage: {fileID: 21300000, guid: f86e0c65ba74a494f935a98a6358c73c, type: 3}
     text: Speakin' of mining, aye, nearly forgot. I finished that pickaxe ye ordered.
       Here, take it.
   - characterName: Doug
     characterImage: {fileID: 21300000, guid: 4bb50fdbee01a41d1a129fa3795d0e16, type: 3}
     text: Ah, much obliged, Greg. This'll serve me well.
   - characterName: Greg
-    characterImage: {fileID: 0}
+    characterImage: {fileID: 21300000, guid: f86e0c65ba74a494f935a98a6358c73c, type: 3}
     text: No trouble, Doug. Keep yer wits sharp and yer feet steady down there!
 --- !u!4 &1787662746
 Transform:
