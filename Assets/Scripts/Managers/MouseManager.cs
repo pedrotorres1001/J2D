@@ -4,22 +4,64 @@ using UnityEngine;
 
 public class MouseManager : MonoBehaviour
 {
-    public Texture2D customCursorTexture; // Drag your texture here in the Inspector
-    public Vector2 hotSpot = Vector2.zero; // Set the cursor's "active point"
-    public CursorMode cursorMode = CursorMode.Auto;
+    public Texture2D cursorTexture; // Drag your arrow texture here in the Inspector
+    public float cursorScale = 2f; // Scale factor for the cursor
+    private GameObject customCursor; // GameObject to represent the custom cursor
+    private Camera mainCamera;
+
     void Start()
     {
-        int targetSize = 32; // Desired size of the cursor
-        Texture2D resizedCursor = ResizeTexture(customCursorTexture, targetSize, targetSize);
-        Cursor.SetCursor(resizedCursor, hotSpot, CursorMode.Auto);
+        // Hide the system cursor
+        Cursor.visible = false;
+
+        // Create a custom cursor object
+        customCursor = new GameObject("CustomCursor");
+        SpriteRenderer cursorRenderer = customCursor.AddComponent<SpriteRenderer>();
+
+        // Convert Texture2D to Sprite
+        Rect textureRect = new Rect(0, 0, cursorTexture.width, cursorTexture.height);
+        Vector2 pivot = new Vector2(0.5f, 0.5f); // Center of the sprite
+        cursorRenderer.sprite = Sprite.Create(cursorTexture, textureRect, pivot);
+
+        // Scale the cursor
+        customCursor.transform.localScale = Vector3.one * cursorScale;
+
+        // Set the sorting order to a high value to ensure the cursor renders in front
+        cursorRenderer.sortingOrder = 100; // Adjust the value to your needs
+
+        // Cache the main camera
+        mainCamera = Camera.main;
     }
 
-    Texture2D ResizeTexture(Texture2D original, int width, int height)
+    void Update()
     {
-        Texture2D resized = new Texture2D(width, height);
-        Color[] pixels = original.GetPixels(0, 0, original.width, original.height);
-        resized.SetPixels(pixels);
-        resized.Apply();
-        return resized;
+        if (Input.GetMouseButton(1))
+        {
+            customCursor.SetActive(true);
+
+            // Get mouse position in world space
+            Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = 0; // Keep it in 2D
+
+            // Position the custom cursor at the mouse position
+            customCursor.transform.position = mousePosition;
+
+            // Calculate direction from screen center to mouse position
+            Vector3 screenCenter = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
+            screenCenter.z = 0;
+
+            Vector3 direction = mousePosition - screenCenter;
+
+            // Calculate the rotation angle
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            // Rotate the cursor
+            customCursor.transform.rotation = Quaternion.Euler(0, 0, angle - 90); // Adjust by -90 degrees to align with the texture
+        }
+        else
+        {
+            // Hide the custom cursor when the button is not pressed
+            customCursor.SetActive(false);
+        }
     }
 }

@@ -88,14 +88,9 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsWalking", false);
         }
 
-        if ((Input.GetButton("Jump") || Input.GetKey(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)
+        if (Input.GetButton("Jump") && isGrounded)
         {
             Jump();
-        }
-
-        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isOnStairs)
-        {
-            upPressed = true;
         }
 
         if(isGrappling) 
@@ -231,21 +226,5 @@ public class PlayerMovement : MonoBehaviour
         Vector2 directionToCheck = Vector2.right * Mathf.Sign(direction);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToCheck, wallCheckDistance, groundLayer);
         return hit.collider != null;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Stairs")) 
-        {
-            isOnStairs = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Stairs")) 
-        {
-            isOnStairs = false;
-        }
     }
 }

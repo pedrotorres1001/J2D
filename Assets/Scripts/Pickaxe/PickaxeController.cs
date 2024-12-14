@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PickaxeController : MonoBehaviour
 {
@@ -22,7 +24,7 @@ public class PickaxeController : MonoBehaviour
         if(isPickaxeOnHand)
         {
             // Checa se o botão do rato está pressionado e se o tempo de ataque passou
-            if (Input.GetMouseButton(0) && Time.time >= lastAttackTime + attackSpeed) 
+            if (Input.GetButton("Attack") && Time.time >= lastAttackTime + attackSpeed) 
             {
                 SwingPickaxe();
             }
