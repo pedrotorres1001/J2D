@@ -13,6 +13,8 @@ public class GrapplingHook : MonoBehaviour
     [SerializeField] private float attachedCooldown;
     [SerializeField] private GameObject pickaxe;
     [SerializeField] private GameObject pickaxeGrapple;
+    [SerializeField] private float moveSpeed = 5f; // Speed for horizontal and vertical movement.
+    
 
     private Vector3 grapplePoint;
     public bool isGrappling = false;
@@ -23,18 +25,22 @@ public class GrapplingHook : MonoBehaviour
     private DistanceJoint2D joint;
     private Rigidbody2D playerRb;
     private PlayerMovement movement;
+    private float defaultGravityScale;
+
 
     void Start()
     {
         launchCooldown = 0f;
         retractCooldown = 0f;
         attachedCooldown = 0f;
-        rope.enabled = false; // Desabilita a linha inicialmente
+        rope.enabled = false;
         joint = GetComponent<DistanceJoint2D>();
         joint.enabled = false;
         playerRb = GetComponent<Rigidbody2D>();
         pickaxeGrapple.SetActive(false);
         movement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        defaultGravityScale = playerRb.gravityScale; // Store default gravity
+
     }
 
     void Update()
@@ -65,13 +71,28 @@ public class GrapplingHook : MonoBehaviour
                 StartCoroutine(RetractRope());
             }
 
-            if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && joint.distance > 1)
+            if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && joint.distance > 1 && grapplePoint.y > transform.position.y)
             {
                 joint.distance -= 5f * Time.deltaTime;
             }
-            else if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && joint.distance < grappleLength && grapplePoint.y > transform.position.y && Mathf.Abs(grapplePoint.x - transform.position.x) < 3)
+            // Permita aumentar a distÃ¢ncia apenas se o ponto de grapple estÃ¡ acima do jogador
+            if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && 
+                joint.distance < grappleLength && 
+                grapplePoint.y > transform.position.y) // SÃ³ se o ponto estiver acima
             {
                 joint.distance += 5f * Time.deltaTime;
+            }
+
+            // Horizontal movement while grappling
+            float horizontalInput = Input.GetAxis("Horizontal"); // A/D or Left/Right Arrow
+            playerRb.velocity = new Vector2(horizontalInput * moveSpeed, playerRb.velocity.y);
+
+            // Limit the distance horizontally from the grapple point
+            Vector2 toGrapplePoint = grapplePoint - transform.position;
+            if (toGrapplePoint.magnitude > joint.distance)
+            {
+                Vector2 directionBack = toGrapplePoint.normalized;
+                playerRb.AddForce(directionBack * pullForce * Time.deltaTime, ForceMode2D.Force);
             }
         }
         else
@@ -111,14 +132,12 @@ public class GrapplingHook : MonoBehaviour
         pickaxeGrapple.SetActive(true);
         pickaxe.SetActive(false);
 
-        // Calcula a rotação correta da picareta baseada na direção
         if (direction != Vector3.zero)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             pickaxeGrapple.transform.rotation = Quaternion.Euler(0, 0, angle - 45);
         }
 
-        // Realiza o raycast na direção especificada
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, grappleLength, grappleLayer);
 
         if (hit.collider != null)
@@ -139,9 +158,6 @@ public class GrapplingHook : MonoBehaviour
 
         StartCoroutine(MoveRope());
     }
-
-
-
 
     private IEnumerator MoveRope()
     {
@@ -169,7 +185,6 @@ public class GrapplingHook : MonoBehaviour
 
             while (isGrappling)
             {
-                playerRb.AddForce(pullDirection * pullForce * Time.deltaTime, ForceMode2D.Force);
                 yield return null;
             }
         }

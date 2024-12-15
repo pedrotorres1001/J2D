@@ -108,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isSliding && knockbackCounter <= 0)
+        if (!isSliding && knockbackCounter <= 0 && !isGrappling)
         {
             rb.velocity = new Vector2(direction * speed, rb.velocity.y);
         }
