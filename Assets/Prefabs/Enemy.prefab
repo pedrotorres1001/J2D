@@ -202,8 +202,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
-  health_bar: {fileID: 0}
-  experiencePoints: 5
+  health_bar: {fileID: 2534852450365961737, guid: a5f63a67a06deb244bcc2fa5e71eb479, type: 3}
+  experiencePoints: 30
   speed: 0.5
   sightRange: 10
   deathPrefab: {fileID: 2435507042165156719, guid: 5012142cdd91c4bf98791cd51ff42dd3, type: 3}

@@ -56,6 +56,7 @@ public class BlocksDurabilityManager : MonoBehaviour
             // If the tile is broken, remove it from the dictionary and the tilemap
             if (tileDurabilities[tilePos] <= 0)
             {
+                PlayerPrefs.SetInt("BlockBroken", 1);
                 tilemap.SetTile(tilePos, null);  // Remove the tile from the tilemap
                 tileDurabilities.Remove(tilePos); // Remove tile if broken
 
