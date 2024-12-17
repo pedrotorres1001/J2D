@@ -45,7 +45,7 @@ public class GrapplingHook : MonoBehaviour
 
     void Update()
     {
-        if ((Input.GetKey(KeyCode.X) || Input.GetKey(KeyCode.L)) && !isGrappling && launchCooldown == 0)
+        if (Input.GetButton("Grapple") && !isGrappling && launchCooldown == 0)
         {
             Vector3 direction = GetDirectionFromInput();
             if (direction != Vector3.zero)
@@ -55,7 +55,7 @@ public class GrapplingHook : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.L))
+        if (Input.GetButtonUp("Grapple"))
         {
             stopGrappling = true;
         }
@@ -65,7 +65,7 @@ public class GrapplingHook : MonoBehaviour
             rope.SetPosition(0, transform.position);
             pickaxeGrapple.transform.position = rope.GetPosition(1);
 
-            if (!isGrappleMoving && (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.L)))
+            if (!isGrappleMoving && Input.GetButtonUp("Grapple") )
             {
                 stopGrappling = true;
                 StartCoroutine(RetractRope());
