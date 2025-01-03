@@ -5,7 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    public int health = 100;
+    public int health;
+    public int maxHealth;
+    public int pickaxeLevel;
+    public int experience;
+    [SerializeField] private int maxExperience;
+
+    private void Start() {
+        health = maxHealth;
+        experience = 0;
+    }
+
+    public int getMaxExperience()
+    {
+        return maxExperience;
+    }
 
     public void TakeDamage(int damage)
     {
@@ -19,13 +33,23 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void AddExperiencePoints(int points)
+    {
+        experience += points;
+
+        if(experience >= maxExperience) 
+        {
+            pickaxeLevel++;
+        }
+    }
+
     void Die()
     {
         Destroy(gameObject);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-        private IEnumerator ColorChangeCoroutine()
+    private IEnumerator ColorChangeCoroutine()
     {
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         Color damaged = Color.red;

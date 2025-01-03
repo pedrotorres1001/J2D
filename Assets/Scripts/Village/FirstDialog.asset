@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eedf8063b0864f04c947ee612b5f048a, type: 3}
+  m_Name: FirstDialog
+  m_EditorClassIdentifier: 
+  dialogLines:
+  - speaker: Doug
+    content: Aye, Greg, still swinging that same old hammer of yours?
+    portrait: {fileID: 0}
+  - speaker: Greg
+    content: Ho there, cousin Doug! Good to see your ugly mug 'round here. How fares
+      the forge?
+    portrait: {fileID: 0}
+  - speaker: Doug
+    content: The beard's still growin' longer, so I reckon I'm holdin' steady.
+    portrait: {fileID: 0}
+  - speaker: Greg
+    content: Have ye heard the news lately?
+    portrait: {fileID: 0}
+  - speaker: Doug
+    content: "Nay, what\u2019s gone amiss now?"
+    portrait: {fileID: 0}
+  - speaker: Greg
+    content: "You mean to say ye don\u2019t know? Bah, this is a right mess, cousin\u2014chaos,
+      I tell ye!"
+    portrait: {fileID: 0}
+  - speaker: Doug
+    content: "Well, spit it out! Don\u2019t keep me in the dark\u2014it\u2019s makin'
+      me beard itch!"
+    portrait: {fileID: 0}
+  - speaker: Greg
+    content: "The King\u2019s been sendin\u2019 more supplies out o' the hold, and
+      our lads are losin' their wits over it!\""
+    portrait: {fileID: 0}
+  - speaker: Doug
+    content: "Aye, this madness has been brewin' for years. Our lot\u2019s livin\u2019
+      worse by the day. Somethin\u2019s got to change."
+    portrait: {fileID: 0}
+  - speaker: Greg
+    content: "And have ye noticed the rumblin' from the mountain? Somethin\u2019
+      ain\u2019t right with the volcano."
+    portrait: {fileID: 0}
+  - speaker: Doug
+    content: "You\u2019re not wrong there. Just t\u2019other day, I was hammerin\u2019
+      in the depths when the roof near caved in on me!"
+    portrait: {fileID: 0}
+  - speaker: Greg
+    content: "Mining\u2019s always been a dangerous lot, but this feels like trouble
+      brewin\u2019."
+    portrait: {fileID: 0}
+  - speaker: Greg
+    content: "Speakin' of mining\u2014aye, nearly forgot. I finished that pickaxe
+      ye ordered. Here, take it."
+    portrait: {fileID: 0}
+  - speaker: Doug
+    content: "Ah, much obliged, Greg. This\u2019ll serve me well."
+    portrait: {fileID: 0}
+  - speaker: Greg
+    content: No trouble, Doug. Keep yer wits sharp and yer feet steady down there!
+    portrait: {fileID: 0}

@@ -113,10 +113,10 @@ TextureImporter:
       name: Player_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 2
         y: 16
-        width: 15
-        height: 12
+        width: 12
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,7 +139,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 9
-      pivot: {x: 0.34455967, y: 0.34455967}
+      pivot: {x: 0.3186527, y: 0.32153076}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -155,10 +155,10 @@ TextureImporter:
       name: Player_2
       rect:
         serializedVersion: 2
-        x: 0
+        x: 2
         y: 0
-        width: 15
-        height: 12
+        width: 12
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,6 +168,48 @@ TextureImporter:
       bones: []
       spriteID: 3b674785cf83542f8899ca1f9476453c
       internalID: -1811484686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_3
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 0
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4f554e49464744aeb7f4fe0db0233a0
+      internalID: 710820237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_4
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 0
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b381b6813a78944368366d09e70a36df
+      internalID: -1518446116
       vertices: []
       indices: 
       edges: []
@@ -186,6 +228,8 @@ TextureImporter:
       Player_0: -828897453
       Player_1: -1877628595
       Player_2: -1811484686
+      Player_3: 710820237
+      Player_4: -1518446116
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

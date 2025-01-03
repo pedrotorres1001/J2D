@@ -10,32 +10,53 @@ public class PickaxeAttack : MonoBehaviour
     public int attackDamage;
     public int vitalDamageMultiplier; 
 
-    public void Attack()
+    private bool isAttacking;
+
+    private void OnTriggerStay2D(Collider2D other)
     {
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
-
-        foreach (Collider2D collider in hitEnemies)
+        switch (isAttacking)
         {
-            if (collider.CompareTag("Vital"))
-            {
-                Transform enemyTransform = collider.transform.parent;
-                if (enemyTransform != null && enemyTransform.CompareTag("Enemy"))
+            case true:
+                // Only check for collisions with the enemy or vital parts
+                if (other.CompareTag("Enemy"))
                 {
-                    enemyTransform.GetComponent<Enemy>().TakeDamage(attackDamage * vitalDamageMultiplier);
+                    // Apply regular damage
+                    if (other.GetComponent<Enemy>() != null)
+                    {
+                        other.GetComponent<Enemy>().TakeDamage(attackDamage);
+                    }
+                    else if (other.transform.parent.GetComponent<BossMovement>() != null)
+                    {
+                        other.transform.parent.GetComponent<BossMovement>().TakeDamage(attackDamage);
+                    }
+                    isAttacking = false;
                 }
-            }
+                else if (other.CompareTag("Vital"))
+                {
+                    // Apply vital damage
+                    Transform enemyTransform = other.transform.parent;
+                    if (enemyTransform != null && enemyTransform.CompareTag("Enemy"))
+                    {
+                        if (enemyTransform.GetComponent<Enemy>() != null)
+                        {
+                            enemyTransform.GetComponent<Enemy>().TakeDamage(attackDamage * vitalDamageMultiplier);
+                        }
+                        else if (enemyTransform.GetComponent<BossMovement>() != null)
+                        {
+                            enemyTransform.GetComponent<BossMovement>().TakeDamage(attackDamage * vitalDamageMultiplier);
+                        }
 
-            if (collider.CompareTag("Enemy"))
-            {
-                collider.GetComponent<Enemy>().TakeDamage(attackDamage);
-            }
+                        isAttacking = false;
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
 
-    /*
-    void OnDrawGizmos() {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+    public void Attack() 
+    {
+        isAttacking = true;
     }
-    */
 }

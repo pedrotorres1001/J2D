@@ -1,0 +1,31 @@
+{
+  "project_info": {
+    "project_number": "11189008210",
+    "project_id": "volcano-heart",
+    "storage_bucket": "volcano-heart.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11189008210:ios:031be682c130b8c7f32c8b",
+        "android_client_info": {
+          "package_name": "com.company.VolcanoHeart"
+        }
+      },
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpo55riDDvkYf31TkMCSx5mA5q9VZ5eKo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 0
+        },
+        "appinvite_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,6 +7,15 @@ TagManager:
   - Enemy
   - Vital
   - Stairs
+  - Lava
+  - Ground
+  - Audio
+  - Gold
+  - Destructable
+  - Confiner
+  - Pickaxe
+  - Grapple
+  - SceneManager
   layers:
   - Default
   - TransparentFX
@@ -16,8 +25,8 @@ TagManager:
   - UI
   - Ground
   - Destructable
-  - 
-  - 
+  - Gold
+  - Boss
   - 
   - 
   - 
@@ -44,12 +53,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Player
-    uniqueID: 2019118463
-    locked: 0
   - name: Ground
     uniqueID: 4130245939
     locked: 0
   - name: Destructable
     uniqueID: 2535456265
+    locked: 0
+  - name: Player
+    uniqueID: 2019118463
     locked: 0

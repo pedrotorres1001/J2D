@@ -1,35 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class PickaxeBreakBlock : MonoBehaviour
 {
-    public Tilemap tilemap;                    
-    public GameObject highlightObject;         
-    public Transform player;                  
-    public float destroyDistance;   
+    [SerializeField] private Tilemap tilemap;
+    [SerializeField] private Tilemap goldTilemap;
+    [SerializeField] private GameObject highlightObject;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private GameObject player;
+    [SerializeField] private float destroyDistance = 2f; // Distance within which blocks can be destroyed
+    [SerializeField] private int defaultDurability = 3;
+    [SerializeField] private int goldDurability = 5;
 
-    private Vector3Int tilePos;  
-    private Vector3 mouseWorldPos;
-    private Vector3 tileWorldPos; 
+    private Vector3Int tilePos;
+    private Vector3 tileWorldPos;
+    private Animator animator;
 
-    [SerializeField] private LayerMask layer;
+    AudioManager audioManager;
 
-    void Update()
+    private void Start()
     {
-        // vai buscar posição do rato
-        mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorldPos.z = 0;
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>(); 
+    }
 
-        // tile no sitio do rato
-        tilePos = tilemap.WorldToCell(mouseWorldPos);
+    private void Update()
+    {
+        // Get the mouse world position and snap it to the nearest tile
+        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPos.z = 0; // Ensure Z is zero for 2D games
+        tilePos = tilemap.WorldToCell(mouseWorldPos); // Convert to tile position
+        tileWorldPos = tilemap.GetCellCenterWorld(tilePos); // Snap to tile center
 
-        tileWorldPos = tilemap.GetCellCenterWorld(tilePos);
-
-        if (tilemap.HasTile(tilePos) && IsTileNearPlayer(tileWorldPos))
+        // Highlight the tile if it's valid and near enough to the player
+        if ((tilemap.HasTile(tilePos) || goldTilemap.HasTile(tilePos)) && IsTileNearPlayer(tileWorldPos))
         {
-            HighlightTile(tilePos);    
+            HighlightTile(tilePos);
         }
         else
         {
@@ -40,37 +46,73 @@ public class PickaxeBreakBlock : MonoBehaviour
     void HighlightTile(Vector3Int tilePos)
     {
         highlightObject.SetActive(true);
-
-        // Get the tile's world position
-        Vector3 tileWorldPos = tilemap.CellToWorld(tilePos);
-
-        // Offset by half of the tile size to center the highlight
-        Vector3 centeredTilePos = tileWorldPos + new Vector3(tilemap.cellSize.x / 2, tilemap.cellSize.y / 2, 0);
-
-        highlightObject.transform.position = centeredTilePos;    
+        highlightObject.transform.position = tilemap.GetCellCenterWorld(tilePos); // Center the highlight object
     }
 
     bool IsTileNearPlayer(Vector3 tilePos)
     {
-        float distanceToTile = Vector3.Distance(player.position, tileWorldPos);
-        return distanceToTile <= destroyDistance;
+        // Check if the block is within the destroyDistance from the player
+        return Vector3.Distance(player.transform.position, tilePos) <= destroyDistance;
     }
-    
-    // função chamada quando se quer partir bloco
-    public void BreakBlock() {
-            
-        if (IsTileNearPlayer(tilePos))
+
+    public void BreakBlock()
+    {
+        ChangeDirection();
+
+        // Break the block only if it's within the valid distance
+        if (IsTileNearPlayer(tileWorldPos))
         {
-            tilemap.SetTile(tilePos, null);
+            if (tilemap.HasTile(tilePos))
+            {
+                HandleDurability(tilemap, tilePos, defaultDurability);
+                audioManager.PlaySFX(audioManager.hitRock);
+            }
+            else if (goldTilemap.HasTile(tilePos))
+            {
+                HandleDurability(goldTilemap, tilePos, goldDurability);
+                audioManager.PlaySFX(audioManager.hitRock);
+            }
         }
     }
 
-    void OnDrawGizmosSelected()
+    void ChangeDirection()
     {
-        if (player == null) return;
+        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPos.z = 0; // Ensure Z is zero for 2D games
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(player.position, destroyDistance); // Draw a radius around the player
+        // Calculate the vector from the player to the cursor
+        Vector3 direction = mouseWorldPos - player.transform.position;
+
+        // Calculate the angle between the player and the cursor
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // Determine the direction based on the angle
+        if (angle > -45 && angle <= 45)
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection = 1;
+        }
+        else if (angle > 45 && angle <= 135)
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection = 2;
+        }
+        else if (angle > 135 || angle <= -135)
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection = -1;
+        }
+        else if (angle < -45 && angle >= -135)
+        {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection = 3;
+        }
+
+        // Optional: Debug log to check the angle value
+        Debug.Log("Angle: " + angle + ", LastDirection: " + animator.GetFloat("LastDirection"));
     }
 
+    void HandleDurability(Tilemap targetTilemap, Vector3Int tilePos, int startingDurability)
+    {
+        int currentDurability = BlocksDurabilityManager.Instance.GetOrInitializeDurability(tilePos, startingDurability);
+
+        // Use the BlocksDurabilityManager to reduce durability and update the tile appearance
+        BlocksDurabilityManager.Instance.ReduceDurability(tilePos, targetTilemap);
+    }
 }

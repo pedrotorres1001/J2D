@@ -1,16 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
-    public int health = 100;
+    [SerializeField] protected int health = 100;
+    [SerializeField] protected int maxHealth = 100;
+    public GameObject health_bar;
+    [SerializeField] protected int experiencePoints;
+    [SerializeField] protected float speed;
+    [SerializeField] protected float sightRange;
+    [SerializeField] private GameObject deathPrefab;
+
+    private AudioManager audioManager;
+
+
+    protected virtual void Start()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
+        health_bar.transform.position = new Vector3(0, .7f);
+        health_bar = Instantiate(health_bar, transform);
+    }
+
+    public abstract void Attack();
 
     public void TakeDamage(int damage)
     {
         health -= damage;
 
         StartCoroutine(ColorChangeCoroutine());
+
+        health_bar.GetComponent<HealthBar>().Update_health(health, maxHealth);
 
         if (health <= 0)
         {
@@ -20,16 +42,21 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        // Add death logic here (e.g., play animation, destroy object)
-        Destroy(gameObject);
-    }
+        // Play death sound
+        audioManager.PlaySFX(audioManager.enemyDeath);
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
+        // Add experience points to the player
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
+
+        // Instantiate the death prefab at the current position and rotation
+
+        if (deathPrefab != null)
         {
-            GetComponent<EnemyAttack>().Attack();
+            Instantiate(deathPrefab, transform.position, Quaternion.identity);
         }
+        
+        // Destroy the enemy
+        Destroy(gameObject);
     }
 
     private IEnumerator ColorChangeCoroutine()
@@ -47,4 +74,6 @@ public class Enemy : MonoBehaviour
         // Revert to the original color
         sprite.color = original;
     }
+
+
 }
