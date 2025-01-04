@@ -155,9 +155,14 @@ public class BossMovement : MonoBehaviour
                         rb.velocity = dashDirection * dashSpeed;
                         break;
                     case "postdash":
-                        animator.SetBool("isWalking", false);
+                        animator.SetBool("isCharging", false);
+                        animator.SetBool("isStunned", true);
+                        animator.Play("MiniBossStun1");
                         if (cooldown == 0)
+                        {
                             state = "idle";
+                            animator.SetBool("isStunned", false);
+                        }
                         break;
                     case "hit":
                         if (cooldown == 0)
