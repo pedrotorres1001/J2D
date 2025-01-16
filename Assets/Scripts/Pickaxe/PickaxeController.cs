@@ -32,7 +32,7 @@ public class PickaxeController : MonoBehaviour
     private void SwingPickaxe() {
         animator.SetTrigger("Swing");
 
-        audioManager.PlaySFX(audioManager.swing);
+        audioManager.Play("swing");
         GetComponent<PickaxeBreakBlock>().BreakBlock();
         GetComponent<PickaxeAttack>().Attack();
 

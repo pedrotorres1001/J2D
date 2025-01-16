@@ -96,7 +96,7 @@ public class GrapplingHook : MonoBehaviour
 
     private void StartGrappling()
     {
-        audioManager.PlaySFX(audioManager.swing);
+        audioManager.Play("swing");
         launchCooldown = attachedCooldown; 
         
         isGrappling = true; // Ativa o grappling
@@ -161,7 +161,7 @@ public class GrapplingHook : MonoBehaviour
         // Se a corda atingiu um ponto válido
         if (grappleHit && !stopGrappling)
         {
-            audioManager.PlaySFX(audioManager.hitRock);
+            audioManager.Play("hitRock");
 
             joint.connectedAnchor = grapplePoint; // Define o ponto de ancoragem
             joint.enabled = true;  // Ativa o joint
@@ -185,7 +185,7 @@ public class GrapplingHook : MonoBehaviour
         }
         else if (grappleHit)
         {
-            audioManager.PlaySFX(audioManager.hitRock);
+            audioManager.Play("hitRock");
             joint.connectedAnchor = grapplePoint; // Define o ponto de ancoragem
             joint.enabled = true;  // Ativa o joint
 

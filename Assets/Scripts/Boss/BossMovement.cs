@@ -300,7 +300,7 @@ public class BossMovement : MonoBehaviour
 
         bossHealthBar.GetComponent<HealthBar>().Update_health(health, maxHealth);
 
-        audioManager.PlaySFX(audioManager.enemyDeath);
+        audioManager.Play("enemyDeath");
 
         if (health <= 0)
         {

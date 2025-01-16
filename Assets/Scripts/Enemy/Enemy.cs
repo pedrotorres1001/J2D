@@ -43,7 +43,7 @@ public abstract class Enemy : MonoBehaviour
     void Die()
     {
         // Play death sound
-        audioManager.PlaySFX(audioManager.enemyDeath);
+        audioManager.Play("enemyDeath");
 
         // Add experience points to the player
         GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);

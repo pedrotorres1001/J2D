@@ -65,12 +65,12 @@ public class PickaxeBreakBlock : MonoBehaviour
             if (tilemap.HasTile(tilePos))
             {
                 HandleDurability(tilemap, tilePos, defaultDurability);
-                audioManager.PlaySFX(audioManager.hitRock);
+                audioManager.Play("hitRock");
             }
             else if (goldTilemap.HasTile(tilePos))
             {
                 HandleDurability(goldTilemap, tilePos, goldDurability);
-                audioManager.PlaySFX(audioManager.hitRock);
+                audioManager.Play("hitRock");
             }
         }
     }

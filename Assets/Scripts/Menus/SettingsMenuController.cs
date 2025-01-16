@@ -44,7 +44,7 @@ public class SettingsMenuController : MonoBehaviour
             audioManager.loadSettings();
 
             // Define o valor inicial do slider com base no volume salvo no PlayerPrefs ou um valor padrão
-            volumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", audioManager.musicSource.volume);
+            volumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", audioManager.musicVolume);
         }
 
         // Adiciona um listener ao slider para controlar o volume
@@ -64,7 +64,7 @@ public class SettingsMenuController : MonoBehaviour
         if (audioManager != null)
         {
             // Ajusta o volume da música através do AudioManager
-            audioManager.ChangeVolume(volume, "Music");
+            audioManager.musicVolume = volume;
 
             // Salva o volume definido pelo jogador utilizando PlayerPrefs
             PlayerPrefs.SetFloat("MusicVolume", volume);

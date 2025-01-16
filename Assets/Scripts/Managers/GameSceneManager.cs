@@ -14,7 +14,7 @@ public class GameSceneManager : MonoBehaviour
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
-        audioManager.PlaySFX(audioManager.background);
+        audioManager.Play("background");
 
         //gameObject.GetComponent<SceneFadeManager>().FadeIn();
 

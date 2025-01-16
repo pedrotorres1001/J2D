@@ -1,59 +1,59 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
-    [Header("--------- Audio Source ---------")]
-    [SerializeField] public AudioSource musicSource;
-    [SerializeField] public AudioSource SFXSource;
+    public static AudioManager instance;
+    public AudioMixerGroup mixerGroup;
+    public Sound[] sounds;
 
-    [Header("--------- Audio Clip ---------")]
-    public AudioClip background;
-    public AudioClip enemyDamage;
-    public AudioClip enemyDeath;
-    public AudioClip hitRock;
-    public AudioClip swing;
-    public AudioClip BossHitRock;
-    public AudioClip fire;
+    public float musicVolume = 1;
+    public float SFXVolume = 1;
 
-    private void Start()
+    void Awake()
     {
-        musicSource.clip = background;
-    }
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
-    public void PlaySFX(AudioClip clip)
-    {
-        SFXSource.PlayOneShot(clip);
+        foreach (Sound s in sounds)
+        {
+            s.source = gameObject.AddComponent<AudioSource>();
+            s.source.clip = s.clip;
+            s.source.loop = s.loop;
+
+            s.source.outputAudioMixerGroup = mixerGroup;
+        }
     }
 
     public void loadSettings()
     {
-        musicSource.volume = PlayerPrefs.GetFloat("MusicVolume");
-        SFXSource.volume = PlayerPrefs.GetFloat("SFXVolume");
+        musicVolume = PlayerPrefs.GetFloat("MusicVolume");
+        SFXVolume = PlayerPrefs.GetFloat("SFXVolume");
     }
 
-    public void GetSoundVolume(string volume)
+    public void Play(string sound)
     {
-        if (volume == "Music")
+        Sound s = Array.Find(sounds, item => item.name == sound);
+        if (s == null)
         {
-            PlayerPrefs.SetFloat("MusicVolume", musicSource.volume);
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
         }
-        else if (volume == "SFX")
-        {
-            PlayerPrefs.SetFloat("SFXVolume", SFXSource.volume);
-        }
-    }
 
-    public void ChangeVolume(float volume, string type)
-    {
-        if (type == "Music")
-        {
-            musicSource.volume = volume;
-        }
-        else if (type == "SFX")
-        {
-            SFXSource.volume = volume;
-        }
+        s.source.volume = s.volume * (1f + UnityEngine.Random.Range(-s.volumeVariance / 2f, s.volumeVariance / 2f));
+        s.source.pitch = s.pitch * (1f + UnityEngine.Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f));
+
+        s.source.Play();
     }
 }
