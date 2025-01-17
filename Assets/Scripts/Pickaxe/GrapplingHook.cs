@@ -26,12 +26,8 @@ public class GrapplingHook : MonoBehaviour
     private Rigidbody2D playerRb;  
     private PlayerMovement movement;
 
-    AudioManager audioManager;
-
-
     void Start()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         launchCooldown = 0f;
         retractCooldown = 0f;
         attachedCooldown = 0f;
@@ -96,7 +92,6 @@ public class GrapplingHook : MonoBehaviour
 
     private void StartGrappling()
     {
-        audioManager.Play("swing");
         launchCooldown = attachedCooldown; 
         
         isGrappling = true; // Ativa o grappling
@@ -161,8 +156,6 @@ public class GrapplingHook : MonoBehaviour
         // Se a corda atingiu um ponto válido
         if (grappleHit && !stopGrappling)
         {
-            audioManager.Play("hitRock");
-
             joint.connectedAnchor = grapplePoint; // Define o ponto de ancoragem
             joint.enabled = true;  // Ativa o joint
 
@@ -185,7 +178,6 @@ public class GrapplingHook : MonoBehaviour
         }
         else if (grappleHit)
         {
-            audioManager.Play("hitRock");
             joint.connectedAnchor = grapplePoint; // Define o ponto de ancoragem
             joint.enabled = true;  // Ativa o joint
 

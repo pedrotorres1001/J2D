@@ -7,14 +7,16 @@ public class BlocksDurabilityManager : MonoBehaviour
     public static BlocksDurabilityManager Instance { get; private set; }
 
     // Define tile appearances for different durability levels
-    [SerializeField] private Tile goldDamaged;
-    [SerializeField] private Tile goldDamaged2;
-    [SerializeField] private Tile goldDamaged3;
-    [SerializeField] private Tile goldDamagedFull;
-    [SerializeField] private Tile stoneFull;
-    [SerializeField] private Tile stoneDamaged;
-    [SerializeField] private Tile stoneAlmostBroken;
-    [SerializeField] private int goldExperience;
+    [SerializeField] Tile goldDamaged;
+    [SerializeField] Tile goldDamaged2;
+    [SerializeField] Tile goldDamaged3;
+    [SerializeField] Tile goldDamagedFull;
+    [SerializeField] Tile stoneFull;
+    [SerializeField] Tile stoneDamaged;
+    [SerializeField] Tile stoneAlmostBroken;
+    [SerializeField] int goldExperience;
+    [SerializeField] GameObject dustEffectPrefab;
+    [SerializeField] GameObject crystalPrefab;
 
     private GameObject player;
 
@@ -56,13 +58,16 @@ public class BlocksDurabilityManager : MonoBehaviour
             // If the tile is broken, remove it from the dictionary and the tilemap
             if (tileDurabilities[tilePos] <= 0)
             {
-                PlayerPrefs.SetInt("BlockBroken", 1);
-                tilemap.SetTile(tilePos, null);  // Remove the tile from the tilemap
-                tileDurabilities.Remove(tilePos); // Remove tile if broken
+                Vector3 worldPosition = tilemap.GetCellCenterWorld(tilePos); // Obter a posição do bloco
+                InstantiateDustEffect(worldPosition); // Gerar as partículas no local do bloco
 
-                if(tilemap.gameObject.layer == 8)
+                tilemap.SetTile(tilePos, null);  // Remover o tile do tilemap
+                tileDurabilities.Remove(tilePos); // Remover a durabilidade do bloco
+
+                if (tilemap.gameObject.layer == 8)
                 {
-                    player.GetComponent<Player>().AddExperiencePoints(goldExperience);
+                    //player.GetComponent<Player>().AddExperiencePoints(goldExperience);
+                    InstantiateCrystal(worldPosition); // Gerar as partículas no local do bloco
                 }
             }
         }
@@ -121,5 +126,21 @@ public class BlocksDurabilityManager : MonoBehaviour
         {
             tilemap.SetTile(tilePos, newTile);
         }
+    }
+
+    private void InstantiateDustEffect(Vector3 worldPosition)
+    {
+        if (dustEffectPrefab != null)
+        {
+            Instantiate(dustEffectPrefab, worldPosition, Quaternion.identity);
+        }
+    }
+
+    private void InstantiateCrystal(Vector3 worldPosition)
+    {
+        if(crystalPrefab != null)
+        {
+            Instantiate(crystalPrefab, worldPosition, Quaternion.identity);
+        } 
     }
 }

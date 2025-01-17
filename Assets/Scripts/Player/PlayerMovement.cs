@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    [SerializeField] private float jumpForce;
-    [SerializeField] private float stairsForce;
-    [SerializeField] private bool isGrounded;
+    [SerializeField] float speed;
+    [SerializeField] float jumpForce;
+    [SerializeField] float stairsForce;
+    [SerializeField] bool isGrounded;
 
-    [SerializeField] private float groundCheckDistance;
-    [SerializeField] private float wallCheckDistance;
-    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] float groundCheckDistance;
+    [SerializeField] float wallCheckDistance;
+    [SerializeField] LayerMask groundLayer;
 
-    [SerializeField] private float gravity;
-    [SerializeField] private float wallSlideSpeed;
-    [SerializeField] private float wallSlideDuration = 2f; // Limit slide time
+    [SerializeField] float gravity;
+    [SerializeField] float wallSlideSpeed;
+    [SerializeField] float wallSlideDuration = 2f; // Limit slide time
 
-    [SerializeField] private GameObject player;
+    [SerializeField] GameObject player;
+
+    [SerializeField] ParticleSystem dust;
+    public float interval = 1f; // Intervalo em segundos
+    private float timer = 0f; // Temporizador interno
+
+    [SerializeField] AudioManager audioManager;
 
     public float knockbackForce;
     public float knockbackCounter;
@@ -28,7 +34,6 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     public float lastDirection = 1;
 
-    private bool isOnStairs;
     private bool upPressed;
 
     public float direction;
@@ -44,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        isOnStairs = false;
         lastDirection = -1;
         animator.SetFloat("LastDirection", lastDirection);
     }
@@ -70,6 +74,16 @@ public class PlayerMovement : MonoBehaviour
             
             if(isGrounded)
                 animator.SetBool("IsWalking", true);
+                //audioManager.Play("walk");
+            
+        }
+
+        timer += Time.deltaTime;
+
+        if (timer >= interval && direction != 0 && isGrounded)
+        {
+            dust.Play(); // Reproduz as partículas
+            timer = 0f; // Reseta o temporizador
         }
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) 
@@ -90,12 +104,8 @@ public class PlayerMovement : MonoBehaviour
 
         if ((Input.GetButton("Jump") || Input.GetKey(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)
         {
+            dust.Play(); 
             Jump();
-        }
-
-        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && isOnStairs)
-        {
-            upPressed = true;
         }
 
         if(isGrappling) 
@@ -231,21 +241,5 @@ public class PlayerMovement : MonoBehaviour
         Vector2 directionToCheck = Vector2.right * Mathf.Sign(direction);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToCheck, wallCheckDistance, groundLayer);
         return hit.collider != null;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Stairs")) 
-        {
-            isOnStairs = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Stairs")) 
-        {
-            isOnStairs = false;
-        }
     }
 }
