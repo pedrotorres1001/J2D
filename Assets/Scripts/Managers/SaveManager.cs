@@ -69,7 +69,8 @@ public class SaveManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        filePath = Path.Combine(Application.persistentDataPath, "saveData.json");
+        PlayerPrefs.SetString("Filename", "saveData.json");
+        filePath = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetString("Filename"));
     }
 
     // Método para salvar os dados do jogador e inimigos
@@ -161,4 +162,5 @@ public class SaveManager : MonoBehaviour
     {
         playerScript = player;
     }
+
 }

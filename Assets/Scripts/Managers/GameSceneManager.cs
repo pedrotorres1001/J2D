@@ -16,11 +16,13 @@ public class GameSceneManager : MonoBehaviour
 
     private AudioManager audioManager;
     private Player playerScript;
+    private string filePath;
 
     // Start is called before the first frame update
     void Start()
     {
-        currentLevel = 1;
+        filePath = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetString("Filename"));
+        saveManager.LoadData();
 
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         audioManager.Play("background");
@@ -33,6 +35,13 @@ public class GameSceneManager : MonoBehaviour
 
         // Definir o Player no SaveManager
         saveManager.SetPlayerReference(playerScript);
+
+        // Verificar se o arquivo de save existe
+        if (!File.Exists(filePath))
+        { 
+            currentLevel = 1;
+            Debug.Log("No save file found to load.");
+        }
     }
 
     private void Update()
@@ -42,23 +51,17 @@ public class GameSceneManager : MonoBehaviour
             // currentMap = map1;
         }
 
-        // Press 'U' to save data
         if (Input.GetKeyDown(KeyCode.U))
         {
             saveManager.SaveData(); // Salvar dados diretamente do SaveManager
         }
 
-        // Press 'Y' to load data, but only if the save file exists
         if (Input.GetKeyDown(KeyCode.Y))
         {
             // Verificar se o arquivo de save existe
-            if (File.Exists(saveManager.FilePath))
+            if (File.Exists(filePath))
             {
                 saveManager.LoadData(); // Carregar dados diretamente no SaveManager
-            }
-            else
-            {
-                Debug.Log("No save file found to load.");
             }
         }
     }
