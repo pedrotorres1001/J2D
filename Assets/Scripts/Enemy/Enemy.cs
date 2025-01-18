@@ -7,14 +7,19 @@ public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected int health = 100;
     [SerializeField] protected int maxHealth = 100;
+    
     public GameObject health_bar;
+
     [SerializeField] protected int experiencePoints;
     [SerializeField] protected float speed;
-    [SerializeField] protected float sightRange;
+
     [SerializeField] private GameObject deathPrefab;
 
     private AudioManager audioManager;
 
+    public int Health { 
+        get { return health;  }
+        set { health = value; }}
 
     protected virtual void Start()
     {
