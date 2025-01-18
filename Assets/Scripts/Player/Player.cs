@@ -54,19 +54,13 @@ public class Player : MonoBehaviour
     {
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         Color damaged = Color.red;
-        Color original = Color.white;
+        Color original = gameObject.GetComponent<SpriteRenderer>().color;
 
-        // Change the color
-        sprite.color = damaged;
-        yield return new WaitForSeconds(0.1f);
-        sprite.color = original;
-        yield return new WaitForSeconds(0.1f);
-        sprite.color = damaged;
-        yield return new WaitForSeconds(0.1f);
-        sprite.color = original;
-        yield return new WaitForSeconds(0.1f);
-        sprite.color = damaged;
-        yield return new WaitForSeconds(0.1f);
-        sprite.color = original;
+        for(int i = 0; i < 5; i++) {
+            yield return new WaitForSeconds(0.2f);
+            sprite.color = damaged;
+            yield return new WaitForSeconds(0.2f);
+            sprite.color = original;
+        }
     }
 }

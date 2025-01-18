@@ -315,12 +315,12 @@ SpriteRenderer:
   m_SortingLayerID: 2019118463
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4bb50fdbee01a41d1a129fa3795d0e16, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: -2141307298, guid: 4231cda6f970443119d003b6aa2d9f63, type: 3}
+  m_Color: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.75, y: 1}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -395,6 +395,9 @@ MonoBehaviour:
   wallSlideSpeed: 1
   wallSlideDuration: 2
   player: {fileID: 1448950200424056156}
+  dust: {fileID: 0}
+  interval: 1
+  audioManager: {fileID: 0}
   knockbackForce: 0
   knockbackCounter: 0
   knockbackTotalTime: 0
@@ -641,11 +644,11 @@ MonoBehaviour:
   tilemap: {fileID: 0}
   goldTilemap: {fileID: 0}
   highlightObject: {fileID: 0}
+  mainCamera: {fileID: 0}
   player: {fileID: 1448950200424056156}
   destroyDistance: 1.26
   defaultDurability: 3
   goldDurability: 5
-  animator: {fileID: 4269976171579715250}
 --- !u!95 &4269976171579715250
 Animator:
   serializedVersion: 5

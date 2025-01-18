@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 8570442978777321779}
   - component: {fileID: 1377681472884911585}
   - component: {fileID: 6942000346288058232}
+  - component: {fileID: 730434422603697441}
   - component: {fileID: 4092356021933655235}
+  - component: {fileID: 3616196129722157383}
   m_Layer: 0
   m_Name: Crystal
   m_TagString: Untagged
@@ -75,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 73321809, guid: df893e6c5ff93e842b1c761caaa410ea, type: 3}
+  m_Sprite: {fileID: 186915227, guid: df893e6c5ff93e842b1c761caaa410ea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -115,11 +117,46 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0015694755, y: 0.028636456}
+  m_Size: {x: 0.266037, y: 0.32534668}
+  m_Direction: 0
+--- !u!70 &730434422603697441
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4813930974092361159}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0000027247838, y: 0.0036423549}
-  m_Size: {x: 0.4025214, y: 0.5118193}
+  m_Offset: {x: 0.0011144365, y: 0.030150754}
+  m_Size: {x: 0.26967186, y: 0.33220905}
   m_Direction: 0
 --- !u!50 &4092356021933655235
 Rigidbody2D:
@@ -148,3 +185,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &3616196129722157383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4813930974092361159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1bd32645e3ea72428696eabc91c26d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floatSpeed: 1
+  raycastDistance: 0.5

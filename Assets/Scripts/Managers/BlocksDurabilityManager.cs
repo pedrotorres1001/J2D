@@ -7,25 +7,22 @@ public class BlocksDurabilityManager : MonoBehaviour
     public static BlocksDurabilityManager Instance { get; private set; }
 
     // Define tile appearances for different durability levels
-    [SerializeField] Tile goldDamaged;
-    [SerializeField] Tile goldDamaged2;
-    [SerializeField] Tile goldDamaged3;
-    [SerializeField] Tile goldDamagedFull;
+    [SerializeField] Tile crystalDamaged;
+    [SerializeField] Tile crystalDamaged2;
+    [SerializeField] Tile crystalDamaged3;
+    [SerializeField] Tile crystalDamagedFull;
     [SerializeField] Tile stoneFull;
     [SerializeField] Tile stoneDamaged;
     [SerializeField] Tile stoneAlmostBroken;
-    [SerializeField] int goldExperience;
     [SerializeField] GameObject dustEffectPrefab;
+    [SerializeField] ParticleSystem dustParticles;
     [SerializeField] GameObject crystalPrefab;
 
-    private GameObject player;
 
     private Dictionary<Vector3Int, int> tileDurabilities = new Dictionary<Vector3Int, int>();
 
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-
         // Ensure there is only one instance
         if (Instance == null)
         {
@@ -59,15 +56,16 @@ public class BlocksDurabilityManager : MonoBehaviour
             if (tileDurabilities[tilePos] <= 0)
             {
                 Vector3 worldPosition = tilemap.GetCellCenterWorld(tilePos); // Obter a posição do bloco
-                InstantiateDustEffect(worldPosition); // Gerar as partículas no local do bloco
+
+                dustParticles.transform.position = worldPosition;
+                dustParticles.Play();
 
                 tilemap.SetTile(tilePos, null);  // Remover o tile do tilemap
                 tileDurabilities.Remove(tilePos); // Remover a durabilidade do bloco
 
                 if (tilemap.gameObject.layer == 8)
                 {
-                    //player.GetComponent<Player>().AddExperiencePoints(goldExperience);
-                    InstantiateCrystal(worldPosition); // Gerar as partículas no local do bloco
+                    InstantiateCrystal(worldPosition); 
                 }
             }
         }
@@ -103,36 +101,26 @@ public class BlocksDurabilityManager : MonoBehaviour
             // Choose the tile appearance based on durability
             if (currentDurability == 4)
             {
-                newTile = goldDamaged;  // Full durability
+                newTile = crystalDamaged;  // Full durability
             }
             else if (currentDurability == 3)
             {
-                newTile = goldDamaged2;  // Medium durability
+                newTile = crystalDamaged2;  // Medium durability
             }
             else if (currentDurability == 2)
             {
-                newTile = goldDamaged3;  // Medium durability
+                newTile = crystalDamaged3;  // Medium durability
             }
             else if (currentDurability == 1)
             {
-                newTile = goldDamagedFull;  // Almost broken
+                newTile = crystalDamagedFull;  // Almost broken
             }
         }
-
-
 
         // Update the tile on the tilemap
         if (newTile != null)
         {
             tilemap.SetTile(tilePos, newTile);
-        }
-    }
-
-    private void InstantiateDustEffect(Vector3 worldPosition)
-    {
-        if (dustEffectPrefab != null)
-        {
-            Instantiate(dustEffectPrefab, worldPosition, Quaternion.identity);
         }
     }
 

@@ -27,7 +27,12 @@ public class BaseEnemy : Enemy
     private bool isAttacking;
     private bool canSeePlayer;
 
-    private PlayerMovement playerMovement;    
+    private PlayerMovement playerMovement;
+
+    [SerializeField] ParticleSystem dustParticles;
+    public float interval = 1f; // Intervalo em segundos
+    private float timer = 0f; // Temporizador interno
+
     protected override void Start() {
         base.Start();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -71,6 +76,14 @@ public class BaseEnemy : Enemy
             {
                 enemyPatrol.Patrol();
             }
+        }
+
+        timer += Time.deltaTime;
+
+        if (gameObject.GetComponent<Rigidbody2D>().velocity.x != 0 && timer >= interval)
+        {
+            dustParticles.Play(); // Reproduz as partículas
+            timer = 0f; // Reseta o temporizador   
         }
     }
 
