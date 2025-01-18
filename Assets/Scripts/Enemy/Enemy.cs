@@ -16,6 +16,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private GameObject deathPrefab;
 
     private AudioManager audioManager;
+    public bool isAlive;
 
     public int Health { 
         get { return health;  }
@@ -27,6 +28,8 @@ public abstract class Enemy : MonoBehaviour
 
         health_bar.transform.position = new Vector3(0, .7f);
         health_bar = Instantiate(health_bar, transform);
+
+        isAlive = true;
     }
 
     public abstract void Attack();
@@ -59,9 +62,10 @@ public abstract class Enemy : MonoBehaviour
         {
             Instantiate(deathPrefab, transform.position, Quaternion.identity);
         }
-        
+
         // Destroy the enemy
-        Destroy(gameObject);
+        isAlive = false;
+        gameObject.SetActive(false);
     }
 
     private IEnumerator ColorChangeCoroutine()

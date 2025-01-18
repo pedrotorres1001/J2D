@@ -72,12 +72,10 @@ public class BaseEnemy : Enemy
         {
             Attack();
         }
-        else if (!canSeePlayer) 
+        else if (!canSeePlayer && enemyPatrol != null && !isPerformingAction && !isAttacking)
         {
-            if (enemyPatrol != null) 
-            {
-                enemyPatrol.Patrol();
-            }
+            // Call Patrol only if no action is being performed
+            enemyPatrol.Patrol();
         }
 
         timer += Time.deltaTime;

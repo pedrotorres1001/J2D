@@ -36,38 +36,10 @@ public class SaveManager : MonoBehaviour
     [SerializeField] private Player playerScript;  // Referência ao script do Player
     [SerializeField] private GameObject enemyPrefab;  // Prefab do inimigo
 
-    // Propriedade pública para acessar a instância
-    public static SaveManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<SaveManager>();
-
-                if (_instance == null)
-                {
-                    // Se não encontrar, cria um novo GameObject com SaveManager
-                    GameObject obj = new GameObject("SaveManager");
-                    _instance = obj.AddComponent<SaveManager>();
-                }
-            }
-            return _instance;
-        }
-    }
 
     private void Awake()
     {
-        // Garantir que a instância seja a única e que o objeto não seja destruído ao carregar novas cenas
-        if (_instance != null && _instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+
 
         PlayerPrefs.SetString("Filename", "saveData.json");
         filePath = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetString("Filename"));
