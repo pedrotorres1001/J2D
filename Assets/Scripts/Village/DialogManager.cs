@@ -19,6 +19,7 @@ public class DialogManager : MonoBehaviour
     public GameObject dialogUI;
     public TextMeshProUGUI dialogText;
     public TextMeshProUGUI characterNameText;
+    public Button endDialogButton;
     public Image characterImage;
     public Sprite dougImage;
     public Sprite gregImage;
@@ -26,6 +27,19 @@ public class DialogManager : MonoBehaviour
     public DialogLine[] dialogLines;
     private int currentLineIndex = 0;
     private bool isDialogActive = false;
+
+    void Start()
+    {
+        if (endDialogButton != null)
+        {
+            endDialogButton.onClick.AddListener(EndDialog);
+            Debug.Log("EndDialog button listener added.");
+        }
+        else
+        {
+            Debug.LogError("EndDialog button is not assigned.");
+        }
+    }
 
     void Update()
     {
@@ -63,6 +77,7 @@ public class DialogManager : MonoBehaviour
             currentLineIndex = 0;
             ShowDialogLine();
             player.GetComponent<PlayerMovement>().enabled = false;
+            Debug.Log("Dialog started.");
         }
     }
 
@@ -90,15 +105,15 @@ public class DialogManager : MonoBehaviour
             dialogText.text = line.text;
             characterNameText.text = line.characterName;
 
-            if(line.characterName == "Doug")
+            if (line.characterName == "Doug")
             {
                 characterImage.sprite = dougImage;
             }
-            else if(line.characterName == "Greg")
+            else if (line.characterName == "Greg")
             {
                 characterImage.sprite = gregImage;
             }
-            
+            Debug.Log("Showing dialog line: " + line.text);
         }
     }
 
@@ -109,6 +124,7 @@ public class DialogManager : MonoBehaviour
         player.GetComponent<PlayerMovement>().enabled = true; // Enable player movement
         speechBubble.SetActive(false);
         GetChildObject(player, "Pickaxe").SetActive(true);
+        Debug.Log("Dialog ended.");
     }
 
     void CancelDialog()
@@ -119,6 +135,7 @@ public class DialogManager : MonoBehaviour
             dialogUI.SetActive(false);
             player.GetComponent<PlayerMovement>().enabled = true; // Enable player movement 
             speechBubble.SetActive(false);
+            Debug.Log("Dialog canceled.");
         }
     }
 
