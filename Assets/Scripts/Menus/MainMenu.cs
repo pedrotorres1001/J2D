@@ -7,11 +7,16 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject settingsMenu;
     public GameObject mainMenu;
-    public void PlayGame()
+    public void NewGame()
     {
         SceneManager.LoadScene("Village");
     }
-    
+
+    public void LoadGame()
+    {
+        SceneManager.LoadScene("Game");
+    }
+
     public void Settings()
     {
         mainMenu.SetActive(false);

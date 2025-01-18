@@ -31,6 +31,8 @@ public class SaveManager : MonoBehaviour
     private static SaveManager _instance;
     private string filePath;
 
+    public string FilePath { get; private set; }
+
     [SerializeField] private Player playerScript;  // Referência ao script do Player
     [SerializeField] private GameObject enemyPrefab;  // Prefab do inimigo
 

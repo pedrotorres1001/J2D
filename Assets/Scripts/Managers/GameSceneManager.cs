@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.IO;
 
 public class GameSceneManager : MonoBehaviour
 {
@@ -47,10 +48,19 @@ public class GameSceneManager : MonoBehaviour
             saveManager.SaveData(); // Salvar dados diretamente do SaveManager
         }
 
-        // Press 'Y' to load data
+        // Press 'Y' to load data, but only if the save file exists
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            saveManager.LoadData(); // Carregar dados diretamente no SaveManager
+            // Verificar se o arquivo de save existe
+            if (File.Exists(saveManager.FilePath))
+            {
+                saveManager.LoadData(); // Carregar dados diretamente no SaveManager
+            }
+            else
+            {
+                Debug.Log("No save file found to load.");
+            }
         }
     }
+
 }
