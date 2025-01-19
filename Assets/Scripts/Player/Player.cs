@@ -9,7 +9,9 @@ public class Player : MonoBehaviour
     public int maxHealth;
     public int pickaxeLevel;
     public int experience;
-    [SerializeField] private int maxExperience;
+    [SerializeField] int maxExperience;
+
+    [SerializeField] Animator animator;
 
     private void Start() 
     {
@@ -46,8 +48,9 @@ public class Player : MonoBehaviour
 
     void Die()
     {
-        Destroy(gameObject);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        animator.SetBool("IsDead", true);
+        //Destroy(gameObject);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private IEnumerator ColorChangeCoroutine()

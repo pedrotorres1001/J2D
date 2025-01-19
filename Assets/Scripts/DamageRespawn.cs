@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RespawnPlayer : MonoBehaviour
+public class DamageRespawn : MonoBehaviour
 {
     private GameObject player;
+    [SerializeField] int damage;
 
     private void Start() 
     {
@@ -14,6 +15,8 @@ public class RespawnPlayer : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.CompareTag("Player")) {
+            other.gameObject.GetComponent<Player>().TakeDamage(damage);
+
             player.transform.position = new Vector2(PlayerPrefs.GetFloat("RespawnX"), PlayerPrefs.GetFloat("RespawnY"));
         }
     }
