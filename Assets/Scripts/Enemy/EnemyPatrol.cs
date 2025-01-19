@@ -20,6 +20,8 @@ public class EnemyPatrol : MonoBehaviour
 
     public void Patrol()
     {
+        if (rb == null || animator == null) return;  // Garantir que os componentes não sejam nulos
+
         int layer = LayerMask.GetMask("Ground", "Destructable");
 
         // Check for obstacles in the current direction
@@ -38,4 +40,5 @@ public class EnemyPatrol : MonoBehaviour
         // Update the animator with the patrol direction
         animator.SetFloat("Direction", direction);
     }
+
 }

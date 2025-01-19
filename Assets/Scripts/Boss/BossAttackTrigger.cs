@@ -37,7 +37,7 @@ public class BossAttackTrigger : MonoBehaviour
         }
         else
         {
-            audioManager.PlaySFX(audioManager.BossHitRock);
+            audioManager.Play("BossHitRock");
             boss.ChangeState("postdash");
             this.gameObject.SetActive(false);
         }

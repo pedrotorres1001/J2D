@@ -11,7 +11,8 @@ public class Player : MonoBehaviour
     public int experience;
     [SerializeField] private int maxExperience;
 
-    private void Start() {
+    private void Start() 
+    {
         health = maxHealth;
         experience = 0;
     }
@@ -53,15 +54,13 @@ public class Player : MonoBehaviour
     {
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         Color damaged = Color.red;
-        Color original = Color.white;
+        Color original = gameObject.GetComponent<SpriteRenderer>().color;
 
-        // Change the color
-        sprite.color = damaged;
-
-        // Wait for the duration
-        yield return new WaitForSeconds(0.5f);
-
-        // Revert to the original color
-        sprite.color = original;
+        for(int i = 0; i < 5; i++) {
+            yield return new WaitForSeconds(0.2f);
+            sprite.color = damaged;
+            yield return new WaitForSeconds(0.2f);
+            sprite.color = original;
+        }
     }
 }

@@ -21,7 +21,7 @@ public class PickaxeController : MonoBehaviour
     {
         if(isPickaxeOnHand)
         {
-            // Checa se o botão do rato está pressionado e se o tempo de ataque passou
+            // Checka se o botão do rato está pressionado e se o tempo de ataque passou
             if (Input.GetMouseButton(0) && Time.time >= lastAttackTime + attackSpeed) 
             {
                 SwingPickaxe();
@@ -32,7 +32,7 @@ public class PickaxeController : MonoBehaviour
     private void SwingPickaxe() {
         animator.SetTrigger("Swing");
 
-        audioManager.PlaySFX(audioManager.swing);
+        audioManager.Play("swing");
         GetComponent<PickaxeBreakBlock>().BreakBlock();
         GetComponent<PickaxeAttack>().Attack();
 

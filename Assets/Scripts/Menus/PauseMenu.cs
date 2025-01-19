@@ -17,7 +17,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
-        audioManager.PlaySFX(audioManager.fire);
+        audioManager.Play("fire");
     }
 
     // Update is called once per frame

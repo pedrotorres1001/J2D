@@ -5,25 +5,25 @@ using UnityEngine;
 
 public class GrapplingHook : MonoBehaviour
 {
-    [SerializeField] private float grappleLength = 5f;
-    [SerializeField] private LayerMask grappleLayer;
-    [SerializeField] private LineRenderer rope;
-    [SerializeField] private float ropeSpeed = 20f;
-    [SerializeField] private float pullForce = 10f;
-    [SerializeField] private float launchCooldown;
+    [SerializeField] private float grappleLength = 5f; 
+    [SerializeField] private LayerMask grappleLayer;    
+    [SerializeField] private LineRenderer rope;            
+    [SerializeField] private float ropeSpeed = 20f;    
+    [SerializeField] private float pullForce = 10f;     
+    [SerializeField] private float launchCooldown;    
     [SerializeField] private float retractCooldown;
     [SerializeField] private float attachedCooldown;
-    [SerializeField] private GameObject pickaxe;
-    [SerializeField] private GameObject pickaxeGrapple;
+    [SerializeField] private GameObject pickaxe;      
+    [SerializeField] private GameObject pickaxeGrapple;      
 
-    private Vector3 grapplePoint;
-    public bool isGrappling = false;
+    private Vector3 grapplePoint;                       
+    public bool isGrappling = false;                     
     private bool isGrappleMoving = false;
     private bool stopGrappling = false;
-    private Vector3 ropeTargetPosition;
-    private bool grappleHit = false;
-    private DistanceJoint2D joint;
-    private Rigidbody2D playerRb;
+    private Vector3 ropeTargetPosition;              
+    private bool grappleHit = false;                    
+    private DistanceJoint2D joint;               
+    private Rigidbody2D playerRb;  
     private PlayerMovement movement;
 
     void Start()
@@ -60,7 +60,7 @@ public class GrapplingHook : MonoBehaviour
             //Debug.Log(angle);
 
             rope.SetPosition(0, transform.position);  // Mant�m o ponto inicial da corda na posi��o do jogador
-
+            
             pickaxeGrapple.transform.position = rope.GetPosition(1); // Mant�m a picareta na posi�ao certa
 
             // Inicia a retra��o ap�s alcan�ar o ponto ou atingir o comprimento m�ximo
@@ -92,8 +92,8 @@ public class GrapplingHook : MonoBehaviour
 
     private void StartGrappling()
     {
-        launchCooldown = attachedCooldown;
-
+        launchCooldown = attachedCooldown; 
+        
         isGrappling = true; // Ativa o grappling
         isGrappleMoving = true;
 
@@ -137,7 +137,7 @@ public class GrapplingHook : MonoBehaviour
 
         // Inicia a coroutine para movimentar a corda
         StartCoroutine(MoveRope());
-
+        
     }
 
     private IEnumerator MoveRope()
