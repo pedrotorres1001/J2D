@@ -5,36 +5,35 @@ using UnityEngine;
 
 public class GrapplingHook : MonoBehaviour
 {
-    [SerializeField] private float grappleLength = 5f; 
-    [SerializeField] private LayerMask grappleLayer;    
-    [SerializeField] private Rope rope;            
-    [SerializeField] private float ropeSpeed = 20f;    
-    [SerializeField] private float pullForce = 10f;     
-    [SerializeField] private float launchCooldown;    
+    [SerializeField] private float grappleLength = 5f;
+    [SerializeField] private LayerMask grappleLayer;
+    [SerializeField] private LineRenderer rope;
+    [SerializeField] private float ropeSpeed = 20f;
+    [SerializeField] private float pullForce = 10f;
+    [SerializeField] private float launchCooldown;
     [SerializeField] private float retractCooldown;
     [SerializeField] private float attachedCooldown;
-    [SerializeField] private GameObject pickaxe;      
-    [SerializeField] private GameObject pickaxeGrapple;      
+    [SerializeField] private GameObject pickaxe;
+    [SerializeField] private GameObject pickaxeGrapple;
 
-    private Vector3 grapplePoint;                       
-    public bool isGrappling = false;                     
+    private Vector3 grapplePoint;
+    public bool isGrappling = false;
     private bool isGrappleMoving = false;
     private bool stopGrappling = false;
-    private Vector3 ropeTargetPosition;              
-    private bool grappleHit = false;            
-    private Rigidbody2D playerRb;  
+    private Vector3 ropeTargetPosition;
+    private bool grappleHit = false;
+    private DistanceJoint2D joint;
+    private Rigidbody2D playerRb;
     private PlayerMovement movement;
-
-    AudioManager audioManager;
-
 
     void Start()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         launchCooldown = 0f;
         retractCooldown = 0f;
         attachedCooldown = 0f;
         rope.enabled = false; // Desabilita a linha inicialmente
+        joint = GetComponent<DistanceJoint2D>();           // Obt�m o DistanceJoint2D do jogador
+        joint.enabled = false;                              // Garante que o joint esteja desativado inicialmente
         playerRb = GetComponent<Rigidbody2D>();            // Obt�m o Rigidbody2D do jogador
         pickaxeGrapple.SetActive(false);
         movement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
@@ -60,9 +59,9 @@ public class GrapplingHook : MonoBehaviour
             float angle = Mathf.Tan((transform.position.x - grapplePoint.x) / (transform.position.y - grapplePoint.y));
             //Debug.Log(angle);
 
-            rope.pointA = transform.position;  // Mant�m o ponto inicial da corda na posi��o do jogador
-            
-            pickaxeGrapple.transform.position = rope.pointB; // Mant�m a picareta na posi�ao certa
+            rope.SetPosition(0, transform.position);  // Mant�m o ponto inicial da corda na posi��o do jogador
+
+            pickaxeGrapple.transform.position = rope.GetPosition(1); // Mant�m a picareta na posi�ao certa
 
             // Inicia a retra��o ap�s alcan�ar o ponto ou atingir o comprimento m�ximo
             if (!isGrappleMoving && (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)))
@@ -71,7 +70,6 @@ public class GrapplingHook : MonoBehaviour
                 StartCoroutine(RetractRope());
             }
 
-            /*
             if (Input.GetKey(KeyCode.W) && joint.distance > 1)
             {
                 joint.distance -= 5f * Time.deltaTime;
@@ -80,11 +78,10 @@ public class GrapplingHook : MonoBehaviour
             {
                 joint.distance += 5f * Time.deltaTime;
             }
-            */
         }
         else
         {
-            //joint.enabled = false;
+            joint.enabled = false;
             rope.enabled = false;
             pickaxeGrapple.SetActive(false);
             pickaxe.SetActive(true);
@@ -95,9 +92,8 @@ public class GrapplingHook : MonoBehaviour
 
     private void StartGrappling()
     {
-        audioManager.PlaySFX(audioManager.swing);
-        launchCooldown = attachedCooldown; 
-        
+        launchCooldown = attachedCooldown;
+
         isGrappling = true; // Ativa o grappling
         isGrappleMoving = true;
 
@@ -135,13 +131,13 @@ public class GrapplingHook : MonoBehaviour
         }
 
         ropeTargetPosition = transform.position; // Posi��o inicial da corda
-        rope.pointA = transform.position;  // Define a posi��o inicial da corda
-        rope.pointB = transform.position;  // Define a posi��o final da corda
+        rope.SetPosition(0, transform.position);  // Define a posi��o inicial da corda
+        rope.SetPosition(1, transform.position);  // Define a posi��o final da corda
         rope.enabled = true;                      // Habilita a linha
 
         // Inicia a coroutine para movimentar a corda
         StartCoroutine(MoveRope());
-        
+
     }
 
     private IEnumerator MoveRope()
@@ -150,7 +146,7 @@ public class GrapplingHook : MonoBehaviour
         while (Vector3.Distance(ropeTargetPosition, grapplePoint) > 0.1f && isGrappling)
         {
             ropeTargetPosition = Vector3.MoveTowards(ropeTargetPosition, grapplePoint, ropeSpeed * Time.deltaTime);
-            rope.pointB = ropeTargetPosition; // Atualiza a posição final da corda
+            rope.SetPosition(1, ropeTargetPosition); // Atualiza a posição final da corda
             pickaxeGrapple.transform.position = ropeTargetPosition; // Posiciona a picareta no ponto do grapple
             yield return null; // Espera até o próximo frame
         }
@@ -160,13 +156,11 @@ public class GrapplingHook : MonoBehaviour
         // Se a corda atingiu um ponto válido
         if (grappleHit && !stopGrappling)
         {
-            audioManager.PlaySFX(audioManager.hitRock);
-
-            //joint.connectedAnchor = grapplePoint; // Define o ponto de ancoragem
-            //joint.enabled = true;  // Ativa o joint
+            joint.connectedAnchor = grapplePoint; // Define o ponto de ancoragem
+            joint.enabled = true;  // Ativa o joint
 
             // Define a distância para o joint, garantindo que fique próximo do jogador
-            //joint.distance = 0.1f; // Define a distância mínima
+            joint.distance = 0.1f; // Define a distância mínima
 
             // Aplica uma força imediata para puxar o jogador em direção ao ponto de grappling
             Vector2 pullDirection = (grapplePoint - transform.position).normalized; // Direção correta
@@ -184,12 +178,11 @@ public class GrapplingHook : MonoBehaviour
         }
         else if (grappleHit)
         {
-            audioManager.PlaySFX(audioManager.hitRock);
-            //joint.connectedAnchor = grapplePoint; // Define o ponto de ancoragem
-            //joint.enabled = true;  // Ativa o joint
+            joint.connectedAnchor = grapplePoint; // Define o ponto de ancoragem
+            joint.enabled = true;  // Ativa o joint
 
             // Define a distância para o joint, garantindo que fique próximo do jogador
-            //joint.distance = 0.1f; // Define a distância mínima
+            joint.distance = 0.1f; // Define a distância mínima
 
             // Aplica uma força imediata para puxar o jogador em direção ao ponto de grappling
             Vector2 pullDirection = (grapplePoint - transform.position).normalized; // Direção correta
@@ -217,17 +210,17 @@ public class GrapplingHook : MonoBehaviour
         Vector3 initialRopePosition = transform.position; // Mant�m a posi��o inicial na posi��o do jogador
 
         // Desabilita o joint ap�s a retra��o da corda
-        //joint.enabled = false;
+        joint.enabled = false;
 
         // Volta a corda para a posi��o do jogador
         while (Vector3.Distance(ropeTargetPosition, initialRopePosition) > 0.1f)
         {
             ropeTargetPosition = Vector3.MoveTowards(ropeTargetPosition, initialRopePosition, ropeSpeed * Time.deltaTime);
-            rope.pointB = ropeTargetPosition; // Atualiza a posi��o final da corda
+            rope.SetPosition(1, ropeTargetPosition); // Atualiza a posi��o final da corda
             pickaxeGrapple.transform.position = ropeTargetPosition; // Por o pickaxe na ponta do grapple
 
             // Mant�m o ponto inicial da corda na posi��o do jogador
-            rope.pointA = transform.position; // Atualiza a posi��o inicial da corda
+            rope.SetPosition(0, transform.position); // Atualiza a posi��o inicial da corda
 
             yield return null; // Espera at� o pr�ximo frame
         }
