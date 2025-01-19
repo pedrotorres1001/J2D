@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,81 +5,104 @@ using UnityEngine.InputSystem;
 
 public class SettingKeybindMenu : MonoBehaviour
 {
-    public KeybindManager keybindManager; // Referência ao KeybindManager
-    [SerializeField] private Button jumpButton; // Botão para redefinir a tecla de pular
-    [SerializeField] private TextMeshProUGUI jumpKeyText; // Texto que mostra a tecla atual de pular
-    [SerializeField] private Button moveLeftButton; // Botão para redefinir a tecla de movimento para a esquerda
-    [SerializeField] private TextMeshProUGUI moveLeftKeyText; // Texto que mostra a tecla atual de movimento para a esquerda
-    [SerializeField] private Button moveRightButton; // Botão para redefinir a tecla de movimento para a direita
-    [SerializeField] private TextMeshProUGUI moveRightKeyText; // Texto que mostra a tecla atual de movimento para a direita
-    [SerializeField] private Button grapplingHookButton; // Botão para redefinir a tecla do gancho
-    [SerializeField] private TextMeshProUGUI grapplingHookKeyText; // Texto que mostra a tecla atual do gancho
-    [SerializeField] private Button interactButton; // Botão para redefinir a tecla de interagir
-    [SerializeField] private TextMeshProUGUI interactKeyText; // Texto que mostra a tecla atual de interagir
-    [SerializeField] private Button swingPickaxeButton; // Botão para redefinir a tecla de balançar a picareta
-    [SerializeField] private TextMeshProUGUI swingPickaxeKeyText; // Texto que mostra a tecla atual de balançar a picareta
-    [SerializeField] private Button backButton; // Botão para salvar as configurações
-    [SerializeField] private GameObject settingsMenuController; // Controlador do menu de configurações
-    [SerializeField] private GameObject keybindMenu; // Controlador do menu de teclas
+    public KeybindManager keybindManager; // Reference to KeybindManager
+
+    [Header("UI Elements")]
+    [SerializeField] private Button jumpButton;
+    [SerializeField] private TextMeshProUGUI jumpKeyText;
+    [SerializeField] private Button moveLeftButton;
+    [SerializeField] private TextMeshProUGUI moveLeftKeyText;
+    [SerializeField] private Button moveRightButton;
+    [SerializeField] private TextMeshProUGUI moveRightKeyText;
+    [SerializeField] private Button grapplingHookButton;
+    [SerializeField] private TextMeshProUGUI grapplingHookKeyText;
+    [SerializeField] private Button interactButton;
+    [SerializeField] private TextMeshProUGUI interactKeyText;
+    [SerializeField] private Button swingPickaxeButton;
+    [SerializeField] private TextMeshProUGUI swingPickaxeKeyText;
+    [SerializeField] private Button backButton;
+
+    [Header("Menu References")]
+    [SerializeField] private GameObject settingsMenuController;
+    [SerializeField] private GameObject keybindMenu;
 
     private void OnEnable()
     {
-        // Pause the game when the keybind menu is displayed
+        // Pause the game and disable player input
         Time.timeScale = 0f;
+        PlayerInput playerInput = FindObjectOfType<PlayerInput>();
+        if (playerInput != null)
+            playerInput.enabled = false;
+
+        // Update UI with current keybinds
+        UpdateKeybindUI();
     }
 
     private void OnDisable()
     {
-        // Unpause the game when the keybind menu is hidden
+        // Resume the game and re-enable player input
         Time.timeScale = 1f;
+        PlayerInput playerInput = FindObjectOfType<PlayerInput>();
+        if (playerInput != null)
+            playerInput.enabled = true;
     }
 
     private void Start()
     {
-        // Inicializa o texto do botão com o binding atual
-        jumpKeyText.text = GetBindingDisplayString("Jump");
-        moveLeftKeyText.text = GetBindingDisplayString("MoveLeft");
-        moveRightKeyText.text = GetBindingDisplayString("MoveRight");
-        grapplingHookKeyText.text = GetBindingDisplayString("GrapplingHook");
-        interactKeyText.text = GetBindingDisplayString("Interact");
-        swingPickaxeKeyText.text = GetBindingDisplayString("SwingPickaxe");
+        // Add listeners for rebinding
+        jumpButton.onClick.AddListener(() => StartRebinding("Jump", 0, jumpKeyText));
+        moveLeftButton.onClick.AddListener(() => StartRebinding("Move", 1, moveLeftKeyText)); // Index 1 = Left
+        moveRightButton.onClick.AddListener(() => StartRebinding("Move", 2, moveRightKeyText)); // Index 2 = Right
+        grapplingHookButton.onClick.AddListener(() => StartRebinding("GrapplingHook", 0, grapplingHookKeyText));
+        interactButton.onClick.AddListener(() => StartRebinding("Interact", 0, interactKeyText));
+        swingPickaxeButton.onClick.AddListener(() => StartRebinding("SwingPickaxe", 0, swingPickaxeKeyText));
+        backButton.onClick.AddListener(BackToSettingsMenu);
 
-        // Configura o evento do botão para redefinir a tecla
-        jumpButton.onClick.AddListener(() => StartRebinding("Jump", jumpKeyText));
-        moveLeftButton.onClick.AddListener(() => StartRebinding("MoveLeft", moveLeftKeyText));
-        moveRightButton.onClick.AddListener(() => StartRebinding("MoveRight", moveRightKeyText));
-        grapplingHookButton.onClick.AddListener(() => StartRebinding("GrapplingHook", grapplingHookKeyText));
-        interactButton.onClick.AddListener(() => StartRebinding("Interact", interactKeyText));
-        swingPickaxeButton.onClick.AddListener(() => StartRebinding("SwingPickaxe", swingPickaxeKeyText));
-        backButton.onClick.AddListener(BackToSettingsMenu); // Assign the BackToSettingsMenu method to the backButton
-
-        // Carrega os bindings salvos ao iniciar
+        // Load saved keybinds on startup
         keybindManager.LoadKeybinds();
+        UpdateKeybindUI();
     }
 
-    private string GetBindingDisplayString(string actionName)
+    private void UpdateKeybindUI()
+    {
+        // Update displayed keybind texts
+        jumpKeyText.text = GetBindingDisplayString("Jump", 0);
+        moveLeftKeyText.text = GetBindingDisplayString("Move", 1);
+        moveRightKeyText.text = GetBindingDisplayString("Move", 2);
+        grapplingHookKeyText.text = GetBindingDisplayString("GrapplingHook", 0);
+        interactKeyText.text = GetBindingDisplayString("Interact", 0);
+        swingPickaxeKeyText.text = GetBindingDisplayString("SwingPickaxe", 0);
+    }
+
+    private string GetBindingDisplayString(string actionName, int bindingIndex)
     {
         var action = keybindManager.InputSystem_Actions.FindAction(actionName);
-        if (action != null && action.bindings.Count > 0)
+        if (action != null && bindingIndex >= 0 && bindingIndex < action.bindings.Count)
         {
-            return InputControlPath.ToHumanReadableString(action.bindings[0].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
+            return InputControlPath.ToHumanReadableString(
+                action.bindings[bindingIndex].effectivePath,
+                InputControlPath.HumanReadableStringOptions.OmitDevice
+            );
         }
         return "Not Bound";
     }
 
-    private void StartRebinding(string actionName, TextMeshProUGUI keyText)
+    private void StartRebinding(string actionName, int bindingIndex, TextMeshProUGUI keyText)
     {
-        keyText.text = $"Press a key to rebind {actionName}...";
-        keybindManager.StartRebinding(actionName, 0, newBinding =>
+        keyText.text = "Press a key...";
+        keybindManager.StartRebinding(actionName, bindingIndex, newBinding =>
         {
-            keyText.text = InputControlPath.ToHumanReadableString(newBinding, InputControlPath.HumanReadableStringOptions.OmitDevice);
-            keybindManager.SaveKeybinds();
+            keyText.text = InputControlPath.ToHumanReadableString(
+                newBinding,
+                InputControlPath.HumanReadableStringOptions.OmitDevice
+            );
+            keybindManager.SaveKeybinds(); // Save changes after rebinding
         });
     }
 
-    public void BackToSettingsMenu()
+    private void BackToSettingsMenu()
     {
-        settingsMenuController.SetActive(true);
         keybindMenu.SetActive(false);
+        settingsMenuController.SetActive(true);
     }
 }
