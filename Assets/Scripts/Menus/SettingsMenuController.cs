@@ -11,6 +11,9 @@ public class SettingsMenuController : MonoBehaviour
     public Toggle fullscreenToggle;
     public AudioManager audioManager;
     public Slider volumeSlider;
+    public Button KeybindButton;
+    public GameObject pauseMenu;
+    public GameObject settingsKeybindMenu;
     Resolution[] resolutions;
 
     private void Start()
@@ -57,6 +60,9 @@ public class SettingsMenuController : MonoBehaviour
         // Adiciona listeners para os eventos de mudança dos dropdowns e do toggle
         resolutionDropdown.onValueChanged.AddListener(SetResolution);
         fullscreenToggle.onValueChanged.AddListener(SetFullscreen);
+
+        // Assign the OpenKeybindMenu method to the KeybindButton
+        KeybindButton.onClick.AddListener(OpenKeybindMenu);
     }
 
     public void SetVolume(float volume)
@@ -116,5 +122,20 @@ public class SettingsMenuController : MonoBehaviour
             fullscreenToggle.isOn = isFullscreen;
             Debug.Log("Fullscreen Value: " + PlayerPrefs.GetInt("Fullscreen"));
         }
+    }
+
+    public void OpenKeybindMenu()
+    {
+        // deve dar able ao menu de keybind e desable o menu de settings
+        settingsKeybindMenu.SetActive(true);
+        gameObject.SetActive(false);
+    }
+    
+    public void BackToMainMenu()
+    {
+        // deve dar able ao menu de pause e desable o menu de settings
+        gameObject.SetActive(false);
+        pauseMenu.SetActive(true);
+        settingsKeybindMenu.SetActive(false);
     }
 }
