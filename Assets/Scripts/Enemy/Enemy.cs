@@ -18,6 +18,10 @@ public abstract class Enemy : MonoBehaviour
     private AudioManager audioManager;
     public bool isAlive;
 
+    public GameObject healthBarFill;
+    private Vector3 originalPosition; 
+    private float originalWidth;
+
     public int Health { 
         get { return health;  }
         set { health = value; }}
@@ -26,10 +30,17 @@ public abstract class Enemy : MonoBehaviour
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
-        health_bar.transform.position = new Vector3(0, .7f);
-        health_bar = Instantiate(health_bar, transform);
-
         isAlive = true;
+
+        originalPosition = healthBarFill.transform.position;
+        originalWidth = healthBarFill.GetComponent<SpriteRenderer>().bounds.size.x;
+
+    }
+
+    private void Update()
+    {
+
+
     }
 
     public abstract void Attack();
@@ -41,6 +52,8 @@ public abstract class Enemy : MonoBehaviour
         StartCoroutine(ColorChangeCoroutine());
 
         health_bar.GetComponent<HealthBar>().Update_health(health, maxHealth);
+
+        UpdateHealthBar();
 
         if (health <= 0)
         {
@@ -82,6 +95,20 @@ public abstract class Enemy : MonoBehaviour
 
         // Revert to the original color
         sprite.color = original;
+    }
+
+    private void UpdateHealthBar()
+    {
+
+        float healthPercentage = (float)health / maxHealth;
+
+        // Atualiza a escala para a porcentagem de saúde
+        healthBarFill.transform.localScale = new Vector3(healthPercentage, 1, 1);
+
+        // Ajusta a posição para manter a barra ancorada à esquerda
+        Vector3 newPosition = healthBarFill.transform.position;
+        newPosition.x = originalPosition.x - (healthBarFill.transform.localScale.x * originalWidth) / 2;
+        healthBarFill.transform.position = newPosition;
     }
 
 

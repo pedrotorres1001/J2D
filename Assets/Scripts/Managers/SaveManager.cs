@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 [System.Serializable]
 public class PlayerData
@@ -20,10 +21,19 @@ public class EnemyData
 }
 
 [System.Serializable]
+public class TileData
+{
+    public int x;
+    public int y;
+}
+
+[System.Serializable]
 public class GameData
 {
     public PlayerData playerData;
     public List<EnemyData> enemies;
+    public List<TileData> destroyedTiles;
+    public List<TileData> destroyedCrystalTiles;
 }
 
 public class SaveManager : MonoBehaviour
@@ -39,14 +49,11 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
-
-
-        PlayerPrefs.SetString("Filename", "saveData.json");
         filePath = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetString("Filename"));
     }
 
     // Método para salvar os dados do jogador e inimigos
-    public void SaveData()
+    public void SaveData(Tilemap destructableTilemap, Tilemap crystalsTilemap)
     {
         // Criar PlayerData com as informações do jogador
         PlayerData playerData = new PlayerData
@@ -72,21 +79,46 @@ public class SaveManager : MonoBehaviour
             enemyDataList.Add(enemyData);
         }
 
+        List<TileData> destroyedTiles = new List<TileData>();
+
+        foreach (Vector3Int position in destructableTilemap.cellBounds.allPositionsWithin)
+        {
+            // Verifica se o tile está vazio
+            if (destructableTilemap.GetTile(position) == null)
+            {
+                destroyedTiles.Add(new TileData { x = position.x, y = position.y });
+            }
+        }
+
+        List<TileData> destroyedCrystalTiles = new List<TileData>();
+
+        foreach (Vector3Int position in crystalsTilemap.cellBounds.allPositionsWithin)
+        {
+            // Verifica se o tile está vazio
+            if (crystalsTilemap.GetTile(position) == null)
+            {
+                destroyedCrystalTiles.Add(new TileData { x = position.x, y = position.y });
+            }
+        }
+
+
         // Criar GameData e adicionar PlayerData e inimigos
         GameData gameData = new GameData
         {
             playerData = playerData,
-            enemies = enemyDataList
+            enemies = enemyDataList,
+            destroyedTiles = destroyedTiles,
+            destroyedCrystalTiles= destroyedCrystalTiles
         };
 
         // Salvar os dados no arquivo JSON
-        string json = JsonUtility.ToJson(gameData);
+        string json = JsonUtility.ToJson(gameData, true);
         File.WriteAllText(filePath, json);
-        Debug.Log("Player and enemies data saved! Filepath: " + filePath);
+        Debug.Log("Game data saved! Filepath: " + filePath);
     }
 
     // Método para carregar os dados e instanciar inimigos nas posições salvas
-    public void LoadData()
+    public void LoadData(Tilemap destructableTilemap, Tilemap crystalTilemap)
     {
         if (File.Exists(filePath))
         {
@@ -121,6 +153,20 @@ public class SaveManager : MonoBehaviour
                     // Atualizar a saúde do inimigo
                     enemyScript.Health = enemyData.health;  // Supondo que o inimigo tenha um método 'SetHealth'
                 }
+            }
+
+            // Remove os tiles destruídos
+            foreach (var tile in gameData.destroyedTiles)
+            {
+                Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
+                destructableTilemap.SetTile(position, null);
+            }
+
+            // Remove os tiles destruídos
+            foreach (var tile in gameData.destroyedCrystalTiles)
+            {
+                Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
+                crystalTilemap.SetTile(position, null);
             }
         }
         else
