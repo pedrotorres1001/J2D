@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LoadingScene : MonoBehaviour
+public class LoadGameMenu : MonoBehaviour
 {
     public GameObject LoadingScreen;
     public Image LoadingBarFill;
+    private string filePath;
+
+    private void Start()
+    {
+        filePath = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetString("Filename"));
+    }
 
     public void LoadScene(string sceneName)
     {
@@ -39,4 +46,16 @@ public class LoadingScene : MonoBehaviour
         operation.allowSceneActivation = true;
     }
 
+    public void DeleteSave()
+    {
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+            Debug.Log("Save file deleted: " + filePath);
+        }
+        else
+        {
+            Debug.Log("No save file found to delete.");
+        }
+    }
 }

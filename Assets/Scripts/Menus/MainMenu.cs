@@ -21,11 +21,13 @@ public class MainMenu : MonoBehaviour
 
         filePath = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetString("Filename"));
 
+    }
 
+    private void Update()
+    {
         if (!File.Exists(filePath))
         {
             loadButton.interactable = false;
-            Debug.Log("No save file found to load.");
         }
     }
 
