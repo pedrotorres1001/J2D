@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d0fc4f0956fdfd447b93f31c545f03a9
+guid: 16750683009eab644a3c79c77b6ffe79
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -101,8 +101,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 64
-        width: 64
+        y: 96
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -111,8 +111,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 54c91a787c25bea4797fec83214b2544
-      internalID: 1592598615
+      spriteID: c86fa0c326c02e847abcc52cdb8edd18
+      internalID: 1451370736
       vertices: []
       indices: 
       edges: []
@@ -121,9 +121,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_1
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
-        width: 64
+        x: 68
+        y: 96
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -132,8 +132,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e6c6ddcd88677845a752e5c9ae3277b
-      internalID: -1202282625
+      spriteID: d518815b1d7307e44b0cd94c01756df0
+      internalID: -1948638628
       vertices: []
       indices: 
       edges: []
@@ -142,9 +142,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_2
       rect:
         serializedVersion: 2
-        x: 128
-        y: 64
-        width: 64
+        x: 136
+        y: 96
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -153,8 +153,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0af0f59a2e47d6e47ba1601440a7781d
-      internalID: 295378957
+      spriteID: 9c32f9be6b83dba45b25b4837db47e9c
+      internalID: 575836221
       vertices: []
       indices: 
       edges: []
@@ -163,9 +163,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_3
       rect:
         serializedVersion: 2
-        x: 192
-        y: 64
-        width: 64
+        x: 204
+        y: 96
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -174,8 +174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0fbb34a6b9d18644893e551986534ad2
-      internalID: -1688907101
+      spriteID: 940fdd432b674ed45b013aec49176849
+      internalID: -2065441662
       vertices: []
       indices: 
       edges: []
@@ -184,9 +184,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_4
       rect:
         serializedVersion: 2
-        x: 256
-        y: 64
-        width: 64
+        x: 272
+        y: 96
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -195,8 +195,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 497fa8e74f1aba948ba82b7bdf237ff7
-      internalID: -119210347
+      spriteID: 35d3d928a506d6e4f844f55bdbc4f790
+      internalID: 1946572275
       vertices: []
       indices: 
       edges: []
@@ -205,9 +205,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_5
       rect:
         serializedVersion: 2
-        x: 320
-        y: 64
-        width: 64
+        x: 340
+        y: 96
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -216,8 +216,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1cd21cdd7d62ba0449cd2becc069dce0
-      internalID: 199784066
+      spriteID: 465cadd7457d0d04c88fadb0e1f2eb49
+      internalID: -429567678
       vertices: []
       indices: 
       edges: []
@@ -226,9 +226,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_6
       rect:
         serializedVersion: 2
-        x: 384
-        y: 64
-        width: 64
+        x: 408
+        y: 96
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -237,8 +237,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cefb910b12e073d41a03060ec632e7ca
-      internalID: -1913540012
+      spriteID: c2bd334365ec017469ab68efcd5a292e
+      internalID: -811188040
       vertices: []
       indices: 
       edges: []
@@ -248,8 +248,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 32
-        width: 64
+        y: 64
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -258,8 +258,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 402aea56b197fbf45b88ab7e698f39b0
-      internalID: 15605448
+      spriteID: a92e7b8787d561842883c6d03564c3ca
+      internalID: 1647015923
       vertices: []
       indices: 
       edges: []
@@ -268,9 +268,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_8
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
-        width: 64
+        x: 68
+        y: 64
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -279,8 +279,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ccfb4b8ecd0bb664d91a7062efcb519c
-      internalID: 1607448583
+      spriteID: 2ca9a9fb906b7c24784995f1a7b9b45d
+      internalID: 833705098
       vertices: []
       indices: 
       edges: []
@@ -289,9 +289,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_9
       rect:
         serializedVersion: 2
-        x: 128
-        y: 32
-        width: 64
+        x: 136
+        y: 64
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -300,8 +300,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 545a3208397e396468dcc810d728ec86
-      internalID: 712907649
+      spriteID: 5cb9c7ec014f9b9408e469a8959adab8
+      internalID: -1123308704
       vertices: []
       indices: 
       edges: []
@@ -311,8 +311,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 64
+        y: 32
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -321,8 +321,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8422527c3098c174c8812b48c7796e2f
-      internalID: 1416064699
+      spriteID: e0acb415480ad6c46946005a41cf0e61
+      internalID: -1382167688
       vertices: []
       indices: 
       edges: []
@@ -331,9 +331,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_11
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 64
+        x: 68
+        y: 32
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -342,8 +342,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 96cab1b275e88ee44808647118d2f011
-      internalID: 304127495
+      spriteID: b5a92fdec9fe5fb4cbfb3c5b8f9fe6d4
+      internalID: -2102141529
       vertices: []
       indices: 
       edges: []
@@ -352,9 +352,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_12
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 64
+        x: 136
+        y: 32
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -363,8 +363,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 93f5eaf4ae1a83c4cb2b764f63aa3df9
-      internalID: -1956517947
+      spriteID: 8be6f3d6635e9704a87f6ef0070dffeb
+      internalID: -801550820
       vertices: []
       indices: 
       edges: []
@@ -373,9 +373,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_13
       rect:
         serializedVersion: 2
-        x: 192
+        x: 0
         y: 0
-        width: 64
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -384,8 +384,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 67cdff2e3d759354f8ab2e22de9982f7
-      internalID: 938070371
+      spriteID: 4659c01ee73845d45a2626374d4c986d
+      internalID: 415994191
       vertices: []
       indices: 
       edges: []
@@ -394,9 +394,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_14
       rect:
         serializedVersion: 2
-        x: 256
+        x: 68
         y: 0
-        width: 64
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -405,8 +405,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 94796bda7f705db43b647917d0a57bba
-      internalID: -79638056
+      spriteID: 1b174939539a43e46801378409477354
+      internalID: 1459946694
       vertices: []
       indices: 
       edges: []
@@ -415,9 +415,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_15
       rect:
         serializedVersion: 2
-        x: 320
+        x: 136
         y: 0
-        width: 64
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -426,8 +426,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a888fecde169d0f4faf860587e1b3169
-      internalID: -1016067200
+      spriteID: 5b27d36e77303ca4e99cc0617179b5da
+      internalID: -1536777401
       vertices: []
       indices: 
       edges: []
@@ -436,9 +436,9 @@ TextureImporter:
       name: MiniBoss1_Sheet_16
       rect:
         serializedVersion: 2
-        x: 384
+        x: 204
         y: 0
-        width: 64
+        width: 68
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -447,8 +447,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aae2cb394fdd1654c8897e5c648402bd
-      internalID: -676858132
+      spriteID: c8810ca448c88864ba8b6b6218035396
+      internalID: 1632926198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss1_Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 0
+        width: 68
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac0c5c5f298b24046aa2c93ad6f21d79
+      internalID: 1684380627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss1_Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 0
+        width: 68
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73386eaccb8430c47875cb95bf8c3c12
+      internalID: -380668441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss1_Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 0
+        width: 68
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 834b5dd3171f4544ca43766fec0dbec6
+      internalID: 935992107
       vertices: []
       indices: 
       edges: []
@@ -464,23 +527,26 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      MiniBoss1_Sheet_0: 1592598615
-      MiniBoss1_Sheet_1: -1202282625
-      MiniBoss1_Sheet_10: 1416064699
-      MiniBoss1_Sheet_11: 304127495
-      MiniBoss1_Sheet_12: -1956517947
-      MiniBoss1_Sheet_13: 938070371
-      MiniBoss1_Sheet_14: -79638056
-      MiniBoss1_Sheet_15: -1016067200
-      MiniBoss1_Sheet_16: -676858132
-      MiniBoss1_Sheet_2: 295378957
-      MiniBoss1_Sheet_3: -1688907101
-      MiniBoss1_Sheet_4: -119210347
-      MiniBoss1_Sheet_5: 199784066
-      MiniBoss1_Sheet_6: -1913540012
-      MiniBoss1_Sheet_7: 15605448
-      MiniBoss1_Sheet_8: 1607448583
-      MiniBoss1_Sheet_9: 712907649
+      MiniBoss1_Sheet_0: 1451370736
+      MiniBoss1_Sheet_1: -1948638628
+      MiniBoss1_Sheet_10: -1382167688
+      MiniBoss1_Sheet_11: -2102141529
+      MiniBoss1_Sheet_12: -801550820
+      MiniBoss1_Sheet_13: 415994191
+      MiniBoss1_Sheet_14: 1459946694
+      MiniBoss1_Sheet_15: -1536777401
+      MiniBoss1_Sheet_16: 1632926198
+      MiniBoss1_Sheet_17: 1684380627
+      MiniBoss1_Sheet_18: -380668441
+      MiniBoss1_Sheet_19: 935992107
+      MiniBoss1_Sheet_2: 575836221
+      MiniBoss1_Sheet_3: -2065441662
+      MiniBoss1_Sheet_4: 1946572275
+      MiniBoss1_Sheet_5: -429567678
+      MiniBoss1_Sheet_6: -811188040
+      MiniBoss1_Sheet_7: 1647015923
+      MiniBoss1_Sheet_8: 833705098
+      MiniBoss1_Sheet_9: -1123308704
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
