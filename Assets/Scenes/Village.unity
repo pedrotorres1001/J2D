@@ -1407,9 +1407,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 687191094}
-        m_TargetAssemblyTypeName: SettingKeybindMenu, Assembly-CSharp
-        m_MethodName: BackToSettingsMenu
+      - m_Target: {fileID: 1014070901}
+        m_TargetAssemblyTypeName: Keybind, Assembly-CSharp
+        m_MethodName: BackButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6849,6 +6849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1014070899}
   - component: {fileID: 1014070900}
+  - component: {fileID: 1014070901}
   m_Layer: 0
   m_Name: KeybindManager
   m_TagString: Untagged
@@ -6884,6 +6885,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputSystem_Actions: {fileID: -944628639613478452, guid: 703ca6ef2789f3048a0b93799f1fd364, type: 3}
+--- !u!114 &1014070901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014070898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8675a0ebec67f55458707ff869172c61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonText: {fileID: 483394011}
+  settingsPanel: {fileID: 687191093}
+  keybindPanel: {fileID: 631064183}
 --- !u!1 &1020160596
 GameObject:
   m_ObjectHideFlags: 0
@@ -8789,7 +8805,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1309908203}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1014070901}
+        m_TargetAssemblyTypeName: Keybind, Assembly-CSharp
+        m_MethodName: ChangeKey
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1309908203
 MonoBehaviour:
   m_ObjectHideFlags: 0
