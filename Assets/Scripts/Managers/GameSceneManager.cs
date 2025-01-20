@@ -26,7 +26,6 @@ public class GameSceneManager : MonoBehaviour
         saveManager.LoadData();
 
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-        audioManager.Play("background");
 
         // set the first respawn point
         PlayerPrefs.SetFloat("RespawnX", startRespawnPoint.transform.position.x);
