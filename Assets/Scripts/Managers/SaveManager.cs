@@ -45,15 +45,20 @@ public class SaveManager : MonoBehaviour
 
     [SerializeField] private Player playerScript;  // Referência ao script do Player
     [SerializeField] private GameObject enemyPrefab;  // Prefab do inimigo
+    public Tilemap destructableTilemap;
+    public Tilemap crystalsTilemap;
 
 
     private void Awake()
     {
+        PlayerPrefs.SetString("Filename", "saveData.json");
+
         filePath = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetString("Filename"));
+
     }
 
     // Método para salvar os dados do jogador e inimigos
-    public void SaveData(Tilemap destructableTilemap, Tilemap crystalsTilemap)
+    public void SaveData()
     {
         // Criar PlayerData com as informações do jogador
         PlayerData playerData = new PlayerData
@@ -118,7 +123,7 @@ public class SaveManager : MonoBehaviour
     }
 
     // Método para carregar os dados e instanciar inimigos nas posições salvas
-    public void LoadData(Tilemap destructableTilemap, Tilemap crystalTilemap)
+    public void LoadData()
     {
         if (File.Exists(filePath))
         {
@@ -166,7 +171,7 @@ public class SaveManager : MonoBehaviour
             foreach (var tile in gameData.destroyedCrystalTiles)
             {
                 Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
-                crystalTilemap.SetTile(position, null);
+                crystalsTilemap.SetTile(position, null);
             }
         }
         else

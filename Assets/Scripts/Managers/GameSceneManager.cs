@@ -12,19 +12,18 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField] Tilemap map1;
 
     public int currentLevel;
-    public Tilemap destructableTilemap;
-    public Tilemap crystalsTilemap;
-
-
     private AudioManager audioManager;
     private Player playerScript;
     private string filePath;
+    public bool firstSpawn;
 
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPrefs.SetString("Filename", "saveData.json");
+
         filePath = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetString("Filename"));
-        saveManager.LoadData(destructableTilemap, crystalsTilemap);
+        saveManager.LoadData();
 
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         audioManager.Play("background");
@@ -44,6 +43,8 @@ public class GameSceneManager : MonoBehaviour
             currentLevel = 1;
             Debug.Log("No save file found to load.");
         }
+
+        firstSpawn = true;
     }
 
     private void Update()
@@ -55,7 +56,7 @@ public class GameSceneManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.U))
         {
-            saveManager.SaveData(destructableTilemap, crystalsTilemap); // Salvar dados diretamente do SaveManager
+            saveManager.SaveData(); // Salvar dados diretamente do SaveManager
         }
 
         if (Input.GetKeyDown(KeyCode.Y))
@@ -63,7 +64,7 @@ public class GameSceneManager : MonoBehaviour
             // Verificar se o arquivo de save existe
             if (File.Exists(filePath))
             {
-                saveManager.LoadData(destructableTilemap, crystalsTilemap); // Carregar dados diretamente no SaveManager
+                saveManager.LoadData(); // Carregar dados diretamente no SaveManager
             }
         }
     }

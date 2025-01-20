@@ -16,6 +16,7 @@ TagManager:
   - Pickaxe
   - Grapple
   - SceneManager
+  - SaveManager
   layers:
   - Default
   - TransparentFX
