@@ -131,11 +131,4 @@ public class SettingsMenuController : MonoBehaviour
         gameObject.SetActive(false);
     }
     
-    public void BackToMainMenu()
-    {
-        // deve dar able ao menu de pause e desable o menu de settings
-        gameObject.SetActive(false);
-        pauseMenu.SetActive(true);
-        settingsKeybindMenu.SetActive(false);
-    }
 }

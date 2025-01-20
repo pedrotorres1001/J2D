@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class MainMenu : MonoBehaviour
     public GameObject mainMenu;
 
     public Button loadButton;
+    public Color buttonDisabledColor = Color.white; // Default text color
+
 
     private string filePath;
 
@@ -28,18 +31,14 @@ public class MainMenu : MonoBehaviour
         if (!File.Exists(filePath))
         {
             loadButton.interactable = false;
+            loadButton.GetComponent<ButtonHoverTMPColor>().enabled = false;
+            loadButton.GetComponentInChildren<TMP_Text>().color = buttonDisabledColor; 
         }
     }
 
     public void NewGame()
     {
         SceneManager.LoadScene("Village");
-    }
-
-    public void Settings()
-    {
-        mainMenu.SetActive(false);
-        settingsMenu.SetActive(true);
     }
 
     public void QuitGame()
