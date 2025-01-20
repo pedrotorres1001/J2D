@@ -7,7 +7,9 @@ public class GrapplingHook : MonoBehaviour
 {
     [SerializeField] private float grappleLength = 5f; 
     [SerializeField] private LayerMask grappleLayer;    
-    [SerializeField] private LineRenderer rope;            
+    [SerializeField] private LineRenderer line;   
+    [SerializeField] private GameObject rope;
+    [SerializeField] private GameObject currentRope;
     [SerializeField] private float ropeSpeed = 20f;    
     [SerializeField] private float pullForce = 10f;     
     [SerializeField] private float launchCooldown;    
@@ -31,7 +33,7 @@ public class GrapplingHook : MonoBehaviour
         launchCooldown = 0f;
         retractCooldown = 0f;
         attachedCooldown = 0f;
-        rope.enabled = false; // Desabilita a linha inicialmente
+        line.enabled = false; // Desabilita a linha inicialmente
         joint = GetComponent<DistanceJoint2D>();           // Obt�m o DistanceJoint2D do jogador
         joint.enabled = false;                              // Garante que o joint esteja desativado inicialmente
         playerRb = GetComponent<Rigidbody2D>();            // Obt�m o Rigidbody2D do jogador
@@ -59,9 +61,9 @@ public class GrapplingHook : MonoBehaviour
             float angle = Mathf.Tan((transform.position.x - grapplePoint.x) / (transform.position.y - grapplePoint.y));
             //Debug.Log(angle);
 
-            rope.SetPosition(0, transform.position);  // Mant�m o ponto inicial da corda na posi��o do jogador
+            line.SetPosition(0, transform.position);  // Mant�m o ponto inicial da corda na posi��o do jogador
             
-            pickaxeGrapple.transform.position = rope.GetPosition(1); // Mant�m a picareta na posi�ao certa
+            pickaxeGrapple.transform.position = line.GetPosition(1); // Mant�m a picareta na posi�ao certa
 
             // Inicia a retra��o ap�s alcan�ar o ponto ou atingir o comprimento m�ximo
             if (!isGrappleMoving && (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)))
@@ -82,7 +84,7 @@ public class GrapplingHook : MonoBehaviour
         else
         {
             joint.enabled = false;
-            rope.enabled = false;
+            line.enabled = false;
             pickaxeGrapple.SetActive(false);
             pickaxe.SetActive(true);
         }
@@ -131,9 +133,9 @@ public class GrapplingHook : MonoBehaviour
         }
 
         ropeTargetPosition = transform.position; // Posi��o inicial da corda
-        rope.SetPosition(0, transform.position);  // Define a posi��o inicial da corda
-        rope.SetPosition(1, transform.position);  // Define a posi��o final da corda
-        rope.enabled = true;                      // Habilita a linha
+        line.SetPosition(0, transform.position);  // Define a posi��o inicial da corda
+        line.SetPosition(1, transform.position);  // Define a posi��o final da corda
+        line.enabled = true;                      // Habilita a linha
 
         // Inicia a coroutine para movimentar a corda
         StartCoroutine(MoveRope());
@@ -146,7 +148,7 @@ public class GrapplingHook : MonoBehaviour
         while (Vector3.Distance(ropeTargetPosition, grapplePoint) > 0.1f && isGrappling)
         {
             ropeTargetPosition = Vector3.MoveTowards(ropeTargetPosition, grapplePoint, ropeSpeed * Time.deltaTime);
-            rope.SetPosition(1, ropeTargetPosition); // Atualiza a posição final da corda
+            line.SetPosition(1, ropeTargetPosition); // Atualiza a posição final da corda
             pickaxeGrapple.transform.position = ropeTargetPosition; // Posiciona a picareta no ponto do grapple
             yield return null; // Espera até o próximo frame
         }
@@ -174,6 +176,10 @@ public class GrapplingHook : MonoBehaviour
             {
                 playerRb.AddForce(pullDirection * pullForce * Time.deltaTime, ForceMode2D.Force); // Força contínua
                 yield return null; // Espera até o próximo frame
+            }
+            if (line.enabled == true)
+            {
+                currentRope = Instantiate(rope);
             }
         }
         else if (grappleHit)
@@ -216,11 +222,11 @@ public class GrapplingHook : MonoBehaviour
         while (Vector3.Distance(ropeTargetPosition, initialRopePosition) > 0.1f)
         {
             ropeTargetPosition = Vector3.MoveTowards(ropeTargetPosition, initialRopePosition, ropeSpeed * Time.deltaTime);
-            rope.SetPosition(1, ropeTargetPosition); // Atualiza a posi��o final da corda
+            line.SetPosition(1, ropeTargetPosition); // Atualiza a posi��o final da corda
             pickaxeGrapple.transform.position = ropeTargetPosition; // Por o pickaxe na ponta do grapple
 
             // Mant�m o ponto inicial da corda na posi��o do jogador
-            rope.SetPosition(0, transform.position); // Atualiza a posi��o inicial da corda
+            line.SetPosition(0, transform.position); // Atualiza a posi��o inicial da corda
 
             yield return null; // Espera at� o pr�ximo frame
         }
@@ -229,7 +235,7 @@ public class GrapplingHook : MonoBehaviour
         stopGrappling = false;
         launchCooldown = .001f;
         isGrappling = false; // Define que n�o est� mais grappling
-        rope.enabled = false; // Desabilita a linha ap�s a retra��o
+        line.enabled = false; // Desabilita a linha ap�s a retra��o
         pickaxeGrapple.SetActive(false);
         pickaxe.SetActive(true);
 

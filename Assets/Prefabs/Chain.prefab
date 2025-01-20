@@ -1984,7 +1984,7 @@ MonoBehaviour:
   - {fileID: 3955735945249748552}
   lineRenderer: {fileID: 0}
   size: 1
-  isGrapple: 1
+  isGrapple: 0
 --- !u!120 &5168384476448190591
 LineRenderer:
   serializedVersion: 2
