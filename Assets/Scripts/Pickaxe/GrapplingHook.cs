@@ -14,8 +14,9 @@ public class GrapplingHook : MonoBehaviour
     private bool stopGrappling = false;
     private Vector3 direction;
     private DistanceJoint2D joint;
-    private bool isGrappleMoving = false;
     public bool hit = false;
+    public bool reachedPosition = false;
+    private bool isGrappleMoving = false;
 
     [SerializeField] private float ropeSpeed = 20f;    
     [SerializeField] private float grappleLength = 20f;
@@ -41,9 +42,15 @@ public class GrapplingHook : MonoBehaviour
             StartGrappling();
         }
 
-        if (!isGrappleMoving && (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)))
+        if (!isGrappleMoving && isGrappling && !reachedPosition && Vector3.Distance(transform.position, pickaxeGrapple.transform.position) <= 0.5)
+        {
+            reachedPosition = true;
+        }
+
+        if ((Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)) && reachedPosition)
         {
             stopGrappling = true;
+            direction = (transform.position - pickaxeGrapple.transform.position).normalized;
             StartCoroutine(RetractRope());
         }
         else if (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E))
@@ -51,7 +58,13 @@ public class GrapplingHook : MonoBehaviour
             stopGrappling = true;
         }
 
-        if (isGrappling && !isGrappleMoving)
+        if (stopGrappling && reachedPosition && !isGrappleMoving)
+        {
+            direction = (transform.position - pickaxeGrapple.transform.position).normalized;
+            StartCoroutine(RetractRope());
+        }
+
+        if (isGrappling && reachedPosition)
         {
             currentRope.EndPoint.position = transform.position;
             currentRope.ropeSegLen = Vector3.Distance(currentRope.StartPoint.position, currentRope.EndPoint.position) / currentRope.segmentLength;
@@ -60,7 +73,7 @@ public class GrapplingHook : MonoBehaviour
             {
                 joint.distance -= 5f * Time.deltaTime;
             }
-            else if (Input.GetKey(KeyCode.S) && joint.distance < grappleLength && grapplePoint.y > transform.position.y && Mathf.Abs(grapplePoint.x - transform.position.x) < 3)
+            else if (Input.GetKey(KeyCode.S) && joint.distance < grappleLength && grapplePoint.y > transform.position.y && Mathf.Abs(pickaxeGrapple.transform.position.x - transform.position.x) < 3)
             {
                 joint.distance += 5f * Time.deltaTime;
             }
@@ -71,6 +84,8 @@ public class GrapplingHook : MonoBehaviour
     {
         isGrappling = true;
         isGrappleMoving = true;
+        reachedPosition = false;
+        reachedPosition = false;
         pickaxeGrapple.SetActive(true);
         pickaxe.SetActive(false);
         
@@ -107,27 +122,10 @@ public class GrapplingHook : MonoBehaviour
 
         isGrappleMoving = false;
 
-        if (hit && !stopGrappling)
+        if (hit)
         {
             joint.connectedAnchor = pickaxeGrapple.transform.position;
             joint.enabled = true; 
-
-
-            joint.distance = 0.1f; 
-
-            while (isGrappling && Vector3.Distance(currentRope.EndPoint.position, currentRope.StartPoint.position) > 0.1 && direction == (transform.position - pickaxeGrapple.transform.position).normalized)
-            {
-                currentRope.EndPoint.position += direction * ropeSpeed * Time.deltaTime;
-                currentRope.ropeSegLen = Vector3.Distance(startPoint, pickaxeGrapple.transform.position) / currentRope.segmentLength;
-                yield return null; 
-            }
-
-            //joint.connectedAnchor = grapplePoint;
-        }
-        else if (hit)
-        {
-            joint.connectedAnchor = pickaxeGrapple.transform.position;
-            joint.enabled = true;
 
 
             joint.distance = 0.1f;
@@ -135,15 +133,14 @@ public class GrapplingHook : MonoBehaviour
             while (isGrappling && Vector3.Distance(currentRope.EndPoint.position, currentRope.StartPoint.position) > 0.1 && direction == (transform.position - pickaxeGrapple.transform.position).normalized)
             {
                 currentRope.EndPoint.position += direction * ropeSpeed * Time.deltaTime;
-                currentRope.ropeSegLen = Vector3.Distance(currentRope.StartPoint.position, currentRope.EndPoint.position) / currentRope.segmentLength;
-                yield return null;
+                currentRope.ropeSegLen = Vector3.Distance(startPoint, pickaxeGrapple.transform.position) / currentRope.segmentLength;
+                yield return null; 
             }
-
-            StartCoroutine(RetractRope()); // Retraí a corda se não houver um ponto válido
         }
         else
         {
-            StartCoroutine(RetractRope()); // Retraí a corda se não houver um ponto válido
+            direction = (transform.position - pickaxeGrapple.transform.position).normalized;
+            StartCoroutine(RetractRope()); 
         }
 
     }
@@ -151,14 +148,15 @@ public class GrapplingHook : MonoBehaviour
     // Coroutine para fazer a corda voltar ao jogador
     private IEnumerator RetractRope()
     {
-        direction = (transform.position - pickaxeGrapple.transform.position).normalized;
+        
 
         while (Vector3.Distance(transform.position, pickaxeGrapple.transform.position) > 0.1 && direction == (transform.position - pickaxeGrapple.transform.position).normalized)
         {
-            pickaxeGrapple.transform.position += direction * ropeSpeed * Time.deltaTime;
+            pickaxeGrapple.transform.position += direction * (ropeSpeed / 2) * Time.deltaTime;
             currentRope.ropeSegLen = Vector3.Distance(currentRope.StartPoint.position, currentRope.EndPoint.position) / currentRope.segmentLength;
             yield return null; // Espera até o próximo frame
         }
+
 
         joint.enabled = false;
 
