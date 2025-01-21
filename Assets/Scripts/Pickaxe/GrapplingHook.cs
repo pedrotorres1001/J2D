@@ -17,12 +17,14 @@ public class GrapplingHook : MonoBehaviour
     public bool hit = false;
     public bool reachedPosition = false;
     private bool isGrappleMoving = false;
+    public DistanceJoint2D grappleJoint;
 
     [SerializeField] private float ropeSpeed = 20f;    
     [SerializeField] private float grappleLength = 20f;
     [SerializeField] private float grappleDistance;
     [SerializeField] private GameObject pickaxe;
     [SerializeField] private GameObject pickaxeGrapple;
+    [SerializeField] private GameObject pickaxeGrapplePrefab;
     [SerializeField] private GameObject rope;          
     [SerializeField] private Rope currentRope;
 
@@ -30,12 +32,10 @@ public class GrapplingHook : MonoBehaviour
     {
         joint = GetComponent<DistanceJoint2D>();
         joint.enabled = false;
-        pickaxeGrapple.SetActive(false);
     }
 
     void Update()
     {
-        // Se o grappling n�o estiver ativo, verifica a entrada do mouse para lan�ar a corda
         if ((Input.GetMouseButtonDown(1) || Input.GetKey(KeyCode.E)) && !isGrappling)
         {
             stopGrappling = false;
@@ -47,18 +47,18 @@ public class GrapplingHook : MonoBehaviour
             reachedPosition = true;
         }
 
-        if ((Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)) && reachedPosition)
+        if (isGrappling && (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)) && reachedPosition)
         {
             stopGrappling = true;
             direction = (transform.position - pickaxeGrapple.transform.position).normalized;
             StartCoroutine(RetractRope());
         }
-        else if (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E))
+        else if (isGrappling && (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)))
         {
             stopGrappling = true;
         }
 
-        if (stopGrappling && reachedPosition && !isGrappleMoving)
+        if (isGrappling && stopGrappling && reachedPosition && !isGrappleMoving)
         {
             direction = (transform.position - pickaxeGrapple.transform.position).normalized;
             StartCoroutine(RetractRope());
@@ -86,9 +86,12 @@ public class GrapplingHook : MonoBehaviour
         isGrappleMoving = true;
         reachedPosition = false;
         reachedPosition = false;
-        pickaxeGrapple.SetActive(true);
+        pickaxeGrapple = Instantiate(pickaxeGrapplePrefab);
+        grappleJoint = pickaxeGrapple.GetComponent<DistanceJoint2D>();
+        grappleJoint.enabled = false;
         pickaxe.SetActive(false);
-        
+        pickaxeGrapple.SetActive(true);
+
         currentRope = Instantiate(rope).GetComponent<Rope>();
         currentRope.StartPoint = pickaxeGrapple.transform;
         currentRope.EndPoint = transform;
@@ -142,30 +145,38 @@ public class GrapplingHook : MonoBehaviour
             direction = (transform.position - pickaxeGrapple.transform.position).normalized;
             StartCoroutine(RetractRope()); 
         }
-
+        yield break;
     }
 
-    // Coroutine para fazer a corda voltar ao jogador
     private IEnumerator RetractRope()
     {
-        
-
-        while (Vector3.Distance(transform.position, pickaxeGrapple.transform.position) > 0.1 && direction == (transform.position - pickaxeGrapple.transform.position).normalized)
+        while (pickaxeGrapple != null
+            && Vector3.Distance(transform.position, pickaxeGrapple.transform.position) > 0.1f
+            && direction == (transform.position - pickaxeGrapple.transform.position).normalized)
         {
+            if (pickaxeGrapple == null)
+                yield break; // Exit the coroutine if the object is destroyed
+
             pickaxeGrapple.transform.position += direction * ropeSpeed * Time.deltaTime;
             currentRope.ropeSegLen = Vector3.Distance(currentRope.StartPoint.position, currentRope.EndPoint.position) / currentRope.segmentLength;
-            yield return null; // Espera até o próximo frame
+            yield return null;
         }
 
+        // Safeguard in case the object is destroyed before this point
+        if (pickaxeGrapple == null)
+            yield break;
 
         joint.enabled = false;
 
         isGrappling = false;
+        stopGrappling = false;
         hit = false;
-        pickaxeGrapple.SetActive(false);
+
+        Destroy(pickaxeGrapple);
+        pickaxeGrapple = null;
+
         pickaxe.SetActive(true);
         Destroy(currentRope.gameObject);
-        yield return null;
     }
 
     public void RemoveGrapple()
