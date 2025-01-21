@@ -53,8 +53,6 @@ public class GameSceneManager : MonoBehaviour
             Debug.Log("No save file found to load.");
         }
 
-        currentLevel = 1;
-
         firstSpawn = true;
 
         // Iniciar o tempo de sessão
@@ -96,6 +94,10 @@ public class GameSceneManager : MonoBehaviour
         {
             PlayerPrefs.SetFloat("FirstRespawnX", startRespawnPoint1.transform.position.x);
             PlayerPrefs.SetFloat("FirstRespawnY", startRespawnPoint1.transform.position.y);
+        }
+        else if(currentLevel == 2)
+        {
+
         }
     }
 }

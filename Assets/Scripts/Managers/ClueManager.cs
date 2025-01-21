@@ -31,7 +31,7 @@ public class ClueManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(GameManager.GM.interact))
+        if (Input.GetKeyDown(KeyManager.KM.interact))
         {
             GameObject closestObject = GetClosestObject();
             if (closestObject != null && !isDialogActive)
@@ -44,7 +44,7 @@ public class ClueManager : MonoBehaviour
             }
         }
     
-        if (Input.GetKeyDown(GameManager.GM.jump))
+        if (Input.GetKeyDown(KeyManager.KM.jump))
         {
             if (isDialogActive)
             {

@@ -11,6 +11,8 @@ public class RespawnLocationUpdate : MonoBehaviour
     private Animator animator;
     [SerializeField] Animator textAnimator;
     private bool firstSpawn;
+    [SerializeField] bool updateMap;
+    [SerializeField] int mapLevel;
 
     private void Start()
     {
@@ -41,6 +43,10 @@ public class RespawnLocationUpdate : MonoBehaviour
                 textAnimator.SetTrigger("spawnText");
             }
 
+            if(updateMap == true)
+            {
+                //gameSceneManager.GetComponent<GameSceneManager>().CurrentLevel = mapLevel;
+            }
 
             if (!isLit)
             {

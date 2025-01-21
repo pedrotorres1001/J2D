@@ -24,33 +24,33 @@ public class KeyBindMenu : MonoBehaviour
         {
             if (keyBindMenu.GetChild(i).name == "JumpButton")
             {
-                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = GameManager.GM.jump.ToString();
-                Debug.Log(GameManager.GM.jump.ToString());
+                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = KeyManager.KM.jump.ToString();
+                Debug.Log(KeyManager.KM.jump.ToString());
             }
             else if (keyBindMenu.GetChild(i).name == "MoveLeftButton")
             {
-                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = GameManager.GM.moveleft.ToString();
-                Debug.Log(GameManager.GM.moveleft.ToString());
+                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = KeyManager.KM.moveleft.ToString();
+                Debug.Log(KeyManager.KM.moveleft.ToString());
             }
             else if (keyBindMenu.GetChild(i).name == "MoveRightButton")
             {
-                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = GameManager.GM.moveright.ToString();
-                Debug.Log(GameManager.GM.moveright.ToString());
+                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = KeyManager.KM.moveright.ToString();
+                Debug.Log(KeyManager.KM.moveright.ToString());
             }
             else if (keyBindMenu.GetChild(i).name == "GrapplingHookButton")
             {
-                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = GameManager.GM.grapplinghook.ToString();
-                Debug.Log(GameManager.GM.grapplinghook.ToString());
+                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = KeyManager.KM.grapplinghook.ToString();
+                Debug.Log(KeyManager.KM.grapplinghook.ToString());
             }
             else if (keyBindMenu.GetChild(i).name == "InteractButton")
             {
-                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = GameManager.GM.interact.ToString();
-                Debug.Log(GameManager.GM.interact.ToString());
+                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = KeyManager.KM.interact.ToString();
+                Debug.Log(KeyManager.KM.interact.ToString());
             }
             else if (keyBindMenu.GetChild(i).name == "AttackButton")
             {
-                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = GameManager.GM.attack.ToString();
-                Debug.Log(GameManager.GM.attack.ToString());
+                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = KeyManager.KM.attack.ToString();
+                Debug.Log(KeyManager.KM.attack.ToString());
             }
         }
     }
@@ -95,34 +95,34 @@ public class KeyBindMenu : MonoBehaviour
         switch (keyName)
         {
             case "jump":
-                GameManager.GM.jump = newKey;
-                buttonText.text = GameManager.GM.jump.ToString();
-                PlayerPrefs.SetString("jumpkey", GameManager.GM.jump.ToString());
+                KeyManager.KM.jump = newKey;
+                buttonText.text = KeyManager.KM.jump.ToString();
+                PlayerPrefs.SetString("jumpkey", KeyManager.KM.jump.ToString());
                 break;
             case "moveleft":
-                GameManager.GM.moveleft = newKey;
-                buttonText.text = GameManager.GM.moveleft.ToString();
-                PlayerPrefs.SetString("moveleftkey", GameManager.GM.moveleft.ToString());
+                KeyManager.KM.moveleft = newKey;
+                buttonText.text = KeyManager.KM.moveleft.ToString();
+                PlayerPrefs.SetString("moveleftkey", KeyManager.KM.moveleft.ToString());
                 break;
             case "moveright":
-                GameManager.GM.moveright = newKey;
-                buttonText.text = GameManager.GM.moveright.ToString();
-                PlayerPrefs.SetString("moverightkey", GameManager.GM.moveright.ToString());
+                KeyManager.KM.moveright = newKey;
+                buttonText.text = KeyManager.KM.moveright.ToString();
+                PlayerPrefs.SetString("moverightkey", KeyManager.KM.moveright.ToString());
                 break;
             case "grapplinghook":
-                GameManager.GM.grapplinghook = newKey;
-                buttonText.text = GameManager.GM.grapplinghook.ToString();
-                PlayerPrefs.SetString("grapplinghookkey", GameManager.GM.grapplinghook.ToString());
+                KeyManager.KM.grapplinghook = newKey;
+                buttonText.text = KeyManager.KM.grapplinghook.ToString();
+                PlayerPrefs.SetString("grapplinghookkey", KeyManager.KM.grapplinghook.ToString());
                 break;
             case "interact":
-                GameManager.GM.interact = newKey;
-                buttonText.text = GameManager.GM.interact.ToString();
-                PlayerPrefs.SetString("interactkey", GameManager.GM.interact.ToString());
+                KeyManager.KM.interact = newKey;
+                buttonText.text = KeyManager.KM.interact.ToString();
+                PlayerPrefs.SetString("interactkey", KeyManager.KM.interact.ToString());
                 break;
             case "attack":
-                GameManager.GM.attack = newKey;
-                buttonText.text = GameManager.GM.attack.ToString();
-                PlayerPrefs.SetString("attackkey", GameManager.GM.attack.ToString());
+                KeyManager.KM.attack = newKey;
+                buttonText.text = KeyManager.KM.attack.ToString();
+                PlayerPrefs.SetString("attackkey", KeyManager.KM.attack.ToString());
                 break;
         }
         yield return null;

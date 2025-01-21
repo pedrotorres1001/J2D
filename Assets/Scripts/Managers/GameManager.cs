@@ -4,9 +4,9 @@ using Unity.Services.Apis.Admin.RemoteConfig;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GameManager : MonoBehaviour
+public class KeyManager : MonoBehaviour
 {
-    public static GameManager GM;
+    public static KeyManager KM;
 
     public KeyCode jump { get; set; }
     public KeyCode moveleft { get; set; }
@@ -17,12 +17,12 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (GM == null)
+        if (KM == null)
         {
             DontDestroyOnLoad(gameObject);
-            GM = this;
+            KM = this;
         }
-        else if (GM != this)
+        else if (KM != this)
         {
             Destroy(gameObject);
         }
@@ -35,13 +35,4 @@ public class GameManager : MonoBehaviour
         attack = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("attackkey", "Mouse0"));
     }
 
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
 }

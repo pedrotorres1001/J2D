@@ -3,15 +3,18 @@ using UnityEngine;
 public abstract class Enemy : MonoBehaviour
 {
     [Header("Enemy Attributes")]
-    public float maxHealth = 100f;
-    private float currentHealth;
-    public float damage = 10f;
+    public int maxHealth = 100;
+    private int currentHealth;
+    public int CurrentHealth { get; }
+    public int damage = 10;
+    public GameObject explosionPrefab;
 
     public Animator animator;
     private Rigidbody2D rb;
 
     // Alterado para protected para ser acess�vel nas classes derivadas
     protected IEnemyState currentState;
+    protected int direction = 1; // 1 para direita, -1 para esquerda
 
     protected virtual void Start()
     {
@@ -33,6 +36,19 @@ public abstract class Enemy : MonoBehaviour
         if (rb != null)
         {
             rb.velocity = velocity;
+
+            // Atualiza a direção com base na velocidade
+            if (velocity.x > 0)
+            {
+                direction = 1; 
+            }
+            else if (velocity.x < 0)
+            {
+                direction = -1;
+            }
+
+            // Atualiza o parâmetro no Animator
+            animator?.SetFloat("Direction", direction);
         }
     }
 
@@ -44,7 +60,7 @@ public abstract class Enemy : MonoBehaviour
         return Vector2.zero;   
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(int amount)
     {
         currentHealth -= amount;
 
@@ -56,7 +72,7 @@ public abstract class Enemy : MonoBehaviour
 
     private void Die()
     {
-        // L�gica de morte
+        explosionPrefab.SetActive(true);
     }
 
     protected abstract void Update();

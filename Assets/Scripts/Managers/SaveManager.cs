@@ -17,8 +17,8 @@ public class PlayerData
 [System.Serializable]
 public class EnemyData
 {
-    //public int health;
-    //public float[] position;
+    public int health;
+    public float[] position;
 }
 
 [System.Serializable]
@@ -85,8 +85,8 @@ public class SaveManager : MonoBehaviour
         {
             EnemyData enemyData = new EnemyData
             {
-                //health = enemy.Health,  // Supondo que o inimigo tenha um método 'Health()'
-                //position = new float[] { enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z }
+                health = enemy.CurrentHealth,  // Supondo que o inimigo tenha um método 'Health()'
+                position = new float[] { enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z }
             };
             enemyDataList.Add(enemyData);
         }
@@ -166,13 +166,13 @@ public class SaveManager : MonoBehaviour
             foreach (var enemyData in gameData.enemies)
             {
                 // Instanciar o inimigo na posição guardada
-                //GameObject enemyObj = Instantiate(enemyPrefab, new Vector3(enemyData.position[0], enemyData.position[1], enemyData.position[2]), Quaternion.identity);
-                //Enemy enemyScript = enemyObj.GetComponent<Enemy>();
+                GameObject enemyObj = Instantiate(enemyPrefab, new Vector3(enemyData.position[0], enemyData.position[1], enemyData.position[2]), Quaternion.identity);
+                Enemy enemyScript = enemyObj.GetComponent<Enemy>();
 
-                //if (enemyScript != null)
-                //{
+                if (enemyScript != null)
+                {
                     //enemyScript.Health = enemyData.health;
-               //}
+                }
             }
 
             // Remove os tiles destruídos
