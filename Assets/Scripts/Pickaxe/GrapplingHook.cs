@@ -132,7 +132,7 @@ public class GrapplingHook : MonoBehaviour
 
             while (isGrappling && Vector3.Distance(currentRope.EndPoint.position, currentRope.StartPoint.position) > 0.1 && direction == (transform.position - pickaxeGrapple.transform.position).normalized)
             {
-                currentRope.EndPoint.position += direction * ropeSpeed * Time.deltaTime;
+                currentRope.EndPoint.position += direction * (ropeSpeed / 4) * Time.deltaTime;
                 currentRope.ropeSegLen = Vector3.Distance(startPoint, pickaxeGrapple.transform.position) / currentRope.segmentLength;
                 yield return null; 
             }
@@ -152,7 +152,7 @@ public class GrapplingHook : MonoBehaviour
 
         while (Vector3.Distance(transform.position, pickaxeGrapple.transform.position) > 0.1 && direction == (transform.position - pickaxeGrapple.transform.position).normalized)
         {
-            pickaxeGrapple.transform.position += direction * (ropeSpeed / 2) * Time.deltaTime;
+            pickaxeGrapple.transform.position += direction * ropeSpeed * Time.deltaTime;
             currentRope.ropeSegLen = Vector3.Distance(currentRope.StartPoint.position, currentRope.EndPoint.position) / currentRope.segmentLength;
             yield return null; // Espera até o próximo frame
         }
