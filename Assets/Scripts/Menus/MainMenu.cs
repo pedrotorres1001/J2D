@@ -30,7 +30,7 @@ public class MainMenu : MonoBehaviour
         if (!File.Exists(filePath))
         {
             loadButton.interactable = false;
-            loadButton.GetComponent<ButtonHoverTMPColor>().enabled = false;
+            loadButton.GetComponent<ButtonHoverScale>().enabled = false;
             loadButton.GetComponentInChildren<TMP_Text>().color = buttonDisabledColor; 
         }
     }

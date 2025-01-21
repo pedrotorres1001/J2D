@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ButtonHoverTMPColor : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ButtonHoverScale : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public TMP_Text buttonText; // Reference to the TMP_Text component
     public float normalScale = 1f; // Escala padrão do texto

@@ -6,16 +6,26 @@ using System.IO;
 
 public class GameSceneManager : MonoBehaviour
 {
-    [SerializeField] GameObject startRespawnPoint;
+    [SerializeField] GameObject startRespawnPoint1;
     [SerializeField] SaveManager saveManager;
     [SerializeField] GameObject player;
     [SerializeField] Tilemap map1;
 
-    public int currentLevel;
+    private int currentLevel;
+    public int CurrentLevel { get; set; }
+
     private AudioManager audioManager;
     private Player playerScript;
     private string filePath;
     public bool firstSpawn;
+
+    private float sessionStartTime;
+    private float totalPlayTime; 
+    public float TotalPlayTime
+    {
+        get { return totalPlayTime;  }
+        set { totalPlayTime = value; }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -28,8 +38,7 @@ public class GameSceneManager : MonoBehaviour
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
         // set the first respawn point
-        PlayerPrefs.SetFloat("RespawnX", startRespawnPoint.transform.position.x);
-        PlayerPrefs.SetFloat("RespawnY", startRespawnPoint.transform.position.y);
+
 
         playerScript = player.GetComponent<Player>();
 
@@ -38,20 +47,33 @@ public class GameSceneManager : MonoBehaviour
 
         // Verificar se o arquivo de save existe
         if (!File.Exists(filePath))
-        { 
+        {
             currentLevel = 1;
+            player.transform.position = startRespawnPoint1.transform.position;
             Debug.Log("No save file found to load.");
         }
 
+        currentLevel = 1;
+
         firstSpawn = true;
+
+        // Iniciar o tempo de sessão
+        sessionStartTime = Time.time;
     }
 
     private void Update()
     {
-        if (currentLevel == 1)
+        totalPlayTime += Time.time - sessionStartTime;
+        sessionStartTime = Time.time;
+
+        SetRespawnPoints();
+
+        // Calcular o tempo total de jogo
+        /*if (!firstSpawn)
         {
-            // currentMap = map1;
-        }
+            totalPlayTime = Time.time - sessionStartTime;
+        }*/
+
 
         if (Input.GetKeyDown(KeyCode.U))
         {
@@ -68,4 +90,12 @@ public class GameSceneManager : MonoBehaviour
         }
     }
 
+    private void SetRespawnPoints()
+    {
+        if(currentLevel == 1)
+        {
+            PlayerPrefs.SetFloat("FirstRespawnX", startRespawnPoint1.transform.position.x);
+            PlayerPrefs.SetFloat("FirstRespawnY", startRespawnPoint1.transform.position.y);
+        }
+    }
 }

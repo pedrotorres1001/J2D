@@ -324,7 +324,8 @@ MonoBehaviour:
   health_bar: {fileID: 5141481738248955576}
   experiencePoints: 30
   speed: 0.5
-  deathPrefab: {fileID: 2435507042165156719, guid: 5012142cdd91c4bf98791cd51ff42dd3, type: 3}
+  explosionEffect: {fileID: 3689511419877391624, guid: 4f6e3b2a7bbdba54e877a127a40e0bc4, type: 3}
+  crystal: {fileID: 4813930974092361159, guid: 60e9b35848e39a64f8e2d1c0d17c589b, type: 3}
   isAlive: 0
   healthBarFill: {fileID: 5170764613053485961}
   dashSpeed: 10

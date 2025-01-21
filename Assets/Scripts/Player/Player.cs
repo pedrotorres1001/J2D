@@ -10,13 +10,17 @@ public class Player : MonoBehaviour
     public int pickaxeLevel;
     public int experience;
     [SerializeField] int maxExperience;
-
     [SerializeField] Animator animator;
+    [SerializeField] GameObject gameSceneManager;
+    private bool isAlive;
+    private bool isBlinking;
 
     private void Start() 
     {
         health = maxHealth;
         experience = 0;
+        isAlive = true;
+        isBlinking = false;
     }
 
     public int getMaxExperience()
@@ -28,7 +32,8 @@ public class Player : MonoBehaviour
     {
         health -= damage;
 
-        StartCoroutine(ColorChangeCoroutine());
+        if(!isBlinking)
+            StartCoroutine(ColorChangeCoroutine());
 
         if (health <= 0)
         {
@@ -48,22 +53,38 @@ public class Player : MonoBehaviour
 
     void Die()
     {
+        isAlive = false;
         animator.SetBool("IsDead", true);
-        //Destroy(gameObject);
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        gameObject.GetComponent<PlayerMovement>().enabled = false;
+        StartCoroutine(WaitDeath());
     }
 
     private IEnumerator ColorChangeCoroutine()
     {
+        isBlinking = true;
+
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         Color damaged = Color.red;
         Color original = gameObject.GetComponent<SpriteRenderer>().color;
 
         for(int i = 0; i < 5; i++) {
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
             sprite.color = damaged;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
             sprite.color = original;
+
         }
+        isBlinking = false;
+    }
+
+    private IEnumerator WaitDeath()
+    {
+        yield return new WaitForSeconds(2f);
+        isAlive = true;
+        gameObject.GetComponent<PlayerMovement>().enabled = true;
+        animator.SetBool("IsDead", false);
+        health = maxHealth;
+        transform.position = new Vector2(PlayerPrefs.GetFloat("FirstRespawnX"), PlayerPrefs.GetFloat("FirstRespawnY"));
+
     }
 }

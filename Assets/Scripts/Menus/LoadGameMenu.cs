@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,9 +12,19 @@ public class LoadGameMenu : MonoBehaviour
     public Image LoadingBarFill;
     private string filePath;
 
-    private void Start()
+    [SerializeField] private TextMeshProUGUI lastSaveText;
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI playTimeText;
+
+
+    private void Awake()
     {
-        filePath = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetString("Filename"));
+        filePath = Path.Combine(Application.persistentDataPath, "saveData.json");
+    }
+
+    private void OnEnable()
+    {
+        LoadSaveSummary();
     }
 
     public void LoadScene(string sceneName)
@@ -57,5 +68,65 @@ public class LoadGameMenu : MonoBehaviour
         {
             Debug.Log("No save file found to delete.");
         }
+    }
+
+    public void LoadSaveSummary()
+    {
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+
+            // Carregar apenas o campo 'lastSaveTime'
+            SaveSummary summary = JsonUtility.FromJson<SaveSummary>(json);
+
+            if (summary != null && !string.IsNullOrEmpty(summary.lastSaveTime))
+            {
+                Debug.Log("Last save time: " + summary.lastSaveTime);
+
+                if (lastSaveText != null)
+                    lastSaveText.text = summary.lastSaveTime;
+
+                if(levelText != null)
+                    levelText.text = summary.level.ToString();
+
+                if (playTimeText != null)
+                    playTimeText.text = FormatPlayTime(summary.totalPlayTime);
+
+            }
+            else
+            {
+                lastSaveText.text = "No data available.";
+                levelText.text = "No data available.";
+                playTimeText.text = "No data available.";
+            }
+        }
+        else
+        {
+            Debug.Log("No save file found!");
+            if (lastSaveText != null)
+            {
+                lastSaveText.text = "No available.";
+                levelText.text = "No available.";
+                playTimeText.text = "No available.";
+            }
+        }
+    }
+
+    [System.Serializable]
+    public class SaveSummary
+    {
+        public string lastSaveTime;
+        public int level;
+        public float totalPlayTime;
+
+    }
+
+    private string FormatPlayTime(float playTime)
+    {
+        int hours = Mathf.FloorToInt(playTime / 3600);
+        int minutes = Mathf.FloorToInt((playTime % 3600) / 60);
+        int seconds = Mathf.FloorToInt(playTime % 60);
+
+        return $"{hours:D2}:{minutes:D2}:{seconds:D2}";
     }
 }

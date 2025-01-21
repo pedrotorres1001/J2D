@@ -13,7 +13,9 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int experiencePoints;
     [SerializeField] protected float speed;
 
-    [SerializeField] private GameObject deathPrefab;
+    [SerializeField] private GameObject explosionEffect;
+    [SerializeField] private GameObject crystal;
+
 
     private AudioManager audioManager;
     public bool isAlive;
@@ -37,12 +39,6 @@ public abstract class Enemy : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-
-
-    }
-
     public abstract void Attack();
 
     public void TakeDamage(int damage)
@@ -63,18 +59,10 @@ public abstract class Enemy : MonoBehaviour
 
     void Die()
     {
-        // Play death sound
         audioManager.Play("enemyDeath");
 
-        // Add experience points to the player
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
-
-        // Instantiate the death prefab at the current position and rotation
-
-        if (deathPrefab != null)
-        {
-            Instantiate(deathPrefab, transform.position, Quaternion.identity);
-        }
+        Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        Instantiate(crystal, transform.position, Quaternion.identity);
 
         // Destroy the enemy
         isAlive = false;

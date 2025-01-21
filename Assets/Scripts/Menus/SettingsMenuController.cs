@@ -62,7 +62,7 @@ public class SettingsMenuController : MonoBehaviour
         fullscreenToggle.onValueChanged.AddListener(SetFullscreen);
 
         // Assign the OpenKeybindMenu method to the KeybindButton
-        KeybindButton.onClick.AddListener(OpenKeybindMenu);
+        //KeybindButton.onClick.AddListener(OpenKeybindMenu);
     }
 
     public void SetVolume(float volume)
