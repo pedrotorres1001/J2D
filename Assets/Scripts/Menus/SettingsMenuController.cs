@@ -126,8 +126,13 @@ public class SettingsMenuController : MonoBehaviour
 
     public void OpenKeybindMenu()
     {
-        // deve dar able ao menu de keybind e desable o menu de settings
         settingsKeybindMenu.SetActive(true);
+        gameObject.SetActive(false);
+    }
+
+    public void CloseSettingsMenu()
+    {
+        pauseMenu.SetActive(true);
         gameObject.SetActive(false);
     }
     

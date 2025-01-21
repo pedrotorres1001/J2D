@@ -86,13 +86,17 @@ public class PlayerMovement : MonoBehaviour
             timer = 0f; // Reseta o temporizador
         }
 
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) 
+        if (Input.GetKeyDown(GameManager.GM.jump) && isGrounded)
         {
             lastDirection = 2;
         }
-        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) 
+        else if (Input.GetKeyDown(GameManager.GM.moveleft)) 
         {
             lastDirection = 3;
+        }
+        else if (Input.GetKeyDown(GameManager.GM.moveright))
+        {
+            lastDirection = 4;
         }
 
         if (direction == 0)
@@ -102,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsWalking", false);
         }
 
-        if ((Input.GetButton("Jump") || Input.GetKey(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && isGrounded)
+        if (Input.GetKeyDown(GameManager.GM.jump) && isGrounded)
         {
             dust.Play(); 
             Jump();
