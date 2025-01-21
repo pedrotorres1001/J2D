@@ -10,7 +10,7 @@ public abstract class Enemy : MonoBehaviour
     public Animator animator;
     private Rigidbody2D rb;
 
-    // Alterado para protected para ser acessível nas classes derivadas
+    // Alterado para protected para ser acessï¿½vel nas classes derivadas
     protected IEnemyState currentState;
 
     protected virtual void Start()
@@ -18,7 +18,7 @@ public abstract class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
-        SwitchState(new PatrolState(2f, 5f));
+        SwitchState(new PatrolState(2f));
     }
 
     public void SwitchState(IEnemyState newState)
@@ -36,6 +36,14 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    public Vector2 GetVelocity()
+    {
+        if (rb != null)
+            return rb.velocity;        
+
+        return Vector2.zero;   
+    }
+
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
@@ -48,7 +56,7 @@ public abstract class Enemy : MonoBehaviour
 
     private void Die()
     {
-        // Lógica de morte
+        // Lï¿½gica de morte
     }
 
     protected abstract void Update();

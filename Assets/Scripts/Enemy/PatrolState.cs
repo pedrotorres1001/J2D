@@ -4,39 +4,29 @@ public class PatrolState : IEnemyState
 {
     private Enemy enemy;
     private float patrolSpeed;
-    private Vector2 patrolTarget;
-    private float patrolTimer;
-    private float maxPatrolTime;
 
-    public PatrolState(float patrolSpeed, float maxPatrolTime)
+    public PatrolState(float patrolSpeed)
     {
         this.patrolSpeed = patrolSpeed;
-        this.maxPatrolTime = maxPatrolTime;
     }
 
     public void EnterState(Enemy enemy)
     {
         this.enemy = enemy;
-        patrolTarget = GetRandomPatrolPoint();
-        patrolTimer = maxPatrolTime;
-        enemy.SetVelocity((patrolTarget - (Vector2)enemy.transform.position).normalized * patrolSpeed);
+        // Define a dire√ß√£o inicial como para a direita
+        enemy.SetVelocity(Vector2.right * patrolSpeed);
     }
 
     public void UpdateState()
     {
-        patrolTimer -= Time.deltaTime;
-
-        // Verificar se o inimigo encontrou algum obst·culo ‡ frente usando um Raycast
+        // Verifica se h√° obst√°culos
         CheckForObstacles();
 
-        if (patrolTimer <= 0 || Vector2.Distance(enemy.transform.position, patrolTarget) < 0.2f)
-        {
-            // Escolhe um novo ponto de patrulha
-            patrolTarget = GetRandomPatrolPoint();
-            enemy.SetVelocity((patrolTarget - (Vector2)enemy.transform.position).normalized * patrolSpeed);
-        }
+        // Atualiza a velocidade para garantir que o inimigo continue se movendo
+        Vector2 currentDirection = enemy.GetVelocity().normalized;
+        enemy.SetVelocity(currentDirection * patrolSpeed);
 
-        // LÛgica para verificar proximidade com o jogador e alternar de estado
+        // Verifica se deve trocar de estado ao encontrar o jogador
         Boar boar = enemy as Boar;
         if (boar != null && boar.IsPlayerInFront())
         {
@@ -51,32 +41,35 @@ public class PatrolState : IEnemyState
 
     public void ExitState()
     {
-        enemy.SetVelocity(Vector2.zero); // Para de se mover ao sair do estado
+        enemy.SetVelocity(Vector2.zero); // Para o movimento ao sair do estado
     }
 
-    private Vector2 GetRandomPatrolPoint()
-    {
-        // Gera um ponto aleatÛrio para patrulhar
-        return (Vector2)enemy.transform.position + Random.insideUnitCircle * 3f;
-    }
-
-    // FunÁ„o para verificar se h· obst·culos ‡ frente
     private void CheckForObstacles()
     {
-        float rayLength = 1f; // Dist‚ncia do raycast para verificar obst·culos
-        Vector2 rayOrigin = (Vector2)enemy.transform.position + Vector2.up * 0.5f; // Inicia o raycast um pouco acima do ch„o
-        Vector2 rayDirection = enemy.transform.right; // DireÁ„o do raio È para frente do inimigo
+        int layer = LayerMask.GetMask("Ground", "Destructable");
+        float rayLength = 2f; // Alcance curto para detec√ß√£o
+        Vector2 rayOrigin = enemy.transform.position;
+        Vector2 rayDirection = enemy.GetVelocity().normalized; // Dire√ß√£o atual do inimigo
 
-        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, rayLength, LayerMask.GetMask("Ground", "Destructable")); // Verifica no layer Ground ou Wall
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, rayLength, layer);
 
-        // Se o raycast colidir com algo (parede ou ch„o), mudar a direÁ„o
         if (hit.collider != null)
         {
-            // DetecÁ„o de obst·culo, vai para tr·s
-            Vector2 reverseDirection = -rayDirection; // DireÁ„o oposta
-            patrolTarget = (Vector2)enemy.transform.position + reverseDirection * 3f; // Muda o ponto de patrulha
-            enemy.SetVelocity(reverseDirection * patrolSpeed); // Move para tr·s
+            // Inverte a dire√ß√£o do movimento ao encontrar um obst√°culo
+            Vector2 reverseDirection = -rayDirection;
+            enemy.SetVelocity(reverseDirection * patrolSpeed);
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        if (enemy == null) return;
+
+        float rayLength = 2f; // Alcance do raycast
+        Vector2 rayDirection = enemy.GetVelocity().normalized; // Dire√ß√£o atual do inimigo
+
+        // Desenha o raycast no editor para depura√ß√£o
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(enemy.transform.position, enemy.transform.position + (Vector3)(rayDirection * rayLength));
+    }
 }

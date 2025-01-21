@@ -14,12 +14,12 @@ public class Boar : Enemy
     public float fieldOfViewAngle = 45f;
     private float sightRange = 5f;
 
-    public Transform player; // Referência para o jogador
+    public Transform player; // Referï¿½ncia para o jogador
 
     protected override void Start()
     {
         base.Start();
-        SwitchState(new PatrolState(patrolSpeed, maxPatrolTime));
+        SwitchState(new PatrolState(patrolSpeed));
     }
 
     public bool IsPlayerInFront()

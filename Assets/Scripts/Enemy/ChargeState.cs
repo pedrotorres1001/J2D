@@ -39,14 +39,14 @@ public class ChargeState : IEnemyState
 
         if (chargeTimer <= 0)
         {
-            enemy.SwitchState(new PatrolState(2f, 5f));
+            enemy.SwitchState(new PatrolState(2f));
         }
     }
 
     public void ExitState()
     {
         enemy.SetVelocity(Vector2.zero);
-        enemy.animator?.SetBool("isCharging", false);  // Usando GetAnimator() aqui também
+        enemy.animator?.SetBool("isCharging", false);  // Usando GetAnimator() aqui tambï¿½m
     }
 }
 
