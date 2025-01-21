@@ -9,7 +9,7 @@ public class RopeController : MonoBehaviour
     public GameObject[] segments;
     public LineRenderer lineRenderer;
 
-    [SerializeField, Range(0.01f, 1.5f)] public float size = 1.0f;
+    [SerializeField, Range(0.01f, 20f)] public float length = 1.0f;
     [SerializeField] bool isGrapple;
     private void Start()
     {
@@ -38,7 +38,7 @@ public class RopeController : MonoBehaviour
     {
         foreach (var segment in segments)
         {
-            segment.transform.localScale = new Vector3(1, size, 1);
+            segment.transform.localScale = new Vector3(1, length, 1);
         }
     }
 

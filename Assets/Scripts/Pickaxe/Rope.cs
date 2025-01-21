@@ -4,70 +4,143 @@ using UnityEngine;
 
 public class Rope : MonoBehaviour
 {
-    [SerializeField, Range(2, 50)] int segmentsCount = 2;
+    public Transform StartPoint;
+    public Transform EndPoint;
 
-    public Vector2 pointA;
-    public Vector2 pointB;
+    private LineRenderer lineRenderer;
+    private List<RopeSegment> ropeSegments = new List<RopeSegment>();
+    public float ropeSegLen = 0.25f;
+    public int segmentLength = 35;
+    private float lineWidth = 0.1f;
 
-    public HingeJoint2D hingePrefab;
+    //private EdgeCollider2D edgeCollider;
 
-    [HideInInspector] public Transform[] segments;
-
-    LineRenderer line;
-
-    void Awake()
+    // Use this for initialization
+    void Start()
     {
-        line = GetComponent<LineRenderer>();
+        //edgeCollider = GetComponent<EdgeCollider2D>();
+        this.lineRenderer = this.GetComponent<LineRenderer>();
+        Vector3 ropeStartPoint = StartPoint.position;
 
-        line.enabled = true;
-        line.positionCount = segmentsCount;
-    }
-
-    void Update()
-    {
-        GenerateRope();
-
-        for (int i = 0; i < segments.Length; i++) 
-        { 
-            line.SetPosition(i, segments[i].position);
+        for (int i = 0; i < segmentLength; i++)
+        {
+            this.ropeSegments.Add(new RopeSegment(ropeStartPoint));
+            ropeStartPoint.y -= ropeSegLen;
         }
     }
 
-    Vector2 GetSegmentPosition(int segmentIndex)
+    // Update is called once per frame
+    void Update()
     {
-        Vector2 posA = pointA;
-        Vector2 posB = pointB;
-
-        float fraction = 1f / segmentsCount;
-        return Vector2.Lerp(posA, posB, fraction * segmentIndex);
+        this.DrawRope();
     }
 
-
-    void GenerateRope()
+    private void FixedUpdate()
     {
-        segments = new Transform[segmentsCount];
+        this.Simulate();
+    }
 
-        for (int i = 0; i < segmentsCount; i++)
+    private void Simulate()
+    {
+        // SIMULATION
+        Vector2 forceGravity = new Vector2(0f, -1f);
+
+        for (int i = 1; i < this.segmentLength; i++)
         {
-            var currJoint = Instantiate(hingePrefab, GetSegmentPosition(i), Quaternion.identity, this.transform); 
-            segments[i] = currJoint.transform;
+            RopeSegment firstSegment = this.ropeSegments[i];
+            Vector2 velocity = firstSegment.posNow - firstSegment.posOld;
+            firstSegment.posOld = firstSegment.posNow;
+            firstSegment.posNow += velocity;
+            firstSegment.posNow += forceGravity * Time.fixedDeltaTime;
+            this.ropeSegments[i] = firstSegment;
+        }
 
-            if (i > 0) // not first hinge
+        //CONSTRAINTS
+        for (int i = 0; i < 50; i++)
+        {
+            this.ApplyConstraint();
+        }
+    }
+
+    private void ApplyConstraint()
+    {
+        //Constrant to First Point 
+        RopeSegment firstSegment = this.ropeSegments[0];
+        firstSegment.posNow = this.StartPoint.position;
+        this.ropeSegments[0] = firstSegment;
+
+
+        //Constrant to Second Point 
+        RopeSegment endSegment = this.ropeSegments[this.ropeSegments.Count - 1];
+        endSegment.posNow = this.EndPoint.position;
+        this.ropeSegments[this.ropeSegments.Count - 1] = endSegment;
+
+        for (int i = 0; i < this.segmentLength - 1; i++)
+        {
+            RopeSegment firstSeg = this.ropeSegments[i];
+            RopeSegment secondSeg = this.ropeSegments[i + 1];
+
+            float dist = (firstSeg.posNow - secondSeg.posNow).magnitude;
+            float error = Mathf.Abs(dist - this.ropeSegLen);
+            Vector2 changeDir = Vector2.zero;
+
+            if (dist > ropeSegLen)
             {
-                int prevIndex = i - 1;
-                currJoint.connectedBody = segments[prevIndex].GetComponent<Rigidbody2D>();
+                changeDir = (firstSeg.posNow - secondSeg.posNow).normalized;
+            }
+            else if (dist < ropeSegLen)
+            {
+                changeDir = (secondSeg.posNow - firstSeg.posNow).normalized;
+            }
+
+            Vector2 changeAmount = changeDir * error;
+            if (i != 0)
+            {
+                firstSeg.posNow -= changeAmount * 0.5f;
+                this.ropeSegments[i] = firstSeg;
+                secondSeg.posNow += changeAmount * 0.5f;
+                this.ropeSegments[i + 1] = secondSeg;
+            }
+            else
+            {
+                secondSeg.posNow += changeAmount;
+                this.ropeSegments[i + 1] = secondSeg;
             }
         }
     }
 
-    private void OnDrawGizmos()
+    private void DrawRope()
     {
-        if (pointA == null || pointB == null) return;
-        Gizmos.color = Color.green;
-        for (int i = 0; i < segmentsCount; i++)
+        float lineWidth = this.lineWidth;
+        lineRenderer.startWidth = lineWidth;
+        lineRenderer.endWidth = lineWidth;
+
+        Vector3[] ropePositions = new Vector3[this.segmentLength];
+        //Vector2[] colliderPoints = new Vector2[this.segmentLength];
+
+        for (int i = 0; i < this.segmentLength; i++)
         {
-            Vector2 posAtIndex = GetSegmentPosition(i);
-            Gizmos.DrawSphere(posAtIndex, 0.1f);
+            Vector3 segmentPosition = this.ropeSegments[i].posNow;
+            ropePositions[i] = segmentPosition;
+
+            //colliderPoints[i] = new Vector2(segmentPosition.x, segmentPosition.y);
+        }
+
+        lineRenderer.positionCount = ropePositions.Length;
+        lineRenderer.SetPositions(ropePositions);
+
+        //edgeCollider.points = colliderPoints;
+    }
+
+    public struct RopeSegment
+    {
+        public Vector2 posNow;
+        public Vector2 posOld;
+
+        public RopeSegment(Vector2 pos)
+        {
+            this.posNow = pos;
+            this.posOld = pos;
         }
     }
 }
