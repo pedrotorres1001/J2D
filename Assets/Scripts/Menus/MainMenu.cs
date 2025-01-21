@@ -8,7 +8,6 @@ using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject settingsMenu;
     public GameObject mainMenu;
 
     public Button loadButton;
