@@ -9,15 +9,12 @@ public class PauseMenu : MonoBehaviour
     public GameObject settingsMenu;
     public GameObject startRespawnPoint;
     public static bool isPaused;
-
+    public PlayerMovement playerMovement;
     private AudioManager audioManager;
 
     void Start()
     {
-        pauseMenu.SetActive(false);
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-
-        audioManager.Play("fire");
+        //playerMovement.enabled = false;
     }
 
     // Update is called once per frame
@@ -39,7 +36,7 @@ public class PauseMenu : MonoBehaviour
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
         isPaused = true;
     }
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Boar : Enemy
@@ -7,13 +8,15 @@ public class Boar : Enemy
     public float maxPatrolTime = 5f;
     public float chargeSpeed = 5f;
     public float chargeDuration = 2f;
-    public float attackRange = 1.5f;
-    public float chargeRange = 2.0f;
+    public float attackRange = 5f;
+    public int chargeRange = 3;
     public float attackCooldown = 1.5f;
     public float attackDamage = 10f;
-    private float sightRange = 6f;
+    private float sightRange = 4f;
+    private float knockbackForce = 5f;
+    private bool isCollidingWithPlayer = false;
 
-    public Transform player; // Refer�ncia para o jogador
+    public Transform player;
 
     protected override void Start()
     {
@@ -25,8 +28,8 @@ public class Boar : Enemy
     {
         // Define o alcance do Raycast
         float boxcastRange = sightRange;
-        float boxWidth = 6f;
-        float boxHeight = 4f;
+        float boxWidth = 7f;
+        float boxHeight = 5f;
 
         // Direção do raio: o Boar está olhando para a direita ou esquerda
         Vector2 direction = new Vector2(GetDirection(), 0);
@@ -37,20 +40,15 @@ public class Boar : Enemy
         // Se o Raycast acertar o jogador, o jogador está visível
         if (hit.collider != null && hit.collider.CompareTag("Player"))
         {
-            return true; // O jogador está visível
+            return true;
         }
 
-        return false; // Não encontrou o jogador
+        return false;
     }
 
     public void TriggerChargeState()
     {
-        SwitchState(new ChargeState(chargeSpeed, chargeDuration, attackRange, player));
-    }
-
-    public void TriggerAttackState()
-    {
-        SwitchState(new AttackState(attackRange, attackCooldown, attackDamage, player));
+        SwitchState(new ChargeState(chargeSpeed, attackRange, player));
     }
 
     protected override void Update()
@@ -64,11 +62,34 @@ public class Boar : Enemy
         {
             Gizmos.color = Color.green; // Cor para a área de visão
             Vector2 direction = new Vector2(GetDirection(), 0); // Direção do BoxCast
-            Vector2 boxSize = new Vector2(1f, 0.5f); // Tamanho da caixa (ajuste conforme necessário)
+            Vector2 boxSize = new Vector2(7f, 5f); // Tamanho da caixa (ajuste conforme necessário)
 
             // Desenha a caixa no editor para depuração
             Gizmos.DrawWireCube(transform.position + (Vector3)(direction * sightRange), boxSize);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Debug.Log("Boar hit the player!");
+            isCollidingWithPlayer = true;
+            animator?.SetBool("isCharging", false);
+
+            // Aqui, entra no estado de knockback após a colisão
+            SwitchState(new KnockbackState(player, knockbackForce));
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision) 
+    {
+        if (collision.collider.CompareTag("Player"))
+        {
+            Debug.Log("Boar hit the player!");
+            isCollidingWithPlayer = false;
+        }
+        
     }
 
 }

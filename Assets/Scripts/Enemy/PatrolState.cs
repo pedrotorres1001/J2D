@@ -29,15 +29,9 @@ public class PatrolState : IEnemyState
         // Verifica se deve trocar de estado ao encontrar o jogador
         if(enemy is Boar boar)
         {
-            if (boar.IsPlayerInFront())
+            if (boar.IsPlayerInFront()) // e nao tem nada a obstruir !!!
             {
-                Debug.Log("Sees player");
-                float distanceToPlayer = Vector2.Distance(enemy.transform.position, boar.player.position);
-
-                //if (distanceToPlayer > boar.chargeRange)
-                    //enemy.SwitchState(new ChargeState(boar.chargeSpeed, boar.chargeDuration, boar.attackRange, boar.player));
-                //else
-                    //enemy.SwitchState(new AttackState(boar.attackRange, boar.attackCooldown, boar.attackDamage, boar.player));
+                enemy.SwitchState(new ChargeState(boar.chargeSpeed, boar.attackRange, boar.player));
             }
         }
     }
@@ -62,17 +56,5 @@ public class PatrolState : IEnemyState
             Vector2 reverseDirection = -rayDirection;
             enemy.SetVelocity(reverseDirection * patrolSpeed);
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (enemy == null) return;
-
-        float rayLength = 2f; // Alcance do raycast
-        Vector2 rayDirection = enemy.GetVelocity().normalized; // Direção atual do inimigo
-
-        // Desenha o raycast no editor para depuração
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(enemy.transform.position, enemy.transform.position + (Vector3)(rayDirection * rayLength));
     }
 }
