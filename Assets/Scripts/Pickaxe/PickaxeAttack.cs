@@ -25,9 +25,9 @@ public class PickaxeAttack : MonoBehaviour
                     {
                         other.GetComponent<Enemy>().TakeDamage(attackDamage);
                     }
-                    else if (other.transform.parent.GetComponent<BossMovement>() != null)
+                    else if (other.transform.parent.GetComponent<Boss>() != null)
                     {
-                        other.transform.parent.GetComponent<BossMovement>().TakeDamage(attackDamage);
+                        other.transform.parent.GetComponent<Boss>().TakeDamage(attackDamage);
                     }
                     isAttacking = false;
                 }
@@ -41,9 +41,9 @@ public class PickaxeAttack : MonoBehaviour
                         {
                             enemyTransform.GetComponent<Enemy>().TakeDamage(attackDamage * vitalDamageMultiplier);
                         }
-                        else if (enemyTransform.GetComponent<BossMovement>() != null)
+                        else if (enemyTransform.GetComponent<Boss>() != null)
                         {
-                            enemyTransform.GetComponent<BossMovement>().TakeDamage(attackDamage * vitalDamageMultiplier);
+                            enemyTransform.GetComponent<Boss>().TakeDamage(attackDamage * vitalDamageMultiplier);
                         }
 
                         isAttacking = false;
