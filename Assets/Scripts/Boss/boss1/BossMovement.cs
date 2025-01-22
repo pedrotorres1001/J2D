@@ -278,46 +278,6 @@ public class BossMovement : Boss
         return false;
     }
 
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-
-        StartCoroutine(ColorChangeCoroutine());
-
-        bossHealthBar.GetComponent<HealthBar>().Update_health(health, maxHealth);
-
-        audioManager.Play("enemyDeath");
-
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
-
-    private IEnumerator ColorChangeCoroutine()
-    {
-        SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
-        Color damaged = Color.red;
-        Color original = Color.white;
-
-        // Change the color
-        sprite.color = damaged;
-
-        // Wait for the duration
-        yield return new WaitForSeconds(0.5f);
-
-        // Revert to the original color
-        sprite.color = original;
-    }
-
-    void Die()
-    {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
-        bossHealthBar.SetActive(false);
-        Destroy(gameObject);
-        
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
