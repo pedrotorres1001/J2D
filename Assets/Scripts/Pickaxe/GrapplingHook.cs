@@ -65,7 +65,7 @@ public class GrapplingHook : MonoBehaviour
                     reachedPosition = true;
                 }
 
-                if (Input.GetKey(KeyManager.KM.grapplinghook) && reachedPosition)
+                if (Input.GetKeyDown(KeyManager.KM.grapplinghook) && reachedPosition)
                 {
                     stopGrappling = true;
                     direction = (transform.position - pickaxeGrapple.transform.position).normalized;
@@ -87,11 +87,11 @@ public class GrapplingHook : MonoBehaviour
                     currentRope.EndPoint.position = transform.position;
                     currentRope.ropeSegLen = Vector3.Distance(currentRope.StartPoint.position, currentRope.EndPoint.position) / currentRope.segmentLength;
 
-                    if (Input.GetKey(KeyCode.W) && joint.distance > 1)
+                    if (Input.GetKey(KeyManager.KM.moveup) && joint.distance > 1)
                     {
                         joint.distance -= 5f * Time.deltaTime;
                     }
-                    else if (Input.GetKey(KeyCode.S) && joint.distance < grappleLength && grapplePoint.y > transform.position.y && Mathf.Abs(pickaxeGrapple.transform.position.x - transform.position.x) < 3)
+                    else if (Input.GetKey(KeyManager.KM.movedown) && joint.distance < grappleLength && grapplePoint.y > transform.position.y && Mathf.Abs(pickaxeGrapple.transform.position.x - transform.position.x) < 3)
                     {
                         joint.distance += 5f * Time.deltaTime;
                     }
@@ -101,13 +101,13 @@ public class GrapplingHook : MonoBehaviour
                     reachedPosition = true;
                 }
 
-                if ((Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)) && reachedPosition)
+                if (Input.GetKeyDown(KeyManager.KM.grapplinghook) && reachedPosition)
                 {
                     stopGrappling = true;
                     direction = (transform.position - pickaxeGrapple.transform.position).normalized;
                     StartCoroutine(RetractRope());
                 }
-                else if ((Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)))
+                else if (isGrappling && Input.GetKeyUp(KeyManager.KM.grapplinghook))
                 {
                     stopGrappling = true;
                 }
@@ -123,11 +123,11 @@ public class GrapplingHook : MonoBehaviour
                     currentRope.EndPoint.position = transform.position;
                     currentRope.ropeSegLen = Vector3.Distance(currentRope.StartPoint.position, currentRope.EndPoint.position) / currentRope.segmentLength;
 
-                    if (Input.GetKey(KeyCode.W) && joint.distance > 1)
+                    if (Input.GetKey(KeyManager.KM.moveup) && joint.distance > 1)
                     {
                         joint.distance -= 5f * Time.deltaTime;
                     }
-                    else if (Input.GetKey(KeyCode.S) && joint.distance < grappleLength && grapplePoint.y > transform.position.y && Mathf.Abs(pickaxeGrapple.transform.position.x - transform.position.x) < 3)
+                    else if (Input.GetKey(KeyManager.KM.movedown) && joint.distance < grappleLength && grapplePoint.y > transform.position.y && Mathf.Abs(pickaxeGrapple.transform.position.x - transform.position.x) < 3)
                     {
                         joint.distance += 5f * Time.deltaTime;
                     }
