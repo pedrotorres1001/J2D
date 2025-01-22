@@ -19,6 +19,8 @@ public class Boss2 : Boss
     private Animator animator;
 
     [SerializeField] private string state;
+    [SerializeField] private GameObject projectileSpawnPoint;
+    [SerializeField] private GameObject projectile;
 
     AudioManager audioManager;
 
@@ -49,7 +51,7 @@ public class Boss2 : Boss
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         float yDifference = Mathf.Abs(transform.position.y - 1.6f - player.position.y);
 
-        if (yDifference <= 3f)
+        if (yDifference <= 1.5f)
         {
             state = "melee";
         }
@@ -78,6 +80,20 @@ public class Boss2 : Boss
                         break;
 
                     case "ranged":
+                        if (Time.time - lastAttackTime >= attackCooldown)
+                        {
+                            lastAttackTime = Time.deltaTime;
+
+                            Vector3 dir = player.transform.position - projectileSpawnPoint.transform.position;
+
+                            GameObject proj = Instantiate(projectile);
+                            proj.transform.position = projectileSpawnPoint.transform.position;
+                            proj.GetComponent<Projectile>().SetValues(dir, damage, 2.5f);
+
+                            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                            proj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                            proj.transform.Rotate(0, 0, 135);
+                        }
                         break;
                     default:
                         break;
