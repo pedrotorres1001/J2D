@@ -1,85 +1,65 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
-    [Header("Enemy Attributes")]
-    public int maxHealth = 100;
-    private int currentHealth;
-    public int CurrentHealth { get; }
-    public int damage = 10;
-    public GameObject explosionPrefab;
+    [SerializeField] protected int health = 100;
+    public int Health {get;set;}
+    [SerializeField] protected int maxHealth = 100;
+    public GameObject health_bar;
+    [SerializeField] protected int experiencePoints;
+    [SerializeField] protected float speed;
+    [SerializeField] protected float sightRange;
 
-    public Animator animator;
-    private Rigidbody2D rb;
-
-    // Alterado para protected para ser acess�vel nas classes derivadas
-    protected IEnemyState currentState;
-    protected int direction = 1; // 1 para direita, -1 para esquerda
+    private AudioManager audioManager;
 
     protected virtual void Start()
     {
-        animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
-        currentHealth = maxHealth;
-        SwitchState(new PatrolState(2f));
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
+        //health_bar.transform.position = new Vector3(0, .5f);
+        //health_bar = Instantiate(health_bar, transform);
     }
 
-    public void SwitchState(IEnemyState newState)
+    public abstract void Attack();
+
+    public void TakeDamage(int damage)
     {
-        currentState?.ExitState();
-        currentState = newState;
-        currentState.EnterState(this);
-    }
+        health -= damage;
 
-    public void SetVelocity(Vector2 velocity)
-    {
-        if (rb != null)
-        {
-            rb.velocity = velocity;
+        //audioManager.PlaySFX(audioManager.enemyDeath);
+        StartCoroutine(ColorChangeCoroutine());
 
-            // Atualiza a direção com base na velocidade
-            if (velocity.x > 0)
-            {
-                direction = 1; 
-            }
-            else if (velocity.x < 0)
-            {
-                direction = -1;
-            }
+        //health_bar.GetComponent<HealthBar>().Update_health(health, maxHealth);
 
-            // Atualiza o parâmetro no Animator
-            animator?.SetFloat("Direction", direction);
-        }
-    }
-
-    public Vector2 GetVelocity()
-    {
-        if (rb != null)
-            return rb.velocity;        
-
-        return Vector2.zero;   
-    }
-
-    public int GetDirection()
-    {
-        return direction;
-    }
-
-    public void TakeDamage(int amount)
-    {
-        currentHealth -= amount;
-
-        if (currentHealth <= 0)
+        if (health <= 0)
         {
             Die();
+            Destroy(health_bar);
         }
     }
 
-    private void Die()
+    void Die()
     {
-        explosionPrefab.SetActive(true);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
+        Destroy(gameObject);
     }
 
-    protected abstract void Update();
-}
+    private IEnumerator ColorChangeCoroutine()
+    {
+        SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
+        Color damaged = Color.red;
+        Color original = Color.white;
 
+        // Change the color
+        sprite.color = damaged;
+
+        // Wait for the duration
+        yield return new WaitForSeconds(0.5f);
+
+        // Revert to the original color
+        sprite.color = original;
+    }
+}
