@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float speed;
+    [SerializeField] public float speed;
     [SerializeField] float jumpForce;
     [SerializeField] float stairsForce;
     [SerializeField] bool isGrounded;
@@ -156,10 +156,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void CheckGround()
+    public bool CheckGround()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
         isGrounded = hit.collider != null;
+        return isGrounded;
     }
 
     private float CheckGroundDistance()

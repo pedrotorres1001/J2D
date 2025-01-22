@@ -36,6 +36,28 @@ public class GrapplingHook : MonoBehaviour
 
     void Update()
     {
+        PlayerMovement playerMovement = gameObject.GetComponent<PlayerMovement>();
+        if (playerMovement.CheckGround())
+        {
+            playerMovement.enabled = true;
+        }
+        else
+        {
+            playerMovement.enabled = false;
+        }
+
+        float movementDirection = Input.GetAxisRaw("Horizontal");
+        if (movementDirection > 0)
+        {
+            Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
+            rb.velocity = new Vector2(rb.velocity.x + playerMovement.speed * Time.deltaTime, rb.velocity.y); 
+        }
+        else if (movementDirection < 0)
+        {
+            Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
+            rb.velocity = new Vector2(rb.velocity.x + -playerMovement.speed * Time.deltaTime, rb.velocity.y);
+        }
+
         if ((Input.GetMouseButtonDown(1) || Input.GetKey(KeyCode.E)) && !isGrappling)
         {
             stopGrappling = false;
@@ -177,10 +199,5 @@ public class GrapplingHook : MonoBehaviour
 
         pickaxe.SetActive(true);
         Destroy(currentRope.gameObject);
-    }
-
-    public void RemoveGrapple()
-    {
-        StartCoroutine(RetractRope());
     }
 }
