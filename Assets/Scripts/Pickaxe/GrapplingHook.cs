@@ -19,6 +19,8 @@ public class GrapplingHook : MonoBehaviour
     private bool isGrappleMoving = false;
     public DistanceJoint2D grappleJoint;
 
+    private float lastLaunch;
+
     [SerializeField] private float ropeSpeed = 20f;    
     [SerializeField] private float grappleLength = 20f;
     [SerializeField] private float grappleDistance;
@@ -38,7 +40,7 @@ public class GrapplingHook : MonoBehaviour
     {
         PlayerMovement playerMovement = gameObject.GetComponent<PlayerMovement>();
 
-        if (Input.GetKey(KeyManager.KM.grapplinghook) && !isGrappling)
+        if (Input.GetKeyDown(KeyManager.KM.grapplinghook) && !isGrappling)
         {
             stopGrappling = false;
             StartGrappling();
@@ -181,6 +183,8 @@ public class GrapplingHook : MonoBehaviour
         pickaxeGrapple.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         pickaxeGrapple.transform.Rotate(0, 0, -45);
 
+        lastLaunch = Time.time;
+
         StartCoroutine(MoveRope());
     }
 
@@ -208,6 +212,12 @@ public class GrapplingHook : MonoBehaviour
 
             while (isGrappling && Vector3.Distance(currentRope.EndPoint.position, currentRope.StartPoint.position) > 0.1 && direction == (transform.position - pickaxeGrapple.transform.position).normalized)
             {
+                if (Time.time - lastLaunch >= 2)
+                {
+                    isGrappling = false;
+                    StartCoroutine(RetractRope());
+                }
+
                 currentRope.EndPoint.position += direction * (ropeSpeed / 2) * Time.deltaTime;
                 currentRope.ropeSegLen = Vector3.Distance(startPoint, pickaxeGrapple.transform.position) / currentRope.segmentLength;
                 yield return null; 

@@ -8,6 +8,7 @@ public class Boss2 : Boss
     [SerializeField] private float attackCooldown = 2f;
     private float cooldown;
     private float lastAttackTime;
+    public bool inAttackRange = false;
 
     // Movement properties
     private float moveDirection;
@@ -46,8 +47,7 @@ public class Boss2 : Boss
     void Update()
     {
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        float yDifference = Mathf.Abs(transform.position.y - player.position.y);
-        float directionX;
+        float yDifference = Mathf.Abs(transform.position.y - 1.6f - player.position.y);
 
         if (yDifference <= 3f)
         {
@@ -64,12 +64,15 @@ public class Boss2 : Boss
                 switch (state)
                 {
                     case "melee":
-                        if (Vector2.Distance(player.transform.position, transform.position) <= 4)
+                        if (inAttackRange)
                         {
+                            Debug.Log("true");
                             Attack();
                         }
                         else
                         {
+                            animator.SetBool("isMelee", false);
+                            animator.SetBool("isWalking", true);
                             FollowPlayer();
                         }
                         break;
@@ -104,15 +107,11 @@ public class Boss2 : Boss
     {
         if (Time.time - lastAttackTime >= attackCooldown)
         {
-            Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(transform.position, 1f);
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isMelee", true);
 
-            foreach (Collider2D target in hitPlayers)
-            {
-                if (target.CompareTag("Player"))
-                {
-                    target.GetComponent<Player>().TakeDamage(attackDamage);
-                }
-            }
+            player.GetComponent<Player>().TakeDamage(attackDamage);
+            ProjectPlayer();
             lastAttackTime = Time.time;
         }
     }
@@ -160,7 +159,7 @@ public class Boss2 : Boss
         if (playerRb != null)
         {
             playerRb.velocity = Vector2.zero;
-            Vector2 projectionForce = (player.position - transform.position).normalized * 10000f;
+            Vector2 projectionForce = (player.position - transform.position).normalized * 100f;
             projectionForce.y = 1f;
             playerRb.AddForce(projectionForce, ForceMode2D.Force);
         }
