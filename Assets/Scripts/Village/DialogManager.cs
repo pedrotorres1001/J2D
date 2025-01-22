@@ -43,7 +43,7 @@ public class DialogManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyManager.KM.interact))
         {
             float distance = Vector3.Distance(player.transform.position, enemy.transform.position);
             if (distance <= dialogRange)

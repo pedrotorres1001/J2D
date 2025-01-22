@@ -22,35 +22,38 @@ public class KeyBindMenu : MonoBehaviour
 
         for (int i = 0; i < keyBindMenu.childCount; i++)
         {
+            var button = keyBindMenu.GetChild(i).GetComponent<UnityEngine.UI.Button>();
+            var buttonText = keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>();
+
             if (keyBindMenu.GetChild(i).name == "JumpButton")
             {
-                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = KeyManager.KM.jump.ToString();
-                Debug.Log(KeyManager.KM.jump.ToString());
+                buttonText.text = KeyManager.KM.jump.ToString();
+                button.onClick.AddListener(() => { SendText(buttonText); StartAssignment("jump"); });
             }
             else if (keyBindMenu.GetChild(i).name == "MoveLeftButton")
             {
-                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = KeyManager.KM.moveleft.ToString();
-                Debug.Log(KeyManager.KM.moveleft.ToString());
+                buttonText.text = KeyManager.KM.moveleft.ToString();
+                button.onClick.AddListener(() => { SendText(buttonText); StartAssignment("moveleft"); });
             }
             else if (keyBindMenu.GetChild(i).name == "MoveRightButton")
             {
-                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = KeyManager.KM.moveright.ToString();
-                Debug.Log(KeyManager.KM.moveright.ToString());
+                buttonText.text = KeyManager.KM.moveright.ToString();
+                button.onClick.AddListener(() => { SendText(buttonText); StartAssignment("moveright"); });
             }
             else if (keyBindMenu.GetChild(i).name == "GrapplingHookButton")
             {
-                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = KeyManager.KM.grapplinghook.ToString();
-                Debug.Log(KeyManager.KM.grapplinghook.ToString());
+                buttonText.text = KeyManager.KM.grapplinghook.ToString();
+                button.onClick.AddListener(() => { SendText(buttonText); StartAssignment("grapplinghook"); });
             }
             else if (keyBindMenu.GetChild(i).name == "InteractButton")
             {
-                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = KeyManager.KM.interact.ToString();
-                Debug.Log(KeyManager.KM.interact.ToString());
+                buttonText.text = KeyManager.KM.interact.ToString();
+                button.onClick.AddListener(() => { SendText(buttonText); StartAssignment("interact"); });
             }
             else if (keyBindMenu.GetChild(i).name == "AttackButton")
             {
-                keyBindMenu.GetChild(i).GetComponentInChildren<TextMeshProUGUI>().text = KeyManager.KM.attack.ToString();
-                Debug.Log(KeyManager.KM.attack.ToString());
+                buttonText.text = KeyManager.KM.attack.ToString();
+                button.onClick.AddListener(() => { SendText(buttonText); StartAssignment("attack"); });
             }
         }
     }

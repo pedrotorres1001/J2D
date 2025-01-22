@@ -94,10 +94,6 @@ public class PlayerMovement : MonoBehaviour
         {
             lastDirection = 3;
         }
-        else if (Input.GetKeyDown(KeyManager.KM.moveright))
-        {
-            lastDirection = 4;
-        }
 
         if (direction == 0)
         {
