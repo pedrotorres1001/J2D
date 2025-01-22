@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class Boar : Enemy
 {
+
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float attackCooldown = 2f;
     [SerializeField] public int attackDamage;
 
-
     private bool hasDashed = false;
-    // Dash properties
     private float lastAttackTime;
     private Transform player;
     private float distanceToPlayer;
@@ -20,41 +19,50 @@ public class Boar : Enemy
     private EnemyPatrol enemyPatrol;
     private Animator animator;
 
-    private bool isPerformingAction = false;
+    private bool isPerformingAction;
+    private bool isChasingPlayer;
     private Vector2 playerLastKnownPosition;
 
+    private string currentState;
+    private int facingDirection = 1;
 
-    protected override void Start() {
-        base.Start();
+    private void Awake() {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = gameObject.GetComponent<Rigidbody2D>();
         enemyPatrol = gameObject.GetComponent<EnemyPatrol>();
         animator = gameObject.GetComponent<Animator>();
+    }
 
+    protected override void Start() {
+        base.Start();
         isDashing = false;
+        isPerformingAction = false;
+        isChasingPlayer = false;
     }
 
-    private void Update() 
+private void Update() 
+{
+    print(currentState);
+    
+    if (isPerformingAction) return; // Skip logic during special actions
+
+    playerLastKnownPosition = player.position;
+
+    distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+    bool canSeePlayer = HasLineOfSight();
+    
+    if (canSeePlayer && !isChasingPlayer && !isDashing) 
     {
-        if (isPerformingAction) return; // Skip Update logic during special actions
-
-        distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
-        bool canSeePlayer = HasLineOfSight();
-
-        if (canSeePlayer && distanceToPlayer > 6) {
-            enemyPatrol.isFollowingPlayer = true;
-            FollowPlayer();
-        }
-        else if (canSeePlayer && distanceToPlayer <= 6) {
-            enemyPatrol.isFollowingPlayer = true;
-            StartCoroutine(PrepareAndDash());
-        }
-        else if(!canSeePlayer) {
-            enemyPatrol.isFollowingPlayer = false;
-        }
+        StartCoroutine(PrepareAndDash());
     }
-
+    else if (!canSeePlayer) 
+    {
+        currentState = "Patrolling";
+        isChasingPlayer = false;
+        enemyPatrol.Patrol(rb);
+    }
+}
     public void AttackPlayer() 
     {
         if (distanceToPlayer <= 5 && !hasDashed) {
@@ -72,17 +80,54 @@ public class Boar : Enemy
         float direction = playerDirection.x > 0 ? 1 : -1; // Determine facing direction
         animator.SetFloat("Direction", direction); // Update animation direction
         rb.velocity = new Vector2(playerDirection.x * speed, 0); // Move only in X-axis
+
+        currentState = "Following Player";
     }
 
-    private bool HasLineOfSight() 
+    private bool HasLineOfSight()
     {
-        float boxcastRange = sightRange;
+        float boxcastRange = 4f;
         float boxWidth = 7f;
         float boxHeight = 5f;
-        float direction = rb.velocity.x > 0 ? 1 : -1; // Determine facing direction
+        float direction = rb.velocity.x > 0 ? 1 : -1;
 
-        // Realiza o Raycast para verificar se o jogador está à frente
-        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(boxWidth, boxHeight), 0f, new Vector2(direction,0), boxcastRange, LayerMask.GetMask("Player"));
+        // Define as camadas a considerar (Player + Ground ou outros obstáculos)
+        LayerMask layerMask = LayerMask.GetMask("Player", "Ground", "Destructable");
+
+        // Faz um BoxCast na direção que o Boar está a olhar
+        RaycastHit2D hit = Physics2D.BoxCast(
+            transform.position,
+            new Vector2(boxWidth, boxHeight),
+            0f,
+            Vector2.right * direction,
+            boxcastRange,
+            layerMask
+        );
+
+        // Verifica o que foi atingido
+        if (hit.collider != null)
+        {
+            // Se atingir o jogador diretamente, retorna true
+            if (hit.collider.CompareTag("Player"))
+            {
+                return true;
+            }
+            // Se atingir um obstáculo (ex: Ground), retorna false
+            else if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    private bool CanReachPlayer()
+    {
+        float direction = rb.velocity.x > 0 ? 1 : -1; // Determine facing direction
+        float range = 2f;
+
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x,transform.position.y - 1f), transform.position * (direction + range), LayerMask.GetMask("Player"));
 
         // Se o Raycast acertar o jogador, o jogador está visível
         if (hit.collider != null && hit.collider.CompareTag("Player"))
@@ -93,10 +138,9 @@ public class Boar : Enemy
         return false;
     }
 
-
-
     public override void Attack()
     {
+        print("5. Attacking player");
         if (Time.time - lastAttackTime >= attackCooldown)
         {
             Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(transform.position, 1f);
@@ -105,6 +149,7 @@ public class Boar : Enemy
             {
                 if (target.CompareTag("Player"))
                 {
+                    print("5. Attacking player");
                     rb.velocity = Vector2.zero;
                     target.GetComponent<Player>().TakeDamage(attackDamage);
                 }
@@ -115,10 +160,10 @@ public class Boar : Enemy
 
     private IEnumerator PrepareAndDash() 
     {
+        currentState = "Charging player";
         isPerformingAction = true;
 
         // Record the player's position before charging
-        playerLastKnownPosition = player.position;
 
         // Calculate dash direction (X-axis only)
         Vector2 dashDirection = new Vector2(playerLastKnownPosition.x - transform.position.x, 0).normalized;
@@ -128,10 +173,15 @@ public class Boar : Enemy
 
         // Stop and wait before charging
         animator.SetBool("isPreparing", true);
+
+        print("3. Preparing to charge");
+
         rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(1); // Wait before charging
         animator.SetBool("isPreparing", false);
         animator.SetBool("isCharging", true);
+
+        print("4. Charging");
 
         // Gradual acceleration variables
         float elapsedTime = 0f;
@@ -154,24 +204,12 @@ public class Boar : Enemy
 
         animator.SetBool("isCharging", false);
 
-        // Stop and wait after charging
-        rb.velocity = Vector2.zero;
-        animator.SetBool("isIdle", true);
-        yield return new WaitForSeconds(2);
-        animator.SetBool("isIdle", false);
-
         // Reset state
         isPerformingAction = false;
         hasDashed = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("Player")) {
-            Attack();
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision) {
+    private void OnTriggerStay2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("Player")) {
             Attack();
         }
@@ -181,14 +219,16 @@ public class Boar : Enemy
     {
         if (transform != null)
         {
+            // Direção do Boar
             rb = gameObject.GetComponent<Rigidbody2D>();
             float direction = rb.velocity.x > 0 ? 1 : -1; // Determine facing direction
-            Vector2 directionV = new Vector2(direction,0);
-            Gizmos.color = Color.green; // Cor para a área de visão
-            Vector2 boxSize = new Vector2(7f, 5f); // Tamanho da caixa (ajuste conforme necessário)
+            Vector2 directionV = new Vector2(direction, 0);
 
-            // Desenha a caixa no editor para depuração
-            Gizmos.DrawWireCube(transform.position + (Vector3)(directionV * sightRange), boxSize);
+            // Gizmos para HasLineOfSight
+            Gizmos.color = Color.green; // Cor para a área de visão
+            Vector2 boxSize = new Vector2(7f, 5f); // Tamanho da caixa (HasLineOfSight)
+            Gizmos.DrawWireCube(transform.position + (Vector3)(directionV * 4f), boxSize);
+
         }
     }
 

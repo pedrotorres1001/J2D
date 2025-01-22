@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
 
     [SerializeField] float gravity;
+    public float Gravity {get; set;}
     [SerializeField] float wallSlideSpeed;
     [SerializeField] float wallSlideDuration = 2f; // Limit slide time
 

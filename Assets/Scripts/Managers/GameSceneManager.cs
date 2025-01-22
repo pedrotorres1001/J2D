@@ -10,6 +10,7 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField] SaveManager saveManager;
     [SerializeField] GameObject player;
     [SerializeField] Tilemap map1;
+    [SerializeField] Animator irisOutAnimation;
 
     private int currentLevel;
     public int CurrentLevel { get; set; }
@@ -55,8 +56,10 @@ public class GameSceneManager : MonoBehaviour
 
         firstSpawn = true;
 
-        // Iniciar o tempo de sessão
+        // Iniciar o tempo de sessï¿½o
         sessionStartTime = Time.time;
+
+        irisOutAnimation.SetTrigger("Open");
     }
 
     private void Update()

@@ -4,16 +4,13 @@ using UnityEngine.EventSystems;
 
 public class EnemyPatrol : MonoBehaviour
 {
-    [SerializeField] public int attackDamage;
     [SerializeField] private float patrolSpeed;
-    private Rigidbody2D rb;
     private Animator animator;
     private float direction; // Positive = right, Negative = left
     public bool isFollowingPlayer;
 
     void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
 
         // Start moving to the right initially
@@ -21,15 +18,7 @@ public class EnemyPatrol : MonoBehaviour
         isFollowingPlayer = false;
     }
 
-    void Update()
-    {
-        if (!isFollowingPlayer)
-        {
-            Patrol();
-        }
-    }
-
-    private void Patrol()
+    public void Patrol(Rigidbody2D rb)
     {
         int layer = LayerMask.GetMask("Ground", "Destructable");
 
