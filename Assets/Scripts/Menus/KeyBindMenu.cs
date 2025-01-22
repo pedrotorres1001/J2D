@@ -40,6 +40,16 @@ public class KeyBindMenu : MonoBehaviour
                 buttonText.text = KeyManager.KM.moveright.ToString();
                 button.onClick.AddListener(() => { SendText(buttonText); StartAssignment("moveright"); });
             }
+            else if(keyBindMenu.GetChild(i).name == "MoveUpButton")
+            {
+                buttonText.text = KeyManager.KM.moveup.ToString();
+                button.onClick.AddListener(() => { SendText(buttonText); StartAssignment("moveup"); });
+            }
+            else if (keyBindMenu.GetChild(i).name == "MoveDownButton")
+            {
+                buttonText.text = KeyManager.KM.movedown.ToString();
+                button.onClick.AddListener(() => { SendText(buttonText); StartAssignment("movedown"); });
+            }
             else if (keyBindMenu.GetChild(i).name == "GrapplingHookButton")
             {
                 buttonText.text = KeyManager.KM.grapplinghook.ToString();
@@ -118,6 +128,18 @@ public class KeyBindMenu : MonoBehaviour
             PlayerPrefs.SetString("moverightkey", KeyManager.KM.moveright.ToString());
             UpdateButtonText("MoveRightButton", KeyManager.KM.moveright.ToString());
         }
+        if (newKey == KeyManager.KM.moveup)
+        {
+            KeyManager.KM.moveup = KeyCode.None;
+            PlayerPrefs.SetString("moveupkey", KeyManager.KM.moveup.ToString());
+            UpdateButtonText("MoveUpButton", KeyManager.KM.moveup.ToString());
+        }
+        if (newKey == KeyManager.KM.movedown)
+        {
+            KeyManager.KM.movedown = KeyCode.None;
+            PlayerPrefs.SetString("movedownkey", KeyManager.KM.movedown.ToString());
+            UpdateButtonText("MoveDownButton", KeyManager.KM.movedown.ToString());
+        }
         if (newKey == KeyManager.KM.grapplinghook)
         {
             KeyManager.KM.grapplinghook = KeyCode.None;
@@ -153,6 +175,16 @@ public class KeyBindMenu : MonoBehaviour
                 KeyManager.KM.moveright = newKey;
                 buttonText.text = KeyManager.KM.moveright.ToString();
                 PlayerPrefs.SetString("moverightkey", KeyManager.KM.moveright.ToString());
+                break;
+            case "moveup":
+                KeyManager.KM.moveup = newKey;
+                buttonText.text = KeyManager.KM.moveup.ToString();
+                PlayerPrefs.SetString("moveupkey", KeyManager.KM.moveup.ToString());
+                break;
+            case "movedown":
+                KeyManager.KM.movedown = newKey;
+                buttonText.text = KeyManager.KM.movedown.ToString();
+                PlayerPrefs.SetString("movedownkey", KeyManager.KM.movedown.ToString());
                 break;
             case "grapplinghook":
                 KeyManager.KM.grapplinghook = newKey;
@@ -191,6 +223,8 @@ public class KeyBindMenu : MonoBehaviour
         KeyManager.KM.jump = KeyCode.Space;
         KeyManager.KM.moveleft = KeyCode.A;
         KeyManager.KM.moveright = KeyCode.D;
+        KeyManager.KM.moveup = KeyCode.W;
+        KeyManager.KM.movedown = KeyCode.S;
         KeyManager.KM.grapplinghook = KeyCode.Mouse1;
         KeyManager.KM.interact = KeyCode.F;
         KeyManager.KM.attack = KeyCode.Mouse0;
@@ -198,6 +232,8 @@ public class KeyBindMenu : MonoBehaviour
         PlayerPrefs.SetString("jumpkey", KeyManager.KM.jump.ToString());
         PlayerPrefs.SetString("moveleftkey", KeyManager.KM.moveleft.ToString());
         PlayerPrefs.SetString("moverightkey", KeyManager.KM.moveright.ToString());
+        PlayerPrefs.SetString("moveupkey", KeyManager.KM.moveup.ToString());
+        PlayerPrefs.SetString("movedownkey", KeyManager.KM.movedown.ToString());
         PlayerPrefs.SetString("grapplinghookkey", KeyManager.KM.grapplinghook.ToString());
         PlayerPrefs.SetString("interactkey", KeyManager.KM.interact.ToString());
         PlayerPrefs.SetString("attackkey", KeyManager.KM.attack.ToString());
@@ -205,6 +241,8 @@ public class KeyBindMenu : MonoBehaviour
         UpdateButtonText("JumpButton", KeyManager.KM.jump.ToString());
         UpdateButtonText("MoveLeftButton", KeyManager.KM.moveleft.ToString());
         UpdateButtonText("MoveRightButton", KeyManager.KM.moveright.ToString());
+        UpdateButtonText("MoveUpButton", KeyManager.KM.moveup.ToString());
+        UpdateButtonText("MoveDownButton", KeyManager.KM.movedown.ToString());
         UpdateButtonText("GrapplingHookButton", KeyManager.KM.grapplinghook.ToString());
         UpdateButtonText("InteractButton", KeyManager.KM.interact.ToString());
         UpdateButtonText("AttackButton", KeyManager.KM.attack.ToString());
