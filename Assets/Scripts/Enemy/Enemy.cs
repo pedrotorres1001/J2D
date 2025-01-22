@@ -60,6 +60,11 @@ public abstract class Enemy : MonoBehaviour
         return Vector2.zero;   
     }
 
+    public int GetDirection()
+    {
+        return direction;
+    }
+
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;

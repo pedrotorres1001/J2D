@@ -24,7 +24,7 @@ public class ChargeState : IEnemyState
 
         Vector2 directionToTarget = (target.position - enemy.transform.position).normalized;
         enemy.SetVelocity(directionToTarget * chargeSpeed);
-        enemy.animator.SetBool("isCharging", true);  // Usando GetAnimator() para acessar o Animator
+        enemy.animator.SetBool("isCharging", true);
     }
 
     public void UpdateState()

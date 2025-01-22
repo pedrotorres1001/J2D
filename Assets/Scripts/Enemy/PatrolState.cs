@@ -27,15 +27,18 @@ public class PatrolState : IEnemyState
         enemy.SetVelocity(currentDirection * patrolSpeed);
 
         // Verifica se deve trocar de estado ao encontrar o jogador
-        Boar boar = enemy as Boar;
-        if (boar != null && boar.IsPlayerInFront())
+        if(enemy is Boar boar)
         {
-            float distanceToPlayer = Vector2.Distance(enemy.transform.position, boar.player.position);
+            if (boar.IsPlayerInFront())
+            {
+                Debug.Log("Sees player");
+                float distanceToPlayer = Vector2.Distance(enemy.transform.position, boar.player.position);
 
-            if (distanceToPlayer > boar.chargeRange)
-                enemy.SwitchState(new ChargeState(boar.chargeSpeed, boar.chargeDuration, boar.attackRange, boar.player));
-            else
-                enemy.SwitchState(new AttackState(boar.attackRange, boar.attackCooldown, boar.attackDamage, boar.player));
+                //if (distanceToPlayer > boar.chargeRange)
+                    //enemy.SwitchState(new ChargeState(boar.chargeSpeed, boar.chargeDuration, boar.attackRange, boar.player));
+                //else
+                    //enemy.SwitchState(new AttackState(boar.attackRange, boar.attackCooldown, boar.attackDamage, boar.player));
+            }
         }
     }
 

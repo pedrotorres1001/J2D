@@ -11,8 +11,7 @@ public class Boar : Enemy
     public float chargeRange = 2.0f;
     public float attackCooldown = 1.5f;
     public float attackDamage = 10f;
-    public float fieldOfViewAngle = 45f;
-    private float sightRange = 5f;
+    private float sightRange = 6f;
 
     public Transform player; // Refer�ncia para o jogador
 
@@ -24,10 +23,24 @@ public class Boar : Enemy
 
     public bool IsPlayerInFront()
     {
-        Vector2 directionToPlayer = player.position - transform.position;
-        float angle = Vector2.Angle(transform.right, directionToPlayer);
+        // Define o alcance do Raycast
+        float boxcastRange = sightRange;
+        float boxWidth = 6f;
+        float boxHeight = 4f;
 
-        return angle < fieldOfViewAngle && Vector2.Distance(transform.position, player.position) <= sightRange;
+        // Direção do raio: o Boar está olhando para a direita ou esquerda
+        Vector2 direction = new Vector2(GetDirection(), 0);
+
+        // Realiza o Raycast para verificar se o jogador está à frente
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(boxWidth, boxHeight), 0f, direction, boxcastRange, LayerMask.GetMask("Player"));
+
+        // Se o Raycast acertar o jogador, o jogador está visível
+        if (hit.collider != null && hit.collider.CompareTag("Player"))
+        {
+            return true; // O jogador está visível
+        }
+
+        return false; // Não encontrou o jogador
     }
 
     public void TriggerChargeState()
@@ -44,4 +57,18 @@ public class Boar : Enemy
     {
         currentState?.UpdateState();
     }
+
+    private void OnDrawGizmos()
+    {
+        if (transform != null)
+        {
+            Gizmos.color = Color.green; // Cor para a área de visão
+            Vector2 direction = new Vector2(GetDirection(), 0); // Direção do BoxCast
+            Vector2 boxSize = new Vector2(1f, 0.5f); // Tamanho da caixa (ajuste conforme necessário)
+
+            // Desenha a caixa no editor para depuração
+            Gizmos.DrawWireCube(transform.position + (Vector3)(direction * sightRange), boxSize);
+        }
+    }
+
 }
