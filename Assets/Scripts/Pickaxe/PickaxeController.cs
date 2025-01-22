@@ -22,7 +22,7 @@ public class PickaxeController : MonoBehaviour
         if(isPickaxeOnHand)
         {
             // Checka se o botão do rato está pressionado e se o tempo de ataque passou
-            if (Input.GetKeyDown(KeyManager.KM.attack) && Time.time >= lastAttackTime + attackSpeed) 
+            if (Input.GetKey(KeyManager.KM.attack) && Time.time >= lastAttackTime + attackSpeed) 
             {
                 SwingPickaxe();
             }

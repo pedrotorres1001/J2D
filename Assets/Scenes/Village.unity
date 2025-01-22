@@ -6931,6 +6931,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 2031063056}
   settingsMenu: {fileID: 687191093}
   startRespawnPoint: {fileID: 1213278314}
+  playerMovement: {fileID: 0}
 --- !u!4 &1790813471
 Transform:
   m_ObjectHideFlags: 0
@@ -7666,6 +7667,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KeybindMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 2526383189781421927, guid: 9803b9090815de548b43d8f5e49c22b3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3328440873576635739, guid: 9803b9090815de548b43d8f5e49c22b3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -7690,10 +7695,30 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 137344302}
+    - target: {fileID: 7068129903480306261, guid: 9803b9090815de548b43d8f5e49c22b3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7068129903480306261, guid: 9803b9090815de548b43d8f5e49c22b3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -260
+      objectReference: {fileID: 0}
     - target: {fileID: 7342748242941578536, guid: 9803b9090815de548b43d8f5e49c22b3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 687191093}
+    - target: {fileID: 7718352397465314446, guid: 9803b9090815de548b43d8f5e49c22b3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 137344302}
+    - target: {fileID: 7718352397465314446, guid: 9803b9090815de548b43d8f5e49c22b3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 137344302}
+    - target: {fileID: 7718352397465314446, guid: 9803b9090815de548b43d8f5e49c22b3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: reset
+      objectReference: {fileID: 0}
     - target: {fileID: 9064440557789774185, guid: 9803b9090815de548b43d8f5e49c22b3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

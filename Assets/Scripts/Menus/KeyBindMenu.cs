@@ -55,6 +55,10 @@ public class KeyBindMenu : MonoBehaviour
                 buttonText.text = KeyManager.KM.attack.ToString();
                 button.onClick.AddListener(() => { SendText(buttonText); StartAssignment("attack"); });
             }
+            else if (keyBindMenu.GetChild(i).name == "ResetButton")
+            {
+                button.onClick.AddListener(ResetKeyBindings);
+            }
         }
     }
 
@@ -95,6 +99,44 @@ public class KeyBindMenu : MonoBehaviour
 
         yield return WaitForKey();
 
+        // Check if the new key is already assigned to another action
+        if (newKey == KeyManager.KM.jump)
+        {
+            KeyManager.KM.jump = KeyCode.None;
+            PlayerPrefs.SetString("jumpkey", KeyManager.KM.jump.ToString());
+            UpdateButtonText("JumpButton", KeyManager.KM.jump.ToString());
+        }
+        if (newKey == KeyManager.KM.moveleft)
+        {
+            KeyManager.KM.moveleft = KeyCode.None;
+            PlayerPrefs.SetString("moveleftkey", KeyManager.KM.moveleft.ToString());
+            UpdateButtonText("MoveLeftButton", KeyManager.KM.moveleft.ToString());
+        }
+        if (newKey == KeyManager.KM.moveright)
+        {
+            KeyManager.KM.moveright = KeyCode.None;
+            PlayerPrefs.SetString("moverightkey", KeyManager.KM.moveright.ToString());
+            UpdateButtonText("MoveRightButton", KeyManager.KM.moveright.ToString());
+        }
+        if (newKey == KeyManager.KM.grapplinghook)
+        {
+            KeyManager.KM.grapplinghook = KeyCode.None;
+            PlayerPrefs.SetString("grapplinghookkey", KeyManager.KM.grapplinghook.ToString());
+            UpdateButtonText("GrapplingHookButton", KeyManager.KM.grapplinghook.ToString());
+        }
+        if (newKey == KeyManager.KM.interact)
+        {
+            KeyManager.KM.interact = KeyCode.None;
+            PlayerPrefs.SetString("interactkey", KeyManager.KM.interact.ToString());
+            UpdateButtonText("InteractButton", KeyManager.KM.interact.ToString());
+        }
+        if (newKey == KeyManager.KM.attack)
+        {
+            KeyManager.KM.attack = KeyCode.None;
+            PlayerPrefs.SetString("attackkey", KeyManager.KM.attack.ToString());
+            UpdateButtonText("AttackButton", KeyManager.KM.attack.ToString());
+        }
+
         switch (keyName)
         {
             case "jump":
@@ -129,6 +171,43 @@ public class KeyBindMenu : MonoBehaviour
                 break;
         }
         yield return null;
+    }
+
+    void UpdateButtonText(string buttonName, string text)
+    {
+        var button = keyBindMenu.Find(buttonName);
+        if (button != null)
+        {
+            var buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                buttonText.text = text;
+            }
+        }
+    }
+
+    void ResetKeyBindings()
+    {
+        KeyManager.KM.jump = KeyCode.Space;
+        KeyManager.KM.moveleft = KeyCode.A;
+        KeyManager.KM.moveright = KeyCode.D;
+        KeyManager.KM.grapplinghook = KeyCode.Mouse1;
+        KeyManager.KM.interact = KeyCode.F;
+        KeyManager.KM.attack = KeyCode.Mouse0;
+
+        PlayerPrefs.SetString("jumpkey", KeyManager.KM.jump.ToString());
+        PlayerPrefs.SetString("moveleftkey", KeyManager.KM.moveleft.ToString());
+        PlayerPrefs.SetString("moverightkey", KeyManager.KM.moveright.ToString());
+        PlayerPrefs.SetString("grapplinghookkey", KeyManager.KM.grapplinghook.ToString());
+        PlayerPrefs.SetString("interactkey", KeyManager.KM.interact.ToString());
+        PlayerPrefs.SetString("attackkey", KeyManager.KM.attack.ToString());
+
+        UpdateButtonText("JumpButton", KeyManager.KM.jump.ToString());
+        UpdateButtonText("MoveLeftButton", KeyManager.KM.moveleft.ToString());
+        UpdateButtonText("MoveRightButton", KeyManager.KM.moveright.ToString());
+        UpdateButtonText("GrapplingHookButton", KeyManager.KM.grapplinghook.ToString());
+        UpdateButtonText("InteractButton", KeyManager.KM.interact.ToString());
+        UpdateButtonText("AttackButton", KeyManager.KM.attack.ToString());
     }
 
     public void BackButton()

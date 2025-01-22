@@ -38,7 +38,7 @@ public class GrapplingHook : MonoBehaviour
     {
         PlayerMovement playerMovement = gameObject.GetComponent<PlayerMovement>();
 
-        if ((Input.GetMouseButtonDown(1) || Input.GetKey(KeyCode.E)) && !isGrappling)
+        if (Input.GetKey(KeyManager.KM.grapplinghook) && !isGrappling)
         {
             stopGrappling = false;
             StartGrappling();
@@ -65,13 +65,13 @@ public class GrapplingHook : MonoBehaviour
                     reachedPosition = true;
                 }
 
-                if ((Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)) && reachedPosition)
+                if (Input.GetKey(KeyManager.KM.grapplinghook) && reachedPosition)
                 {
                     stopGrappling = true;
                     direction = (transform.position - pickaxeGrapple.transform.position).normalized;
                     StartCoroutine(RetractRope());
                 }
-                else if (isGrappling && (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)))
+                else if (isGrappling && Input.GetKeyUp(KeyManager.KM.grapplinghook))
                 {
                     stopGrappling = true;
                 }
