@@ -37,26 +37,6 @@ public class GrapplingHook : MonoBehaviour
     void Update()
     {
         PlayerMovement playerMovement = gameObject.GetComponent<PlayerMovement>();
-        if (playerMovement.CheckGround())
-        {
-            playerMovement.enabled = true;
-        }
-        else
-        {
-            playerMovement.enabled = false;
-        }
-
-        float movementDirection = Input.GetAxisRaw("Horizontal");
-        if (movementDirection > 0)
-        {
-            Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
-            rb.velocity = new Vector2(rb.velocity.x + playerMovement.speed * Time.deltaTime, rb.velocity.y); 
-        }
-        else if (movementDirection < 0)
-        {
-            Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
-            rb.velocity = new Vector2(rb.velocity.x + -playerMovement.speed * Time.deltaTime, rb.velocity.y);
-        }
 
         if ((Input.GetMouseButtonDown(1) || Input.GetKey(KeyCode.E)) && !isGrappling)
         {
@@ -64,41 +44,109 @@ public class GrapplingHook : MonoBehaviour
             StartGrappling();
         }
 
-        if (!isGrappleMoving && isGrappling && !reachedPosition && Vector3.Distance(transform.position, pickaxeGrapple.transform.position) <= 0.5)
+        switch (isGrappling)
         {
-            reachedPosition = true;
-        }
+            case true:
 
-        if (isGrappling && (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)) && reachedPosition)
-        {
-            stopGrappling = true;
-            direction = (transform.position - pickaxeGrapple.transform.position).normalized;
-            StartCoroutine(RetractRope());
-        }
-        else if (isGrappling && (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)))
-        {
-            stopGrappling = true;
-        }
+                float movementDirection = Input.GetAxisRaw("Horizontal");
+                if (movementDirection > 0)
+                {
+                    Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
+                    rb.velocity = new Vector2(rb.velocity.x + playerMovement.speed * Time.deltaTime, rb.velocity.y);
+                }
+                else if (movementDirection < 0)
+                {
+                    Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
+                    rb.velocity = new Vector2(rb.velocity.x + -playerMovement.speed * Time.deltaTime, rb.velocity.y);
+                }
 
-        if (isGrappling && stopGrappling && reachedPosition && !isGrappleMoving)
-        {
-            direction = (transform.position - pickaxeGrapple.transform.position).normalized;
-            StartCoroutine(RetractRope());
-        }
+                if (!isGrappleMoving && !reachedPosition && Vector3.Distance(transform.position, pickaxeGrapple.transform.position) <= 0.5)
+                {
+                    reachedPosition = true;
+                }
 
-        if (isGrappling && reachedPosition)
-        {
-            currentRope.EndPoint.position = transform.position;
-            currentRope.ropeSegLen = Vector3.Distance(currentRope.StartPoint.position, currentRope.EndPoint.position) / currentRope.segmentLength;
+                if ((Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)) && reachedPosition)
+                {
+                    stopGrappling = true;
+                    direction = (transform.position - pickaxeGrapple.transform.position).normalized;
+                    StartCoroutine(RetractRope());
+                }
+                else if (isGrappling && (Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)))
+                {
+                    stopGrappling = true;
+                }
 
-            if (Input.GetKey(KeyCode.W) && joint.distance > 1)
-            {
-                joint.distance -= 5f * Time.deltaTime;
-            }
-            else if (Input.GetKey(KeyCode.S) && joint.distance < grappleLength && grapplePoint.y > transform.position.y && Mathf.Abs(pickaxeGrapple.transform.position.x - transform.position.x) < 3)
-            {
-                joint.distance += 5f * Time.deltaTime;
-            }
+                if (stopGrappling && reachedPosition && !isGrappleMoving)
+                {
+                    direction = (transform.position - pickaxeGrapple.transform.position).normalized;
+                    StartCoroutine(RetractRope());
+                }
+
+                if (reachedPosition)
+                {
+                    currentRope.EndPoint.position = transform.position;
+                    currentRope.ropeSegLen = Vector3.Distance(currentRope.StartPoint.position, currentRope.EndPoint.position) / currentRope.segmentLength;
+
+                    if (Input.GetKey(KeyCode.W) && joint.distance > 1)
+                    {
+                        joint.distance -= 5f * Time.deltaTime;
+                    }
+                    else if (Input.GetKey(KeyCode.S) && joint.distance < grappleLength && grapplePoint.y > transform.position.y && Mathf.Abs(pickaxeGrapple.transform.position.x - transform.position.x) < 3)
+                    {
+                        joint.distance += 5f * Time.deltaTime;
+                    }
+                }
+                if (!isGrappleMoving && isGrappling && !reachedPosition && Vector3.Distance(transform.position, pickaxeGrapple.transform.position) <= 0.5)
+                {
+                    reachedPosition = true;
+                }
+
+                if ((Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)) && reachedPosition)
+                {
+                    stopGrappling = true;
+                    direction = (transform.position - pickaxeGrapple.transform.position).normalized;
+                    StartCoroutine(RetractRope());
+                }
+                else if ((Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.E)))
+                {
+                    stopGrappling = true;
+                }
+
+                if (stopGrappling && reachedPosition && !isGrappleMoving)
+                {
+                    direction = (transform.position - pickaxeGrapple.transform.position).normalized;
+                    StartCoroutine(RetractRope());
+                }
+
+                if (reachedPosition)
+                {
+                    currentRope.EndPoint.position = transform.position;
+                    currentRope.ropeSegLen = Vector3.Distance(currentRope.StartPoint.position, currentRope.EndPoint.position) / currentRope.segmentLength;
+
+                    if (Input.GetKey(KeyCode.W) && joint.distance > 1)
+                    {
+                        joint.distance -= 5f * Time.deltaTime;
+                    }
+                    else if (Input.GetKey(KeyCode.S) && joint.distance < grappleLength && grapplePoint.y > transform.position.y && Mathf.Abs(pickaxeGrapple.transform.position.x - transform.position.x) < 3)
+                    {
+                        joint.distance += 5f * Time.deltaTime;
+                    }
+                }
+
+                if (hit)
+                {
+                    joint.connectedAnchor = pickaxeGrapple.transform.position;
+                }
+
+                break;
+            default:
+
+                if (playerMovement.CheckGround())
+                {
+                    playerMovement.enabled = true;
+                }
+
+                break;
         }
     }
 
@@ -150,7 +198,10 @@ public class GrapplingHook : MonoBehaviour
         if (hit)
         {
             joint.connectedAnchor = pickaxeGrapple.transform.position;
-            joint.enabled = true; 
+            joint.enabled = true;
+
+            PlayerMovement playerMovement = gameObject.GetComponent<PlayerMovement>();
+            playerMovement.enabled = false;
 
 
             joint.distance = 0.1f;

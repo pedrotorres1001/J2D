@@ -48,7 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86d0ac8a20bfbe040934cc1245f59147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grapplingHook: {fileID: 0}
 --- !u!212 &3552464010294712020
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -149,8 +148,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 5
-  m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_LinearDrag: 50
+  m_AngularDrag: 50
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:

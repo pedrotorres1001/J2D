@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8632557033498797669}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 499571021354109480}
   - component: {fileID: 2704456959471148197}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 617705256544086634}
   - component: {fileID: 5538028247822459494}
   - component: {fileID: 1960630949218608530}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -378,7 +378,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7745184214926878802}
   - component: {fileID: 6244907392020959102}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Vital
   m_TagString: Vital
   m_Icon: {fileID: 0}
@@ -487,6 +487,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dust_PS
       objectReference: {fileID: 0}
+    - target: {fileID: 2854312054383260985, guid: c0329b0264224164582ce3444630466e, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6701513946455503113, guid: c0329b0264224164582ce3444630466e, type: 3}
       propertyPath: ShapeModule.m_Scale.x
       value: 1.73
@@ -566,9 +570,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 895867692849814895, guid: a5f63a67a06deb244bcc2fa5e71eb479, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 2534852450365961737, guid: a5f63a67a06deb244bcc2fa5e71eb479, type: 3}
       propertyPath: m_Name
       value: HealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534852450365961737, guid: a5f63a67a06deb244bcc2fa5e71eb479, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3762208513051767535, guid: a5f63a67a06deb244bcc2fa5e71eb479, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4633059473607486312, guid: a5f63a67a06deb244bcc2fa5e71eb479, type: 3}
       propertyPath: m_AnchorMax.x
@@ -578,9 +594,21 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4726239308212772964, guid: a5f63a67a06deb244bcc2fa5e71eb479, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6824677089639640679, guid: a5f63a67a06deb244bcc2fa5e71eb479, type: 3}
       propertyPath: m_Value
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7848199359066996705, guid: a5f63a67a06deb244bcc2fa5e71eb479, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8118798315610435920, guid: a5f63a67a06deb244bcc2fa5e71eb479, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
