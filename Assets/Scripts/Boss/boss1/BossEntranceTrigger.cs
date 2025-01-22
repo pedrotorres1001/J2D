@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossEntranceTrigger : MonoBehaviour
 {
-    [SerializeField] private BossMovement boss;
+    [SerializeField] private Boss boss;
     [SerializeField] private GameObject bossHealthBar;
 
     void OnTriggerEnter2D(Collider2D other)
