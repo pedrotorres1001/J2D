@@ -62,7 +62,7 @@ public class SettingsMenuController : MonoBehaviour
         fullscreenToggle.onValueChanged.AddListener(SetFullscreen);
 
         // Assign the OpenKeybindMenu method to the KeybindButton
-        KeybindButton.onClick.AddListener(OpenKeybindMenu);
+        //KeybindButton.onClick.AddListener(OpenKeybindMenu);
     }
 
     public void SetVolume(float volume)
@@ -126,16 +126,14 @@ public class SettingsMenuController : MonoBehaviour
 
     public void OpenKeybindMenu()
     {
-        // deve dar able ao menu de keybind e desable o menu de settings
         settingsKeybindMenu.SetActive(true);
         gameObject.SetActive(false);
     }
-    
-    public void BackToMainMenu()
+
+    public void CloseSettingsMenu()
     {
-        // deve dar able ao menu de pause e desable o menu de settings
-        gameObject.SetActive(false);
         pauseMenu.SetActive(true);
-        settingsKeybindMenu.SetActive(false);
+        gameObject.SetActive(false);
     }
+    
 }

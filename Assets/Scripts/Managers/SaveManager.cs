@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static Cinemachine.DocumentationSortingAttribute;
 
 [System.Serializable]
 public class PlayerData
@@ -30,6 +31,9 @@ public class TileData
 [System.Serializable]
 public class GameData
 {
+    public string lastSaveTime;
+    public int level;
+    public float totalPlayTime; // Novo campo para o tempo total de jogo
     public PlayerData playerData;
     public List<EnemyData> enemies;
     public List<TileData> destroyedTiles;
@@ -39,6 +43,7 @@ public class GameData
 public class SaveManager : MonoBehaviour
 {
     private static SaveManager _instance;
+    private GameSceneManager gameSceneManager;
     private string filePath;
 
     public string FilePath { get; private set; }
@@ -46,14 +51,21 @@ public class SaveManager : MonoBehaviour
     [SerializeField] private Player playerScript;  // Referência ao script do Player
     [SerializeField] private GameObject enemyPrefab;  // Prefab do inimigo
 
+    public Tilemap destructableTilemap;
+    public Tilemap crystalsTilemap;
+
 
     private void Awake()
     {
+        PlayerPrefs.SetString("Filename", "saveData.json");
+
         filePath = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetString("Filename"));
+        gameSceneManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<GameSceneManager>();
+
     }
 
     // Método para salvar os dados do jogador e inimigos
-    public void SaveData(Tilemap destructableTilemap, Tilemap crystalsTilemap)
+    public void SaveData()
     {
         // Criar PlayerData com as informações do jogador
         PlayerData playerData = new PlayerData
@@ -73,7 +85,7 @@ public class SaveManager : MonoBehaviour
         {
             EnemyData enemyData = new EnemyData
             {
-                health = enemy.Health,  // Supondo que o inimigo tenha um método 'Health()'
+                health = enemy.CurrentHealth,  // Supondo que o inimigo tenha um método 'Health()'
                 position = new float[] { enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z }
             };
             enemyDataList.Add(enemyData);
@@ -101,6 +113,8 @@ public class SaveManager : MonoBehaviour
             }
         }
 
+        string currentTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        float accumulatedPlayTime = gameSceneManager.TotalPlayTime;
 
         // Criar GameData e adicionar PlayerData e inimigos
         GameData gameData = new GameData
@@ -108,7 +122,10 @@ public class SaveManager : MonoBehaviour
             playerData = playerData,
             enemies = enemyDataList,
             destroyedTiles = destroyedTiles,
-            destroyedCrystalTiles= destroyedCrystalTiles
+            destroyedCrystalTiles = destroyedCrystalTiles,
+            lastSaveTime = currentTime,
+            level = gameSceneManager.CurrentLevel,
+            totalPlayTime = accumulatedPlayTime
         };
 
         // Salvar os dados no arquivo JSON
@@ -118,7 +135,7 @@ public class SaveManager : MonoBehaviour
     }
 
     // Método para carregar os dados e instanciar inimigos nas posições salvas
-    public void LoadData(Tilemap destructableTilemap, Tilemap crystalTilemap)
+    public void LoadData()
     {
         if (File.Exists(filePath))
         {
@@ -134,6 +151,10 @@ public class SaveManager : MonoBehaviour
             // Atualizar a posição do jogador
             playerScript.transform.position = new Vector3(gameData.playerData.position[0], gameData.playerData.position[1], gameData.playerData.position[2]);
 
+            // Atualizar o tempo total de jogo
+            gameSceneManager.TotalPlayTime = gameData.totalPlayTime; // Carregar o tempo total de jogo
+            gameSceneManager.CurrentLevel = gameData.level;
+
             // Destruir inimigos existentes
             Enemy[] allEnemies = FindObjectsOfType<Enemy>();
             foreach (var enemy in allEnemies)
@@ -144,14 +165,13 @@ public class SaveManager : MonoBehaviour
             // Instanciar novos inimigos
             foreach (var enemyData in gameData.enemies)
             {
-                // Instanciar o inimigo na posição salva
+                // Instanciar o inimigo na posição guardada
                 GameObject enemyObj = Instantiate(enemyPrefab, new Vector3(enemyData.position[0], enemyData.position[1], enemyData.position[2]), Quaternion.identity);
                 Enemy enemyScript = enemyObj.GetComponent<Enemy>();
 
                 if (enemyScript != null)
                 {
-                    // Atualizar a saúde do inimigo
-                    enemyScript.Health = enemyData.health;  // Supondo que o inimigo tenha um método 'SetHealth'
+                    //enemyScript.Health = enemyData.health;
                 }
             }
 
@@ -166,7 +186,7 @@ public class SaveManager : MonoBehaviour
             foreach (var tile in gameData.destroyedCrystalTiles)
             {
                 Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
-                crystalTilemap.SetTile(position, null);
+                crystalsTilemap.SetTile(position, null);
             }
         }
         else
@@ -180,5 +200,4 @@ public class SaveManager : MonoBehaviour
     {
         playerScript = player;
     }
-
 }

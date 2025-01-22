@@ -1,115 +1,85 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
-    [SerializeField] protected int health = 100;
-    [SerializeField] protected int maxHealth = 100;
-    
-    public GameObject health_bar;
+    [Header("Enemy Attributes")]
+    public int maxHealth = 100;
+    private int currentHealth;
+    public int CurrentHealth { get; }
+    public int damage = 10;
+    public GameObject explosionPrefab;
 
-    [SerializeField] protected int experiencePoints;
-    [SerializeField] protected float speed;
+    public Animator animator;
+    private Rigidbody2D rb;
 
-    [SerializeField] private GameObject deathPrefab;
-
-    private AudioManager audioManager;
-    public bool isAlive;
-
-    public GameObject healthBarFill;
-    private Vector3 originalPosition; 
-    private float originalWidth;
-
-    public int Health { 
-        get { return health;  }
-        set { health = value; }}
+    // Alterado para protected para ser acessï¿½vel nas classes derivadas
+    protected IEnemyState currentState;
+    protected int direction = 1; // 1 para direita, -1 para esquerda
 
     protected virtual void Start()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-
-        isAlive = true;
-
-        originalPosition = healthBarFill.transform.position;
-        originalWidth = healthBarFill.GetComponent<SpriteRenderer>().bounds.size.x;
-
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        currentHealth = maxHealth;
+        SwitchState(new PatrolState(2f));
     }
 
-    private void Update()
+    public void SwitchState(IEnemyState newState)
     {
-
-
+        currentState?.ExitState();
+        currentState = newState;
+        currentState.EnterState(this);
     }
 
-    public abstract void Attack();
-
-    public void TakeDamage(int damage)
+    public void SetVelocity(Vector2 velocity)
     {
-        health -= damage;
+        if (rb != null)
+        {
+            rb.velocity = velocity;
 
-        StartCoroutine(ColorChangeCoroutine());
+            // Atualiza a direÃ§Ã£o com base na velocidade
+            if (velocity.x > 0)
+            {
+                direction = 1; 
+            }
+            else if (velocity.x < 0)
+            {
+                direction = -1;
+            }
 
-        health_bar.GetComponent<HealthBar>().Update_health(health, maxHealth);
+            // Atualiza o parÃ¢metro no Animator
+            animator?.SetFloat("Direction", direction);
+        }
+    }
 
-        UpdateHealthBar();
+    public Vector2 GetVelocity()
+    {
+        if (rb != null)
+            return rb.velocity;        
 
-        if (health <= 0)
+        return Vector2.zero;   
+    }
+
+    public int GetDirection()
+    {
+        return direction;
+    }
+
+    public void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
+
+        if (currentHealth <= 0)
         {
             Die();
         }
     }
 
-    void Die()
+    private void Die()
     {
-        // Play death sound
-        audioManager.Play("enemyDeath");
-
-        // Add experience points to the player
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
-
-        // Instantiate the death prefab at the current position and rotation
-
-        if (deathPrefab != null)
-        {
-            Instantiate(deathPrefab, transform.position, Quaternion.identity);
-        }
-
-        // Destroy the enemy
-        isAlive = false;
-        gameObject.SetActive(false);
+        explosionPrefab.SetActive(true);
     }
 
-    private IEnumerator ColorChangeCoroutine()
-    {
-        SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
-        Color damaged = Color.red;
-        Color original = Color.white;
-
-        // Change the color
-        sprite.color = damaged;
-
-        // Wait for the duration
-        yield return new WaitForSeconds(0.5f);
-
-        // Revert to the original color
-        sprite.color = original;
-    }
-
-    private void UpdateHealthBar()
-    {
-
-        float healthPercentage = (float)health / maxHealth;
-
-        // Atualiza a escala para a porcentagem de saúde
-        healthBarFill.transform.localScale = new Vector3(healthPercentage, 1, 1);
-
-        // Ajusta a posição para manter a barra ancorada à esquerda
-        Vector3 newPosition = healthBarFill.transform.position;
-        newPosition.x = originalPosition.x - (healthBarFill.transform.localScale.x * originalWidth) / 2;
-        healthBarFill.transform.position = newPosition;
-    }
-
-
+    protected abstract void Update();
 }
+

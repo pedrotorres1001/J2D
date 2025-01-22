@@ -4,13 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject settingsMenu;
     public GameObject mainMenu;
 
     public Button loadButton;
+    public Color buttonDisabledColor = Color.white; // Default text color
+
 
     private string filePath;
 
@@ -21,23 +23,21 @@ public class MainMenu : MonoBehaviour
 
         filePath = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetString("Filename"));
 
+    }
 
+    private void Update()
+    {
         if (!File.Exists(filePath))
         {
             loadButton.interactable = false;
-            Debug.Log("No save file found to load.");
+            loadButton.GetComponent<ButtonHoverScale>().enabled = false;
+            loadButton.GetComponentInChildren<TMP_Text>().color = buttonDisabledColor; 
         }
     }
 
     public void NewGame()
     {
         SceneManager.LoadScene("Village");
-    }
-
-    public void Settings()
-    {
-        mainMenu.SetActive(false);
-        settingsMenu.SetActive(true);
     }
 
     public void QuitGame()
