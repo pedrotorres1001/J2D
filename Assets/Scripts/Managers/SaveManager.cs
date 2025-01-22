@@ -48,7 +48,7 @@ public class SaveManager : MonoBehaviour
 
     public string FilePath { get; private set; }
 
-    [SerializeField] private Player playerScript;  // Referência ao script do Player
+    [SerializeField] private Player playerScript;  // Referï¿½ncia ao script do Player
     [SerializeField] private GameObject enemyPrefab;  // Prefab do inimigo
 
     public Tilemap destructableTilemap;
@@ -64,10 +64,10 @@ public class SaveManager : MonoBehaviour
 
     }
 
-    // Método para salvar os dados do jogador e inimigos
+    // Mï¿½todo para salvar os dados do jogador e inimigos
     public void SaveData()
     {
-        // Criar PlayerData com as informações do jogador
+        // Criar PlayerData com as informaï¿½ï¿½es do jogador
         PlayerData playerData = new PlayerData
         {
             health = playerScript.health,
@@ -85,7 +85,7 @@ public class SaveManager : MonoBehaviour
         {
             EnemyData enemyData = new EnemyData
             {
-                health = enemy.CurrentHealth,  // Supondo que o inimigo tenha um método 'Health()'
+                health = enemy.Health,  // Supondo que o inimigo tenha um mï¿½todo 'Health()'
                 position = new float[] { enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z }
             };
             enemyDataList.Add(enemyData);
@@ -95,7 +95,7 @@ public class SaveManager : MonoBehaviour
 
         foreach (Vector3Int position in destructableTilemap.cellBounds.allPositionsWithin)
         {
-            // Verifica se o tile está vazio
+            // Verifica se o tile estï¿½ vazio
             if (destructableTilemap.GetTile(position) == null)
             {
                 destroyedTiles.Add(new TileData { x = position.x, y = position.y });
@@ -106,7 +106,7 @@ public class SaveManager : MonoBehaviour
 
         foreach (Vector3Int position in crystalsTilemap.cellBounds.allPositionsWithin)
         {
-            // Verifica se o tile está vazio
+            // Verifica se o tile estï¿½ vazio
             if (crystalsTilemap.GetTile(position) == null)
             {
                 destroyedCrystalTiles.Add(new TileData { x = position.x, y = position.y });
@@ -134,7 +134,7 @@ public class SaveManager : MonoBehaviour
         Debug.Log("Game data saved! Filepath: " + filePath);
     }
 
-    // Método para carregar os dados e instanciar inimigos nas posições salvas
+    // Mï¿½todo para carregar os dados e instanciar inimigos nas posiï¿½ï¿½es salvas
     public void LoadData()
     {
         if (File.Exists(filePath))
@@ -148,7 +148,7 @@ public class SaveManager : MonoBehaviour
             playerScript.experience = gameData.playerData.experience;
             playerScript.pickaxeLevel = gameData.playerData.pickaxeLevel;
 
-            // Atualizar a posição do jogador
+            // Atualizar a posiï¿½ï¿½o do jogador
             playerScript.transform.position = new Vector3(gameData.playerData.position[0], gameData.playerData.position[1], gameData.playerData.position[2]);
 
             // Atualizar o tempo total de jogo
@@ -165,24 +165,24 @@ public class SaveManager : MonoBehaviour
             // Instanciar novos inimigos
             foreach (var enemyData in gameData.enemies)
             {
-                // Instanciar o inimigo na posição guardada
+                // Instanciar o inimigo na posiï¿½ï¿½o guardada
                 GameObject enemyObj = Instantiate(enemyPrefab, new Vector3(enemyData.position[0], enemyData.position[1], enemyData.position[2]), Quaternion.identity);
                 Enemy enemyScript = enemyObj.GetComponent<Enemy>();
 
                 if (enemyScript != null)
                 {
-                    //enemyScript.Health = enemyData.health;
+                    enemyScript.Health = enemyData.health;
                 }
             }
 
-            // Remove os tiles destruídos
+            // Remove os tiles destruï¿½dos
             foreach (var tile in gameData.destroyedTiles)
             {
                 Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
                 destructableTilemap.SetTile(position, null);
             }
 
-            // Remove os tiles destruídos
+            // Remove os tiles destruï¿½dos
             foreach (var tile in gameData.destroyedCrystalTiles)
             {
                 Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
@@ -195,7 +195,7 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    // Método para atribuir o Player ao SaveManager
+    // Mï¿½todo para atribuir o Player ao SaveManager
     public void SetPlayerReference(Player player)
     {
         playerScript = player;
