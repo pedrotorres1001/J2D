@@ -177,10 +177,11 @@ public class Boar : Enemy
         }
     }
 
-        private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         if (transform != null)
         {
+            rb = gameObject.GetComponent<Rigidbody2D>();
             float direction = rb.velocity.x > 0 ? 1 : -1; // Determine facing direction
             Vector2 directionV = new Vector2(direction,0);
             Gizmos.color = Color.green; // Cor para a área de visão
