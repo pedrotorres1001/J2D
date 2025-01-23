@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
+    public GameObject settingsMenu;
+    public GameObject startRespawnPoint;
     public static bool isPaused;
     public PlayerMovement playerMovement;
     private AudioManager audioManager;
@@ -29,16 +31,22 @@ public class PauseMenu : MonoBehaviour
 
     public void PauseGame()
     {
-        Time.timeScale = 0f;
-        playerMovement.enabled = false;
         pauseMenu.SetActive(true);
+        //Time.timeScale = 0f;
+        isPaused = true;
     }
 
     public void ResumeGame()
     {
-        Time.timeScale = 1f;
-        playerMovement.enabled = true;
         pauseMenu.SetActive(false);
+        Time.timeScale = 1f;
+        isPaused = false;
+    }
+
+    public void Settings()
+    {
+        pauseMenu.SetActive(false);
+        settingsMenu.SetActive(true);
     }
 
     public void GoToMainMenu()
