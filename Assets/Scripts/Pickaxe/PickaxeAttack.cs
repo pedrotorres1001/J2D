@@ -17,21 +17,7 @@ public class PickaxeAttack : MonoBehaviour
         switch (isAttacking)
         {
             case true:
-                // Only check for collisions with the enemy or vital parts
-                if (other.CompareTag("Enemy"))
-                {
-                    // Apply regular damage
-                    if (other.GetComponent<Enemy>() != null)
-                    {
-                        other.GetComponent<Enemy>().TakeDamage(attackDamage);
-                    }
-                    else if (other.transform.parent.GetComponent<Boss>() != null)
-                    {
-                        other.transform.parent.GetComponent<Boss>().TakeDamage(attackDamage);
-                    }
-                    isAttacking = false;
-                }
-                else if (other.CompareTag("Vital"))
+                if (other.CompareTag("Vital"))
                 {
                     // Apply vital damage
                     Transform enemyTransform = other.transform.parent;

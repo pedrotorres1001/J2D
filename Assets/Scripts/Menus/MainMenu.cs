@@ -12,6 +12,7 @@ public class MainMenu : MonoBehaviour
 
     public Button loadButton;
     public Color buttonDisabledColor = Color.white; // Default text color
+    public GameObject warningSaveScreen;
 
 
     private string filePath;
@@ -44,5 +45,19 @@ public class MainMenu : MonoBehaviour
     {
         print("quit");
         Application.Quit();
+    }
+
+    public void CheckSave()
+    {
+        if (File.Exists(filePath))
+        {
+            warningSaveScreen.SetActive(true);
+            mainMenu.SetActive(false);
+        }
+        else
+        {
+            NewGame();
+        }
+
     }
 }
