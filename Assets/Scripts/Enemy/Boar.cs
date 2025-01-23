@@ -8,6 +8,10 @@ public class Boar : Enemy
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] public int attackDamage;
 
+    [SerializeField] ParticleSystem dustParticles;
+    public float interval = 1f; // Intervalo em segundos
+    private float timer = 0f; // Temporizador interno
+
 
     private bool hasDashed = false;
     // Dash properties
@@ -83,7 +87,13 @@ public class Boar : Enemy
         {
             StartCoroutine(StopAndWait());
         }
- 
+
+        if (gameObject.GetComponent<Rigidbody2D>().velocity.x != 0 && timer >= interval)
+        {
+            dustParticles.Play(); // Reproduz as partículas
+            timer = 0f; // Reseta o temporizador   
+        }
+
     }
 
     public void AttackPlayer() 
