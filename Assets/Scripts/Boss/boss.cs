@@ -22,6 +22,8 @@ public class Boss : MonoBehaviour
     public GameObject rightBoundary;
 
     public AudioManager audioManager;
+    [SerializeField] private AudioSource SFXSource;
+    [SerializeField] private AudioSource LoopSource;
 
     private void Start()
     {
@@ -36,7 +38,7 @@ public class Boss : MonoBehaviour
 
         bossHealthBar.GetComponent<HealthBar>().Update_health(health, maxHealth);
 
-        audioManager.Play("enemyDeath");
+        audioManager.Play(SFXSource, "enemyDeath");
 
         if (health <= 0)
         {

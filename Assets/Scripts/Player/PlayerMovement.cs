@@ -24,6 +24,10 @@ public class PlayerMovement : MonoBehaviour
     public float interval = 1f; // Intervalo em segundos
     private float timer = 0f; // Temporizador interno
 
+    private AudioManager audioManager;
+    [SerializeField] private AudioSource SFXSource;
+    [SerializeField] private AudioSource loopSource;
+
     public float knockbackForce;
     public float knockbackCounter;
     public float knockbackTotalTime;
@@ -46,6 +50,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        audioManager.Play(loopSource, "walk");
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         lastDirection = -1;
@@ -70,11 +76,19 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("Direction", direction);
             animator.SetFloat("LastDirection", lastDirection);
             lastDirection = direction;
-            
-            if(isGrounded)
+
+            if (isGrounded)
+            {
+                if (!animator.GetBool("IsWalking"))
+                    loopSource.mute = false;
+
                 animator.SetBool("IsWalking", true);
-                //audioManager.Play("walk");
+            }
             
+        } 
+        else
+        {
+            loopSource.mute = true;
         }
 
         timer += Time.deltaTime;
@@ -109,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(isGrappling) 
         {
+            loopSource.mute = true;
             animator.SetBool("IsGrappling", true);
         }
         else if(!isGrappling)

@@ -20,6 +20,10 @@ public class Boar : Enemy
     private bool colidedWithPlayer;
 
     private bool isPerformingAction = false;
+    private AudioManager audioManager;
+    [SerializeField] private AudioSource SFXSource;
+    [SerializeField] private AudioSource LoopSource;
+
     private Vector2 playerLastKnownPosition;
     private int direction;
     private float patrolSpeed = 3;

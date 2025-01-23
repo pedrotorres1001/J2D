@@ -15,7 +15,9 @@ public class PickaxeBreakBlock : MonoBehaviour
     private Vector3Int tilePos;
     private Vector3 tileWorldPos;
     private Animator animator;
+
     private AudioManager audioManager;
+    [SerializeField] private AudioSource SFXSource;
 
     private void Start()
     {

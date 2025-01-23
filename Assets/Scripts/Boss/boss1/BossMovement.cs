@@ -28,8 +28,6 @@ public class BossMovement : Boss
 
     [SerializeField] private string state;
 
-    AudioManager audioManager;
-
     void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();

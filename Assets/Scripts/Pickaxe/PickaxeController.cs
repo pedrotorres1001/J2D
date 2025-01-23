@@ -6,7 +6,9 @@ public class PickaxeController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     public bool isPickaxeOnHand;
+
     private AudioManager audioManager;
+    [SerializeField] private AudioSource SFXSource;
 
     public float attackSpeed;
     private float lastAttackTime;
@@ -32,7 +34,7 @@ public class PickaxeController : MonoBehaviour
     private void SwingPickaxe() {
         animator.SetTrigger("Swing");
 
-        audioManager.Play("swing");
+        audioManager.Play(SFXSource, "swing");
         GetComponent<PickaxeBreakBlock>().BreakBlock();
         GetComponent<PickaxeAttack>().Attack();
 

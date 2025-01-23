@@ -87,7 +87,7 @@ public class Boss2 : Boss
 
                             GameObject proj = Instantiate(projectile);
                             proj.transform.position = projectileSpawnPoint.transform.position;
-                            proj.GetComponent<Projectile>().SetValues(dir, damage, 2.5f);
+                            proj.GetComponent<Projectile>().SetValues(dir, damage, 4.5f);
 
                             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                             proj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
