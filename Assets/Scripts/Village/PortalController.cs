@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class PortalController : MonoBehaviour
 {
     [SerializeField] Animator irisOutAnimation;
+    [SerializeField] GameObject blackPanel;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -16,18 +17,21 @@ public class PortalController : MonoBehaviour
 
     private IEnumerator PlayAnimationAndChangeScene()
     {
-        // Trigger da animação
+        // Carrega a cena de forma assíncrona, mas não a ativa ainda
+        AsyncOperation operation = SceneManager.LoadSceneAsync("Game");
+        operation.allowSceneActivation = false;
+
+        // Inicia a animação
         irisOutAnimation.SetTrigger("Close");
 
-        // Espera até a animação acabar
-        AnimatorStateInfo animationState = irisOutAnimation.GetCurrentAnimatorStateInfo(0);
-        while (animationState.normalizedTime < 1 || !animationState.IsName("Close"))
-        {
-            yield return null;
-            animationState = irisOutAnimation.GetCurrentAnimatorStateInfo(0); // Atualiza o estado
-        }
+        // Aguarda a duração da animação
+        yield return new WaitForSeconds(irisOutAnimation.GetCurrentAnimatorStateInfo(0).length);
 
-        // Troca de cena
-        SceneManager.LoadScene("Game");
+        blackPanel.SetActive(true);
+        // Ativa a cena após a animação terminar
+        operation.allowSceneActivation = true;
     }
+
+
+
 }

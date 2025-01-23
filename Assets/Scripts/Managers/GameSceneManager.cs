@@ -11,6 +11,7 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] Tilemap map1;
     [SerializeField] Animator irisOutAnimation;
+    [SerializeField] GameObject blackPanel;
 
     private int currentLevel;
     public int CurrentLevel { get; set; }
@@ -21,16 +22,17 @@ public class GameSceneManager : MonoBehaviour
     public bool firstSpawn;
 
     private float sessionStartTime;
-    private float totalPlayTime; 
+    private float totalPlayTime;
     public float TotalPlayTime
     {
-        get { return totalPlayTime;  }
+        get { return totalPlayTime; }
         set { totalPlayTime = value; }
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        blackPanel.SetActive(true);
         PlayerPrefs.SetString("Filename", "saveData.json");
 
         filePath = Path.Combine(Application.persistentDataPath, PlayerPrefs.GetString("Filename"));
@@ -59,7 +61,7 @@ public class GameSceneManager : MonoBehaviour
         // Iniciar o tempo de sess�o
         sessionStartTime = Time.time;
 
-        irisOutAnimation.SetTrigger("Open");
+        StartCoroutine(StartAnimation());
     }
 
     private void Update()
@@ -93,14 +95,22 @@ public class GameSceneManager : MonoBehaviour
 
     private void SetRespawnPoints()
     {
-        if(currentLevel == 1)
+        if (currentLevel == 1)
         {
             PlayerPrefs.SetFloat("FirstRespawnX", startRespawnPoint1.transform.position.x);
             PlayerPrefs.SetFloat("FirstRespawnY", startRespawnPoint1.transform.position.y);
         }
-        else if(currentLevel == 2)
+        else if (currentLevel == 2)
         {
 
         }
     }
+
+    private IEnumerator StartAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+        blackPanel.SetActive(false);
+        irisOutAnimation.SetTrigger("Open");
+    }
+
 }
