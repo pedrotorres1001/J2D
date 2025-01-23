@@ -30,7 +30,7 @@ public class PauseMenu : MonoBehaviour
     public void PauseGame()
     {
         Time.timeScale = 0f;
-        playerMovement.enabled = false;
+        //playerMovement.enabled = false;
         pauseMenu.SetActive(true);
     }
 

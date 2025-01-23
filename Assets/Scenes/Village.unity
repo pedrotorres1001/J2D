@@ -6820,7 +6820,7 @@ GameObject:
   - component: {fileID: 1669116350}
   - component: {fileID: 1669116349}
   m_Layer: 5
-  m_Name: SettingsButton
+  m_Name: PauseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7377,7 +7377,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 2031063056}
-  startRespawnPoint: {fileID: 1213278314}
   playerMovement: {fileID: 1213278325}
 --- !u!4 &1790813471
 Transform:
