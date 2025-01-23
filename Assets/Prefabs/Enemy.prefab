@@ -747,12 +747,16 @@ MonoBehaviour:
   health: 100
   maxHealth: 100
   health_bar: {fileID: 0}
-  experiencePoints: 0
   speed: 0
   sightRange: 0
+  crystal: {fileID: 4813930974092361159, guid: 60e9b35848e39a64f8e2d1c0d17c589b, type: 3}
+  experiencePoints: 2
+  deathPrefab: {fileID: 3689511419877391624, guid: 4f6e3b2a7bbdba54e877a127a40e0bc4, type: 3}
   dashSpeed: 10
   dashDuration: 0.2
   attackDamage: 5
+  dustParticles: {fileID: 1132610166564165690}
+  interval: 1
   SFXSource: {fileID: 6596017895801075551}
   LoopSource: {fileID: 6201493676339873517}
 --- !u!114 &6307554236936114369
@@ -1045,6 +1049,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0329b0264224164582ce3444630466e, type: 3}
+--- !u!198 &1132610166564165690 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6701513946455503113, guid: c0329b0264224164582ce3444630466e, type: 3}
+  m_PrefabInstance: {fileID: 5960331173644462387}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8429850810324715813 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2759441281161781270, guid: c0329b0264224164582ce3444630466e, type: 3}

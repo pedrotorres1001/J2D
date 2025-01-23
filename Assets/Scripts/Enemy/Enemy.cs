@@ -9,9 +9,12 @@ public abstract class Enemy : MonoBehaviour
     public int Health {get;set;}
     [SerializeField] protected int maxHealth = 100;
     public GameObject health_bar;
-    [SerializeField] protected int experiencePoints;
     [SerializeField] protected float speed;
     [SerializeField] protected float sightRange;
+    [SerializeField] GameObject crystal;
+    [SerializeField] protected int experiencePoints;
+    [SerializeField] private GameObject deathPrefab;
+
 
     private AudioManager audioManager;
 
@@ -41,8 +44,17 @@ public abstract class Enemy : MonoBehaviour
 
     void Die()
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
-        Destroy(gameObject);
+        // Play death sound
+        audioManager.Play("enemyDeath");
+
+        Instantiate(deathPrefab, transform.position, Quaternion.identity);
+        for (int i = 0; i < experiencePoints; i++)
+        {
+            float randomX = Random.Range(transform.position.x-1, transform.position.x + 1);
+            Instantiate(crystal, new Vector3(randomX, transform.position.y, transform.position.z), Quaternion.identity);
+        }
+
+            Destroy(gameObject);
     }
 
     private IEnumerator ColorChangeCoroutine()
