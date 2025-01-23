@@ -9,6 +9,13 @@ public class Projectile : MonoBehaviour
     private int damage;
     private float speed;
 
+    private AudioManager audioManager;
+
+    private void Start()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void Update()
     {
         transform.position += direction * speed * Time.deltaTime;
@@ -27,6 +34,7 @@ public class Projectile : MonoBehaviour
             Debug.Log($"did not ignore object: {other.name} with tag {other.tag}");
         }
 
+        audioManager.Play(gameObject.GetComponent<AudioSource>(), "splash");
         if (other.CompareTag("Player"))
         {
             other.GetComponent<Player>().TakeDamage(damage);
