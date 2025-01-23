@@ -7,17 +7,13 @@ using UnityEngine.UI;
 public class UpgradeManager : MonoBehaviour
 {
     public GameObject upgradeMenu;
-    public Player player;
-    public Button upgradeAttackDamageButton;
-    public Button upgradeAttackSpeedButton;
+    private Player player;
     public GameObject pickaxe;
     private PickaxeAttack pickaxeAttack;
     private PickaxeController pickaxeController;
 
     void Start()
     {
-        upgradeAttackDamageButton.onClick.AddListener(UpgradeAttackDamage);
-        upgradeAttackSpeedButton.onClick.AddListener(UpgradeAttackSpeed);
         pickaxeAttack = pickaxe.GetComponent<PickaxeAttack>();
         pickaxeController = pickaxe.GetComponent<PickaxeController>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
