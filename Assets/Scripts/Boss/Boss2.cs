@@ -79,23 +79,35 @@ public class Boss2 : Boss
                         break;
 
                     case "ranged":
-                        if (Time.time - lastAttackTime >= attackCooldown)
+                        if (Vector2.Distance(transform.position, player.position) <= 6)
                         {
-                            lastAttackTime = Time.time;
+                            Vector2 direction = (player.position - transform.position);
+                            direction.y = 0;
+                            direction = direction.normalized;
+                            rb.velocity = new Vector2(-direction.x * speed, rb.velocity.y);
 
-                            Vector3 dir = (player.transform.position - projectileSpawnPoint.transform.position).normalized;
+                            FlipTowardsPlayer(direction.x);
+                        }
+                        else
+                        {
+                            if (Time.time - lastAttackTime >= attackCooldown)
+                            {
+                                lastAttackTime = Time.time;
 
-                            animator.SetBool("isRanged", true);
-                            animator.SetBool("isWalking", false);
-                            animator.Play("Boss2AttackRanged", -1, 0f);
+                                Vector3 dir = (player.transform.position - projectileSpawnPoint.transform.position).normalized;
 
-                            GameObject proj = Instantiate(projectile);
-                            proj.transform.position = projectileSpawnPoint.transform.position;
-                            proj.GetComponent<Projectile>().SetValues(dir, damage, 4.5f);
-                            audioManager.Play(SFXSource, "spray");
-                            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-                            proj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                            proj.transform.Rotate(0, 0, 135);
+                                animator.SetBool("isRanged", true);
+                                animator.SetBool("isWalking", false);
+                                animator.Play("Boss2AttackRanged", -1, 0f);
+
+                                GameObject proj = Instantiate(projectile);
+                                proj.transform.position = projectileSpawnPoint.transform.position;
+                                proj.GetComponent<Projectile>().SetValues(dir, damage, 4.5f);
+                                audioManager.Play(SFXSource, "spray");
+                                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                                proj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                                proj.transform.Rotate(0, 0, 135);
+                            }
                         }
                         break;
                     default:
