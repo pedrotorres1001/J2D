@@ -4,221 +4,198 @@ using UnityEngine;
 
 public class Boar : Enemy
 {
-    // Variáveis públicas
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.2f;
-    [SerializeField] private float attackCooldown = 2f;
     [SerializeField] public int attackDamage;
 
-    // Variáveis privadas
-    private float lastAttackTime;
+
+    private bool hasDashed = false;
+    // Dash properties
     private Transform player;
+    private float distanceToPlayer;
     private Rigidbody2D rb;
-    private Animator animator;
+    private bool isDashing;
     private EnemyPatrol enemyPatrol;
+    private Animator animator;
+    private bool colidedWithPlayer;
 
-    // Estado do Boar
-    private enum State
-    {
-        Patrolling,
-        ChasingPlayer,
-        PreparingDash,
-        Dashing,
-        Attacking,
-        Knockback
-    }
-
-    private State currentState;
+    private bool isPerformingAction = false;
     private Vector2 playerLastKnownPosition;
+    private int direction;
+    private float patrolSpeed = 3;
+    private float runningSpeed = 4;
 
-    private float knockDur = 1f;
-    private float knockbackPwr = 5f;
-    private bool isPerformingAction;
+    private EyeCollider eyeCollider;
+    private bool canSeePlayer;
 
-    private void Awake()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        rb = GetComponent<Rigidbody2D>();
-        enemyPatrol = GetComponent<EnemyPatrol>();
-        animator = GetComponent<Animator>();
-    }
-
-    protected override void Start()
-    {
+    protected override void Start() {
         base.Start();
-        currentState = State.Patrolling;  // Inicia o Boar patrulhando
-        isPerformingAction = false;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        rb = gameObject.GetComponent<Rigidbody2D>();
+        enemyPatrol = gameObject.GetComponent<EnemyPatrol>();
+        animator = gameObject.GetComponent<Animator>();
+        eyeCollider = gameObject.GetComponentInChildren<EyeCollider>();
+
+        isDashing = false;
+        direction = 1;
+        colidedWithPlayer = false;
     }
 
-    private void Update()
+    private void Update() 
     {
-        if (isPerformingAction) return; // Ignorar lógica enquanto o Boar estiver a executar uma ação especial
+        if (isPerformingAction) return; // Skip Update logic during special actions
 
-        // Atualiza a posição do jogador
-        playerLastKnownPosition = player.position;
+        distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        print(currentState);
+        canSeePlayer = eyeCollider.canSeePlayer;
 
-        // Lógica de transição de estados
-        switch (currentState)
+        print(canSeePlayer);
+
+        if (canSeePlayer && distanceToPlayer > 6) {
+            enemyPatrol.isFollowingPlayer = true;
+            StartCoroutine(PrepareAndDash());
+
+        }
+        
+        if (canSeePlayer && distanceToPlayer <= 6 && !isPerformingAction && !colidedWithPlayer) {
+            print("Running");
+            animator.SetBool("isRunning", true);
+            FollowPlayer();
+        }
+        else{
+            animator.SetBool("isRunning", false);
+        }
+
+        if(!canSeePlayer && !colidedWithPlayer) {
+            print("Patrolling");
+            animator.SetBool("isPatrolling", true);
+            Patrol();
+        }
+        else {
+            animator.SetBool("isPatrolling", false);
+        }
+
+        if(colidedWithPlayer)
         {
-            case State.Patrolling:
-                Patrol();
-                break;
+            StartCoroutine(StopAndWait());
+        }
+ 
+    }
 
-            case State.ChasingPlayer:
-                ChasePlayer();
-                break;
+    public void AttackPlayer() 
+    {
+        if (distanceToPlayer <= 5 && !hasDashed) {
+            StartCoroutine(PrepareAndDash());
+        }
+        else if (distanceToPlayer > 5 || hasDashed) {
+            FollowPlayer();
+        }
+    }
 
-            case State.PreparingDash:
-                StartCoroutine(PrepareAndDash());
-                break;
+    void FollowPlayer() 
+    {
+        Vector2 playerDirection = (player.position - transform.position).normalized;
+        float newDirection = playerDirection.x > 0 ? 1 : -1; // Determine the facing direction
+        rb.velocity = new Vector2(runningSpeed * playerDirection.x, rb.velocity.y);
 
-            case State.Dashing:
-                // O Boar já está a "correr" no estado PrepareAndDash, então não faz nada aqui
-                break;
 
-            case State.Attacking:
-                Attack();
-                break;
-
-            case State.Knockback:
-                // Adicionar lógica para Knockback, se necessário
-                break;
+        // Flip the sprite if necessary
+        if (newDirection != direction)
+        {
+            direction = (int)newDirection;
+            Flip(direction);
         }
     }
 
     private void Patrol()
     {
-        // Inicia a patrulha
-        bool canSeePlayer = HasLineOfSight();
+        int layer = LayerMask.GetMask("Ground", "Destructable");
+        
+        // Check for obstacles in the current direction
+        Vector2 rayDirection = direction > 0 ? Vector2.right : Vector2.left;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDirection, 2, layer);
 
-        if (canSeePlayer)
+        if (hit.collider != null)
         {
-            currentState = State.PreparingDash;
-            //currentState = State.ChasingPlayer;
+            // Reverse direction if an obstacle is detected
+            direction *= -1;
+            Flip(direction);
         }
-        else
-        {
-            enemyPatrol.Patrol(rb);
-        }
+
+        // Apply movement based on the current direction
+        rb.velocity = new Vector2(patrolSpeed * direction, rb.velocity.y);
+
     }
 
-    private void ChasePlayer()
+    private IEnumerator PrepareAndDash() 
     {
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
-        Vector2 playerDirection = (player.position - transform.position).normalized;
-        float direction = playerDirection.x > 0 ? 1 : -1; // Determina a direção
-        animator.SetFloat("Direction", direction); // Atualiza animação
-        rb.velocity = new Vector2(playerDirection.x * speed, 0); // Move apenas no eixo X
-
-        // Se o Boar estiver a uma distância adequada, começa a preparar o dash
-        if (distanceToPlayer < 3f)  // Distância para o dash
-        {
-            currentState = State.PreparingDash;
-        }
-    }
-
-    private bool HasLineOfSight()
-    {
-        // BoxCast para detetar o jogador
-        float boxcastRange = 7f;
-        float boxWidth = 7f;
-        float boxHeight = 5f;
-        float direction = rb.velocity.x > 0 ? 1 : -1;
-
-        LayerMask layerMask = LayerMask.GetMask("Player", "Ground", "Destructable");
-        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(boxWidth, boxHeight), 0f, Vector2.right * direction, boxcastRange, layerMask);
-
-        if (hit.collider != null && hit.collider.CompareTag("Player"))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    private IEnumerator PrepareAndDash()
-    {
-        currentState = State.PreparingDash;
         isPerformingAction = true;
 
-        // Preparação para o dash
+        // Record the player's position before charging
+        playerLastKnownPosition = player.position;
+
+        // Calculate dash direction (X-axis only)
+        Vector2 dashDirection = new Vector2(playerLastKnownPosition.x - transform.position.x, 0).normalized;
+
+        float direction = dashDirection.x > 0 ? 1 : -1; // Determine facing direction
+
+        // Stop and wait before charging
         animator.SetBool("isPreparing", true);
         rb.velocity = Vector2.zero;
-
-        yield return new WaitForSeconds(1); // Espera antes de lançar o dash
-
+        yield return new WaitForSeconds(1); // Wait before charging
         animator.SetBool("isPreparing", false);
         animator.SetBool("isCharging", true);
 
-        // Realiza o dash
-        Vector2 dashDirection = (playerLastKnownPosition - (Vector2)transform.position).normalized;
+        // Gradual acceleration variables
         float elapsedTime = 0f;
-        float chargeAccelerationTime = 1f;
+        float chargeAccelerationTime = 1f; // Time it takes to reach max speed
+        float currentSpeed = 0f;
 
-        while (elapsedTime < chargeAccelerationTime)
+        // Gradually increase speed
+        while (elapsedTime < chargeAccelerationTime) 
         {
             elapsedTime += Time.deltaTime;
-            float currentSpeed = Mathf.Lerp(0, dashSpeed, elapsedTime / chargeAccelerationTime);
+            currentSpeed = Mathf.Lerp(0, dashSpeed, elapsedTime / chargeAccelerationTime); // Gradually interpolate speed
             rb.velocity = dashDirection * currentSpeed;
             yield return null;
         }
 
+        // Maintain max speed for the remaining dash duration
         rb.velocity = dashDirection * dashSpeed;
+
         yield return new WaitForSeconds(dashDuration - chargeAccelerationTime);
 
         animator.SetBool("isCharging", false);
-        currentState = State.Patrolling;  // Retorna ao estado de patrulha após o dash
+
+        // Stop and wait after charging
+        rb.velocity = Vector2.zero;
+        animator.SetBool("isIdle", true);
+        yield return new WaitForSeconds(2);
+        animator.SetBool("isIdle", false);
+
+        // Reset state
         isPerformingAction = false;
+        hasDashed = true;
     }
 
-    public override void Attack()
-    {
-        if (Time.time - lastAttackTime >= attackCooldown)
-        {
-            Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(transform.position, 1f);
+    public IEnumerator StopAndWait() {
+        rb.velocity = Vector2.zero;
+        yield return new WaitForSeconds(2);
+        colidedWithPlayer = false;
+    }
 
-            foreach (Collider2D target in hitPlayers)
-            {
-                if (target.CompareTag("Player"))
-                {
-                    target.GetComponent<Player>().TakeDamage(attackDamage);
-                }
-            }
-            lastAttackTime = Time.time;
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.CompareTag("Player")) {
+            colidedWithPlayer = true;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    private void Flip(float movementDirection)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            currentState = State.Knockback;
-            StartCoroutine(Knockback());
-        }
+        Vector3 localScale = transform.localScale;
+        localScale.x *= -1;
+        transform.localScale = localScale;
     }
 
-    private IEnumerator Knockback()
-    {
-        float timer = 0;
-        Rigidbody2D rbPlayer = player.GetComponent<Rigidbody2D>();
-
-        while (knockDur > timer)
-        {
-            timer += Time.deltaTime;
-            rbPlayer.AddForce(new Vector2(-knockbackPwr, knockbackPwr));  // Ajusta a força do knockback conforme necessário
-        }
-
-        currentState = State.Patrolling;  // Retorna à patrulha após o knockback
-        yield return null;
-    }
-
-    private void OnDrawGizmos()
-    {
-        // Gizmos para visualizar a área de visão
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(transform.position, new Vector2(7f, 5f));
-    }
 }

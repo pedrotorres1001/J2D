@@ -23,8 +23,6 @@ public abstract class Enemy : MonoBehaviour
         //health_bar = Instantiate(health_bar, transform);
     }
 
-    public abstract void Attack();
-
     public void TakeDamage(int damage)
     {
         health -= damage;

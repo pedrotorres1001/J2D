@@ -24,8 +24,6 @@ public class PlayerMovement : MonoBehaviour
     public float interval = 1f; // Intervalo em segundos
     private float timer = 0f; // Temporizador interno
 
-    [SerializeField] AudioManager audioManager;
-
     public float knockbackForce;
     public float knockbackCounter;
     public float knockbackTotalTime;
