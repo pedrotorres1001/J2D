@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: 5573366573326567358}
   - component: {fileID: 968240803360495957}
   - component: {fileID: 617705256544086634}
+  - component: {fileID: 6307554236936114369}
   - component: {fileID: 1960630949218608530}
   m_Layer: 0
   m_Name: Enemy
@@ -292,7 +293,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 997bd8dc84234b841882b48e66e0bb0a, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -302,7 +303,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 6
 --- !u!70 &968240803360495957
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -350,19 +351,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f836d4ab2e8834535a10b9991affeffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
   maxHealth: 100
-  damage: 10
-  animator: {fileID: 1960630949218608530}
-  patrolSpeed: 2
-  maxPatrolTime: 5
-  chargeSpeed: 5
-  chargeDuration: 2
-  attackRange: 1.5
-  chargeRange: 2
+  health_bar: {fileID: 0}
+  experiencePoints: 0
+  speed: 0
+  sightRange: 0
+  dashSpeed: 10
+  dashDuration: 0.2
   attackCooldown: 2
   attackDamage: 5
-  fieldOfViewAngle: 45
-  player: {fileID: 0}
+--- !u!114 &6307554236936114369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6593975325983535659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bb5e9d6678997498f9c36d6337862b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolSpeed: 3
+  isFollowingPlayer: 0
 --- !u!95 &1960630949218608530
 Animator:
   serializedVersion: 5

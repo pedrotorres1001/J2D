@@ -12,14 +12,6 @@ public class PauseMenu : MonoBehaviour
     public PlayerMovement playerMovement;
     private AudioManager audioManager;
 
-    public Animator irisOutAnimator;
-
-    void Start()
-    {
-        //playerMovement.enabled = false;
-        irisOutAnimator.SetTrigger("Open");
-    }
-
     // Update is called once per frame
     void Update()
     {
