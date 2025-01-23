@@ -144,7 +144,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -497269974, guid: e03cf3db7c534fc4789dfe2a08e72811, type: 3}
+  m_Sprite: {fileID: 1514760960, guid: 65715f07966308548a4de19517a80b80, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -179,6 +179,8 @@ MonoBehaviour:
   leftBoundary: {fileID: 0}
   rightBoundary: {fileID: 0}
   audioManager: {fileID: 0}
+  SFXSource: {fileID: 0}
+  LoopSource: {fileID: 0}
   attackCooldown: 5
   inAttackRange: 0
   state: 

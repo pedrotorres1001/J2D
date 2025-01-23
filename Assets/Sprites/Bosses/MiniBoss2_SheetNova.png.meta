@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1a119871da51ba74294957dec6192124
+guid: 65715f07966308548a4de19517a80b80
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: InimigoJavali_SheetNova_0
+      name: MiniBoss2_SheetNova_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 96
-        width: 48
-        height: 32
+        y: 147
+        width: 64
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d93ea355deef52a408073a0ca066b2e0
-      internalID: 884260158
+      spriteID: e05f1cc0830cac644a58a95fa6e64a38
+      internalID: 1514760960
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoJavali_SheetNova_1
+      name: MiniBoss2_SheetNova_1
       rect:
         serializedVersion: 2
-        x: 48
-        y: 96
-        width: 48
-        height: 32
+        x: 64
+        y: 147
+        width: 64
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,20 +132,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5baf9e3b4c7ec0248a547a9230a051dc
-      internalID: 1339671942
+      spriteID: 10c5c2969d8c4f64a8cb3a3b66f48776
+      internalID: -223372016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoJavali_SheetNova_2
+      name: MiniBoss2_SheetNova_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
-        width: 48
-        height: 32
+        x: 128
+        y: 147
+        width: 64
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,83 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 13b3ffbadcf5ad043893c2e33fd987c9
-      internalID: 1145892644
+      spriteID: bf30225d39997d8469a67879f7131d95
+      internalID: 1660579677
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoJavali_SheetNova_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 64
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f045cf07a24def24e8ceff81740afe12
-      internalID: 1061003864
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoJavali_SheetNova_4
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 64
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 92a555626b7724a4a89c7944fd6d133c
-      internalID: -1018458058
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoJavali_SheetNova_5
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 64
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 775721d7e06b44f48b19362cfc9417c7
-      internalID: -78840854
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoJavali_SheetNova_6
+      name: MiniBoss2_SheetNova_3
       rect:
         serializedVersion: 2
         x: 192
-        y: 64
-        width: 48
-        height: 32
+        y: 147
+        width: 64
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -237,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 500e98b581737b54ab66421cf761b91c
-      internalID: -1762739764
+      spriteID: 0c7985691c2add3448a1940d37098fe3
+      internalID: -1643757946
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoJavali_SheetNova_7
+      name: MiniBoss2_SheetNova_4
       rect:
         serializedVersion: 2
-        x: 240
-        y: 64
-        width: 48
-        height: 32
+        x: 256
+        y: 147
+        width: 64
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -258,20 +195,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f901186075ec6a949b09b1b0f495b163
-      internalID: -458093786
+      spriteID: db19b1dda13f81f44b51f6cc7eb291a9
+      internalID: -1354708336
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoJavali_SheetNova_8
+      name: MiniBoss2_SheetNova_5
       rect:
         serializedVersion: 2
-        x: 288
-        y: 64
-        width: 48
-        height: 32
+        x: 320
+        y: 147
+        width: 64
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -279,167 +216,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 195c67f5dd3d28948bad2fef84e5b640
-      internalID: 1213526800
+      spriteID: 9875fbcfaa1029342927f284064341ad
+      internalID: -2133902931
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoJavali_SheetNova_9
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 08b7ad7195522524fb309c56be7b212c
-      internalID: -32176359
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoJavali_SheetNova_10
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 32
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 788005751dbec3742acf245bec42bf02
-      internalID: -1723506450
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoJavali_SheetNova_11
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 32
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 66b8c844e36f1b74d8d2926e4a65c867
-      internalID: 1547973789
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoJavali_SheetNova_12
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 32
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9e73c036ec8eb7b42bcdd1ffc3181162
-      internalID: -2127024459
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoJavali_SheetNova_13
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 32
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8e41f6b3bab86ba4c84d8444a924bd51
-      internalID: -912090987
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoJavali_SheetNova_14
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 32
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 54c624e4498b94b4c8af08f78adf1086
-      internalID: -1984475439
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoJavali_SheetNova_15
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 32
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c939c3071dcba434c9715ebdd1b7d8da
-      internalID: -1443314724
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoJavali_SheetNova_16
+      name: MiniBoss2_SheetNova_6
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 48
-        height: 32
+        y: 98
+        width: 64
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -447,20 +237,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7522f9469addff046bac7644ba40ac41
-      internalID: 585955927
+      spriteID: e339e0802afced646b475a79601236d7
+      internalID: -23719396
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoJavali_SheetNova_17
+      name: MiniBoss2_SheetNova_7
       rect:
         serializedVersion: 2
-        x: 48
-        y: 0
-        width: 48
-        height: 32
+        x: 64
+        y: 98
+        width: 64
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -468,20 +258,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e28fbe458e02b24a842262cbfc28d2d
-      internalID: -632374374
+      spriteID: d383e8cf77b297f42b1bbc025e754c56
+      internalID: -107099471
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoJavali_SheetNova_18
+      name: MiniBoss2_SheetNova_8
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 48
-        height: 32
+        x: 128
+        y: 98
+        width: 64
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -489,20 +279,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c0ca7132d919f50428b795bedba44406
-      internalID: 1640018174
+      spriteID: d2367fffa8c3db3409d7997db7b702f4
+      internalID: -1934892560
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoJavali_SheetNova_19
+      name: MiniBoss2_SheetNova_9
       rect:
         serializedVersion: 2
-        x: 144
-        y: 0
-        width: 48
-        height: 32
+        x: 192
+        y: 98
+        width: 64
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -510,20 +300,251 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 67ad093ea3d9ffc4eacb6d1ea2960241
-      internalID: 2085387960
+      spriteID: fd6d7438fe4b69d418716c06e03d4b79
+      internalID: 2044396199
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoJavali_SheetNova_20
+      name: MiniBoss2_SheetNova_10
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 98
+        width: 64
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0a67e840d9acc84081c8386f82acafe
+      internalID: 1359110148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss2_SheetNova_11
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 98
+        width: 64
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1fa0d8bc52ee12429a9550762611aae
+      internalID: 484187228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss2_SheetNova_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 49
+        width: 64
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: edda6a849e66fbf42915052ca046b1c2
+      internalID: 556847287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss2_SheetNova_13
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 49
+        width: 64
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2f03745f69a47649a13d10e6d16e369
+      internalID: 514729549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss2_SheetNova_14
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 49
+        width: 64
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26f36c8cf19ebee4ebba7ff5be498725
+      internalID: -1827432584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss2_SheetNova_15
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 49
+        width: 64
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69c6218dbb86a044b807450216e709e4
+      internalID: -610847357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss2_SheetNova_16
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 49
+        width: 64
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c5f914c26cf4b04fbba5ab4038d6d19
+      internalID: -1117160362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss2_SheetNova_17
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 49
+        width: 64
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 372a3054f7cf7b247b2256c0514ef1d8
+      internalID: 1951891494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss2_SheetNova_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e26996fc55530ee4b850b541025b7520
+      internalID: -1713990628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss2_SheetNova_19
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab2b68d653e8d024bac9f339d666357a
+      internalID: 974303389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss2_SheetNova_20
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e45dec74cb00724cac008c1c1a9e81c
+      internalID: -2029862754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss2_SheetNova_21
       rect:
         serializedVersion: 2
         x: 192
         y: 0
-        width: 48
-        height: 32
+        width: 64
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -531,20 +552,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1fe98ebb2ba9e0b4cb955010b6d6f847
-      internalID: -2018072296
+      spriteID: f878bff815c691e4d98cf5899bde37d6
+      internalID: 1726314674
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoJavali_SheetNova_21
+      name: MiniBoss2_SheetNova_22
       rect:
         serializedVersion: 2
-        x: 240
+        x: 256
         y: 0
-        width: 48
-        height: 32
+        width: 64
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -552,20 +573,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 67dc6f4ba7a5ace4b86e2b2216077646
-      internalID: 214229202
+      spriteID: fa7fc926f04508f46b6dcb94ee0ec621
+      internalID: 927361196
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoJavali_SheetNova_22
+      name: MiniBoss2_SheetNova_23
       rect:
         serializedVersion: 2
-        x: 288
+        x: 320
         y: 0
-        width: 48
-        height: 32
+        width: 64
+        height: 49
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -573,8 +594,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 99d16ce6391c8dc4cb8869ee949ed3e8
-      internalID: 1193174195
+      spriteID: 79793ddbb93c79f43b5e300a97e3c128
+      internalID: 250300574
       vertices: []
       indices: 
       edges: []
@@ -590,29 +611,30 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      InimigoJavali_SheetNova_0: 884260158
-      InimigoJavali_SheetNova_1: 1339671942
-      InimigoJavali_SheetNova_10: -1723506450
-      InimigoJavali_SheetNova_11: 1547973789
-      InimigoJavali_SheetNova_12: -2127024459
-      InimigoJavali_SheetNova_13: -912090987
-      InimigoJavali_SheetNova_14: -1984475439
-      InimigoJavali_SheetNova_15: -1443314724
-      InimigoJavali_SheetNova_16: 585955927
-      InimigoJavali_SheetNova_17: -632374374
-      InimigoJavali_SheetNova_18: 1640018174
-      InimigoJavali_SheetNova_19: 2085387960
-      InimigoJavali_SheetNova_2: 1145892644
-      InimigoJavali_SheetNova_20: -2018072296
-      InimigoJavali_SheetNova_21: 214229202
-      InimigoJavali_SheetNova_22: 1193174195
-      InimigoJavali_SheetNova_3: 1061003864
-      InimigoJavali_SheetNova_4: -1018458058
-      InimigoJavali_SheetNova_5: -78840854
-      InimigoJavali_SheetNova_6: -1762739764
-      InimigoJavali_SheetNova_7: -458093786
-      InimigoJavali_SheetNova_8: 1213526800
-      InimigoJavali_SheetNova_9: -32176359
+      MiniBoss2_SheetNova_0: 1514760960
+      MiniBoss2_SheetNova_1: -223372016
+      MiniBoss2_SheetNova_10: 1359110148
+      MiniBoss2_SheetNova_11: 484187228
+      MiniBoss2_SheetNova_12: 556847287
+      MiniBoss2_SheetNova_13: 514729549
+      MiniBoss2_SheetNova_14: -1827432584
+      MiniBoss2_SheetNova_15: -610847357
+      MiniBoss2_SheetNova_16: -1117160362
+      MiniBoss2_SheetNova_17: 1951891494
+      MiniBoss2_SheetNova_18: -1713990628
+      MiniBoss2_SheetNova_19: 974303389
+      MiniBoss2_SheetNova_2: 1660579677
+      MiniBoss2_SheetNova_20: -2029862754
+      MiniBoss2_SheetNova_21: 1726314674
+      MiniBoss2_SheetNova_22: 927361196
+      MiniBoss2_SheetNova_23: 250300574
+      MiniBoss2_SheetNova_3: -1643757946
+      MiniBoss2_SheetNova_4: -1354708336
+      MiniBoss2_SheetNova_5: -2133902931
+      MiniBoss2_SheetNova_6: -23719396
+      MiniBoss2_SheetNova_7: -107099471
+      MiniBoss2_SheetNova_8: -1934892560
+      MiniBoss2_SheetNova_9: 2044396199
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

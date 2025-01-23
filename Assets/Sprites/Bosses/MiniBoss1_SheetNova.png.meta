@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 88d4160f16710c647a73cc667a57e369
+guid: 2ad046289b290e84a957020ffb5df63a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_0
+      name: MiniBoss1_SheetNova_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 240
-        width: 64
-        height: 48
+        y: 128
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 461728c9a2c17274ba33be7f95a049e3
-      internalID: -402808848
+      spriteID: 82305402292b65844bcaa05efd9907f4
+      internalID: -1255500047
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_1
+      name: MiniBoss1_SheetNova_1
       rect:
         serializedVersion: 2
-        x: 64
-        y: 240
-        width: 64
-        height: 48
+        x: 68
+        y: 128
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,20 +132,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b974e8059fb8c3341b777ec619fd06a7
-      internalID: 2089617474
+      spriteID: 08e105041a257d84aac7b00957d26e3f
+      internalID: 1533902638
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_2
+      name: MiniBoss1_SheetNova_2
       rect:
         serializedVersion: 2
-        x: 128
-        y: 240
-        width: 64
-        height: 48
+        x: 136
+        y: 128
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,20 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 09806bc1269ef764092683b9fd2b90d5
-      internalID: -2056304755
+      spriteID: 0de4b4588dff165499de44fd6d40459d
+      internalID: -1126202837
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_3
+      name: MiniBoss1_SheetNova_3
       rect:
         serializedVersion: 2
-        x: 192
-        y: 240
-        width: 64
-        height: 48
+        x: 204
+        y: 128
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 75e084dbd7015634fba8b7ea1d733e34
-      internalID: 1346518780
+      spriteID: cc20e857720c607419a7f8c03023e739
+      internalID: 1729300309
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_4
+      name: MiniBoss1_SheetNova_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 192
-        width: 64
-        height: 48
+        x: 272
+        y: 128
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,20 +195,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d5466fd9892f75d4fa40315bb83b372f
-      internalID: -2133849711
+      spriteID: 15f3fcb517af89d4f98144f837708ee5
+      internalID: 1500472308
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_5
+      name: MiniBoss1_SheetNova_5
       rect:
         serializedVersion: 2
-        x: 64
-        y: 192
-        width: 64
-        height: 48
+        x: 340
+        y: 128
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,20 +216,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d64933f94001b8947831f851030543ed
-      internalID: -1049959450
+      spriteID: 9d111eeabfbef04418e284d8a1cab83a
+      internalID: 2085483809
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_6
+      name: MiniBoss1_SheetNova_6
       rect:
         serializedVersion: 2
-        x: 128
-        y: 192
-        width: 64
-        height: 48
+        x: 408
+        y: 128
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -237,125 +237,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a9520be5ce8ba5647822249cc1573bf3
-      internalID: -1782031439
+      spriteID: 9bc79bcba9328d1499ca7d1bee9a1b22
+      internalID: 641064076
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_7
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 192
-        width: 64
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 59cc0e83450f0e44a874c41d34b9c555
-      internalID: -1855044660
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoMantis_Sheet_8
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 144
-        width: 64
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7b21a486a3393cd44ad15c85bb35b16b
-      internalID: -1323856002
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoMantis_Sheet_9
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 144
-        width: 64
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: db473765c8ee7874fba4d4f0b155a619
-      internalID: 382402765
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoMantis_Sheet_10
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 144
-        width: 64
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 065758eaf8dd83947adb2190c66cb80d
-      internalID: -303278120
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoMantis_Sheet_11
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 144
-        width: 64
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dce95fccc99acd642862e80fbadf165d
-      internalID: -750385028
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: InimigoMantis_Sheet_12
+      name: MiniBoss1_SheetNova_7
       rect:
         serializedVersion: 2
         x: 0
         y: 96
-        width: 64
-        height: 48
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -363,20 +258,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0104c39189f14bb40b9299624f31fe06
-      internalID: 1232076748
+      spriteID: d495465406b9d344f861830d08c5ec4e
+      internalID: -336732238
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_13
+      name: MiniBoss1_SheetNova_8
       rect:
         serializedVersion: 2
-        x: 64
+        x: 68
         y: 96
-        width: 64
-        height: 48
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -384,20 +279,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 758a07987b2657c459c578edb49303df
-      internalID: -1759998162
+      spriteID: 0c49b86d323958548b37409af477056b
+      internalID: -723620228
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_14
+      name: MiniBoss1_SheetNova_9
       rect:
         serializedVersion: 2
-        x: 128
+        x: 136
         y: 96
-        width: 64
-        height: 48
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -405,20 +300,104 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 107d9a3f5eb32654fb710f1d8f730a61
-      internalID: -102962701
+      spriteID: d0eb8fd17b5c4eb47bb4ddfcd38034fe
+      internalID: -1950559936
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_15
+      name: MiniBoss1_SheetNova_10
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 96
+        width: 68
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b89b5514296b3144854f4cef563be89
+      internalID: 461269582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss1_SheetNova_11
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 96
+        width: 68
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 514c6f8709f1cbb47838ee0dd3bdd07a
+      internalID: -226959937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss1_SheetNova_12
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 96
+        width: 68
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 142d4d3daa315b84cac4fc51e235d957
+      internalID: 1295430789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss1_SheetNova_13
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 96
+        width: 68
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e70715e749fefc94d8dcc379f5b0b9b2
+      internalID: -705363516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss1_SheetNova_14
       rect:
         serializedVersion: 2
         x: 0
-        y: 48
-        width: 64
-        height: 48
+        y: 64
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -426,20 +405,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c12a4ec1b99266546a89c614511d1334
-      internalID: -1652645284
+      spriteID: a2777146f9d0c7e469a3c48f68b0c970
+      internalID: 442207813
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_16
+      name: MiniBoss1_SheetNova_15
       rect:
         serializedVersion: 2
-        x: 64
-        y: 48
-        width: 64
-        height: 48
+        x: 68
+        y: 64
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -447,20 +426,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b668494b0f77fb47b170821a57d0fe2
-      internalID: 1595023272
+      spriteID: 4c5126c6231e1324e8239f99a03e8512
+      internalID: 2092569482
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_17
+      name: MiniBoss1_SheetNova_16
       rect:
         serializedVersion: 2
-        x: 128
-        y: 48
-        width: 64
-        height: 48
+        x: 136
+        y: 64
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -468,20 +447,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d3fed87abf4d08545b807178b0ce12d9
-      internalID: -609667448
+      spriteID: d8f8ea5523907bd4db945150a70e4a60
+      internalID: 1219696384
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_18
+      name: MiniBoss1_SheetNova_17
       rect:
         serializedVersion: 2
-        x: 192
-        y: 48
-        width: 64
-        height: 48
+        x: 0
+        y: 32
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -489,20 +468,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 102590de0efd17e4eba25d4400ddade1
-      internalID: -1253553205
+      spriteID: 5cdc7012f4e39584bb6c20e40814aff4
+      internalID: -352333975
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_19
+      name: MiniBoss1_SheetNova_18
       rect:
         serializedVersion: 2
-        x: 256
-        y: 48
-        width: 64
-        height: 48
+        x: 68
+        y: 32
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -510,20 +489,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ec2895f08e4e1b498209a41f84d7237
-      internalID: 1838795302
+      spriteID: 90aa7008408af2043ae79bff522d16b9
+      internalID: -700295517
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_20
+      name: MiniBoss1_SheetNova_19
       rect:
         serializedVersion: 2
-        x: 320
-        y: 48
-        width: 64
-        height: 48
+        x: 136
+        y: 32
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -531,20 +510,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cee17332637e4644881c35388d3622a8
-      internalID: -732207462
+      spriteID: 70009fb7117586e428abc14d9cde9988
+      internalID: 1937554441
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_21
+      name: MiniBoss1_SheetNova_20
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 48
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -552,20 +531,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e434a8c5205a0d47aafa186789e5c0a
-      internalID: 28213316
+      spriteID: 1b4d542093185c64bb387baac0c752eb
+      internalID: -1820143601
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_22
+      name: MiniBoss1_SheetNova_21
       rect:
         serializedVersion: 2
-        x: 64
+        x: 68
         y: 0
-        width: 64
-        height: 48
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -573,20 +552,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f7fab5a349541394c95a84c208302331
-      internalID: -1098298373
+      spriteID: cafe8e616ec086e448e4b7178f255ede
+      internalID: -1189317914
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_23
+      name: MiniBoss1_SheetNova_22
       rect:
         serializedVersion: 2
-        x: 128
+        x: 136
         y: 0
-        width: 64
-        height: 48
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -594,20 +573,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 547df743fde59c847a18466d19312cff
-      internalID: -1271416196
+      spriteID: 079ddfa6b1b27ea428ea8c9cc1c20310
+      internalID: 322814037
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_24
+      name: MiniBoss1_SheetNova_23
       rect:
         serializedVersion: 2
-        x: 192
+        x: 204
         y: 0
-        width: 64
-        height: 48
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -615,20 +594,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 60b2ecd0e6cdc0a42a1a9cf40719d3f3
-      internalID: -2124282262
+      spriteID: fb9187bb0827d04469eb0002bbe347a5
+      internalID: 2036015414
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_25
+      name: MiniBoss1_SheetNova_24
       rect:
         serializedVersion: 2
-        x: 256
+        x: 272
         y: 0
-        width: 64
-        height: 48
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -636,20 +615,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cb1ce08aa2e61d043a4ed16d8296eff2
-      internalID: 1531424193
+      spriteID: 16d79cee63298584bb2d174b577e355d
+      internalID: -1309653727
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InimigoMantis_Sheet_26
+      name: MiniBoss1_SheetNova_25
       rect:
         serializedVersion: 2
-        x: 320
+        x: 340
         y: 0
-        width: 64
-        height: 48
+        width: 68
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -657,8 +636,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d73fb80fab437d545895f37af8e301f9
-      internalID: -1494244971
+      spriteID: 97406dc9042fd26459ed89beff503297
+      internalID: 732607707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MiniBoss1_SheetNova_26
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 0
+        width: 68
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f01b90ba902b1a45aff2e9774ba6d7e
+      internalID: -1445541243
       vertices: []
       indices: 
       edges: []
@@ -674,33 +674,33 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      InimigoMantis_Sheet_0: -402808848
-      InimigoMantis_Sheet_1: 2089617474
-      InimigoMantis_Sheet_10: -303278120
-      InimigoMantis_Sheet_11: -750385028
-      InimigoMantis_Sheet_12: 1232076748
-      InimigoMantis_Sheet_13: -1759998162
-      InimigoMantis_Sheet_14: -102962701
-      InimigoMantis_Sheet_15: -1652645284
-      InimigoMantis_Sheet_16: 1595023272
-      InimigoMantis_Sheet_17: -609667448
-      InimigoMantis_Sheet_18: -1253553205
-      InimigoMantis_Sheet_19: 1838795302
-      InimigoMantis_Sheet_2: -2056304755
-      InimigoMantis_Sheet_20: -732207462
-      InimigoMantis_Sheet_21: 28213316
-      InimigoMantis_Sheet_22: -1098298373
-      InimigoMantis_Sheet_23: -1271416196
-      InimigoMantis_Sheet_24: -2124282262
-      InimigoMantis_Sheet_25: 1531424193
-      InimigoMantis_Sheet_26: -1494244971
-      InimigoMantis_Sheet_3: 1346518780
-      InimigoMantis_Sheet_4: -2133849711
-      InimigoMantis_Sheet_5: -1049959450
-      InimigoMantis_Sheet_6: -1782031439
-      InimigoMantis_Sheet_7: -1855044660
-      InimigoMantis_Sheet_8: -1323856002
-      InimigoMantis_Sheet_9: 382402765
+      MiniBoss1_SheetNova_0: -1255500047
+      MiniBoss1_SheetNova_1: 1533902638
+      MiniBoss1_SheetNova_10: 461269582
+      MiniBoss1_SheetNova_11: -226959937
+      MiniBoss1_SheetNova_12: 1295430789
+      MiniBoss1_SheetNova_13: -705363516
+      MiniBoss1_SheetNova_14: 442207813
+      MiniBoss1_SheetNova_15: 2092569482
+      MiniBoss1_SheetNova_16: 1219696384
+      MiniBoss1_SheetNova_17: -352333975
+      MiniBoss1_SheetNova_18: -700295517
+      MiniBoss1_SheetNova_19: 1937554441
+      MiniBoss1_SheetNova_2: -1126202837
+      MiniBoss1_SheetNova_20: -1820143601
+      MiniBoss1_SheetNova_21: -1189317914
+      MiniBoss1_SheetNova_22: 322814037
+      MiniBoss1_SheetNova_23: 2036015414
+      MiniBoss1_SheetNova_24: -1309653727
+      MiniBoss1_SheetNova_25: 732607707
+      MiniBoss1_SheetNova_26: -1445541243
+      MiniBoss1_SheetNova_3: 1729300309
+      MiniBoss1_SheetNova_4: 1500472308
+      MiniBoss1_SheetNova_5: 2085483809
+      MiniBoss1_SheetNova_6: 641064076
+      MiniBoss1_SheetNova_7: -336732238
+      MiniBoss1_SheetNova_8: -723620228
+      MiniBoss1_SheetNova_9: -1950559936
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

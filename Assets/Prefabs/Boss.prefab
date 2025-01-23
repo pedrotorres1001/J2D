@@ -921,7 +921,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1451370736, guid: 16750683009eab644a3c79c77b6ffe79, type: 3}
+  m_Sprite: {fileID: -1255500047, guid: 2ad046289b290e84a957020ffb5df63a, type: 3}
   m_Color: {r: 0.6313726, g: 0.6313726, b: 0.6313726, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -965,8 +965,6 @@ MonoBehaviour:
   dashCooldown: 3
   dashSpeed: 10
   state: 
-  SFXSource: {fileID: 0}
-  LoopSource: {fileID: 0}
 --- !u!50 &9095763845282029985
 Rigidbody2D:
   serializedVersion: 4
