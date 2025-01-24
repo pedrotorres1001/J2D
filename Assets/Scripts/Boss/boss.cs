@@ -73,8 +73,6 @@ public class Boss : MonoBehaviour
 
     void Die()
     {
-        audioManager.PlayMusic("track1");
-
         GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
         bossHealthBar.SetActive(false);
         Destroy(gameObject);
