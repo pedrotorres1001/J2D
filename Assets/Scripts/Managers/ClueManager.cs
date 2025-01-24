@@ -44,14 +44,6 @@ public class ClueManager : MonoBehaviour
                 CancelDialog();
             }
         }
-    
-        if (Input.GetKey(KeyCode.Space))
-        {
-            if (isDialogActive)
-            {
-                ContinueDialog();
-            }
-        }
     }
     
     GameObject GetClosestObject()
@@ -92,14 +84,6 @@ public class ClueManager : MonoBehaviour
             }
         }
     }
-
-    void ContinueDialog()
-    {
-        dialogUI.SetActive(false);
-        isDialogActive = false;
-        Time.timeScale = 1;
-    }
-
     void CancelDialog()
     {
         dialogUI.SetActive(false);

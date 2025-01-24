@@ -68,10 +68,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyManager.KM.moveleft))
         {
             direction = -1;
+            lastDirection = -1;
         }
         else if (Input.GetKey(KeyManager.KM.moveright))
         {
             direction = 1;
+            lastDirection = 1;
         }
         else
         {
@@ -86,7 +88,6 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetFloat("Direction", direction);
             animator.SetFloat("LastDirection", lastDirection);
-            lastDirection = direction;
 
             if (isGrounded)
             {
@@ -107,22 +108,6 @@ public class PlayerMovement : MonoBehaviour
         {
             dust.Play(); // Reproduz as partículas
             timer = 0f; // Reseta o temporizador
-        }
-
-        if (Input.GetKey(KeyManager.KM.jump) && isGrounded)
-        {
-            lastDirection = 2;
-        }
-        else if (Input.GetKey(KeyManager.KM.moveleft))
-        {
-            lastDirection = 3;
-        }
-
-        if (direction == 0)
-        {
-            animator.SetFloat("Direction", direction);
-            animator.SetFloat("LastDirection", lastDirection);
-            animator.SetBool("IsWalking", false);
         }
 
         if (Input.GetKey(KeyManager.KM.jump) && isGrounded)

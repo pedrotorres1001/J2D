@@ -75,10 +75,18 @@ public class KeyBindMenu : MonoBehaviour
     void OnGUI()
     {
         keyEvent = Event.current;
-        if (keyEvent.isKey && waitingForKey)
+        if (waitingForKey)
         {
-            newKey = keyEvent.keyCode;
-            waitingForKey = false;
+            if (keyEvent.isKey)
+            {
+                newKey = keyEvent.keyCode;
+                waitingForKey = false;
+            }
+            else if (keyEvent.isMouse)
+            {
+                newKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), "Mouse" + keyEvent.button);
+                waitingForKey = false;
+            }
         }
     }
 
@@ -106,9 +114,9 @@ public class KeyBindMenu : MonoBehaviour
     public IEnumerator AssignKey(string keyName)
     {
         waitingForKey = true;
-
+    
         yield return WaitForKey();
-
+    
         // Check if the new key is already assigned to another action
         if (newKey == KeyManager.KM.jump)
         {
@@ -120,7 +128,15 @@ public class KeyBindMenu : MonoBehaviour
         {
             KeyManager.KM.moveleft = KeyCode.None;
             PlayerPrefs.SetString("moveleftkey", KeyManager.KM.moveleft.ToString());
-            UpdateButtonText("MoveLeftButton", KeyManager.KM.moveleft.ToString());
+            // check if the new key is a mouse button
+            if (newKey.ToString().Contains("Mouse"))
+            {
+                buttonText.text = "Mouse" + keyEvent.button;
+            }
+            else
+            {
+                UpdateButtonText("MoveLeftButton", KeyManager.KM.moveleft.ToString());
+            }
         }
         if (newKey == KeyManager.KM.moveright)
         {
@@ -158,48 +174,49 @@ public class KeyBindMenu : MonoBehaviour
             PlayerPrefs.SetString("attackkey", KeyManager.KM.attack.ToString());
             UpdateButtonText("AttackButton", KeyManager.KM.attack.ToString());
         }
-
+    
+        // Assign the new key and update the button text immediately
         switch (keyName)
         {
             case "jump":
                 KeyManager.KM.jump = newKey;
-                buttonText.text = KeyManager.KM.jump.ToString();
                 PlayerPrefs.SetString("jumpkey", KeyManager.KM.jump.ToString());
+                UpdateButtonText("JumpButton", newKey.ToString());
                 break;
             case "moveleft":
                 KeyManager.KM.moveleft = newKey;
-                buttonText.text = KeyManager.KM.moveleft.ToString();
                 PlayerPrefs.SetString("moveleftkey", KeyManager.KM.moveleft.ToString());
+                UpdateButtonText("MoveLeftButton", newKey.ToString());
                 break;
             case "moveright":
                 KeyManager.KM.moveright = newKey;
-                buttonText.text = KeyManager.KM.moveright.ToString();
                 PlayerPrefs.SetString("moverightkey", KeyManager.KM.moveright.ToString());
+                UpdateButtonText("MoveRightButton", newKey.ToString());
                 break;
             case "moveup":
                 KeyManager.KM.moveup = newKey;
-                buttonText.text = KeyManager.KM.moveup.ToString();
                 PlayerPrefs.SetString("moveupkey", KeyManager.KM.moveup.ToString());
+                UpdateButtonText("MoveUpButton", newKey.ToString());
                 break;
             case "movedown":
                 KeyManager.KM.movedown = newKey;
-                buttonText.text = KeyManager.KM.movedown.ToString();
                 PlayerPrefs.SetString("movedownkey", KeyManager.KM.movedown.ToString());
+                UpdateButtonText("MoveDownButton", newKey.ToString());
                 break;
             case "grapplinghook":
                 KeyManager.KM.grapplinghook = newKey;
-                buttonText.text = KeyManager.KM.grapplinghook.ToString();
                 PlayerPrefs.SetString("grapplinghookkey", KeyManager.KM.grapplinghook.ToString());
+                UpdateButtonText("GrapplingHookButton", newKey.ToString());
                 break;
             case "interact":
                 KeyManager.KM.interact = newKey;
-                buttonText.text = KeyManager.KM.interact.ToString();
                 PlayerPrefs.SetString("interactkey", KeyManager.KM.interact.ToString());
+                UpdateButtonText("InteractButton", newKey.ToString());
                 break;
             case "attack":
                 KeyManager.KM.attack = newKey;
-                buttonText.text = KeyManager.KM.attack.ToString();
                 PlayerPrefs.SetString("attackkey", KeyManager.KM.attack.ToString());
+                UpdateButtonText("AttackButton", newKey.ToString());
                 break;
         }
         yield return null;
