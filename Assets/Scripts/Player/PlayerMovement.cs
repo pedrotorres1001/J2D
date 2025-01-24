@@ -65,12 +65,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Check for keybinds for left and right movement
-        if (Input.GetKey(KeyManager.KM.moveleft))
+        if (Input.GetKeyDown(KeyManager.KM.moveleft))
         {
             direction = -1;
             lastDirection = -1;
         }
-        else if (Input.GetKey(KeyManager.KM.moveright))
+        else if (Input.GetKeyDown(KeyManager.KM.moveright))
         {
             direction = 1;
             lastDirection = 1;

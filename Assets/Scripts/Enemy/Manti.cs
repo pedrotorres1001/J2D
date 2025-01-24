@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boar : Enemy
+public class Manti : Enemy
 {
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDuration = 0.2f;
@@ -150,11 +150,14 @@ public class Boar : Enemy
         float direction = dashDirection.x > 0 ? 1 : -1; // Determine facing direction
 
         // Stop and wait before charging
-        animator.SetBool("isPreparing", true);
         rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(1); // Wait before charging
-        animator.SetBool("isPreparing", false);
-        animator.SetBool("isCharging", true);
+        animator.SetBool("isJumping", false);
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isGrabbing", false);
+        animator.SetBool("isGrabAttacking", false);
+        animator.SetBool("isShield", false);
+        animator.SetBool("isDashing", true);
 
         // Gradual acceleration variables
         float elapsedTime = 0f;
@@ -175,7 +178,7 @@ public class Boar : Enemy
 
         yield return new WaitForSeconds(dashDuration - chargeAccelerationTime);
 
-        animator.SetBool("isCharging", false);
+        animator.SetBool("isDashing", false);
 
         // Stop and wait after charging
         rb.velocity = Vector2.zero;
