@@ -17,6 +17,7 @@ TagManager:
   - Grapple
   - SceneManager
   - SaveManager
+  - Chain
   layers:
   - Default
   - TransparentFX
@@ -31,8 +32,6 @@ TagManager:
   - Grapple
   - Enemy
   - Lights
-  - 
-  - 
   - 
   - 
   - 

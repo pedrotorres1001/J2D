@@ -16,7 +16,7 @@ public class GrappleHookTrigger : MonoBehaviour
         if (!other.CompareTag("Untagged") && !other.CompareTag("Lava") && !other.CompareTag("Confiner") && !other.CompareTag("Player"))
         {
             grapplingHook.hit = true;
-            if (other.CompareTag("Enemy"))
+            if (other.CompareTag("Enemy") || other.CompareTag("Chain"))
             {
                 grapplingHook.grappleJoint.connectedBody = other.GetComponent<Rigidbody2D>();
                 grapplingHook.grappleJoint.enabled = true;

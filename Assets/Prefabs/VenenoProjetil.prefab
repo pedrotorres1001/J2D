@@ -53,6 +53,8 @@ MonoBehaviour:
   - Vital
   - Confiner
   - Pickaxe
+  - Untagged
+  - Chain
 --- !u!212 &631954370597424027
 SpriteRenderer:
   m_ObjectHideFlags: 0
