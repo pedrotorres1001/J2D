@@ -14,6 +14,7 @@ public class ClueManager : MonoBehaviour
     public float dialogRange = 2.0f;
     public GameObject dialogUI;
     public TextMeshProUGUI dialogText;
+    public TextMeshProUGUI dialogCloseText;
     private bool isDialogActive = false;
 
     private Dictionary<GameObject, string> dialogTexts;
@@ -31,7 +32,7 @@ public class ClueManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyManager.KM.interact))
+        if (Input.GetKeyDown(KeyManager.KM.interact))
         {
             GameObject closestObject = GetClosestObject();
             if (closestObject != null && !isDialogActive)
@@ -78,6 +79,7 @@ public class ClueManager : MonoBehaviour
         {
             isDialogActive = true;
             dialogUI.SetActive(true);
+            dialogCloseText.text = "Press " + KeyManager.KM.interact.ToString() + " to close";
             Time.timeScale = 0;
     
             if (dialogTexts.TryGetValue(closestObject, out string dialog))

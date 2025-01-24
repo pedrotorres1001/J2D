@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
 
     [SerializeField] float gravity;
-    public float Gravity {get; set;}
+    public float Gravity { get; set; }
     [SerializeField] float wallSlideSpeed;
     [SerializeField] float wallSlideDuration = 2f; // Limit slide time
 
@@ -47,7 +47,6 @@ public class PlayerMovement : MonoBehaviour
     private float slideTimer;
     private bool isInvulnerable = false;
 
-
     void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -60,13 +59,25 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-
-        if(player.GetComponent<GrapplingHook>() != null)
+        if (player.GetComponent<GrapplingHook>() != null)
         {
             isGrappling = player.GetComponent<GrapplingHook>().isGrappling;
         }
-        
-        direction = Input.GetAxisRaw("Horizontal");
+
+        // Check for keybinds for left and right movement
+        if (Input.GetKey(KeyManager.KM.moveleft))
+        {
+            direction = -1;
+        }
+        else if (Input.GetKey(KeyManager.KM.moveright))
+        {
+            direction = 1;
+        }
+        else
+        {
+            direction = 0;
+        }
+
         altitude = Input.GetAxisRaw("Vertical");
 
         CheckGround();
@@ -84,8 +95,7 @@ public class PlayerMovement : MonoBehaviour
 
                 animator.SetBool("IsWalking", true);
             }
-            
-        } 
+        }
         else
         {
             loopSource.mute = true;
@@ -103,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
         {
             lastDirection = 2;
         }
-        else if (Input.GetKey(KeyManager.KM.moveleft)) 
+        else if (Input.GetKey(KeyManager.KM.moveleft))
         {
             lastDirection = 3;
         }
@@ -117,22 +127,21 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyManager.KM.jump) && isGrounded)
         {
-            dust.Play(); 
+            dust.Play();
             Jump();
         }
 
-        if(isGrappling) 
+        if (isGrappling)
         {
             loopSource.mute = true;
             animator.SetBool("IsGrappling", true);
         }
-        else if(!isGrappling)
+        else if (!isGrappling)
         {
             animator.SetBool("IsGrappling", false);
         }
 
         HandleWallSlide();
-        
     }
 
     private void FixedUpdate()
@@ -141,15 +150,14 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(direction * speed, rb.velocity.y);
         }
-        
 
-        if(knockbackCounter > 0)
+        if (knockbackCounter > 0)
         {
-            if(knockbackFromRight) 
+            if (knockbackFromRight)
             {
                 rb.velocity = new Vector2(-knockbackForce, knockbackForce);
             }
-            if(!knockbackFromRight)
+            if (!knockbackFromRight)
             {
                 rb.velocity = new Vector2(knockbackForce, knockbackForce);
             }
@@ -161,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
         if (upPressed)
         {
             rb.velocity = new Vector3(rb.velocity.x, altitude * speed);
-            rb.gravityScale = 0; 
+            rb.gravityScale = 0;
             upPressed = false;
         }
         else
@@ -249,7 +257,6 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsSliding", false);
         }
     }
-
 
     private bool IsTouchingWall()
     {
