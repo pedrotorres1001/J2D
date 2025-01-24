@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpikeController : MonoBehaviour
 {
+    [SerializeField] float gravity;
     private void Update() 
     {
         // Define o alcance do Raycast
@@ -17,8 +18,8 @@ public class SpikeController : MonoBehaviour
         // Se o Raycast acertar o jogador, o jogador está visível
         if (hit.collider != null && hit.collider.CompareTag("Player"))
         {
-            print("sees player");
             gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            gameObject.GetComponent<Rigidbody2D>().gravityScale = gravity;
         }
     }
 
