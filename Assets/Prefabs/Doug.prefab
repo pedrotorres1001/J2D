@@ -284,6 +284,7 @@ MonoBehaviour:
   pickaxeGrapplePrefab: {fileID: 0}
   rope: {fileID: 0}
   currentRope: {fileID: 0}
+  SFXSource: {fileID: 133905393369903477}
 --- !u!95 &7694451778373415888
 Animator:
   serializedVersion: 5

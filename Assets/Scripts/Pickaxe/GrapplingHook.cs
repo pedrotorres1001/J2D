@@ -30,10 +30,16 @@ public class GrapplingHook : MonoBehaviour
     [SerializeField] private GameObject rope;          
     [SerializeField] private Rope currentRope;
 
+    private AudioManager audioManager;
+    [SerializeField] AudioSource SFXSource;
+
+
     void Start()
     {
         joint = GetComponent<DistanceJoint2D>();
         joint.enabled = false;
+
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     void Update()
@@ -178,6 +184,8 @@ public class GrapplingHook : MonoBehaviour
 
         lastLaunch = Time.time;
 
+        audioManager.Play(SFXSource, "swing");
+
         StartCoroutine(MoveRope());
     }
 
@@ -194,6 +202,8 @@ public class GrapplingHook : MonoBehaviour
 
         if (hit)
         {
+            audioManager.Play(SFXSource, "hitRock");
+
             joint.connectedAnchor = pickaxeGrapple.transform.position;
             joint.enabled = true;
 

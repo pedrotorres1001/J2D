@@ -22,8 +22,8 @@ public class Boss : MonoBehaviour
     public GameObject rightBoundary;
 
     public AudioManager audioManager;
-    [SerializeField] private AudioSource SFXSource;
-    [SerializeField] private AudioSource LoopSource;
+    public AudioSource SFXSource;
+    public AudioSource LoopSource;
 
     private void Start()
     {
