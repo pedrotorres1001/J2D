@@ -10,10 +10,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
     public AudioMixerGroup mixerGroup;
     public Sound[] sounds;
-    public Sound[] music;
-    [SerializeField] private AudioSource musicSource;
 
-    public float masterVolume = 1;
     public float musicVolume = 1;
     public float SFXVolume = 1;
 
@@ -54,7 +51,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        s.source.volume = s.volume * (1f + UnityEngine.Random.Range(-s.volumeVariance / 2f, s.volumeVariance / 2f)) * SFXVolume * masterVolume;
+        s.source.volume = s.volume * (1f + UnityEngine.Random.Range(-s.volumeVariance / 2f, s.volumeVariance / 2f));
         s.source.pitch = s.pitch * (1f + UnityEngine.Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f));
 
         s.source.Play();
@@ -71,26 +68,9 @@ public class AudioManager : MonoBehaviour
 
         audioSource.clip = s.clip;
         audioSource.volume = s.volume;
-        audioSource.pitch = s.pitch * (1f + UnityEngine.Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f)) * SFXVolume * masterVolume;
+        audioSource.pitch = s.pitch * (1f + UnityEngine.Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f));
         audioSource.loop = s.loop;
 
         audioSource.Play();
-    }
-
-    public void PlayMusic(string trackName)
-    {
-        Sound s = Array.Find(music, item => item.name == trackName);
-        if (s == null)
-        {
-            Debug.LogWarning("Sound: " + name + " not found!");
-            return;
-        }
-
-        musicSource.clip = s.clip;
-        musicSource.volume = s.volume * musicVolume;
-        musicSource.pitch = 1;
-        musicSource.loop = true;
-
-        musicSource.Play();
     }
 }
