@@ -28,10 +28,10 @@ public class Projectile : MonoBehaviour
         {
             if (other.CompareTag(tag))
             {
-                Debug.Log($"Ignored object: {other.name} with tag {other.tag}");
+                //Debug.Log($"Ignored object: {other.name} with tag {other.tag}");
                 return; // Exit early to ignore this object
             }
-            Debug.Log($"did not ignore object: {other.name} with tag {other.tag}");
+            //Debug.Log($"did not ignore object: {other.name} with tag {other.tag}");
         }
 
         audioManager.Play(gameObject.GetComponent<AudioSource>(), "splash");

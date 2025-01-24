@@ -56,6 +56,15 @@ public class BossMovement : Boss
         float yDifference = Mathf.Abs(transform.position.y - player.position.y);
         float directionX;
 
+        if (hasShield)
+        {
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isCharging", false);
+            animator.SetBool("startCharge", false);
+            animator.SetBool("isStunned", false);
+            animator.SetBool("isShield", true);
+            state = "shield";
+        }
 
         switch (engaged) 
         {
@@ -163,6 +172,21 @@ public class BossMovement : Boss
                             rb.velocity = Vector2.zero;
                         }
 
+                        break;
+                    case "shield":
+
+                        if (Time.time - lastDamageTime >= shieldCooldown)
+                        {
+                            animator.SetBool("isShield", false);
+                            hasShield = false;
+                            state = "idle";
+                        }
+                        Vector3 playerDirection = (player.position - transform.position);
+                        playerDirection.y = 0;
+                        playerDirection = playerDirection.normalized;
+                        FlipTowardsPlayer(playerDirection.x);
+
+                        transform.position += -playerDirection * speed * 1.5f * Time.deltaTime;
                         break;
                     default:
                         break;

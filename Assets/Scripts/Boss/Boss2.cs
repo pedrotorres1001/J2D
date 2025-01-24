@@ -15,6 +15,8 @@ public class Boss2 : Boss
     private float moveDirection;
     private bool facingRight = false;
 
+    public bool isAttacking = false;
+
     private Transform player;
 
     private Animator animator;
@@ -52,7 +54,8 @@ public class Boss2 : Boss
         float yDifference = Mathf.Abs(transform.position.y - 1.6f - player.position.y);
         Vector3 direction = (player.position - transform.position);
 
-        if (hasShield)
+
+        if (hasShield && !isAttacking)
         {
             animator.SetBool("isMelee", false);
             animator.SetBool("isRanged", false);
@@ -62,9 +65,10 @@ public class Boss2 : Boss
         }
         else if (yDifference <= 1.5f && distanceToPlayer <= 4)
         {
+
             state = "melee";
         }
-        else
+        else if (!isAttacking)
         {
             state = "ranged";
         }
@@ -77,10 +81,10 @@ public class Boss2 : Boss
                     case "melee":
                         if (inAttackRange)
                         {
-                            Debug.Log("true");
+                            animator.SetBool("isRanged", false);
                             Attack();
                         }
-                        else
+                        else if (!isAttacking)
                         {
                             animator.SetBool("isMelee", false);
                             animator.SetBool("isWalking", true);
@@ -161,11 +165,12 @@ public class Boss2 : Boss
 
     public void Attack()
     {
-        if (Time.time - lastAttackTime >= attackCooldown)
+        if (Time.time - lastAttackTime >= attackCooldown && !isAttacking)
         {
+            isAttacking = true; 
             animator.SetBool("isWalking", false);
             animator.SetBool("isMelee", true);
-
+            animator.Play("Boss2AttackMelee", -1, 0f);
             player.GetComponent<Player>().TakeDamage(attackDamage);
             ProjectPlayer();
             lastAttackTime = Time.time;

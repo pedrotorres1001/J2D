@@ -37,10 +37,17 @@ public class Boss : MonoBehaviour
     {
         if (Time.time - lastDamageTime >= shieldCooldown)
         {
-            hasShield = true;
-            lastDamageTime = Time.time;
+            int currentHP = health;
+            
 
             health -= damage;
+
+            if ((currentHP > maxHealth * 0.66f && health <= maxHealth * 0.66f)
+                || (currentHP > maxHealth * 0.33f && health <= maxHealth * 0.33f))
+            {
+                hasShield = true;
+                lastDamageTime = Time.time;
+            }
 
             StartCoroutine(ColorChangeCoroutine());
 

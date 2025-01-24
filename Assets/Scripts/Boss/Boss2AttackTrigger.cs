@@ -10,7 +10,6 @@ public class Boss2AttackTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("true");
             boss.inAttackRange = true;
         }
     }
@@ -19,7 +18,6 @@ public class Boss2AttackTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("true");
             boss.inAttackRange = false;
         }
     }
