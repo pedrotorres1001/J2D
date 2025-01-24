@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class Boss2 : Boss
 {
     [SerializeField] private float attackCooldown = 2f;
+    [SerializeField] private float projectileSpeed = 4.5f;
     private float cooldown;
     private float lastAttackTime;
     public bool inAttackRange = false;
@@ -49,8 +50,17 @@ public class Boss2 : Boss
     {
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         float yDifference = Mathf.Abs(transform.position.y - 1.6f - player.position.y);
+        Vector3 direction = (player.position - transform.position);
 
-        if (yDifference <= 1.5f)
+        if (hasShield)
+        {
+            animator.SetBool("isMelee", false);
+            animator.SetBool("isRanged", false);
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isShield", true);
+            state = "shield";
+        }
+        else if (yDifference <= 1.5f && distanceToPlayer <= 4)
         {
             state = "melee";
         }
@@ -79,9 +89,10 @@ public class Boss2 : Boss
                         break;
 
                     case "ranged":
-                        if (Vector2.Distance(transform.position, player.position) <= 6)
+                        if (Vector2.Distance(transform.position, player.position) <= 6
+                        && ((direction.x < 0 && transform.position.x <= rightBoundary.transform.position.x && Vector2.Distance(transform.position, leftBoundary.transform.position) >= 5)
+                        || (direction.x > 0 && transform.position.x >= leftBoundary.transform.position.x && Vector2.Distance(transform.position, rightBoundary.transform.position) >= 5)))
                         {
-                            Vector2 direction = (player.position - transform.position);
                             direction.y = 0;
                             direction = direction.normalized;
                             rb.velocity = new Vector2(-direction.x * speed, rb.velocity.y);
@@ -102,13 +113,27 @@ public class Boss2 : Boss
 
                                 GameObject proj = Instantiate(projectile);
                                 proj.transform.position = projectileSpawnPoint.transform.position;
-                                proj.GetComponent<Projectile>().SetValues(dir, damage, 4.5f);
+                                proj.GetComponent<Projectile>().SetValues(dir, damage, projectileSpeed);
                                 audioManager.Play(SFXSource, "spray");
                                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                                 proj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                                 proj.transform.Rotate(0, 0, 135);
                             }
                         }
+                        break;
+                    case "shield":
+
+                        if (Time.time - lastDamageTime >= shieldCooldown)
+                        {
+                            animator.SetBool("isShield", false);
+                            hasShield = false;
+                        }
+                        Vector3 playerDirection = (player.position - transform.position);
+                        playerDirection.y = 0;
+                        playerDirection = playerDirection.normalized;
+                        FlipTowardsPlayer(playerDirection.x);
+
+                        transform.position += -playerDirection * speed * 1.5f * Time.deltaTime;
                         break;
                     default:
                         break;

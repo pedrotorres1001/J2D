@@ -17,6 +17,9 @@ public class Boss : MonoBehaviour
     public float speed;
     public Rigidbody2D rb;
     public bool engaged = false;
+    public bool hasShield = false;
+    public float shieldCooldown = 4.5f;
+    public float lastDamageTime;
 
     public GameObject leftBoundary;
     public GameObject rightBoundary;
@@ -32,17 +35,23 @@ public class Boss : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
-
-        StartCoroutine(ColorChangeCoroutine());
-
-        bossHealthBar.GetComponent<HealthBar>().Update_health(health, maxHealth);
-
-        audioManager.Play(SFXSource, "enemyDeath");
-
-        if (health <= 0)
+        if (Time.time - lastDamageTime >= shieldCooldown)
         {
-            Die();
+            hasShield = true;
+            lastDamageTime = Time.time;
+
+            health -= damage;
+
+            StartCoroutine(ColorChangeCoroutine());
+
+            bossHealthBar.GetComponent<HealthBar>().Update_health(health, maxHealth);
+
+            audioManager.Play(SFXSource, "enemyDeath");
+
+            if (health <= 0)
+            {
+                Die();
+            }
         }
     }
 

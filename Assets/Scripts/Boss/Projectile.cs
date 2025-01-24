@@ -35,6 +35,7 @@ public class Projectile : MonoBehaviour
         }
 
         audioManager.Play(gameObject.GetComponent<AudioSource>(), "splash");
+
         if (other.CompareTag("Player"))
         {
             other.GetComponent<Player>().TakeDamage(damage);
