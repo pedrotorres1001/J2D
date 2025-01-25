@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -14,6 +13,8 @@ public class RespawnLocationUpdate : MonoBehaviour
     [SerializeField] bool updateMap;
     [SerializeField] int mapLevel;
 
+    private GrapplingHook grapplingHook;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -21,42 +22,42 @@ public class RespawnLocationUpdate : MonoBehaviour
         isLit = false;
         gameSceneManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<GameSceneManager>();
         firstSpawn = gameSceneManager.firstSpawn;
+        grapplingHook = GameObject.FindGameObjectWithTag("Player").GetComponent<GrapplingHook>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             PlayerPrefs.SetFloat("RespawnX", gameObject.transform.position.x);
             PlayerPrefs.SetFloat("RespawnY", gameObject.transform.position.y);
 
-            if(updateMap == true)
+            if (updateMap)
             {
                 gameSceneManager.GetComponent<GameSceneManager>().currentLevel = mapLevel;
             }
-            
-/*            if (firstSpawn == true)
-            {
-                GameObject.FindGameObjectWithTag("SceneManager").GetComponent<GameSceneManager>().firstSpawn = false;
-                print("first spawn");
-            }
-            else
-            {
-                print("second spawn");*/
-                saveManager.SaveData();
-                textAnimator.SetTrigger("spawnText");
-            /*}*/
-
-
 
             if (!isLit)
             {
                 animator.SetBool("isLit", true);
                 isLit = true;
             }
-        }
 
+            // Inicia a corrotina para aguardar `isGrappling` ser true antes de gravar
+            StartCoroutine(WaitForGrapplingAndSave());
+        }
     }
 
+    private IEnumerator WaitForGrapplingAndSave()
+    {
+        // Aguarda até que `isGrappling` seja true
+        while (grapplingHook.isGrappling)
+        {
+            yield return null; // Espera um frame antes de verificar novamente
+        }
 
+        // Grava os dados e dispara a animação do texto
+        saveManager.SaveData();
+        textAnimator.SetTrigger("spawnText");
+    }
 }

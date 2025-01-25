@@ -14,6 +14,7 @@ public class GameSceneManager : MonoBehaviour
     [SerializeField] GameObject map2;
     [SerializeField] Animator irisOutAnimation;
     [SerializeField] GameObject blackPanel;
+    
 
     public int currentLevel;
     private AudioManager audioManager;
@@ -27,6 +28,8 @@ public class GameSceneManager : MonoBehaviour
         get { return totalPlayTime; }
         set { totalPlayTime = value; }
     }
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -54,17 +57,6 @@ public class GameSceneManager : MonoBehaviour
 
         // Definir o Player no SaveManager
         saveManager.SetPlayerReference(playerScript);
-
-        // if(currentLevel == 1)
-        // {
-        //     map1.SetActive(true);
-        //     map2.SetActive(false);
-        // }
-        // else if(currentLevel == 2)
-        // {
-        //     map1.SetActive(false);
-        //     map2.SetActive(true);
-        // }
 
         firstSpawn = true;
 

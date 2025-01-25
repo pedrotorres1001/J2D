@@ -586,7 +586,6 @@ GameObject:
   - component: {fileID: 5573366573326567358}
   - component: {fileID: 968240803360495957}
   - component: {fileID: 617705256544086634}
-  - component: {fileID: 6307554236936114369}
   - component: {fileID: 1960630949218608530}
   m_Layer: 0
   m_Name: Enemy
@@ -759,21 +758,6 @@ MonoBehaviour:
   interval: 1
   SFXSource: {fileID: 6596017895801075551}
   LoopSource: {fileID: 6201493676339873517}
---- !u!114 &6307554236936114369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6593975325983535659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8bb5e9d6678997498f9c36d6337862b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackDamage: 0
-  patrolSpeed: 3
-  isFollowingPlayer: 0
 --- !u!95 &1960630949218608530
 Animator:
   serializedVersion: 5

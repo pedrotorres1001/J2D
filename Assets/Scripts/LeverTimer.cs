@@ -9,9 +9,11 @@ public class LeverTimer : MonoBehaviour
     [SerializeField] Sprite switchUnused;
     [SerializeField] int time;
     private bool isColliding;
+    private Transform player;
 
     private void Start() {
         isColliding = false;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     private void Update() 
@@ -38,6 +40,13 @@ public class LeverTimer : MonoBehaviour
         // Volta o sprite para switchUnused e fecha a porta
         gameObject.GetComponent<SpriteRenderer>().sprite = switchUnused;
         door.SetActive(true);
+
+
+
+        if(player.position.y < door.transform.position.y)
+        {
+            player.position = transform.position;
+        }
 
     }
 

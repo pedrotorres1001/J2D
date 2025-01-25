@@ -464,7 +464,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 4.703125
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -11515,6 +11515,7 @@ MonoBehaviour:
   dialogRange: 1.2
   dialogUI: {fileID: 0}
   dialogText: {fileID: 0}
+  dialogCloseText: {fileID: 0}
 --- !u!4 &377574952
 Transform:
   m_ObjectHideFlags: 0
@@ -18793,7 +18794,7 @@ Tilemap:
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 4.304575
+      m_AnimationSpeed: 6.6029196
       m_AnimationTimeOffset: 5
       m_Flags: 0
   - first: {x: -16, y: -31, z: 0}
@@ -18811,7 +18812,7 @@ Tilemap:
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 5.5333056
+      m_AnimationSpeed: 4.576705
       m_AnimationTimeOffset: 5
       m_Flags: 0
   - first: {x: -15, y: -31, z: 0}
@@ -18829,7 +18830,7 @@ Tilemap:
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 4.3938036
+      m_AnimationSpeed: 4.156576
       m_AnimationTimeOffset: 5
       m_Flags: 0
   - first: {x: -14, y: -31, z: 0}
@@ -18847,7 +18848,7 @@ Tilemap:
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 6.587363
+      m_AnimationSpeed: 4.774931
       m_AnimationTimeOffset: 5
       m_Flags: 0
   m_TileAssetArray:
@@ -19048,6 +19049,9 @@ MonoBehaviour:
   speed: 2
   rb: {fileID: 0}
   engaged: 0
+  hasShield: 0
+  shieldCooldown: 4.5
+  lastDamageTime: 0
   leftBoundary: {fileID: 1495955615}
   rightBoundary: {fileID: 1742207087}
   audioManager: {fileID: 0}
@@ -20615,8 +20619,10 @@ MonoBehaviour:
   saveManager: {fileID: 0}
   player: {fileID: 1908680426}
   map1: {fileID: 0}
+  map2: {fileID: 0}
   irisOutAnimation: {fileID: 0}
   blackPanel: {fileID: 0}
+  currentLevel: 0
   firstSpawn: 0
 --- !u!1 &1612844077 stripped
 GameObject:
