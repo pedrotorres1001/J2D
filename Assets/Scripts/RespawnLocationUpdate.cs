@@ -19,8 +19,8 @@ public class RespawnLocationUpdate : MonoBehaviour
         animator = GetComponent<Animator>();
         saveManager = GameObject.FindGameObjectWithTag("SaveManager").GetComponent<SaveManager>();
         isLit = false;
-
-        firstSpawn = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<GameSceneManager>().firstSpawn;
+        gameSceneManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<GameSceneManager>();
+        firstSpawn = gameSceneManager.firstSpawn;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -30,7 +30,11 @@ public class RespawnLocationUpdate : MonoBehaviour
             PlayerPrefs.SetFloat("RespawnX", gameObject.transform.position.x);
             PlayerPrefs.SetFloat("RespawnY", gameObject.transform.position.y);
 
-
+            if(updateMap == true)
+            {
+                gameSceneManager.GetComponent<GameSceneManager>().currentLevel = mapLevel;
+            }
+            
             if (firstSpawn == true)
             {
                 GameObject.FindGameObjectWithTag("SceneManager").GetComponent<GameSceneManager>().firstSpawn = false;
@@ -43,10 +47,7 @@ public class RespawnLocationUpdate : MonoBehaviour
                 textAnimator.SetTrigger("spawnText");
             }
 
-            if(updateMap == true)
-            {
-                //gameSceneManager.GetComponent<GameSceneManager>().CurrentLevel = mapLevel;
-            }
+
 
             if (!isLit)
             {

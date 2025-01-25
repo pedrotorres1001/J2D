@@ -1,17 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-public class SwitchController : MonoBehaviour
+public class LeverTimer : MonoBehaviour
 {
-    [SerializeField] private GameObject door;
-    [SerializeField] private Sprite switchUsed;
-    [SerializeField] private Sprite switchUnused;
-    private bool isColliding = false;
-    [SerializeField] bool hasTimer;
-    [SerializeField] int time;
-    
 
     private void Start() {
         isColliding = false;
@@ -35,7 +27,6 @@ public class SwitchController : MonoBehaviour
             }
         }
     }
-
     private IEnumerator ActivateSwitchWithTimer()
     {
         // Ativa o switch e altera o sprite

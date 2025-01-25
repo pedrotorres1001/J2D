@@ -18,6 +18,7 @@ TagManager:
   - SceneManager
   - SaveManager
   - Chain
+  - Door
   layers:
   - Default
   - TransparentFX

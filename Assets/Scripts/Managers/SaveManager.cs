@@ -10,7 +10,8 @@ public class PlayerData
 {
     public int health;
     public int experience;
-    public int pickaxeLevel;
+    public int pickaxeAttackDamage;
+    public float pickaxeAttackSpeed;
     public float[] position;
 }
 
@@ -19,6 +20,14 @@ public class EnemyData
 {
     public int health;
     public float[] position;
+}
+
+[System.Serializable]
+public class MapData
+{
+    public string mapName; // Nome do mapa (ex: "map1", "map2")
+    public List<TileData> destroyedTiles; // Tiles destruídos do destructableTilemap
+    public List<TileData> destroyedCrystalTiles; // Tiles destruídos do crystalsTilemap
 }
 
 [System.Serializable]
@@ -36,8 +45,7 @@ public class GameData
     public float totalPlayTime; // Novo campo para o tempo total de jogo
     public PlayerData playerData;
     public List<EnemyData> enemies;
-    public List<TileData> destroyedTiles;
-    public List<TileData> destroyedCrystalTiles;
+    public List<MapData> maps;
 }
 
 public class SaveManager : MonoBehaviour
@@ -54,6 +62,9 @@ public class SaveManager : MonoBehaviour
     public Tilemap destructableTilemap;
     public Tilemap crystalsTilemap;
 
+    public Tilemap destructableTilemap2;
+    public Tilemap crystalsTilemap2;
+
 
     private void Awake()
     {
@@ -67,68 +78,50 @@ public class SaveManager : MonoBehaviour
     // M�todo para salvar os dados do jogador e inimigos
     public void SaveData()
     {
-        // Criar PlayerData com as informa��es do jogador
+        // Dados do jogador
         PlayerData playerData = new PlayerData
         {
             health = playerScript.health,
             experience = playerScript.experience,
-            pickaxeLevel = playerScript.pickaxeLevel,
+            pickaxeAttackSpeed = GameObject.FindGameObjectWithTag("Pickaxe").GetComponent<PickaxeController>().attackSpeed,
+            pickaxeAttackDamage = GameObject.FindGameObjectWithTag("Pickaxe").GetComponent<PickaxeAttack>().attackDamage,
             position = new float[] { playerScript.transform.position.x, playerScript.transform.position.y, playerScript.transform.position.z }
         };
 
-        // Buscar todos os inimigos na cena
+        // Inimigos
         Enemy[] allEnemies = FindObjectsOfType<Enemy>();
-
-        // Criar a lista de EnemyData
         List<EnemyData> enemyDataList = new List<EnemyData>();
         foreach (var enemy in allEnemies)
         {
-            EnemyData enemyData = new EnemyData
+            enemyDataList.Add(new EnemyData
             {
-                health = enemy.Health,  // Supondo que o inimigo tenha um m�todo 'Health()'
+                health = enemy.Health,
                 position = new float[] { enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z }
-            };
-            enemyDataList.Add(enemyData);
+            });
         }
 
-        List<TileData> destroyedTiles = new List<TileData>();
+        // Mapas
+        List<MapData> mapDataList = new List<MapData>();
 
-        foreach (Vector3Int position in destructableTilemap.cellBounds.allPositionsWithin)
-        {
-            // Verifica se o tile est� vazio
-            if (destructableTilemap.GetTile(position) == null)
-            {
-                destroyedTiles.Add(new TileData { x = position.x, y = position.y });
-            }
-        }
-
-        List<TileData> destroyedCrystalTiles = new List<TileData>();
-
-        foreach (Vector3Int position in crystalsTilemap.cellBounds.allPositionsWithin)
-        {
-            // Verifica se o tile est� vazio
-            if (crystalsTilemap.GetTile(position) == null)
-            {
-                destroyedCrystalTiles.Add(new TileData { x = position.x, y = position.y });
-            }
-        }
+        // Adicione aqui todos os mapas
+        SaveMapData("Map1", destructableTilemap, crystalsTilemap, mapDataList);
+        SaveMapData("Map2", destructableTilemap2, crystalsTilemap2, mapDataList); // Exemplo para outro mapa
 
         string currentTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         float accumulatedPlayTime = gameSceneManager.TotalPlayTime;
 
-        // Criar GameData e adicionar PlayerData e inimigos
+        // Dados gerais
         GameData gameData = new GameData
         {
             playerData = playerData,
             enemies = enemyDataList,
-            destroyedTiles = destroyedTiles,
-            destroyedCrystalTiles = destroyedCrystalTiles,
+            maps = mapDataList,
             lastSaveTime = currentTime,
-            level = gameSceneManager.CurrentLevel,
+            level = gameSceneManager.currentLevel,
             totalPlayTime = accumulatedPlayTime
         };
 
-        // Salvar os dados no arquivo JSON
+        // Salvar JSON
         string json = JsonUtility.ToJson(gameData, true);
         File.WriteAllText(filePath, json);
         Debug.Log("Game data saved! Filepath: " + filePath);
@@ -141,52 +134,42 @@ public class SaveManager : MonoBehaviour
         {
             string json = File.ReadAllText(filePath);
             GameData gameData = JsonUtility.FromJson<GameData>(json);
-            Debug.Log("Player and enemies data loaded!");
+            Debug.Log("Game data loaded!");
 
-            // Atualizar os dados do jogador com os dados carregados
+            // Dados do jogador
             playerScript.health = gameData.playerData.health;
             playerScript.experience = gameData.playerData.experience;
-            playerScript.pickaxeLevel = gameData.playerData.pickaxeLevel;
-
-            // Atualizar a posi��o do jogador
+            GameObject.FindGameObjectWithTag("Pickaxe").GetComponent<PickaxeController>().attackSpeed = gameData.playerData.pickaxeAttackSpeed;
+            GameObject.FindGameObjectWithTag("Pickaxe").GetComponent<PickaxeAttack>().attackDamage = gameData.playerData.pickaxeAttackDamage;
             playerScript.transform.position = new Vector3(gameData.playerData.position[0], gameData.playerData.position[1], gameData.playerData.position[2]);
 
-            // Atualizar o tempo total de jogo
-            gameSceneManager.TotalPlayTime = gameData.totalPlayTime; // Carregar o tempo total de jogo
-            gameSceneManager.CurrentLevel = gameData.level;
+            // Tempo total de jogo
+            gameSceneManager.TotalPlayTime = gameData.totalPlayTime;
+            gameSceneManager.currentLevel = gameData.level;
 
-            // Destruir inimigos existentes
-            Enemy[] allEnemies = FindObjectsOfType<Enemy>();
-            foreach (var enemy in allEnemies)
+            // Inimigos
+            foreach (var enemy in FindObjectsOfType<Enemy>())
             {
                 Destroy(enemy.gameObject);
             }
 
-            // Instanciar novos inimigos
             foreach (var enemyData in gameData.enemies)
             {
-                // Instanciar o inimigo na posi��o guardada
                 GameObject enemyObj = Instantiate(enemyPrefab, new Vector3(enemyData.position[0], enemyData.position[1], enemyData.position[2]), Quaternion.identity);
-                Enemy enemyScript = enemyObj.GetComponent<Enemy>();
+                enemyObj.GetComponent<Enemy>().Health = enemyData.health;
+            }
 
-                if (enemyScript != null)
+            // Mapas
+            foreach (var mapData in gameData.maps)
+            {
+                if (mapData.mapName == "Map1")
                 {
-                    enemyScript.Health = enemyData.health;
+                    LoadMapData(mapData, destructableTilemap, crystalsTilemap);
                 }
-            }
-
-            // Remove os tiles destru�dos
-            foreach (var tile in gameData.destroyedTiles)
-            {
-                Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
-                destructableTilemap.SetTile(position, null);
-            }
-
-            // Remove os tiles destru�dos
-            foreach (var tile in gameData.destroyedCrystalTiles)
-            {
-                Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
-                crystalsTilemap.SetTile(position, null);
+                else if (mapData.mapName == "Map2")
+                {
+                    LoadMapData(mapData, destructableTilemap2, crystalsTilemap2); // Exemplo para outro mapa
+                }
             }
         }
         else
@@ -195,9 +178,53 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    // Função para carregar os dados de um único mapa
+    private void LoadMapData(MapData mapData, Tilemap destructableTilemap, Tilemap crystalsTilemap)
+    {
+        foreach (var tile in mapData.destroyedTiles)
+        {
+            Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
+            destructableTilemap.SetTile(position, null);
+        }
+
+        foreach (var tile in mapData.destroyedCrystalTiles)
+        {
+            Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
+            crystalsTilemap.SetTile(position, null);
+        }
+    }
+
     // M�todo para atribuir o Player ao SaveManager
     public void SetPlayerReference(Player player)
     {
         playerScript = player;
+    }
+
+    private void SaveMapData(string mapName, Tilemap destructableTilemap, Tilemap crystalsTilemap, List<MapData> mapDataList)
+    {
+        List<TileData> destroyedTiles = new List<TileData>();
+        foreach (Vector3Int position in destructableTilemap.cellBounds.allPositionsWithin)
+        {
+            if (destructableTilemap.GetTile(position) == null)
+            {
+                destroyedTiles.Add(new TileData { x = position.x, y = position.y });
+            }
+        }
+
+        List<TileData> destroyedCrystalTiles = new List<TileData>();
+        foreach (Vector3Int position in crystalsTilemap.cellBounds.allPositionsWithin)
+        {
+            if (crystalsTilemap.GetTile(position) == null)
+            {
+                destroyedCrystalTiles.Add(new TileData { x = position.x, y = position.y });
+            }
+        }
+
+        mapDataList.Add(new MapData
+        {
+            mapName = mapName,
+            destroyedTiles = destroyedTiles,
+            destroyedCrystalTiles = destroyedCrystalTiles
+        });
     }
 }
