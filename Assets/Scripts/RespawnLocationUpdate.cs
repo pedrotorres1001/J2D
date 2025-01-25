@@ -52,13 +52,11 @@ public class RespawnLocationUpdate : MonoBehaviour
 
     private IEnumerator WaitForGrapplingAndSave()
     {
-        // Aguarda até que `isGrappling` seja true
         while (grapplingHook.isGrappling)
         {
-            yield return null; // Espera um frame antes de verificar novamente
+            yield return null;
         }
 
-        // Grava os dados e dispara a animação do texto
         saveManager.SaveData();
         textAnimator.SetTrigger("spawnText");
     }
