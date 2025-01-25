@@ -7,10 +7,8 @@ public class SwitchController : MonoBehaviour
 {
     [SerializeField] private GameObject door;
     [SerializeField] private Sprite switchUsed;
-    [SerializeField] private Sprite switchUnused;
     private bool isColliding = false;
-    [SerializeField] bool hasTimer;
-    [SerializeField] int time;
+
     
 
     private void Start() {
@@ -23,33 +21,15 @@ public class SwitchController : MonoBehaviour
         {
             if(door != null) 
             {
-                if(hasTimer)
-                {
-                    StartCoroutine(ActivateSwitchWithTimer());
-                }
-                
-                if(!hasTimer){
-                    door.GetComponent<DoorController>().OpenDoor();
-                    gameObject.GetComponent<SpriteRenderer>().sprite = switchUsed;
-                }
+
+                door.GetComponent<DoorController>().OpenDoor();
+                gameObject.GetComponent<SpriteRenderer>().sprite = switchUsed;
+            
             }
         }
     }
 
-    private IEnumerator ActivateSwitchWithTimer()
-    {
-        // Ativa o switch e altera o sprite
-        gameObject.GetComponent<SpriteRenderer>().sprite = switchUsed;
-        door.SetActive(false);
 
-        // Espera o tempo definido
-        yield return new WaitForSeconds(time);
-
-        // Volta o sprite para switchUnused e fecha a porta
-        gameObject.GetComponent<SpriteRenderer>().sprite = switchUnused;
-        door.SetActive(true);
-
-    }
 
     void OnTriggerEnter2D(Collider2D other)
     {

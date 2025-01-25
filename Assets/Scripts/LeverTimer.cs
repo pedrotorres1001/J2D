@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class LeverTimer : MonoBehaviour
 {
+    [SerializeField] GameObject door;
+    [SerializeField] Sprite switchUsed;
+    [SerializeField] Sprite switchUnused;
+    [SerializeField] int time;
+    private bool isColliding;
 
     private void Start() {
         isColliding = false;
@@ -15,15 +20,9 @@ public class LeverTimer : MonoBehaviour
         {
             if(door != null) 
             {
-                if(hasTimer)
-                {
-                    StartCoroutine(ActivateSwitchWithTimer());
-                }
-                
-                if(!hasTimer){
-                    door.GetComponent<DoorController>().OpenDoor();
-                    gameObject.GetComponent<SpriteRenderer>().sprite = switchUsed;
-                }
+
+                StartCoroutine(ActivateSwitchWithTimer());
+
             }
         }
     }
