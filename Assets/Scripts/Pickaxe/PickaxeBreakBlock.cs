@@ -5,39 +5,40 @@ public class PickaxeBreakBlock : MonoBehaviour
 {
     [SerializeField] Tilemap tilemap;
     [SerializeField] Tilemap goldTilemap;
-    [SerializeField] Tilemap rockTilemap;
     [SerializeField] GameObject highlightObject;
     [SerializeField] Camera mainCamera;
     [SerializeField] GameObject player;
-    [SerializeField] float destroyDistance = 2f; // Distance within which blocks can be destroyed
-    [SerializeField] int defaultDurability = 3;
-    [SerializeField] int goldDurability = 5;
+    [SerializeField] float destroyDistance = 2f;
+
+    [SerializeField] int defaultDurability = 3; // Durability for normal blocks
+    [SerializeField] int goldDurability = 5;   // Durability for gold blocks
 
     private Vector3Int tilePos;
     private Vector3 tileWorldPos;
     private Animator animator;
 
-    private AudioManager audioManager;
-    [SerializeField] private AudioSource SFXSource;
+    private PlayerMovement playerMovement;
+
+    // Variables for block durability
+    private int currentDurability;
+    private bool isBreaking;
 
     private void Start()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-        animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>(); 
+        playerMovement = player.GetComponent<PlayerMovement>();
+        animator = player.GetComponent<Animator>();
     }
 
     private void Update()
     {
-        // Get the mouse world position and snap it to the nearest tile
         Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorldPos.z = 0; // Ensure Z is zero for 2D games
-        tilePos = tilemap.WorldToCell(mouseWorldPos); // Convert to tile position
-        tileWorldPos = tilemap.GetCellCenterWorld(tilePos); // Snap to tile center
+        mouseWorldPos.z = 0;
+        tilePos = tilemap.WorldToCell(mouseWorldPos);
+        tileWorldPos = tilemap.GetCellCenterWorld(tilePos);
 
-        // Highlight the tile if it's valid and near enough to the player
-        if ((tilemap.HasTile(tilePos) || goldTilemap.HasTile(tilePos) || rockTilemap.HasTile(tilePos)) && IsTileNearPlayer(tileWorldPos))
+        if ((tilemap.HasTile(tilePos) || goldTilemap.HasTile(tilePos)) && IsTileNearPlayer())
         {
-            HighlightTile(tilePos);
+            HighlightTile();
         }
         else
         {
@@ -45,94 +46,92 @@ public class PickaxeBreakBlock : MonoBehaviour
         }
     }
 
-    void HighlightTile(Vector3Int tilePos)
+    void HighlightTile()
     {
         highlightObject.SetActive(true);
-        highlightObject.transform.position = tilemap.GetCellCenterWorld(tilePos); // Center the highlight object
+        highlightObject.transform.position = tileWorldPos;
     }
 
-    bool IsTileNearPlayer(Vector3 tilePos)
+    bool IsTileNearPlayer()
     {
-        // Check if the block is within the destroyDistance from the player
-        return Vector3.Distance(player.transform.position, tilePos) <= destroyDistance;
+        return Vector3.Distance(player.transform.position, tileWorldPos) <= destroyDistance;
     }
 
     public void BreakBlock()
     {
-        ChangeDirection();
+        UpdatePlayerDirection();
 
-        // Break the block only if it's within the valid distance and facing the correct direction
-        if (IsTileNearPlayer(tileWorldPos) && IsFacingCorrectDirection())
+        if (IsTileNearPlayer() && IsFacingCorrectDirection())
         {
+            // Check which tilemap contains the tile and initialize durability
             if (tilemap.HasTile(tilePos))
             {
-                audioManager.Play("hitRock");
-                HandleDurability(tilemap, tilePos, defaultDurability);
+                StartBreaking(tilePos, tilemap, defaultDurability);
             }
             else if (goldTilemap.HasTile(tilePos))
             {
-                audioManager.Play("hitRock");
-                HandleDurability(goldTilemap, tilePos, goldDurability);
-            }
-            else if (rockTilemap.HasTile(tilePos))
-            {
-                audioManager.Play("hitRock");
-                rockTilemap.SetTile(tilePos, null);
+                StartBreaking(tilePos, goldTilemap, goldDurability);
             }
         }
     }
 
-    void ChangeDirection()
+    void StartBreaking(Vector3Int position, Tilemap map, int maxDurability)
+    {
+        if (!isBreaking)
+        {
+            currentDurability = maxDurability;
+            isBreaking = true;
+            animator.SetBool("IsBreaking", true); // Start breaking animation
+        }
+
+        // Reduce durability
+        currentDurability--;
+
+        if (currentDurability <= 0)
+        {
+            // Break the block
+            map.SetTile(position, null);
+            isBreaking = false;
+            animator.SetBool("IsBreaking", false); // Stop breaking animation
+        }
+    }
+
+    void UpdatePlayerDirection()
     {
         Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorldPos.z = 0; // Ensure Z is zero for 2D games
+        mouseWorldPos.z = 0;
 
-        // Calculate the vector from the player to the cursor
-        Vector3 direction = mouseWorldPos - player.transform.position;
-
-        // Calculate the angle between the player and the cursor
+        Vector3 direction = (mouseWorldPos - player.transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // Determine the direction based on the angle
         if (angle > -45 && angle <= 45)
         {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection = 1;
+            playerMovement.lastDirection = 1; // Right
         }
         else if (angle > 45 && angle <= 135)
         {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection = 3;
+            playerMovement.lastDirection = 3; // Up
         }
         else if (angle > 135 || angle <= -135)
         {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection = -1;
+            playerMovement.lastDirection = -1; // Left
         }
         else if (angle < -45 && angle >= -135)
         {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection = 4;
+            playerMovement.lastDirection = 4; // Down
         }
 
-        // Optional: Debug log to check the angle value
-        Debug.Log("Angle: " + angle + ", LastDirection: " + animator.GetFloat("LastDirection"));
+        animator.SetFloat("LastDirection", playerMovement.lastDirection);
     }
 
     bool IsFacingCorrectDirection()
     {
         Vector3 directionToTile = (tileWorldPos - player.transform.position).normalized;
         float angle = Mathf.Atan2(directionToTile.y, directionToTile.x) * Mathf.Rad2Deg;
-        float lastDirection = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection;
 
-        // Check if the player is facing the correct direction
-        return (lastDirection == 1 && angle > -45 && angle <= 45) ||
-               (lastDirection == 3 && angle > 45 && angle <= 135) ||
-               (lastDirection == -1 && (angle > 135 || angle <= -135)) ||
-               (lastDirection == 4 && angle < -45 && angle >= -135);
-    }
-
-    void HandleDurability(Tilemap targetTilemap, Vector3Int tilePos, int startingDurability)
-    {
-        int currentDurability = BlocksDurabilityManager.Instance.GetOrInitializeDurability(tilePos, startingDurability);
-
-        // Use the BlocksDurabilityManager to reduce durability and update the tile appearance
-        BlocksDurabilityManager.Instance.ReduceDurability(tilePos, targetTilemap);
+        return (playerMovement.lastDirection == 1 && angle > -45 && angle <= 45) ||
+               (playerMovement.lastDirection == 3 && angle > 45 && angle <= 135) ||
+               (playerMovement.lastDirection == -1 && (angle > 135 || angle <= -135)) ||
+               (playerMovement.lastDirection == 4 && angle < -45 && angle >= -135);
     }
 }
