@@ -563,12 +563,15 @@ MonoBehaviour:
   lastDamageTime: 0
   leftBoundary: {fileID: 5066969882879751183}
   rightBoundary: {fileID: 623190860828876689}
+  vital: {fileID: 0}
+  projectionForce: 0
   audioManager: {fileID: 0}
   SFXSource: {fileID: 7321619253067922395}
   LoopSource: {fileID: 7443064752288869820}
   attackCooldown: 2.5
   projectileSpeed: 8
   inAttackRange: 0
+  isAttacking: 0
   state: 
   projectileSpawnPoint: {fileID: 2928442865954745546}
   projectile: {fileID: 6164460985484550308, guid: 08581619df4f2c746949d0f2d1022fc8, type: 3}
