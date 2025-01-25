@@ -25,7 +25,7 @@ public class PortalController : MonoBehaviour
         irisOutAnimation.SetTrigger("Close");
 
         // Aguarda a duração da animação
-        yield return new WaitForSeconds(irisOutAnimation.GetCurrentAnimatorStateInfo(0).length);
+        yield return new WaitForSeconds(.8f);
 
         blackPanel.SetActive(true);
         // Ativa a cena após a animação terminar

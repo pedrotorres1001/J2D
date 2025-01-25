@@ -1379,6 +1379,7 @@ GameObject:
   - component: {fileID: 6367832538980894272}
   - component: {fileID: 3067838398883421997}
   - component: {fileID: 3021804690540976992}
+  - component: {fileID: 6938676404178927385}
   m_Layer: 5
   m_Name: KeybindsButton
   m_TagString: Untagged
@@ -1500,6 +1501,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6938676404178927385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6477834002671998330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca9dfa538d8c1b94b8f72bc1ed6c3cfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonText: {fileID: 6451076868068393233}
+  normalScale: 1
+  hoverScale: 1.2
 --- !u!1 &6515527299743426696
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,17 +35,17 @@ public class RespawnLocationUpdate : MonoBehaviour
                 gameSceneManager.GetComponent<GameSceneManager>().currentLevel = mapLevel;
             }
             
-            if (firstSpawn == true)
+/*            if (firstSpawn == true)
             {
                 GameObject.FindGameObjectWithTag("SceneManager").GetComponent<GameSceneManager>().firstSpawn = false;
                 print("first spawn");
             }
             else
             {
-                print("second spawn");
+                print("second spawn");*/
                 saveManager.SaveData();
                 textAnimator.SetTrigger("spawnText");
-            }
+            /*}*/
 
 
 
