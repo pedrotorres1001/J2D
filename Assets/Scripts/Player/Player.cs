@@ -80,6 +80,8 @@ public class Player : MonoBehaviour
     private IEnumerator WaitDeath()
     {
         yield return new WaitForSeconds(2f);
+        AudioManager audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        audioManager.PlayMusic("track1");
         isAlive = true;
         gameObject.GetComponent<PlayerMovement>().enabled = true;
         animator.SetBool("IsDead", false);

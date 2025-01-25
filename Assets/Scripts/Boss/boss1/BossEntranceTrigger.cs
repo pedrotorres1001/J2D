@@ -11,6 +11,8 @@ public class BossEntranceTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            AudioManager audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+            audioManager.PlayMusic("bossTrack");
             boss.engaged = true;
             bossHealthBar.GetComponent<HealthBar>().Update_health(boss.health, boss.maxHealth);
             bossHealthBar.SetActive(true);
