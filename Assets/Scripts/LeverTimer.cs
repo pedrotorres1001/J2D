@@ -8,6 +8,7 @@ public class LeverTimer : MonoBehaviour
     [SerializeField] Sprite switchUsed;
     [SerializeField] Sprite switchUnused;
     [SerializeField] int time;
+    [SerializeField] int damageWhenHit;
     private bool isColliding;
     private Transform player;
 
@@ -46,6 +47,7 @@ public class LeverTimer : MonoBehaviour
         if(player.position.y < door.transform.position.y)
         {
             player.position = transform.position;
+            player.GetComponent<Player>().TakeDamage(damageWhenHit);
         }
 
     }
