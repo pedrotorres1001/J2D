@@ -35,6 +35,8 @@ public class RespawnLocationUpdate : MonoBehaviour
             if (updateMap)
             {
                 gameSceneManager.GetComponent<GameSceneManager>().currentLevel = mapLevel;
+                PlayerPrefs.SetFloat("FirstRespawnX", gameObject.transform.position.x);
+                PlayerPrefs.SetFloat("FirstRespawnY", gameObject.transform.position.y);
             }
 
             if (!isLit)

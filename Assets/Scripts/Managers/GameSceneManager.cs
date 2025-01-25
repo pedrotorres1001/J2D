@@ -8,6 +8,9 @@ using System.ComponentModel;
 public class GameSceneManager : MonoBehaviour
 {
     [SerializeField] GameObject startRespawnPoint1;
+    [SerializeField] GameObject startRespawnPoint2;
+
+
     [SerializeField] SaveManager saveManager;
     [SerializeField] GameObject player;
     [SerializeField] GameObject map1;
@@ -82,6 +85,11 @@ public class GameSceneManager : MonoBehaviour
             PlayerPrefs.SetFloat("FirstRespawnY", startRespawnPoint1.transform.position.y);
         }
         else if (currentLevel == 2)
+        {
+            PlayerPrefs.SetFloat("FirstRespawnX", startRespawnPoint2.transform.position.x);
+            PlayerPrefs.SetFloat("FirstRespawnY", startRespawnPoint2.transform.position.y);
+        }
+        else if(currentLevel == 3)
         {
 
         }

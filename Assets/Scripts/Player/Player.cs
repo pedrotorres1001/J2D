@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject gameSceneManager;
     private bool isAlive;
     private bool isBlinking;
+    [SerializeField] Animator deathAnimator;
+    [SerializeField] Animator irisOut;
+    [SerializeField] GameObject blackPanel;
 
     private void Start() 
     {
@@ -55,6 +58,7 @@ public class Player : MonoBehaviour
     {
         isAlive = false;
         animator.SetBool("IsDead", true);
+        deathAnimator.SetBool("IsDead", true);
         gameObject.GetComponent<PlayerMovement>().enabled = false;
         StartCoroutine(WaitDeath());
     }
@@ -83,10 +87,14 @@ public class Player : MonoBehaviour
         AudioManager audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         audioManager.PlayMusic("track1");
         isAlive = true;
-        gameObject.GetComponent<PlayerMovement>().enabled = true;
-        animator.SetBool("IsDead", false);
+        
+        deathAnimator.SetBool("IsDead", false);
         health = maxHealth;
+        blackPanel.SetActive(true);
         transform.position = new Vector2(PlayerPrefs.GetFloat("FirstRespawnX"), PlayerPrefs.GetFloat("FirstRespawnY"));
-
+        yield return new WaitForSeconds(1f);
+        gameObject.GetComponent<PlayerMovement>().enabled = true;
+        blackPanel.SetActive(false);
+        irisOut.SetTrigger("Open");
     }
 }
