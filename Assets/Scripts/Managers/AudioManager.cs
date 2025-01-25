@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
+using static Unity.VisualScripting.Member;
 
 public class AudioManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class AudioManager : MonoBehaviour
     public Sound[] sounds;
 
     public Sound[] music;
-    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private GameObject musicSource;
 
     public float masterVolume = 1;
     public float musicVolume = 1;
@@ -38,6 +39,23 @@ public class AudioManager : MonoBehaviour
 
             s.source.outputAudioMixerGroup = mixerGroup;
         }
+
+        foreach (Sound m in music)
+        {
+            m.source = musicSource.AddComponent<AudioSource>();
+            m.source.clip = m.clip;
+            m.source.loop = m.loop;
+            m.source.volume = 0;
+
+            m.source.outputAudioMixerGroup = mixerGroup;
+
+            if (m.name == "track1")
+            {
+                StartCoroutine(TurnUpTrack(m));
+            }
+        }
+
+        
     }
 
     public void loadSettings()
@@ -80,18 +98,58 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(string trackName)
     {
-        Sound s = Array.Find(music, item => item.name == trackName);
-        if (s == null)
+        Sound m = Array.Find(music, item => item.name == trackName);
+        if (m == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
 
-        musicSource.clip = s.clip;
-        musicSource.volume = s.volume * musicVolume * masterVolume;
-        musicSource.pitch = 1;
-        musicSource.loop = true;
+        Sound playing = null;
+        foreach (Sound t in music)
+        {
+            if (t.source.volume > 0)
+            {
+                playing = t;
+            }
+        }
 
-        musicSource.Play();
+        m.source.pitch = 1;
+        m.source.loop = true;
+
+        m.source.Play();
+        m.source.pitch = 1;
+        m.source.loop = true;
+
+        if (playing != null)
+            StartCoroutine(TurnDownTrack(playing));
+        StartCoroutine(TurnUpTrack(m));
+        
+    }
+
+    IEnumerator TurnDownTrack(Sound nowPlaying)
+    {
+        float percentage = 0;
+        while (nowPlaying.source.volume > 0)
+        {
+            nowPlaying.source.volume = Mathf.Lerp(nowPlaying.volume * musicVolume * masterVolume, 0, percentage);
+            percentage += Time.deltaTime / 2;
+            yield return null;
+        }
+
+        nowPlaying.source.Pause();
+    }
+
+    IEnumerator TurnUpTrack(Sound nowPlaying)
+    {
+        float percentage = 0;
+        nowPlaying.source.Play();
+        while (nowPlaying.source.volume < nowPlaying.volume * musicVolume * masterVolume)
+        {
+            Debug.Log("percentage");
+            nowPlaying.source.volume = Mathf.Lerp(0, nowPlaying.volume, percentage);
+            percentage += Time.deltaTime / 2;
+            yield return null;
+        }
     }
 }
