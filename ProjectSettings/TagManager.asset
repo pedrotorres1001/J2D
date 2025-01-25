@@ -19,6 +19,7 @@ TagManager:
   - SaveManager
   - Chain
   - Door
+  - Moss
   layers:
   - Default
   - TransparentFX

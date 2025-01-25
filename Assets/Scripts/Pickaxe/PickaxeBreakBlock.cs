@@ -3,14 +3,15 @@ using UnityEngine.Tilemaps;
 
 public class PickaxeBreakBlock : MonoBehaviour
 {
-    [SerializeField] private Tilemap tilemap;
-    [SerializeField] private Tilemap goldTilemap;
-    [SerializeField] private GameObject highlightObject;
-    [SerializeField] private Camera mainCamera;
-    [SerializeField] private GameObject player;
-    [SerializeField] private float destroyDistance = 2f; // Distance within which blocks can be destroyed
-    [SerializeField] private int defaultDurability = 3;
-    [SerializeField] private int goldDurability = 5;
+    [SerializeField] Tilemap tilemap;
+    [SerializeField] Tilemap goldTilemap;
+    [SerializeField] Tilemap rockTilemap;
+    [SerializeField] GameObject highlightObject;
+    [SerializeField] Camera mainCamera;
+    [SerializeField] GameObject player;
+    [SerializeField] float destroyDistance = 2f; // Distance within which blocks can be destroyed
+    [SerializeField] int defaultDurability = 3;
+    [SerializeField] int goldDurability = 5;
 
     private Vector3Int tilePos;
     private Vector3 tileWorldPos;
@@ -34,7 +35,7 @@ public class PickaxeBreakBlock : MonoBehaviour
         tileWorldPos = tilemap.GetCellCenterWorld(tilePos); // Snap to tile center
 
         // Highlight the tile if it's valid and near enough to the player
-        if ((tilemap.HasTile(tilePos) || goldTilemap.HasTile(tilePos)) && IsTileNearPlayer(tileWorldPos))
+        if ((tilemap.HasTile(tilePos) || goldTilemap.HasTile(tilePos) || rockTilemap.HasTile(tilePos)) && IsTileNearPlayer(tileWorldPos))
         {
             HighlightTile(tilePos);
         }
@@ -72,6 +73,11 @@ public class PickaxeBreakBlock : MonoBehaviour
             {
                 audioManager.Play("hitRock");
                 HandleDurability(goldTilemap, tilePos, goldDurability);
+            }
+            else if (rockTilemap.HasTile(tilePos))
+            {
+                audioManager.Play("hitRock");
+                rockTilemap.SetTile(tilePos, null);
             }
         }
     }
