@@ -146,7 +146,6 @@ public class AudioManager : MonoBehaviour
         nowPlaying.source.Play();
         while (nowPlaying.source.volume < nowPlaying.volume * musicVolume * masterVolume)
         {
-            Debug.Log("percentage");
             nowPlaying.source.volume = Mathf.Lerp(0, nowPlaying.volume, percentage);
             percentage += Time.deltaTime / 2;
             yield return null;

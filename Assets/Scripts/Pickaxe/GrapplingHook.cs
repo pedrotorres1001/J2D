@@ -11,7 +11,8 @@ public class GrapplingHook : MonoBehaviour
     private Vector3 startPoint;                       
     private Vector3 grapplePoint;
     public bool isGrappling = false;             
-    private bool stopGrappling = false;
+    public bool stopGrappling = false;
+    public bool retractRope = false;
     private Vector3 direction;
     private DistanceJoint2D joint;
     public bool hit = false;
@@ -23,6 +24,8 @@ public class GrapplingHook : MonoBehaviour
 
     [SerializeField] private float ropeSpeed = 20f;    
     [SerializeField] private float grappleLength = 20f;
+    [SerializeField] private float grappleGravity = 1f;
+    [SerializeField] private float grappleDrag = 0.2f;
     [SerializeField] private float grappleDistance;
     [SerializeField] private GameObject pickaxe;
     [SerializeField] private GameObject pickaxeGrapple;
@@ -145,6 +148,8 @@ public class GrapplingHook : MonoBehaviour
                 if (playerMovement.CheckGround())
                 {
                     playerMovement.enabled = true;
+                    gameObject.GetComponent<Rigidbody2D>().gravityScale = 5;
+                    gameObject.GetComponent<Rigidbody2D>().drag = 0.2f;
                 }
 
                 break;
@@ -191,7 +196,7 @@ public class GrapplingHook : MonoBehaviour
 
     private IEnumerator MoveRope()
     {        
-        while (Vector3.Distance(startPoint, pickaxeGrapple.transform.position) <= grappleDistance && isGrappling && !hit)
+        while (Vector3.Distance(startPoint, pickaxeGrapple.transform.position) <= grappleDistance && isGrappling && !hit && !retractRope)
         {
             pickaxeGrapple.transform.position += direction * ropeSpeed * Time.deltaTime;
             currentRope.ropeSegLen = Vector3.Distance(currentRope.StartPoint.position, currentRope.EndPoint.position) / currentRope.segmentLength;
@@ -202,6 +207,8 @@ public class GrapplingHook : MonoBehaviour
 
         if (hit)
         {
+            gameObject.GetComponent<Rigidbody2D>().gravityScale = grappleGravity;
+            gameObject.GetComponent<Rigidbody2D>().drag = grappleDrag;
             audioManager.Play(SFXSource, "hitRock");
 
             joint.connectedAnchor = pickaxeGrapple.transform.position;
@@ -258,6 +265,7 @@ public class GrapplingHook : MonoBehaviour
 
         isGrappling = false;
         stopGrappling = false;
+        retractRope = false;
         hit = false;
 
         Destroy(pickaxeGrapple);
