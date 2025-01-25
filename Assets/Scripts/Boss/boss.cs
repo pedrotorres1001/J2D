@@ -24,9 +24,14 @@ public class Boss : MonoBehaviour
     public GameObject leftBoundary;
     public GameObject rightBoundary;
 
+    [SerializeField] GameObject vital;
+    [SerializeField] float projectionForce = 9800f;
+
+
     public AudioManager audioManager;
     public AudioSource SFXSource;
     public AudioSource LoopSource;
+
 
     private void Start()
     {
@@ -47,6 +52,10 @@ public class Boss : MonoBehaviour
             {
                 hasShield = true;
                 lastDamageTime = Time.time;
+                Debug.Log("Vital position: " + vital.transform.position);
+                Debug.Log("player position: " + GameObject.FindGameObjectWithTag("Player").transform.position);
+                Vector3 dir = GameObject.FindGameObjectWithTag("Player").transform.position - vital.transform.position;
+                ProjectPlayer(dir, projectionForce);
             }
 
             StartCoroutine(ColorChangeCoroutine());
@@ -76,6 +85,23 @@ public class Boss : MonoBehaviour
 
         // Revert to the original color
         sprite.color = original;
+    }
+
+    public void ProjectPlayer(Vector3 dir, float force)
+    {
+        Rigidbody2D playerRb = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
+
+        if (playerRb != null)
+        {
+            playerRb.velocity = Vector2.zero;
+            Vector2 projectionForce = dir.normalized * force;
+            projectionForce.y = 1f;
+            playerRb.AddForce(projectionForce, ForceMode2D.Force);
+        }
+        else
+        {
+            Debug.LogWarning("Player Rigidbody2D not found!");
+        }
     }
 
     void Die()
