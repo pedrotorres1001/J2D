@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpikeController : MonoBehaviour
 {
     [SerializeField] float gravity;
+    [SerializeField] int damage;
     private bool collidedWithPickaxe;
 
     private void Start() {
@@ -34,7 +35,7 @@ public class SpikeController : MonoBehaviour
             Destroy(gameObject);
         else if(other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<Player>().TakeDamage(5);
+            other.gameObject.GetComponent<Player>().TakeDamage(damage);
             Destroy(gameObject);
         }
         else if(other.gameObject.CompareTag("Pickaxe"))
