@@ -274,4 +274,24 @@ public class GrapplingHook : MonoBehaviour
         pickaxe.SetActive(true);
         Destroy(currentRope.gameObject);
     }
+
+    public void ResetPickaxe()
+    {
+        // Safeguard in case the object is destroyed before this point
+        if (pickaxeGrapple == null)
+            return;
+
+        joint.enabled = false;
+
+        isGrappling = false;
+        stopGrappling = false;
+        retractRope = false;
+        hit = false;
+
+        Destroy(pickaxeGrapple);
+        pickaxeGrapple = null;
+
+        pickaxe.SetActive(true);
+        Destroy(currentRope.gameObject);
+    }
 }
