@@ -29,15 +29,15 @@ public class RespawnLocationUpdate : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerPrefs.SetFloat("RespawnX", gameObject.transform.position.x);
-            PlayerPrefs.SetFloat("RespawnY", gameObject.transform.position.y);
-
             if (updateMap)
             {
                 gameSceneManager.GetComponent<GameSceneManager>().currentLevel = mapLevel;
                 PlayerPrefs.SetFloat("FirstRespawnX", gameObject.transform.position.x);
                 PlayerPrefs.SetFloat("FirstRespawnY", gameObject.transform.position.y);
             }
+
+            PlayerPrefs.SetFloat("RespawnX", gameObject.transform.position.x);
+            PlayerPrefs.SetFloat("RespawnY", gameObject.transform.position.y);
 
             if (!isLit)
             {

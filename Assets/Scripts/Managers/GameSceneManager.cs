@@ -66,6 +66,8 @@ public class GameSceneManager : MonoBehaviour
         // Iniciar o tempo de sess�o
         sessionStartTime = Time.time;
 
+        SetRespawnPoints();
+
         StartCoroutine(StartAnimation());
     }
 
@@ -74,7 +76,6 @@ public class GameSceneManager : MonoBehaviour
         totalPlayTime += Time.time - sessionStartTime;
         sessionStartTime = Time.time;
 
-        SetRespawnPoints();
     }
 
     private void SetRespawnPoints()
