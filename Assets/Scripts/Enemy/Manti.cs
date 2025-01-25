@@ -63,20 +63,20 @@ public class Manti : Enemy
         
         if (canSeePlayer && distanceToPlayer <= 6 && !isPerformingAction && !colidedWithPlayer) {
             print("Running");
-            animator.SetBool("isRunning", true);
+            animator.SetBool("isDashing", true);
             FollowPlayer();
         }
         else{
-            animator.SetBool("isRunning", false);
+            animator.SetBool("isDashing", false);
         }
 
         if(!canSeePlayer && !colidedWithPlayer) {
             print("Patrolling");
-            animator.SetBool("isPatrolling", true);
+            animator.SetBool("isWalking", true);
             Patrol();
         }
         else {
-            animator.SetBool("isPatrolling", false);
+            animator.SetBool("isWalking", false);
         }
 
         if(colidedWithPlayer)
@@ -140,30 +140,25 @@ public class Manti : Enemy
     private IEnumerator PrepareAndDash() 
     {
         isPerformingAction = true;
-
+    
         // Record the player's position before charging
         playerLastKnownPosition = player.position;
-
+    
         // Calculate dash direction (X-axis only)
         Vector2 dashDirection = new Vector2(playerLastKnownPosition.x - transform.position.x, 0).normalized;
-
+    
         float direction = dashDirection.x > 0 ? 1 : -1; // Determine facing direction
-
+    
         // Stop and wait before charging
         rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(1); // Wait before charging
-        animator.SetBool("isJumping", false);
-        animator.SetBool("isWalking", false);
-        animator.SetBool("isGrabbing", false);
-        animator.SetBool("isGrabAttacking", false);
-        animator.SetBool("isShield", false);
         animator.SetBool("isDashing", true);
-
+    
         // Gradual acceleration variables
         float elapsedTime = 0f;
-        float chargeAccelerationTime = 1f; // Time it takes to reach max speed
+        float chargeAccelerationTime = 0.1f; // Time it takes to reach max speed
         float currentSpeed = 0f;
-
+    
         // Gradually increase speed
         while (elapsedTime < chargeAccelerationTime) 
         {
@@ -172,23 +167,46 @@ public class Manti : Enemy
             rb.velocity = dashDirection * currentSpeed;
             yield return null;
         }
-
+    
         // Maintain max speed for the remaining dash duration
         rb.velocity = dashDirection * dashSpeed;
-
+    
         yield return new WaitForSeconds(dashDuration - chargeAccelerationTime);
-
+    
         animator.SetBool("isDashing", false);
-
+    
         // Stop and wait after charging
         rb.velocity = Vector2.zero;
-        animator.SetBool("isIdle", true);
-        yield return new WaitForSeconds(2);
-        animator.SetBool("isIdle", false);
-
+        yield return new WaitForSeconds(1); // Wait before flipping
+        Flip(direction);
+    
         // Reset state
         isPerformingAction = false;
         hasDashed = true;
+    
+        // Check if the player is close for grabbing attack
+        if (distanceToPlayer <= 2) 
+        {
+            StartCoroutine(GrabAttack());
+        } 
+        else 
+        {
+            StartCoroutine(PrepareAndDash());
+        }
+    }
+    
+    public IEnumerator GrabAttack() 
+    {
+        isPerformingAction = true;
+        animator.SetBool("isGrabbing", true);
+        yield return new WaitForSeconds(0.5f); // Time for grabbing animation
+    
+        animator.SetBool("isGrabbing", false);
+        animator.SetBool("isGrabAttacking", true);
+        yield return new WaitForSeconds(0.5f); // Time for grab attack animation
+    
+        animator.SetBool("isGrabAttacking", false);
+        isPerformingAction = false;
     }
 
     public IEnumerator StopAndWait() {

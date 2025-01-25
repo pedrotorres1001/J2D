@@ -22,7 +22,6 @@ public class PickaxeBreakBlock : MonoBehaviour
     private void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-
         animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>(); 
     }
 
@@ -61,8 +60,8 @@ public class PickaxeBreakBlock : MonoBehaviour
     {
         ChangeDirection();
 
-        // Break the block only if it's within the valid distance
-        if (IsTileNearPlayer(tileWorldPos))
+        // Break the block only if it's within the valid distance and facing the correct direction
+        if (IsTileNearPlayer(tileWorldPos) && IsFacingCorrectDirection())
         {
             if (tilemap.HasTile(tilePos))
             {
@@ -95,7 +94,7 @@ public class PickaxeBreakBlock : MonoBehaviour
         }
         else if (angle > 45 && angle <= 135)
         {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection = 2;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection = 3;
         }
         else if (angle > 135 || angle <= -135)
         {
@@ -103,11 +102,24 @@ public class PickaxeBreakBlock : MonoBehaviour
         }
         else if (angle < -45 && angle >= -135)
         {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection = 3;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection = 4;
         }
 
         // Optional: Debug log to check the angle value
         Debug.Log("Angle: " + angle + ", LastDirection: " + animator.GetFloat("LastDirection"));
+    }
+
+    bool IsFacingCorrectDirection()
+    {
+        Vector3 directionToTile = (tileWorldPos - player.transform.position).normalized;
+        float angle = Mathf.Atan2(directionToTile.y, directionToTile.x) * Mathf.Rad2Deg;
+        float lastDirection = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().lastDirection;
+
+        // Check if the player is facing the correct direction
+        return (lastDirection == 1 && angle > -45 && angle <= 45) ||
+               (lastDirection == 3 && angle > 45 && angle <= 135) ||
+               (lastDirection == -1 && (angle > 135 || angle <= -135)) ||
+               (lastDirection == 4 && angle < -45 && angle >= -135);
     }
 
     void HandleDurability(Tilemap targetTilemap, Vector3Int tilePos, int startingDurability)

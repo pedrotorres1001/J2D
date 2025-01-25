@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -75,6 +77,16 @@ public class PlayerMovement : MonoBehaviour
             direction = 1;
             lastDirection = 1;
         }
+        else if (!isGrounded && Input.GetKey(KeyManager.KM.moveup)) {
+            direction = 3;
+            lastDirection = 3;
+            animator.SetFloat("LastDirection", lastDirection);
+        }
+        else if (!isGrounded && Input.GetKey(KeyManager.KM.movedown)) {
+            direction = 4;
+            lastDirection = 4;
+            animator.SetFloat("LastDirection", lastDirection);
+        }
         else
         {
             direction = 0;
@@ -111,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
             timer = 0f; // Reseta o temporizador
         }
 
-        if (Input.GetKey(KeyManager.KM.jump) && isGrounded)
+        if (Input.GetKeyDown(KeyManager.KM.jump) && isGrounded)
         {
             dust.Play();
             Jump();
@@ -134,7 +146,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isSliding && knockbackCounter <= 0)
         {
-            rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+            if (direction == 3) // Up
+            {
+                rb.velocity = new Vector2(rb.velocity.x, speed);
+            }
+            else if (direction == 4) // Down
+            {
+                rb.velocity = new Vector2(rb.velocity.x, -speed);
+            }
+            else
+            {
+                rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+            }
         }
 
         if (knockbackCounter > 0)
