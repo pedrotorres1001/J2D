@@ -8,14 +8,22 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float speed;
     [SerializeField] float jumpForce;
     [SerializeField] float stairsForce;
-    [SerializeField] bool isGrounded;
+    public bool isGrounded;
 
-    [SerializeField] float groundCheckDistance;
+    public float groundCheckDistance;
     [SerializeField] float wallCheckDistance;
     [SerializeField] LayerMask groundLayer;
 
     [SerializeField] float gravity;
-    public float Gravity { get; set; }
+    public float Gravity
+    {
+        get { return gravity; }
+        set
+        {
+            gravity = value;
+            rb.gravityScale = gravity; // Atualiza diretamente a gravidade no Rigidbody2D
+        }
+    }
     [SerializeField] float wallSlideSpeed;
     [SerializeField] float wallSlideDuration = 2f; // Limit slide time
 
@@ -42,11 +50,13 @@ public class PlayerMovement : MonoBehaviour
 
     public float direction;
     public float altitude;
+    public bool isOnMoss;
 
     private bool isGrappling = false;
     private bool isSliding = false;
     private float slideTimer;
     private bool isInvulnerable = false;
+    public bool slideEnabled;
 
     void Start()
     {
@@ -56,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         lastDirection = -1;
         animator.SetFloat("LastDirection", lastDirection);
+        slideEnabled = true;
     }
 
     void Update()
@@ -138,7 +149,8 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsGrappling", false);
         }
 
-        HandleWallSlide();
+        if(slideEnabled)
+            HandleWallSlide();
     }
 
     private void FixedUpdate()
@@ -195,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float CheckGroundDistance()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 2f, groundLayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position , Vector2.down, 2f, groundLayer);
         if (hit.collider != null)
         {
             return hit.distance;
@@ -219,7 +231,7 @@ public class PlayerMovement : MonoBehaviour
         float groundDistance = CheckGroundDistance();
 
         // Verifica se o jogador está a mais de 2 unidades acima do chão e se ele não está tocando o chão
-        if (!isGrounded && (hitRight.collider != null || hitLeft.collider != null) && rb.velocity.y < 0 && groundDistance > 2f)
+        if (!isGrounded && (hitRight.collider != null || hitLeft.collider != null) && rb.velocity.y < 0 && groundDistance > 2f && !isOnMoss)
         {
             if (!isSliding)
             {
