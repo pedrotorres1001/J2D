@@ -18,6 +18,8 @@ public class DamageRespawn : MonoBehaviour
             other.gameObject.GetComponent<Player>().TakeDamage(damage);
 
             player.transform.position = new Vector2(PlayerPrefs.GetFloat("RespawnX"), PlayerPrefs.GetFloat("RespawnY"));
+
+            player.GetComponentInChildren<GrapplingHook>().ResetPickaxe();
         }
     }
 }

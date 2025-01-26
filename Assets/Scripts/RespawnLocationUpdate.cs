@@ -29,15 +29,15 @@ public class RespawnLocationUpdate : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerPrefs.SetFloat("RespawnX", gameObject.transform.position.x);
-            PlayerPrefs.SetFloat("RespawnY", gameObject.transform.position.y);
-
             if (updateMap)
             {
                 gameSceneManager.GetComponent<GameSceneManager>().currentLevel = mapLevel;
                 PlayerPrefs.SetFloat("FirstRespawnX", gameObject.transform.position.x);
                 PlayerPrefs.SetFloat("FirstRespawnY", gameObject.transform.position.y);
             }
+
+            PlayerPrefs.SetFloat("RespawnX", gameObject.transform.position.x);
+            PlayerPrefs.SetFloat("RespawnY", gameObject.transform.position.y);
 
             if (!isLit)
             {
@@ -52,13 +52,11 @@ public class RespawnLocationUpdate : MonoBehaviour
 
     private IEnumerator WaitForGrapplingAndSave()
     {
-        // Aguarda até que `isGrappling` seja true
         while (grapplingHook.isGrappling)
         {
-            yield return null; // Espera um frame antes de verificar novamente
+            yield return null;
         }
 
-        // Grava os dados e dispara a animação do texto
         saveManager.SaveData();
         textAnimator.SetTrigger("spawnText");
     }

@@ -4,22 +4,23 @@ using UnityEngine;
 
 public class Manti : Enemy
 {
-    [SerializeField] private float dashSpeed = 10f;
-    [SerializeField] private float dashDuration = 0.2f;
-    [SerializeField] private float dashCooldown = 1.5f;
+    [SerializeField] private float dashSpeed = 20f;
+    [SerializeField] private float dashDuration = 0.1f;
+    [SerializeField] private float dashCooldown = 2f;
     [SerializeField] public int attackDamage;
-
-    [SerializeField] private int maxHealth = 100;
-    private int currentHealth;
+    [SerializeField] private float attackCooldown = 1f;
+    [SerializeField] private float knockbackForce = 10f;
 
     [SerializeField] ParticleSystem dustParticles;
     [SerializeField] private AudioSource SFXSource;
     [SerializeField] private AudioSource LoopSource;
 
     private float lastDashTime;
+    private float lastAttackTime;
     private Transform player;
     private Rigidbody2D rb;
     private Animator animator;
+    private PolygonCollider2D polygonCollider;
 
     private EyeCollider eyeCollider;
     private bool canSeePlayer;
@@ -34,16 +35,25 @@ public class Manti : Enemy
     private int direction = 1;
     private float patrolSpeed = 3f;
 
+    private int grabHits;
+    private const int maxGrabHits = 3;
+
+    private int playerHits;
+    private const int maxPlayerHits = 3;
+
     protected override void Start()
     {
         base.Start();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        polygonCollider = GetComponent<PolygonCollider2D>();
         eyeCollider = GetComponentInChildren<EyeCollider>();
-
         lastDashTime = -dashCooldown; // Allow immediate dash at start
-        currentHealth = maxHealth; // Initialize health
+        lastAttackTime = -attackCooldown; // Allow immediate attack at start
+
+        // Ensure the polygon collider is set as a trigger
+        polygonCollider.isTrigger = true;
     }
 
     private void Update()
@@ -75,10 +85,13 @@ public class Manti : Enemy
 
             case "grab":
                 GrabAttack();
-                if (stateTimer >= 1f)
+                if (playerHits >= maxPlayerHits)
                 {
+                    KnockbackPlayer();
                     state = "patrol";
                     stateTimer = 0f;
+                    playerHits = 0;
+                    grabHits = 0;
                 }
                 break;
 
@@ -139,8 +152,25 @@ public class Manti : Enemy
 
         if (distanceToPlayer <= 1.5f)
         {
-            player.GetComponent<Player>().TakeDamage(attackDamage);
+            // Move the player to the level of the head of the mantis
+            Vector3 playerPosition = player.position;
+            playerPosition.y = transform.position.y + 1.5f; // Adjust the y value as needed
+            player.position = playerPosition;
+
+            // Deal damage to the player if cooldown has passed
+            if (Time.time - lastAttackTime >= attackCooldown)
+            {
+                player.GetComponent<Player>().TakeDamage(attackDamage);
+                lastAttackTime = Time.time;
+                grabHits++;
+            }
         }
+    }
+
+    private void KnockbackPlayer()
+    {
+        Vector2 knockbackDirection = (player.position - transform.position).normalized;
+        player.GetComponent<Rigidbody2D>().AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
     }
 
     private void Stun()
@@ -156,45 +186,25 @@ public class Manti : Enemy
         transform.localScale = localScale;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("Player") && isDashing)
+        if (other.CompareTag("Player") && isDashing)
         {
-            collision.gameObject.GetComponent<Player>().TakeDamage(attackDamage);
+            other.GetComponent<Player>().TakeDamage(attackDamage);
             dashHitPlayer = true;
         }
+    }
 
-        // Handle damage from player attacks
-        if (collision.gameObject.CompareTag("PlayerAttack"))
+    public void PlayerHitMantis()
+    {
+        playerHits++;
+        if (playerHits >= maxPlayerHits)
         {
-            int damage = collision.gameObject.GetComponent<Player>().health;
-            TakeDamage(damage);
+            KnockbackPlayer();
+            state = "patrol";
+            stateTimer = 0f;
+            playerHits = 0;
+            grabHits = 0;
         }
-    }
-
-    public void TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        animator.SetTrigger("isHurt");
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-    }
-
-    private void Die()
-    {
-        animator.SetTrigger("isDead");
-        rb.velocity = Vector2.zero;
-        GetComponent<Collider2D>().enabled = false;
-        this.enabled = false;
-        // Play death particles or SFX
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 1.5f); // Show grab range
     }
 }
