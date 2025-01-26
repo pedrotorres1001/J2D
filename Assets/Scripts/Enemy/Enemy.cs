@@ -47,11 +47,10 @@ public abstract class Enemy : MonoBehaviour
         // Play death sound
         audioManager.Play("enemyDeath");
 
-        Instantiate(deathPrefab, transform.position, Quaternion.identity);
         for (int i = 0; i < experiencePoints; i++)
         {
             float randomX = Random.Range(transform.position.x-2, transform.position.x + 2);
-            Instantiate(crystal, new Vector3(randomX, transform.position.y, transform.position.z), Quaternion.identity);
+            Instantiate(crystal, new Vector3(randomX, transform.position.y - 2, transform.position.z), Quaternion.identity);
         }
 
             Destroy(gameObject);

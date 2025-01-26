@@ -748,7 +748,7 @@ MonoBehaviour:
   health_bar: {fileID: 0}
   speed: 0
   sightRange: 0
-  crystal: {fileID: 4813930974092361159, guid: 60e9b35848e39a64f8e2d1c0d17c589b, type: 3}
+  crystal: {fileID: 1864772398277393780, guid: 65b98dc0d047d48b5a301953b6143c07, type: 3}
   experiencePoints: 2
   deathPrefab: {fileID: 3689511419877391624, guid: 4f6e3b2a7bbdba54e877a127a40e0bc4, type: 3}
   dashSpeed: 10

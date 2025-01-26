@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1377681472884911585}
   - component: {fileID: 6942000346288058232}
   - component: {fileID: 730434422603697441}
-  - component: {fileID: 4092356021933655235}
   - component: {fileID: 3616196129722157383}
   m_Layer: 0
   m_Name: Crystal
@@ -77,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 186915227, guid: df893e6c5ff93e842b1c761caaa410ea, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 7f7614dfb3b96492c8586837553ad527, type: 3}
+  m_Color: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -158,33 +157,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.0011144365, y: 0.030150754}
   m_Size: {x: 0.26967186, y: 0.33220905}
   m_Direction: 0
---- !u!50 &4092356021933655235
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4813930974092361159}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!114 &3616196129722157383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,4 +170,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floatSpeed: 1
-  raycastDistance: 0.5
+  floatRange: 0.2

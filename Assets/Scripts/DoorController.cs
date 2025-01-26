@@ -9,12 +9,13 @@ public class DoorController : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera camera;
     [SerializeField] Sprite openedDoor;
     [SerializeField] Sprite closedDoor;
-    [SerializeField] SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer;
 
     private bool isOpen;
 
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         isOpen = false;
     }
 
@@ -37,6 +38,7 @@ public class DoorController : MonoBehaviour
 
     private IEnumerator OpenDoorAnimation()
     {
+        yield return new WaitForSeconds(1.5f);
         camera.Follow = transform;
         yield return new WaitForSeconds(1.5f);
         spriteRenderer.sprite = openedDoor;

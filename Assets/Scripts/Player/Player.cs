@@ -84,17 +84,19 @@ public class Player : MonoBehaviour
     private IEnumerator WaitDeath()
     {
         yield return new WaitForSeconds(2f);
+        //blackPanel.SetActive(true);
+
         AudioManager audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         audioManager.PlayMusic("track1");
         isAlive = true;
-        
+        transform.position = new Vector2(PlayerPrefs.GetFloat("FirstRespawnX"), PlayerPrefs.GetFloat("FirstRespawnY"));
+        //blackPanel.SetActive(false);
+
         deathAnimator.SetBool("IsDead", false);
         health = maxHealth;
-        blackPanel.SetActive(true);
-        transform.position = new Vector2(PlayerPrefs.GetFloat("FirstRespawnX"), PlayerPrefs.GetFloat("FirstRespawnY"));
-        yield return new WaitForSeconds(1f);
+        
         gameObject.GetComponent<PlayerMovement>().enabled = true;
-        blackPanel.SetActive(false);
+  
         irisOut.SetTrigger("Open");
     }
 }

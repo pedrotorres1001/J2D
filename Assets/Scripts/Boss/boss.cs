@@ -33,6 +33,10 @@ public class Boss : MonoBehaviour
     public AudioSource LoopSource;
 
 
+    [SerializeField] DoorController triggerDoor;
+    [SerializeField] GameObject explosionPrefab;
+    [SerializeField] GameObject crystal;
+
     private void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -107,7 +111,15 @@ public class Boss : MonoBehaviour
     void Die()
     {
         audioManager.PlayMusic("track1");
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
+        
+        triggerDoor.OpenDoor();
+        Instantiate(explosionPrefab, transform.position, transform.rotation);
+        for (int i = 0; i < experiencePoints; i++)
+        {
+            float randomX = Random.Range(transform.position.x-3, transform.position.x + 3);
+            Instantiate(crystal, new Vector3(randomX, transform.position.y, transform.position.z), Quaternion.identity);
+        }
+
         bossHealthBar.SetActive(false);
         Destroy(gameObject);
 

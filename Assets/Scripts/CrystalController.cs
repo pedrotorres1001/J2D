@@ -2,49 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrystalCrontroller : MonoBehaviour
+public class CrystalController : MonoBehaviour
 {
-    private Rigidbody2D rb;
-    private bool hasLanded = false;
     private Vector3 startPosition;
-    private Vector3 groundPosition;
+    private Vector3 floatPosition;
+
+    private int experience = 10;
 
     public float floatSpeed = 1f; // Velocidade da flutuação
-    private int experience = 15;
+    public float floatRange = 0.5f; // Distância para baixo a flutuar
 
     private GameObject player;
- 
-     void Start()
+
+    void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         startPosition = transform.position; // Guardar posição inicial
+        floatPosition = startPosition + Vector3.down * floatRange; // Calcular a posição ligeiramente abaixo
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
     {
-        if (hasLanded)
-        {
-            // Flutuar entre a posição inicial e a posição onde tocou no chão
-            float t = Mathf.PingPong(Time.time * floatSpeed, 1f);
-            transform.position = Vector3.Lerp(groundPosition, startPosition, t);
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!hasLanded && (collision.collider.CompareTag("Ground") || collision.collider.CompareTag("Destructable")))
-        {
-            rb.bodyType = RigidbodyType2D.Static; // Tornar o cristal estático
-
-            // Guardar a posição onde colidiu com o chão
-            groundPosition = transform.position;
-
-            // Parar o movimento do cristal
-            rb.velocity = Vector2.zero;
-
-            hasLanded = true;
-        }
+        // Flutuar entre a posição inicial e a posição ligeiramente abaixo
+        float t = Mathf.PingPong(Time.time * floatSpeed, 1f);
+        transform.position = Vector3.Lerp(startPosition, floatPosition, t);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -84,10 +84,12 @@ public class Boar : Enemy
             StartCoroutine(StopAndWait());
         }
 
-        if (gameObject.GetComponent<Rigidbody2D>().velocity.x != 0 && timer >= interval)
+        timer += Time.deltaTime;
+
+        if (direction != 0 && timer >= interval)
         {
-            dustParticles.Play(); // Reproduz as part�culas
-            timer = 0f; // Reseta o temporizador   
+            dustParticles.Play();
+            timer = 0f;   
         }
 
     }
