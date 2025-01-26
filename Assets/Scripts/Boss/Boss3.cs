@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class Boss3 : MonoBehaviour
 {
@@ -17,26 +19,269 @@ public class Boss3 : MonoBehaviour
     public float shieldCooldown = 4.5f;
     public float lastDamageTime;
 
-    [SerializeField] GameObject vital;
+    public GameObject leftBoundary;
+    public GameObject rightBoundary;
+
     [SerializeField] float projectionForce = 9800f;
 
+    public GameObject projectileSpawnPoint;
+    [SerializeField] private GameObject vital;
 
     public AudioManager audioManager;
-    public AudioSource SFXSource;
-    public AudioSource LoopSource;
 
-    [SerializeField] GameObject[] positions;
-    [SerializeField] GameObject[] attackPositions;
+    [SerializeField] Boss3Trigger[] rechargePositions;
+    [SerializeField] Boss3Trigger[] attackPositions;
 
+    [SerializeField] private GameObject fireBall;
+    [SerializeField] private int fireBallDamage = 8;
+    [SerializeField] private float fireBallSpeed = 6f;
 
-    private string state;
+    [SerializeField] private GameObject projectile;
+    [SerializeField] private int projectileDamage = 8;
+    [SerializeField] private float projectileSpeed = 6f;
+
+    [SerializeField] private GameObject groundFire;
+    [SerializeField] private GameObject fireStartPos;
+
+    private int numAttacks = 0;
+
+    public string state;
+
+    private Transform player;
+
+    private bool animationStarted = false;
+    private bool isRecharging = false;
+    private bool isTeleporting = false;
+    private Vector3 targetPosition;
+
+    private float rechargeStart;
+    [SerializeField] private float rechargeTime = 4;
 
     private void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        state = "fireball";
+
     }
 
+    private void Update()
+    {
+        switch (engaged)
+        {
+            case true:
 
+                switch (state)
+                {
+                    case "fireball":
+                        if (!animationStarted)
+                        {
+                            animationStarted = true;
+                            GetComponent<Animator>().Play("FinalBossFireBall", -1, 0f); 
+                        }
+                        break;
+                    case "projectile":
+                        if (!animationStarted)
+                        { 
+                            animationStarted = true;
+                            GetComponent<Animator>().Play("FinalBossMultipleFire", -1, 0f);
+                        }
+                        break;
+                    case "spike":
+                        break;
+                    case "flames":
+                        if (!animationStarted)
+                        { 
+                            animationStarted = true;
+                            GetComponent<Animator>().Play("FinalBossFireJump", -1, 0f);
+                        }
+                        break;
+                    case "recharge":
+                        if (Time.time - rechargeStart >= rechargeTime)
+                        {
+                            isRecharging = false;
+                            numAttacks = 0;
+                            state = "teleport";
+                            ChooseNextPosition();
+                        }
+                        break;
+                    case "teleport":
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case false:
+                break;
+        }
+    }
+
+    public void AnimationEnd()
+    {
+        if (numAttacks >= 4 && !isRecharging)
+        {
+            state = "teleport";
+            isRecharging = true;
+            rechargeStart = Time.time;
+            ChooseNextPosition();
+            return;
+        }
+
+        switch (state)
+        {
+            case "fireball":
+                numAttacks++;
+                DecideAttack();
+
+                break;
+            case "projectile":
+                numAttacks++;
+                DecideAttack();
+
+                break;
+            case "spike":
+                numAttacks++;
+                DecideAttack();
+                break;
+            case "flames":
+                numAttacks++;
+                DecideAttack();
+                break;
+            case "recharge":
+                break;
+            case "teleport":
+                if (isTeleporting)
+                {
+                    if (!isRecharging)
+                    {
+                        transform.position = targetPosition;
+                        gameObject.GetComponent<Animator>().Play("FinalBossTeleportEnd", -1, 0f);
+                    }
+                    else
+                    {
+                        transform.position = targetPosition;
+                        gameObject.GetComponent<Animator>().Play("FinalBossTeleportRechargeStart", -1, 0f);
+                    }
+                    isTeleporting = false;
+                }
+                else
+                {
+                    if (isRecharging)
+                    {
+                        state = "recharge";
+                    }
+                    else
+                    {
+                        DecideAttack();
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        
+        animationStarted = false;
+    }
+
+    private void DecideAttack()
+    {
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        float yDifference = Mathf.Abs(transform.position.y - 3f - player.position.y);
+
+
+        if (yDifference <= 1.5f)
+        {
+
+            state = "flames";
+        }
+        else
+        {
+            if (UnityEngine.Random.Range(0, 10) < 5)
+            {
+                state = "fireball";
+            }
+            else
+            {
+                state = "projectile";
+            }
+        }
+    }
+
+    private void ChooseNextPosition()
+    {
+        if (isRecharging)
+        {
+            List<Boss3Trigger> targetPositions = new List<Boss3Trigger>();
+            foreach (Boss3Trigger pos in rechargePositions)
+            {
+                if (!pos.isPlayerInArea)
+                {
+                    targetPositions.Add(pos);
+                }
+            }
+
+            if (targetPositions.Count > 0) 
+            {
+                gameObject.GetComponent<Animator>().Play("FinalBossTeleportStart", -1, 0f);
+                isTeleporting = true;
+                targetPosition = targetPositions[UnityEngine.Random.Range(0, targetPositions.Count)].transform.position;
+            }
+        }
+        else
+        {
+            List<Boss3Trigger> targetPositions = new List<Boss3Trigger>();
+            foreach (Boss3Trigger pos in attackPositions)
+            {
+                if (!pos.isPlayerInArea)
+                {
+                    targetPositions.Add(pos);
+                }
+            }
+            if (targetPositions.Count > 0)
+            {
+                gameObject.GetComponent<Animator>().Play("FinalBossTeleportStart", -1, 0f);
+                isTeleporting = true;
+                targetPosition = targetPositions[UnityEngine.Random.Range(0, targetPositions.Count)].transform.position;
+            }
+        }
+    }
+
+    public void CreateFireBall()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        Vector3 dir = (player.transform.position - projectileSpawnPoint.transform.position).normalized;
+
+        GameObject proj = Instantiate(fireBall);
+        proj.transform.position = projectileSpawnPoint.transform.position;
+        proj.GetComponent<Projectile>().SetValues(dir, fireBallDamage, fireBallSpeed);
+    }
+
+    public void CreateProjectile()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        Vector3 dir = (player.transform.position - projectileSpawnPoint.transform.position).normalized;
+
+        GameObject proj = Instantiate(projectile);
+        proj.transform.position = projectileSpawnPoint.transform.position;
+        proj.GetComponent<Projectile>().SetValues(dir, fireBallDamage, fireBallSpeed);
+
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        proj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        proj.transform.Rotate(0, 0, 180);
+    }
+
+    public void CreateFire()
+    {
+        GameObject fire = Instantiate(groundFire);
+        fire.transform.position = fireStartPos.transform.position;
+
+        fire.GetComponent<Fire>().maxLeft = leftBoundary;
+        fire.GetComponent<Fire>().maxRight = rightBoundary;
+
+    }
 
     public void TakeDamage(int damage)
     {
@@ -62,7 +307,7 @@ public class Boss3 : MonoBehaviour
 
             bossHealthBar.GetComponent<HealthBar>().Update_health(health, maxHealth);
 
-            audioManager.Play(SFXSource, "enemyDeath");
+            audioManager.Play(GetComponent<AudioSource>(), "enemyDeath");
 
             if (health <= 0)
             {
@@ -73,7 +318,7 @@ public class Boss3 : MonoBehaviour
 
     public IEnumerator ColorChangeCoroutine()
     {
-        SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
         Color damaged = Color.red;
         Color original = Color.white;
 
