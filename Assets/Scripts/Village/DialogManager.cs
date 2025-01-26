@@ -113,6 +113,10 @@ public class DialogManager : MonoBehaviour
             {
                 characterImage.sprite = gregImage;
             }
+            else if (line.characterName == "King")
+            {
+                characterImage.sprite = gregImage;
+            }
             Debug.Log("Showing dialog line: " + line.text);
         }
     }
