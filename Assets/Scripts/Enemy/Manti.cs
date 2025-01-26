@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class Manti : Enemy
 {
-    [SerializeField] private float dashSpeed = 10f;
-    [SerializeField] private float dashDuration = 0.2f;
-    [SerializeField] private float dashCooldown = 1.5f;
+    [SerializeField] private float dashSpeed = 20f;
+    [SerializeField] private float dashDuration = 0.1f;
+    [SerializeField] private float dashCooldown = 2f;
     [SerializeField] public int attackDamage;
-
-    [SerializeField] private int maxHealth = 100;
-    private int currentHealth;
 
     [SerializeField] ParticleSystem dustParticles;
     [SerializeField] private AudioSource SFXSource;
@@ -20,6 +17,7 @@ public class Manti : Enemy
     private Transform player;
     private Rigidbody2D rb;
     private Animator animator;
+    private PolygonCollider2D polygonCollider;
 
     private EyeCollider eyeCollider;
     private bool canSeePlayer;
@@ -34,16 +32,21 @@ public class Manti : Enemy
     private int direction = 1;
     private float patrolSpeed = 3f;
 
+    private int grabHits;
+    private const int maxGrabHits = 3;
+
     protected override void Start()
     {
         base.Start();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        polygonCollider = GetComponent<PolygonCollider2D>();
         eyeCollider = GetComponentInChildren<EyeCollider>();
-
         lastDashTime = -dashCooldown; // Allow immediate dash at start
-        currentHealth = maxHealth; // Initialize health
+
+        // Ensure the polygon collider is set as a trigger
+        polygonCollider.isTrigger = true;
     }
 
     private void Update()
@@ -75,10 +78,11 @@ public class Manti : Enemy
 
             case "grab":
                 GrabAttack();
-                if (stateTimer >= 1f)
+                if (grabHits >= maxGrabHits)
                 {
                     state = "patrol";
                     stateTimer = 0f;
+                    grabHits = 0;
                 }
                 break;
 
@@ -139,7 +143,14 @@ public class Manti : Enemy
 
         if (distanceToPlayer <= 1.5f)
         {
+            // Move the player to the level of the head of the mantis
+            Vector3 playerPosition = player.position;
+            playerPosition.y = transform.position.y + 1.5f; // Adjust the y value as needed
+            player.position = playerPosition;
+
+            // Deal damage to the player
             player.GetComponent<Player>().TakeDamage(attackDamage);
+            grabHits++;
         }
     }
 
@@ -156,45 +167,12 @@ public class Manti : Enemy
         transform.localScale = localScale;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("Player") && isDashing)
+        if (other.CompareTag("Player") && isDashing)
         {
-            collision.gameObject.GetComponent<Player>().TakeDamage(attackDamage);
+            other.GetComponent<Player>().TakeDamage(attackDamage);
             dashHitPlayer = true;
         }
-
-        // Handle damage from player attacks
-        if (collision.gameObject.CompareTag("PlayerAttack"))
-        {
-            int damage = collision.gameObject.GetComponent<Player>().health;
-            TakeDamage(damage);
-        }
-    }
-
-    public void TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        animator.SetTrigger("isHurt");
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-    }
-
-    private void Die()
-    {
-        animator.SetTrigger("isDead");
-        rb.velocity = Vector2.zero;
-        GetComponent<Collider2D>().enabled = false;
-        this.enabled = false;
-        // Play death particles or SFX
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 1.5f); // Show grab range
     }
 }
