@@ -278,6 +278,7 @@ public class Boss3 : MonoBehaviour
 
         Vector3 dir = (player.transform.position - projectileSpawnPoint.transform.position).normalized;
 
+        audioManager.Play("fireBall");
         GameObject proj = Instantiate(fireBall);
         proj.transform.position = projectileSpawnPoint.transform.position;
         proj.GetComponent<Projectile>().SetValues(dir, fireBallDamage, fireBallSpeed);
@@ -289,6 +290,7 @@ public class Boss3 : MonoBehaviour
 
         Vector3 dir = (player.transform.position - projectileSpawnPoint.transform.position).normalized;
 
+        audioManager.Play("fireProjectile");
         GameObject proj = Instantiate(projectile);
         proj.transform.position = projectileSpawnPoint.transform.position;
         proj.GetComponent<Projectile>().SetValues(dir, projectileDamage, projectileSpeed);
@@ -300,6 +302,7 @@ public class Boss3 : MonoBehaviour
 
     public void CreateFire()
     {
+        audioManager.Play("stomp");
         lastStomp = Time.time;
         GameObject fire = Instantiate(groundFire);
         fire.transform.position = fireStartPos.transform.position;

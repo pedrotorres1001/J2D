@@ -108,6 +108,24 @@ public class Boss : MonoBehaviour
         }
     }
 
+    public void ProjectPlayer(float force)
+    {
+        Rigidbody2D playerRb = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
+        Vector3 dir = GameObject.FindGameObjectWithTag("Player").transform.position - vital.transform.position;
+
+        if (playerRb != null)
+        {
+            playerRb.velocity = Vector2.zero;
+            Vector2 projectionForce = dir.normalized * force;
+            projectionForce.y = 1f;
+            playerRb.AddForce(projectionForce, ForceMode2D.Force);
+        }
+        else
+        {
+            Debug.LogWarning("Player Rigidbody2D not found!");
+        }
+    }
+
     void Die()
     {
         audioManager.PlayMusic("track1");

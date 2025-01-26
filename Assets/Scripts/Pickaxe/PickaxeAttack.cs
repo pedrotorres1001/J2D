@@ -27,6 +27,11 @@ public class PickaxeAttack : MonoBehaviour
                         {
                             enemyTransform.GetComponent<Enemy>().TakeDamage(attackDamage * vitalDamageMultiplier);
                         }
+                        else if (enemyTransform.GetComponent<Boss2>() != null)
+                        {
+                            enemyTransform.GetComponent<Boss>().ProjectPlayer(1500); ;
+                            enemyTransform.GetComponent<Boss>().TakeDamage(attackDamage * vitalDamageMultiplier);
+                        }
                         else if (enemyTransform.GetComponent<Boss>() != null)
                         {
                             enemyTransform.GetComponent<Boss>().TakeDamage(attackDamage * vitalDamageMultiplier);
