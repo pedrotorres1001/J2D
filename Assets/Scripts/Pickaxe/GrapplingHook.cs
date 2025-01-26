@@ -102,7 +102,7 @@ public class GrapplingHook : MonoBehaviour
                     {
                         joint.distance -= 5f * Time.deltaTime;
                     }
-                    else if (Input.GetKey(KeyManager.KM.movedown) && joint.distance < grappleLength && grapplePoint.y > transform.position.y && Mathf.Abs(pickaxeGrapple.transform.position.x - transform.position.x) < 3)
+                    else if (Input.GetKey(KeyManager.KM.movedown) && joint.distance < grappleLength && pickaxeGrapple.transform.position.y > transform.position.y && Mathf.Abs(pickaxeGrapple.transform.position.x - transform.position.x) < 3)
                     {
                         joint.distance += 5f * Time.deltaTime;
                     }
@@ -172,13 +172,13 @@ public class GrapplingHook : MonoBehaviour
         currentRope.StartPoint = pickaxeGrapple.transform;
         currentRope.EndPoint = transform;
 
-        pickaxeGrapple.transform.position = transform.position;
-        startPoint = transform.position;
-
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0; 
 
         direction = (mousePosition - transform.position).normalized;
+
+        pickaxeGrapple.transform.position = transform.position - (direction * 0.35f);
+        startPoint = transform.position;
 
         currentRope.ropeSegLen = Vector3.Distance(currentRope.StartPoint.position, currentRope.EndPoint.position) / currentRope.segmentLength;
 

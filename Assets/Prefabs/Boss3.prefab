@@ -101,7 +101,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.19198227, y: -0.82610893}
+  m_Offset: {x: 0.34348297, y: -0.82610893}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -112,7 +112,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.9663773, y: 3.4201546}
+  m_Size: {x: 4.7568817, y: 3.4201546}
   m_EdgeRadius: 0
 --- !u!114 &7459675181036101698
 MonoBehaviour:
@@ -254,7 +254,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.19198227, y: -0.82610893}
+  m_Offset: {x: 0.34348297, y: -0.82610893}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -265,7 +265,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.9663773, y: 3.4201546}
+  m_Size: {x: 4.7568817, y: 3.4201546}
   m_EdgeRadius: 0
 --- !u!114 &4225432309338301535
 MonoBehaviour:
@@ -487,7 +487,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.19198227, y: -0.82610893}
+  m_Offset: {x: 0.34348297, y: -0.82610893}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -498,7 +498,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.9663773, y: 3.4201546}
+  m_Size: {x: 4.7568817, y: 3.4201546}
   m_EdgeRadius: 0
 --- !u!114 &4095958980839158166
 MonoBehaviour:
@@ -689,8 +689,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossHealthBar: {fileID: 0}
-  health: 800
-  maxHealth: 800
+  health: 1100
+  maxHealth: 1100
   damage: 10
   experiencePoints: 0
   engaged: 0
@@ -699,7 +699,7 @@ MonoBehaviour:
   lastDamageTime: 0
   leftBoundary: {fileID: 7896045639645112243}
   rightBoundary: {fileID: 3388853326392063561}
-  projectionForce: 9800
+  projectionForce: 16000
   projectileSpawnPoint: {fileID: 3310906038706223075}
   vital: {fileID: 4137562987434112687}
   audioManager: {fileID: 0}
@@ -711,13 +711,15 @@ MonoBehaviour:
   - {fileID: 4095958980839158166}
   - {fileID: 4225432309338301535}
   fireBall: {fileID: 6164460985484550308, guid: fc4c403a695c9714d9106a8b29873f99, type: 3}
-  fireBallDamage: 8
+  fireBallDamage: 9
   fireBallSpeed: 6
   projectile: {fileID: 6164460985484550308, guid: 7bd0a1bb6b47a304fbc4d138a379049e, type: 3}
-  projectileDamage: 8
-  projectileSpeed: 6
+  projectileDamage: 3
+  projectileSpeed: 7.5
   groundFire: {fileID: 4476177957762317981, guid: 7408f43a6aa3a214a98ad0df8f647cc0, type: 3}
   fireStartPos: {fileID: 3798280162863407733}
+  stompCooldown: 3
+  lastStomp: 0
   state: 
   rechargeTime: 8
 --- !u!212 &2075499343000964103
