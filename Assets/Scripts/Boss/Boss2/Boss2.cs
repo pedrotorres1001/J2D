@@ -111,13 +111,15 @@ public class Boss2 : Boss
 
                                 Vector3 dir = (player.transform.position - projectileSpawnPoint.transform.position).normalized;
 
+                                FlipTowardsPlayer(dir.x);
+
                                 animator.SetBool("isRanged", true);
                                 animator.SetBool("isWalking", false);
                                 animator.Play("Boss2AttackRanged", -1, 0f);
 
                                 GameObject proj = Instantiate(projectile);
                                 proj.transform.position = projectileSpawnPoint.transform.position;
-                                proj.GetComponent<Projectile>().SetValues(dir, damage, projectileSpeed);
+                                proj.GetComponent<Projectile>().SetValues(dir, damage / 2, projectileSpeed);
                                 audioManager.Play(SFXSource, "spray");
                                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                                 proj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
