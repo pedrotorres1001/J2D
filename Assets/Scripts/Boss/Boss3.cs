@@ -42,6 +42,9 @@ public class Boss3 : MonoBehaviour
 
     [SerializeField] private GameObject groundFire;
     [SerializeField] private GameObject fireStartPos;
+    [SerializeField] private float stompCooldown = 3f;
+    [SerializeField] private float lastStomp;
+
 
     private int numAttacks = 0;
 
@@ -93,8 +96,11 @@ public class Boss3 : MonoBehaviour
                     case "flames":
                         if (!animationStarted)
                         { 
-                            animationStarted = true;
-                            GetComponent<Animator>().Play("FinalBossFireJump", -1, 0f);
+                            if (Time.time - lastStomp >= stompCooldown)
+                            {
+                                animationStarted = true;
+                                GetComponent<Animator>().Play("FinalBossFireJump", -1, 0f);
+                            }
                         }
                         break;
                     case "recharge":
@@ -103,10 +109,13 @@ public class Boss3 : MonoBehaviour
                             isRecharging = false;
                             numAttacks = 0;
                             state = "teleport";
+                            vital.SetActive(false); 
                             ChooseNextPosition();
                         }
                         break;
                     case "teleport":
+                        break;
+                    case "repulse":
                         break;
                     default:
                         break;
@@ -122,6 +131,7 @@ public class Boss3 : MonoBehaviour
         if (numAttacks >= 4 && !isRecharging)
         {
             state = "teleport";
+            vital.SetActive(false); 
             isRecharging = true;
             rechargeStart = Time.time;
             ChooseNextPosition();
@@ -164,6 +174,7 @@ public class Boss3 : MonoBehaviour
                         gameObject.GetComponent<Animator>().Play("FinalBossTeleportRechargeStart", -1, 0f);
                     }
                     isTeleporting = false;
+                    vital.SetActive(true);
                 }
                 else
                 {
@@ -178,6 +189,20 @@ public class Boss3 : MonoBehaviour
                 }
                 break;
             default:
+                if (isRecharging)
+                {
+                    state = "recharge";
+                }
+                else
+                {
+                    if (isRecharging)
+                    {
+                        isRecharging = false;
+                        numAttacks = 0;
+                    }
+                    state = "teleport";
+                    ChooseNextPosition();
+                }
                 break;
         }
         
@@ -266,7 +291,7 @@ public class Boss3 : MonoBehaviour
 
         GameObject proj = Instantiate(projectile);
         proj.transform.position = projectileSpawnPoint.transform.position;
-        proj.GetComponent<Projectile>().SetValues(dir, fireBallDamage, fireBallSpeed);
+        proj.GetComponent<Projectile>().SetValues(dir, projectileDamage, projectileSpeed);
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         proj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
@@ -275,6 +300,7 @@ public class Boss3 : MonoBehaviour
 
     public void CreateFire()
     {
+        lastStomp = Time.time;
         GameObject fire = Instantiate(groundFire);
         fire.transform.position = fireStartPos.transform.position;
 
@@ -295,6 +321,8 @@ public class Boss3 : MonoBehaviour
             if ((currentHP > maxHealth * 0.66f && health <= maxHealth * 0.66f)
                 || (currentHP > maxHealth * 0.33f && health <= maxHealth * 0.33f))
             {
+                state = "repulse";
+                gameObject.GetComponent<Animator>().Play("FinalBossRepulse", -1, 0f);
                 hasShield = true;
                 lastDamageTime = Time.time;
                 Debug.Log("Vital position: " + vital.transform.position);
