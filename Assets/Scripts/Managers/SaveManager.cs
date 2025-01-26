@@ -23,6 +23,12 @@ public class EnemyData
 }
 
 [System.Serializable]
+public class PotionsData
+{    
+    public float[] position;
+}
+
+[System.Serializable]
 public class TileData
 {
     public int x;
@@ -37,6 +43,7 @@ public class GameData
     public float totalPlayTime; // Novo campo para o tempo total de jogo
     public PlayerData playerData;
     public List<EnemyData> enemies;
+    public List<PotionsData> potions;
     public List<TileData> destroyedTiles;
     public List<TileData> destroyedCrystalTiles;
 }
@@ -66,7 +73,7 @@ public class SaveManager : MonoBehaviour
     }
 
     // M�todo para salvar os dados do jogador e inimigos
-    public void SaveData()
+    public void SaveData(GameObject checkpointPosition)
     {
         // Criar PlayerData com as informa��es do jogador
         PlayerData playerData = new PlayerData
@@ -75,7 +82,7 @@ public class SaveManager : MonoBehaviour
             experience = playerScript.experience,
             pickaxeAttackSpeed = GameObject.FindGameObjectWithTag("Pickaxe").GetComponent<PickaxeController>().attackSpeed,
             pickaxeAttackDamage = GameObject.FindGameObjectWithTag("Pickaxe").GetComponent<PickaxeAttack>().attackDamage,
-            position = new float[] { playerScript.transform.position.x, playerScript.transform.position.y, playerScript.transform.position.z }
+            position = new float[] { checkpointPosition.transform.position.x, checkpointPosition.transform.position.y, checkpointPosition.transform.position.z }
         };
 
         // Buscar todos os inimigos na cena
@@ -91,6 +98,18 @@ public class SaveManager : MonoBehaviour
                 position = new float[] { enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z }
             };
             enemyDataList.Add(enemyData);
+        }
+
+        // Buscar todas as poções na cena
+        GameObject[] allPotions = GameObject.FindGameObjectsWithTag("Potion");
+        List<PotionsData> potionsDataList = new List<PotionsData>();
+        foreach (var potion in allPotions)
+        {
+            PotionsData potionData = new PotionsData
+            {
+                position = new float[] { potion.transform.position.x, potion.transform.position.y, potion.transform.position.z }
+            };
+            potionsDataList.Add(potionData);
         }
 
         List<TileData> destroyedTiles = new List<TileData>();
@@ -138,65 +157,73 @@ public class SaveManager : MonoBehaviour
 
     // M�todo para carregar os dados e instanciar inimigos nas posi��es salvas
     public void LoadData()
+{
+    if (File.Exists(filePath))
     {
-        if (File.Exists(filePath))
+        string json = File.ReadAllText(filePath);
+        GameData gameData = JsonUtility.FromJson<GameData>(json);
+        Debug.Log("Player and enemies data loaded!");
+
+        // Atualizar dados do jogador
+        playerScript.health = gameData.playerData.health;
+        playerScript.experience = gameData.playerData.experience;
+        GameObject.FindGameObjectWithTag("Pickaxe").GetComponent<PickaxeController>().attackSpeed = gameData.playerData.pickaxeAttackSpeed;
+        GameObject.FindGameObjectWithTag("Pickaxe").GetComponent<PickaxeAttack>().attackDamage = gameData.playerData.pickaxeAttackDamage;
+
+        playerScript.transform.position = new Vector3(gameData.playerData.position[0], gameData.playerData.position[1], gameData.playerData.position[2]);
+
+        // Atualizar tempo total de jogo
+        gameSceneManager.TotalPlayTime = gameData.totalPlayTime;
+        gameSceneManager.currentLevel = gameData.level;
+
+        // Destruir inimigos existentes e recriá-los
+        Enemy[] allEnemies = FindObjectsOfType<Enemy>();
+        foreach (var enemy in allEnemies)
         {
-            string json = File.ReadAllText(filePath);
-            GameData gameData = JsonUtility.FromJson<GameData>(json);
-            Debug.Log("Player and enemies data loaded!");
+            Destroy(enemy.gameObject);
+        }
 
-            // Atualizar os dados do jogador com os dados carregados
-            playerScript.health = gameData.playerData.health;
-            playerScript.experience = gameData.playerData.experience;
-            GameObject.FindGameObjectWithTag("Pickaxe").GetComponent<PickaxeController>().attackSpeed = gameData.playerData.pickaxeAttackSpeed;
-            GameObject.FindGameObjectWithTag("Pickaxe").GetComponent<PickaxeAttack>().attackDamage = gameData.playerData.pickaxeAttackDamage;
-
-            // Atualizar a posi��o do jogador
-            playerScript.transform.position = new Vector3(gameData.playerData.position[0], gameData.playerData.position[1], gameData.playerData.position[2]);
-
-            // Atualizar o tempo total de jogo
-            gameSceneManager.TotalPlayTime = gameData.totalPlayTime; // Carregar o tempo total de jogo
-            gameSceneManager.currentLevel = gameData.level;
-
-            // Destruir inimigos existentes
-            Enemy[] allEnemies = FindObjectsOfType<Enemy>();
-            foreach (var enemy in allEnemies)
+        foreach (var enemyData in gameData.enemies)
+        {
+            GameObject enemyObj = Instantiate(enemyPrefab, new Vector3(enemyData.position[0], enemyData.position[1], enemyData.position[2]), Quaternion.identity);
+            Enemy enemyScript = enemyObj.GetComponent<Enemy>();
+            if (enemyScript != null)
             {
-                Destroy(enemy.gameObject);
-            }
-
-            // Instanciar novos inimigos
-            foreach (var enemyData in gameData.enemies)
-            {
-                // Instanciar o inimigo na posi��o guardada
-                GameObject enemyObj = Instantiate(enemyPrefab, new Vector3(enemyData.position[0], enemyData.position[1], enemyData.position[2]), Quaternion.identity);
-                Enemy enemyScript = enemyObj.GetComponent<Enemy>();
-
-                if (enemyScript != null)
-                {
-                    enemyScript.Health = enemyData.health;
-                }
-            }
-
-            // Remove os tiles destru�dos
-            foreach (var tile in gameData.destroyedTiles)
-            {
-                Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
-                destructableTilemap.SetTile(position, null);
-            }
-
-            // Remove os tiles destru�dos
-            foreach (var tile in gameData.destroyedCrystalTiles)
-            {
-                Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
-                crystalsTilemap.SetTile(position, null);
+                enemyScript.Health = enemyData.health;
             }
         }
-        else
+
+        // Destruir poções existentes e recriá-las
+        GameObject[] allPotions = GameObject.FindGameObjectsWithTag("Potion");
+        foreach (var potion in allPotions)
         {
-            Debug.Log("No save file found!");
+            Destroy(potion);
+        }
+
+        foreach (var potionData in gameData.potions)
+        {
+            GameObject potionObj = Instantiate(enemyPrefab, new Vector3(potionData.position[0], potionData.position[1], 0), Quaternion.identity);
+            // Configure o prefab da poção conforme necessário
+        }
+
+        // Restaurar tiles destruídos
+        foreach (var tile in gameData.destroyedTiles)
+        {
+            Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
+            destructableTilemap.SetTile(position, null);
+        }
+
+        foreach (var tile in gameData.destroyedCrystalTiles)
+        {
+            Vector3Int position = new Vector3Int(tile.x, tile.y, 0);
+            crystalsTilemap.SetTile(position, null);
         }
     }
+    else
+    {
+        Debug.Log("No save file found!");
+    }
+}
 
     // M�todo para atribuir o Player ao SaveManager
     public void SetPlayerReference(Player player)

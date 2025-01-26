@@ -57,7 +57,7 @@ public class RespawnLocationUpdate : MonoBehaviour
             yield return null;
         }
 
-        saveManager.SaveData();
+        saveManager.SaveData(gameObject);
         textAnimator.SetTrigger("spawnText");
     }
 }

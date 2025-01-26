@@ -44,17 +44,4 @@ public class SpikeController : MonoBehaviour
         }
 
     }
-
-    private void OnDrawGizmos()
-    {
-        if (transform != null)
-        {
-            Gizmos.color = Color.green; // Cor para a área de visão
-            Vector2 boxSize = new Vector2(.5f, 9f); // Tamanho da caixa (ajuste conforme necessário)
-
-            // Desenha a caixa no editor para depuração
-            Gizmos.DrawWireCube(transform.position + (Vector3)(Vector2.left * 1), boxSize);
-        }
-    }
-
 }

@@ -13,8 +13,6 @@ public class StairsTrigger : MonoBehaviour
         {
             stairsNormal.SetActive(false);
             stairsSlider.SetActive(true);
-
-            other.gameObject.GetComponent<PlayerMovement>().Gravity = 20f;
         }
     }
 }
