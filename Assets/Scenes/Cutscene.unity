@@ -8304,6 +8304,184 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1041213996
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1041213998}
+  - component: {fileID: 1041213997}
+  m_Layer: 0
+  m_Name: Audio Manager (1)
+  m_TagString: Audio
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1041213997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041213996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed4506234b9c494c9dcbd95f9addc7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixerGroup: {fileID: 0}
+  sounds:
+  - name: swing
+    clip: {fileID: 8300000, guid: d14db470cccef4c6a907267ae2b572ae, type: 3}
+    volume: 1
+    volumeVariance: 1
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: enemyDeath
+    clip: {fileID: 8300000, guid: 3cacc37e9a0884d3f9f95937ecf73459, type: 3}
+    volume: 1
+    volumeVariance: 1
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: BossHitRock
+    clip: {fileID: 8300000, guid: 0f543be0e42fe194ba2b3ef909707d61, type: 3}
+    volume: 1
+    volumeVariance: 1
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: lava
+    clip: {fileID: 8300000, guid: 6db76b6eae51e234a8139e5ef5da9185, type: 3}
+    volume: 1
+    volumeVariance: 1
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: walk
+    clip: {fileID: 8300000, guid: 9b714c19d12fdc94c85d08d515e00e3a, type: 3}
+    volume: 1
+    volumeVariance: 1
+    pitch: 1
+    pitchVariance: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: hitRock
+    clip: {fileID: 8300000, guid: ba996bb441d3343e9b5502120adbd57e, type: 3}
+    volume: 1
+    volumeVariance: 1
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: spray
+    clip: {fileID: 8300000, guid: b59a59850334c5444bfe50515fa267d2, type: 3}
+    volume: 0.63
+    volumeVariance: 0.962
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: splash
+    clip: {fileID: 8300000, guid: ff753a9a4759f4145be27d3cd5e61d11, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: stomp
+    clip: {fileID: 8300000, guid: fc4ac4edbaa339542b1f4aebfee00011, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0.065
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: fireBall
+    clip: {fileID: 8300000, guid: 6b155c7ebcd62e44494a47c3fb534bcf, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0.065
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: fireProjectile
+    clip: {fileID: 8300000, guid: 65cad934b01061f48b1f065c095f7f81, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0.065
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  music:
+  - name: track1
+    clip: {fileID: 8300000, guid: f8f3f9ee1a8b77e4e870f70af5c70262, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: bossTrack
+    clip: {fileID: 8300000, guid: 5c278109e4ab97142980b6c4199c79e2, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: finalTrack
+    clip: {fileID: 8300000, guid: 384e43bb18e58c14dade32d4fcbb73c4, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  musicSource: {fileID: 1396306437}
+  masterVolume: 1
+  musicVolume: 1
+  SFXVolume: 1
+--- !u!4 &1041213998
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041213996}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 34.621124, y: -12.656214, z: 0.61795974}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1396306438}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1098809464
 GameObject:
   m_ObjectHideFlags: 0
@@ -8696,6 +8874,37 @@ Transform:
   m_Children:
   - {fileID: 510505817}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1396306437
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1396306438}
+  m_Layer: 0
+  m_Name: Music
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1396306438
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1396306437}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1041213998}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1396512353
 GameObject:
@@ -10273,8 +10482,134 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixerGroup: {fileID: 0}
-  sounds: []
-  music: []
+  sounds:
+  - name: swing
+    clip: {fileID: 8300000, guid: d14db470cccef4c6a907267ae2b572ae, type: 3}
+    volume: 1
+    volumeVariance: 1
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: enemyDeath
+    clip: {fileID: 8300000, guid: 3cacc37e9a0884d3f9f95937ecf73459, type: 3}
+    volume: 1
+    volumeVariance: 1
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: BossHitRock
+    clip: {fileID: 8300000, guid: 0f543be0e42fe194ba2b3ef909707d61, type: 3}
+    volume: 1
+    volumeVariance: 1
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: lava
+    clip: {fileID: 8300000, guid: 6db76b6eae51e234a8139e5ef5da9185, type: 3}
+    volume: 1
+    volumeVariance: 1
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: walk
+    clip: {fileID: 8300000, guid: 9b714c19d12fdc94c85d08d515e00e3a, type: 3}
+    volume: 1
+    volumeVariance: 1
+    pitch: 1
+    pitchVariance: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: hitRock
+    clip: {fileID: 8300000, guid: ba996bb441d3343e9b5502120adbd57e, type: 3}
+    volume: 1
+    volumeVariance: 1
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: spray
+    clip: {fileID: 8300000, guid: b59a59850334c5444bfe50515fa267d2, type: 3}
+    volume: 0.63
+    volumeVariance: 0.962
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: splash
+    clip: {fileID: 8300000, guid: ff753a9a4759f4145be27d3cd5e61d11, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: stomp
+    clip: {fileID: 8300000, guid: fc4ac4edbaa339542b1f4aebfee00011, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0.065
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: fireBall
+    clip: {fileID: 8300000, guid: 6b155c7ebcd62e44494a47c3fb534bcf, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0.065
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: fireProjectile
+    clip: {fileID: 8300000, guid: 65cad934b01061f48b1f065c095f7f81, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0.065
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  music:
+  - name: track1
+    clip: {fileID: 8300000, guid: f8f3f9ee1a8b77e4e870f70af5c70262, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: bossTrack
+    clip: {fileID: 8300000, guid: 5c278109e4ab97142980b6c4199c79e2, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: finalTrack
+    clip: {fileID: 8300000, guid: 5c278109e4ab97142980b6c4199c79e2, type: 3}
+    volume: 0.85
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
   musicSource: {fileID: 0}
   masterVolume: 1
   musicVolume: 1
@@ -12412,7 +12747,7 @@ Tilemap:
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 5.1387415
+      m_AnimationSpeed: 6.1164317
       m_AnimationTimeOffset: 5
       m_Flags: 0
   - first: {x: 10, y: -6, z: 0}
@@ -12430,7 +12765,7 @@ Tilemap:
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 4.154234
+      m_AnimationSpeed: 4.130394
       m_AnimationTimeOffset: 5
       m_Flags: 0
   - first: {x: 11, y: -6, z: 0}
@@ -12445,7 +12780,7 @@ Tilemap:
       - {fileID: 880331675, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: -1849528273, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 14.060668
+      m_AnimationSpeed: 15.428851
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 12, y: -6, z: 0}
@@ -12463,7 +12798,7 @@ Tilemap:
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 6.2513065
+      m_AnimationSpeed: 5.0117645
       m_AnimationTimeOffset: 5
       m_Flags: 0
   - first: {x: 13, y: -6, z: 0}
@@ -12478,7 +12813,7 @@ Tilemap:
       - {fileID: 880331675, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: -1849528273, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 10.884056
+      m_AnimationSpeed: 14.774544
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 14, y: -6, z: 0}
@@ -12493,7 +12828,7 @@ Tilemap:
       - {fileID: 880331675, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: -1849528273, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 13.132082
+      m_AnimationSpeed: 13.671761
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 15, y: -6, z: 0}
@@ -12508,7 +12843,7 @@ Tilemap:
       - {fileID: 880331675, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: -1849528273, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 11.802856
+      m_AnimationSpeed: 11.4011345
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 16, y: -6, z: 0}
@@ -12526,7 +12861,7 @@ Tilemap:
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 5.9995637
+      m_AnimationSpeed: 5.7684517
       m_AnimationTimeOffset: 5
       m_Flags: 0
   - first: {x: 17, y: -6, z: 0}
@@ -12544,7 +12879,7 @@ Tilemap:
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 4.8424344
+      m_AnimationSpeed: 6.144319
       m_AnimationTimeOffset: 5
       m_Flags: 0
   - first: {x: 18, y: -6, z: 0}
@@ -12559,7 +12894,7 @@ Tilemap:
       - {fileID: 880331675, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: -1849528273, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 11.400205
+      m_AnimationSpeed: 15.224168
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 19, y: -6, z: 0}
@@ -12577,7 +12912,7 @@ Tilemap:
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
       - {fileID: 1482721141, guid: 2a16f2d386bcb4a1abd2cd6faed4414d, type: 3}
-      m_AnimationSpeed: 6.618974
+      m_AnimationSpeed: 5.281048
       m_AnimationTimeOffset: 5
       m_Flags: 0
   m_TileAssetArray:
@@ -13140,3 +13475,4 @@ SceneRoots:
   - {fileID: 1195553163}
   - {fileID: 1506416363}
   - {fileID: 1434322099}
+  - {fileID: 1041213998}

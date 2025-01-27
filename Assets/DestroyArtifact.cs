@@ -17,6 +17,7 @@ public class DestroyArtifact : MonoBehaviour
             if (player != null && teleportLocation != null)
             {
                 player.transform.position = teleportLocation.position;
+                GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>().PlayMusic("finalTrack");
             }
         }
     }
