@@ -23,7 +23,7 @@ public class GameEnd : MonoBehaviour
         irisOutAnimation.SetTrigger("Close");
         yield return new WaitForSeconds(.8f);
         blackPanel.SetActive(true);
-        print("creditos");
+        SceneManager.LoadScene("Credits");
 
     }
 }
