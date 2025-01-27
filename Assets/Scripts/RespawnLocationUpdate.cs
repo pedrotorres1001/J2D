@@ -13,6 +13,9 @@ public class RespawnLocationUpdate : MonoBehaviour
     [SerializeField] bool updateMap;
     [SerializeField] int mapLevel;
 
+    [SerializeField] bool closeDoor;
+    [SerializeField] GameObject door;
+
     private GrapplingHook grapplingHook;
 
     private void Start()
@@ -43,6 +46,11 @@ public class RespawnLocationUpdate : MonoBehaviour
             {
                 animator.SetBool("isLit", true);
                 isLit = true;
+            }
+
+            if(closeDoor)
+            {
+                door.SetActive(true);
             }
 
             // Inicia a corrotina para aguardar `isGrappling` ser true antes de gravar
