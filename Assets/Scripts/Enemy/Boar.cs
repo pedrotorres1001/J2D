@@ -55,14 +55,11 @@ public class Boar : Enemy
 
         canSeePlayer = eyeCollider.canSeePlayer;
 
-        print(canSeePlayer);
-
         if (canSeePlayer && distanceToPlayer > 6) {
             StartCoroutine(PrepareAndDash());
         }
         
         if (canSeePlayer && distanceToPlayer <= 6 && !isPerformingAction && !colidedWithPlayer) {
-            print("Running");
             animator.SetBool("isRunning", true);
             FollowPlayer();
         }
@@ -71,7 +68,6 @@ public class Boar : Enemy
         }
 
         if(!canSeePlayer && !colidedWithPlayer) {
-            print("Patrolling");
             animator.SetBool("isPatrolling", true);
             Patrol();
         }
