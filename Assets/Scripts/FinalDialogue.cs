@@ -44,6 +44,7 @@ public class FinalDialogue : MonoBehaviour
     {
         if (other.CompareTag("Player") && !hasDialogOccurred)
         {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().enabled = false;
             if (!isDialogActive)
             {
                 StartDialog();
@@ -71,7 +72,6 @@ public class FinalDialogue : MonoBehaviour
             dialogUI.SetActive(true);
             currentLineIndex = 0;
             ShowDialogLine();
-            player.GetComponent<PlayerMovement>().enabled = false;
             Debug.Log(player.GetComponent<PlayerMovement>().enabled);
             Debug.Log("Dialog started.");
         }
@@ -117,7 +117,7 @@ public class FinalDialogue : MonoBehaviour
     {
         isDialogActive = false;
         dialogUI.SetActive(false);
-        player.GetComponent<PlayerMovement>().enabled = true;
+        //player.GetComponent<PlayerMovement>().enabled = true;
         GetChildObject(player, "Pickaxe").SetActive(true);
         Debug.Log("Dialog ended.");
     }

@@ -37,9 +37,23 @@ public class Boss : MonoBehaviour
     [SerializeField] GameObject explosionPrefab;
     [SerializeField] GameObject crystal;
 
+    [SerializeField] Transform startPosition;
+    [SerializeField] GameObject entranceTrigger;
+    private GameObject player;
+
     private void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    private void Update()
+    {
+        if (player.GetComponent<Player>().health <= 0)
+        {
+            Reset();
+            return;
+        }
     }
 
     public void TakeDamage(int damage)
@@ -73,6 +87,14 @@ public class Boss : MonoBehaviour
                 Die();
             }
         }
+    }
+
+    public void Reset()
+    {
+        health = maxHealth;
+        bossHealthBar.SetActive(false);
+        entranceTrigger.SetActive(true);
+        transform.position = startPosition.position;
     }
 
     public IEnumerator ColorChangeCoroutine()
