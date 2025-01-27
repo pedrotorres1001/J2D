@@ -64,6 +64,9 @@ public class Boss3 : MonoBehaviour
     private float rechargeStart;
     [SerializeField] private float rechargeTime = 4;
 
+    [SerializeField] Transform startPosition;
+    [SerializeField] GameObject entranceTrigger;
+
     private void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -75,6 +78,12 @@ public class Boss3 : MonoBehaviour
 
     private void Update()
     {
+        if(player.GetComponent<Player>().health <= 0)
+        {
+            Reset();
+            return;
+        }
+
         switch (engaged)
         {
             case true:
@@ -382,6 +391,15 @@ public class Boss3 : MonoBehaviour
         {
             Debug.LogWarning("Player Rigidbody2D not found!");
         }
+    }
+
+    public void Reset()
+    {
+        engaged = false;
+        health = maxHealth;
+        bossHealthBar.SetActive(false);
+        entranceTrigger.SetActive(true);
+        transform.position = startPosition.position;
     }
 
     void Die()
