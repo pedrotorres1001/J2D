@@ -348,6 +348,7 @@ GameObject:
   - component: {fileID: 209658831}
   - component: {fileID: 209658830}
   - component: {fileID: 209658829}
+  - component: {fileID: 209658832}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -419,6 +420,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &209658832
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209658828}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.3, y: 0.6329453}
+  m_Size: {x: 0.5, y: 5.211963}
+  m_Direction: 0
 --- !u!1 &252849395
 GameObject:
   m_ObjectHideFlags: 0
@@ -6800,67 +6836,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1171990455}
   m_CullTransparentMesh: 1
---- !u!1 &1204108777
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1204108779}
-  - component: {fileID: 1204108778}
-  m_Layer: 0
-  m_Name: Timeline_Intro
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!320 &1204108778
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1204108777}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: f9a1561ce803019439f9c94bdf9ee7ee, type: 2}
-  m_InitialState: 1
-  m_WrapMode: 2
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: -8732441900269589839, guid: f9a1561ce803019439f9c94bdf9ee7ee, type: 2}
-    value: {fileID: 550563359}
-  - key: {fileID: -3534973462948051166, guid: f9a1561ce803019439f9c94bdf9ee7ee, type: 2}
-    value: {fileID: 1213278328}
-  - key: {fileID: -8473384687142570359, guid: f9a1561ce803019439f9c94bdf9ee7ee, type: 2}
-    value: {fileID: 1213278328}
-  - key: {fileID: 1756152056225066770, guid: f9a1561ce803019439f9c94bdf9ee7ee, type: 2}
-    value: {fileID: 1213278328}
-  - key: {fileID: -8931110665453788348, guid: f9a1561ce803019439f9c94bdf9ee7ee, type: 2}
-    value: {fileID: 121086307}
-  - key: {fileID: -4423844427444965934, guid: f9a1561ce803019439f9c94bdf9ee7ee, type: 2}
-    value: {fileID: 550563354}
-  m_ExposedReferences:
-    m_References: []
---- !u!4 &1204108779
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1204108777}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 866.92554, y: 563.248, z: 27.453197}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1213278314 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1448950200424056156, guid: 97ae4701161f148afacd88051056feaa, type: 3}
@@ -6882,11 +6857,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc27c5da2a2746d1953f20dbb1dc605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &1213278328 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 7694451778373415888, guid: 97ae4701161f148afacd88051056feaa, type: 3}
-  m_PrefabInstance: {fileID: 318102304}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1390479199 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2759441281161781270, guid: c0329b0264224164582ce3444630466e, type: 3}
@@ -7968,6 +7938,7 @@ MonoBehaviour:
   - characterName: Greg
     characterImage: {fileID: 21300000, guid: f86e0c65ba74a494f935a98a6358c73c, type: 3}
     text: No trouble, Doug. Keep yer wits sharp and yer feet steady down there!
+  door: {fileID: 0}
 --- !u!4 &1787662746
 Transform:
   m_ObjectHideFlags: 0
@@ -8769,4 +8740,3 @@ SceneRoots:
   - {fileID: 2092038858}
   - {fileID: 525092219}
   - {fileID: 7592237225407371698}
-  - {fileID: 1204108779}
