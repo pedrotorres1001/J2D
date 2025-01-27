@@ -44,14 +44,14 @@ public class SettingsMenuController : MonoBehaviour
         if (audioManager != null)
         {
             // Carrega as configurações do AudioManager antes de definir o volume do slider
-            audioManager.loadSettings();
+            //audioManager.loadSettings();
 
             // Define o valor inicial do slider com base no volume salvo no PlayerPrefs ou um valor padrão
-            volumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", audioManager.musicVolume);
+            //volumeSlider.value = PlayerPrefs.GetFloat("MusicVolume", audioManager.musicVolume);
         }
 
         // Adiciona um listener ao slider para controlar o volume
-        volumeSlider.onValueChanged.AddListener(SetVolume);
+        //volumeSlider.onValueChanged.AddListener(SetVolume);
 
         // Define os valores iniciais dos dropdowns e do toggle
         resolutionDropdown.value = PlayerPrefs.GetInt("ResolutionIndex", currentResolutionIndex);
@@ -65,20 +65,20 @@ public class SettingsMenuController : MonoBehaviour
         //KeybindButton.onClick.AddListener(OpenKeybindMenu);
     }
 
-    public void SetVolume(float volume)
-    {
-        if (audioManager != null)
-        {
-            // Ajusta o volume da música através do AudioManager
-            audioManager.musicVolume = volume;
+    //public void SetVolume(float volume)
+    //{
+    //    if (audioManager != null)
+    //    {
+    //        // Ajusta o volume da música através do AudioManager
+    //        audioManager.musicVolume = volume;
 
-            // Salva o volume definido pelo jogador utilizando PlayerPrefs
-            PlayerPrefs.SetFloat("MusicVolume", volume);
+    //        // Salva o volume definido pelo jogador utilizando PlayerPrefs
+    //        PlayerPrefs.SetFloat("MusicVolume", volume);
 
-            // Força a gravação no PlayerPrefs
-            PlayerPrefs.Save();
-        }
-    }
+    //        // Força a gravação no PlayerPrefs
+    //        PlayerPrefs.Save();
+    //    }
+    //}
 
     public void SetResolution(int resolutionIndex)
     {

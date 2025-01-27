@@ -21,6 +21,10 @@ public class AudioManager : MonoBehaviour
 
     void Awake()
     {
+        masterVolume = 1;
+        musicVolume = 1;
+        SFXVolume = 1;
+
         if (instance != null)
         {
             Destroy(gameObject);
@@ -58,12 +62,12 @@ public class AudioManager : MonoBehaviour
         
     }
 
-    public void loadSettings()
-    {
-        musicVolume = PlayerPrefs.GetFloat("MusicVolume");
-        SFXVolume = PlayerPrefs.GetFloat("SFXVolume");
-        masterVolume = 1;
-    }
+    //public void loadSettings()
+    //{
+    //    musicVolume = PlayerPrefs.GetFloat("MusicVolume");
+    //    SFXVolume = PlayerPrefs.GetFloat("SFXVolume");
+    //    masterVolume = 1;
+    //}
 
     public void Play(string sound)
     {
@@ -74,7 +78,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        s.source.volume = s.volume * (1f + UnityEngine.Random.Range(-s.volumeVariance / 2f, s.volumeVariance / 2f)) * SFXVolume * masterVolume; ;
+        s.source.volume = s.volume * (1f + UnityEngine.Random.Range(-s.volumeVariance / 2f, s.volumeVariance / 2f));
         s.source.pitch = s.pitch * (1f + UnityEngine.Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f));
 
         s.source.Play();
@@ -90,7 +94,7 @@ public class AudioManager : MonoBehaviour
         }
 
         audioSource.clip = s.clip;
-        audioSource.volume = s.volume * SFXVolume * masterVolume; 
+        audioSource.volume = s.volume; 
         audioSource.pitch = s.pitch * (1f + UnityEngine.Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f));
         audioSource.loop = s.loop;
 
@@ -133,7 +137,7 @@ public class AudioManager : MonoBehaviour
         float percentage = 0;
         while (nowPlaying.source.volume > 0)
         {
-            nowPlaying.source.volume = Mathf.Lerp(nowPlaying.volume * musicVolume * masterVolume, 0, percentage);
+            nowPlaying.source.volume = Mathf.Lerp(nowPlaying.volume, 0, percentage);
             percentage += Time.deltaTime / 2;
             yield return null;
         }
@@ -145,7 +149,7 @@ public class AudioManager : MonoBehaviour
     {
         float percentage = 0;
         nowPlaying.source.Play();
-        while (nowPlaying.source.volume < nowPlaying.volume * musicVolume * masterVolume)
+        while (nowPlaying.source.volume < nowPlaying.volume)
         {
             nowPlaying.source.volume = Mathf.Lerp(0, nowPlaying.volume, percentage);
             percentage += Time.deltaTime / 2;

@@ -11,6 +11,6 @@ public class Volumeslider : MonoBehaviour
         PlayerPrefs.SetFloat("MasterVolume", 1);
         PlayerPrefs.Save();
         AudioManager audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-        audioManager.loadSettings();
+        //audioManager.loadSettings();
     }
 }
