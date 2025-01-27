@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
@@ -44,6 +45,9 @@ public class Boss3 : MonoBehaviour
     [SerializeField] private GameObject fireStartPos;
     [SerializeField] private float stompCooldown = 3f;
     [SerializeField] private float lastStomp;
+
+    [SerializeField] GameObject deathEffect;
+    [SerializeField] GameObject artefact;
 
 
     private int numAttacks = 0;
@@ -382,6 +386,9 @@ public class Boss3 : MonoBehaviour
 
     void Die()
     {
+        Instantiate(deathEffect, transform.position, transform.rotation);
+        Instantiate(artefact, transform.position, transform.rotation);
+
         audioManager.PlayMusic("track1");
         GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().AddExperiencePoints(experiencePoints);
         bossHealthBar.SetActive(false);

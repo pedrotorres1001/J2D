@@ -23,6 +23,7 @@ TagManager:
   - Slide
   - FinalBoss
   - Potion
+  - Mob
   layers:
   - Default
   - TransparentFX

@@ -17,7 +17,7 @@ public class SwitchController : MonoBehaviour
 
     private void Update() 
     {
-        if(isColliding && Input.GetKeyDown(KeyCode.F)) 
+        if(isColliding && Input.GetKey(KeyManager.KM.interact)) 
         {
             if(door != null) 
             {

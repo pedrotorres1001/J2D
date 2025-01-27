@@ -38,7 +38,6 @@ public class DoorController : MonoBehaviour
 
     private IEnumerator OpenDoorAnimation()
     {
-        yield return new WaitForSeconds(1.5f);
         camera.Follow = transform;
         yield return new WaitForSeconds(1.5f);
         spriteRenderer.sprite = openedDoor;
