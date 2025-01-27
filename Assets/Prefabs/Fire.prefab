@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ffc4d79093cc2f428f06b7e28d2a58c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
+  damage: 4
   duration: 2
   fire: {fileID: 4476177957762317981}
   left: {fileID: 0}
