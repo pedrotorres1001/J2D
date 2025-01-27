@@ -91,6 +91,7 @@ public class Boss : MonoBehaviour
 
     public void Reset()
     {
+        engaged = false;
         health = maxHealth;
         bossHealthBar.SetActive(false);
         entranceTrigger.SetActive(true);
