@@ -26,7 +26,6 @@ public class BossMovement : Boss
     private Vector2 dashDirection;
     private Animator animator;
 
-    [SerializeField] private string state;
     [SerializeField] ParticleSystem dustParticles;
     public float interval = 1f; // Intervalo em segundos
     private float timer = 0f; // Temporizador interno

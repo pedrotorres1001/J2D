@@ -21,7 +21,6 @@ public class Boss2 : Boss
 
     private Animator animator;
 
-    [SerializeField] private string state;
     [SerializeField] private GameObject projectileSpawnPoint;
     [SerializeField] private GameObject projectile;
 

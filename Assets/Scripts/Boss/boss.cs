@@ -41,6 +41,8 @@ public class Boss : MonoBehaviour
     [SerializeField] GameObject entranceTrigger;
     private GameObject player;
 
+    public string state;
+
     private void Start()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -51,7 +53,7 @@ public class Boss : MonoBehaviour
     {
         if (player.GetComponent<Player>().health <= 0)
         {
-            Reset();
+            ResetBoss();
             return;
         }
     }
@@ -89,8 +91,13 @@ public class Boss : MonoBehaviour
         }
     }
 
-    public void Reset()
+    public void ResetBoss()
     {
+        foreach (AnimatorControllerParameter parameter in GetComponent<Animator>().parameters)
+        {
+            GetComponent<Animator>().SetBool(parameter.name, false);
+        }
+        state = "idle";
         engaged = false;
         health = maxHealth;
         bossHealthBar.SetActive(false);

@@ -80,7 +80,7 @@ public class Boss3 : MonoBehaviour
     {
         if(player.GetComponent<Player>().health <= 0)
         {
-            Reset();
+            ResetBoss();
             return;
         }
 
@@ -393,8 +393,9 @@ public class Boss3 : MonoBehaviour
         }
     }
 
-    public void Reset()
+    public void ResetBoss()
     {
+        state = "fireball";
         engaged = false;
         health = maxHealth;
         bossHealthBar.SetActive(false);
