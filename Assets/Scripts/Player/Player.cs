@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] Animator deathAnimator;
     [SerializeField] Animator irisOut;
     [SerializeField] GameObject blackPanel;
+    [SerializeField] UpgradeManager upgradeManagerScript;
 
     private void Start() 
     {
@@ -50,7 +51,9 @@ public class Player : MonoBehaviour
 
         if(experience >= maxExperience) 
         {
+            upgradeManagerScript.activateUpgradeMenu();
             pickaxeLevel++;
+            experience = 0;
         }
     }
 

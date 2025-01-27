@@ -180,6 +180,7 @@ public class Boar : Enemy
         animator.SetBool("isIdle", true);
         yield return new WaitForSeconds(2);
         animator.SetBool("isIdle", false);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().TakeDamage(attackDamage);
 
         // Reset state
         isPerformingAction = false;
@@ -187,6 +188,7 @@ public class Boar : Enemy
     }
 
     public IEnumerator StopAndWait() {
+        //GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().TakeDamage(attackDamage);
         rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(2);
         colidedWithPlayer = false;

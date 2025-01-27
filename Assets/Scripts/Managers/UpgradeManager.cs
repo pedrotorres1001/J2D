@@ -19,40 +19,20 @@ public class UpgradeManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
-    void Update()
+    public void activateUpgradeMenu()
     {
-        if (player == null)
-        {
-            player = GameObject.Find("Player").GetComponent<Player>();
-        }
 
-        if (player != null && player.experience >= player.getMaxExperience())
-        {
-            upgradeMenu.SetActive(true);
-        }
-        else
-        {
-            upgradeMenu.SetActive(false);
-        }
+        upgradeMenu.SetActive(true);
+
     }
 
     public void UpgradeAttackDamage()
     {
-        if (player != null && player.experience >= player.getMaxExperience())
-        {
-            pickaxeAttack.attackDamage += 10;
-            player.experience = 0;
-            Debug.Log("Attack Damage Upgraded!");
-        }
+        pickaxeAttack.attackDamage += 5;
     }
 
     public void UpgradeAttackSpeed()
-    {
-        if (player != null && player.experience >= player.getMaxExperience())
-        {
-            player.experience = 0;
-            pickaxeController.attackSpeed -= 0.1f;
-            Debug.Log("Attack Speed Upgraded!");
-        }
+    { 
+        pickaxeController.attackSpeed -= 0.02f;
     }
 }

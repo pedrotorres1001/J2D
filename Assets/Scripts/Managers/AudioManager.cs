@@ -27,12 +27,12 @@ public class AudioManager : MonoBehaviour
 
         if (instance != null)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
         else
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            //instance = this;
+            //DontDestroyOnLoad(gameObject);
         }
 
         foreach (Sound s in sounds)

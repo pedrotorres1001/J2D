@@ -39,7 +39,7 @@ public class CrystalController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Destructable"))
         {
             startPosition = new Vector3(transform.position.x, transform.position.y + 0.1f); // Guardar posição inicial
             floatPosition = startPosition + Vector3.up * floatRange; // Calcular a posição ligeiramente abaixo
@@ -47,11 +47,4 @@ public class CrystalController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision other) {
-
-    }
-
-    private void Float() {
-
-    }
 }
