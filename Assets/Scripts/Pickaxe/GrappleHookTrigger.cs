@@ -15,7 +15,7 @@ public class GrappleHookTrigger : MonoBehaviour
     {
         if (!other.CompareTag("Untagged") && !other.CompareTag("Lava") && !other.CompareTag("Confiner") && !other.CompareTag("Player"))
         {
-            if (other.CompareTag("Moss") || other.CompareTag("FinalBoss"))
+            if (other.CompareTag("Moss") || other.CompareTag("FinalBoss") || other.CompareTag("Mob"))
             {
                 grapplingHook.retractRope = true;
                 grapplingHook.stopGrappling = true;
