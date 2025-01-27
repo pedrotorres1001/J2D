@@ -949,15 +949,25 @@ MonoBehaviour:
   maxHealth: 800
   damage: 10
   experiencePoints: 0
-  attackDamage: 10
+  attackDamage: 15
   speed: 2
   rb: {fileID: 0}
   engaged: 0
+  hasShield: 0
+  shieldCooldown: 4.5
+  lastDamageTime: 0
   leftBoundary: {fileID: 7488708609765489715}
   rightBoundary: {fileID: 1275344455549768615}
+  vital: {fileID: 0}
+  projectionForce: 9800
   audioManager: {fileID: 0}
   SFXSource: {fileID: 3762470825785472350}
   LoopSource: {fileID: 7465024894338672621}
+  triggerDoor: {fileID: 0}
+  explosionPrefab: {fileID: 0}
+  crystal: {fileID: 0}
+  startPosition: {fileID: 0}
+  entranceTrigger: {fileID: 0}
   attackTrigger: {fileID: 8119892781671006465}
   attackCooldown: 5
   prepareCooldown: 2

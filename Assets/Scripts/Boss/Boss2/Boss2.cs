@@ -25,6 +25,9 @@ public class Boss2 : Boss
     [SerializeField] private GameObject projectileSpawnPoint;
     [SerializeField] private GameObject projectile;
 
+    [SerializeField] ParticleSystem dustParticles;
+    public float interval = 1f; // Intervalo em segundos
+    private float timer = 0f; // Temporizador interno
 
     void Start()
     {
@@ -154,7 +157,13 @@ public class Boss2 : Boss
         if (cooldown == 2)
             Debug.Log($"Cooldown: {cooldown}");
 
+        timer += Time.deltaTime;
 
+        if (rb.velocity.x != 0 && timer >= interval)
+        {
+            dustParticles.Play();
+            timer = 0f;   
+        }
     }
 
     void FollowPlayer()

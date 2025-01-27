@@ -27,6 +27,9 @@ public class BossMovement : Boss
     private Animator animator;
 
     [SerializeField] private string state;
+    [SerializeField] ParticleSystem dustParticles;
+    public float interval = 1f; // Intervalo em segundos
+    private float timer = 0f; // Temporizador interno
 
     void Start()
     {
@@ -201,7 +204,13 @@ public class BossMovement : Boss
         if (cooldown == 2)
             Debug.Log($"Cooldown: {cooldown}");
 
+        timer += Time.deltaTime;
 
+        if (rb.velocity.x != 0 && timer >= interval)
+        {
+            dustParticles.Play();
+            timer = 0f;   
+        }
     }
 
     void FollowPlayer()

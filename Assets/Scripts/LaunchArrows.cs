@@ -14,13 +14,14 @@ public class LaunchArrows : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            timer += Time.deltaTime;
+            
 
             if (timer >= cooldown) 
             {
                 LaunchArrow();
                 timer = 0f;
             }
+            timer += Time.deltaTime;
         }
     }
 

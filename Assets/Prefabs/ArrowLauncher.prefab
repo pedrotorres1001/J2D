@@ -224,7 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 589441480558119001, guid: a51db391c1a9670448dd11cf32e1ac8c, type: 3}
   launchPoint: {fileID: 7224309217490345461}
-  cooldown: 2
+  cooldown: 1
 --- !u!1 &7414873201032298140
 GameObject:
   m_ObjectHideFlags: 0

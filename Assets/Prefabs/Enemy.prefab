@@ -659,7 +659,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 971310339, guid: 8e1cd108813334d4da78f8421f59b926, type: 3}
-  m_Color: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 1}
+  m_Color: {r: 0.31132078, g: 0.30397832, b: 0.30397832, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -753,7 +753,7 @@ MonoBehaviour:
   deathPrefab: {fileID: 3689511419877391624, guid: 4f6e3b2a7bbdba54e877a127a40e0bc4, type: 3}
   dashSpeed: 10
   dashDuration: 0.2
-  attackDamage: 5
+  attackDamage: 10
   dustParticles: {fileID: 1132610166564165690}
   interval: 1
   SFXSource: {fileID: 6596017895801075551}

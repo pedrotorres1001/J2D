@@ -13,10 +13,7 @@ public class PickaxeAttack : MonoBehaviour
     private bool isAttacking;
 
     private void OnTriggerEnter(Collider other) {
-        if(other.CompareTag("Crystal"))
-        {
-            Destroy(other);
-        }
+
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -48,6 +45,10 @@ public class PickaxeAttack : MonoBehaviour
                             enemyTransform.GetComponent<Boss3>().TakeDamage(attackDamage * vitalDamageMultiplier);
                         }
                         isAttacking = false;
+                    }
+                    if(other.CompareTag("Crystal"))
+                    {
+                        Destroy(other);
                     }
                 }
                 break;
