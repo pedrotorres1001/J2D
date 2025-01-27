@@ -27,6 +27,8 @@ public class DialogManager : MonoBehaviour
     public DialogLine[] dialogLines;
     private int currentLineIndex = 0;
     private bool isDialogActive = false;
+    private bool kingDialog = false;
+    public GameObject door;
 
     void Start()
     {
@@ -116,6 +118,7 @@ public class DialogManager : MonoBehaviour
             else if (line.characterName == "King")
             {
                 characterImage.sprite = gregImage;
+                kingDialog = true;
             }
             Debug.Log("Showing dialog line: " + line.text);
         }
@@ -129,6 +132,9 @@ public class DialogManager : MonoBehaviour
         speechBubble.SetActive(false);
         GetChildObject(player, "Pickaxe").SetActive(true);
         Debug.Log("Dialog ended.");
+
+        if(kingDialog)
+            door.SetActive(false);
     }
 
     void CancelDialog()

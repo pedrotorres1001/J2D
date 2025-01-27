@@ -6,29 +6,24 @@ using UnityEngine.SceneManagement;
 
 public class GameEnd : MonoBehaviour
 {
-    public GameObject gameEndMenu;
-    public GameObject boss;
-    public Button returnToMainMenuButton;
 
-    void Start()
-    {
-        if (boss != null)
-        {
-            gameEndMenu.SetActive(false);
-        }
+    [SerializeField] Animator irisOutAnimation; 
+    [SerializeField] GameObject blackPanel;
 
-        if (boss == null)
-        {
-            gameEndMenu.SetActive(true);
-        }
 
-        if (returnToMainMenuButton != null)
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.gameObject.CompareTag("Player"))
         {
-            returnToMainMenuButton.onClick.AddListener(ReturnToMainMenu);
+            StartCoroutine(Animation());
         }
     }
-    public void ReturnToMainMenu()
+
+    private IEnumerator Animation()
     {
-        SceneManager.LoadScene("MainMenu");
+        irisOutAnimation.SetTrigger("Close");
+        yield return new WaitForSeconds(.8f);
+        blackPanel.SetActive(true);
+        print("creditos");
+
     }
 }
