@@ -12,6 +12,13 @@ public class PickaxeAttack : MonoBehaviour
 
     private bool isAttacking;
 
+    private void OnTriggerEnter(Collider other) {
+        if(other.CompareTag("Crystal"))
+        {
+            Destroy(other);
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D other)
     {
         switch (isAttacking)

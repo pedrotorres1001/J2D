@@ -24,6 +24,7 @@ TagManager:
   - FinalBoss
   - Potion
   - Mob
+  - Crystal
   layers:
   - Default
   - TransparentFX
