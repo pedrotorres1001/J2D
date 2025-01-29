@@ -42,13 +42,13 @@ public class RespawnLocationUpdate : MonoBehaviour
             PlayerPrefs.SetFloat("RespawnX", gameObject.transform.position.x);
             PlayerPrefs.SetFloat("RespawnY", gameObject.transform.position.y);
 
-            if (!isLit)
+            if (!isLit && animator != null)
             {
                 animator.SetBool("isLit", true);
                 isLit = true;
             }
 
-            if(closeDoor)
+            if(closeDoor && door != null)
             {
                 door.SetActive(true);
             }

@@ -87,12 +87,12 @@ public class PlayerMovement : MonoBehaviour
             direction = 1;
             lastDirection = 1;
         }
-        else if (!isGrounded && Input.GetKey(KeyManager.KM.moveup)) {
+        else if (!isGrounded && Input.GetKey(KeyManager.KM.moveup) && isGrappling) {
             direction = 3;
             lastDirection = 3;
             animator.SetFloat("LastDirection", lastDirection);
         }
-        else if (!isGrounded && Input.GetKey(KeyManager.KM.movedown)) {
+        else if (!isGrounded && Input.GetKey(KeyManager.KM.movedown) && isGrappling) {
             direction = 4;
             lastDirection = 4;
             animator.SetFloat("LastDirection", lastDirection);
@@ -106,18 +106,14 @@ public class PlayerMovement : MonoBehaviour
 
         CheckGround();
 
-        if (direction != 0)
+        if (direction != 0 && isGrounded)
         {
             animator.SetFloat("Direction", direction);
             animator.SetFloat("LastDirection", lastDirection);
 
-            if (isGrounded)
-            {
-                if (!animator.GetBool("IsWalking"))
-                    loopSource.mute = false;
-
-                animator.SetBool("IsWalking", true);
-            }
+            animator.SetBool("IsWalking", true);
+            loopSource.mute = false;
+            
         }
         else
         {
@@ -133,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
             timer = 0f; // Reseta o temporizador
         }
 
-        if (Input.GetKeyDown(KeyManager.KM.jump) && isGrounded)
+        if (Input.GetKey(KeyManager.KM.jump) && isGrounded)
         {
             dust.Play();
             Jump();

@@ -135,6 +135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ece967a5a11148a8a8be4b4fa2582d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  irisOutAnimation: {fileID: 0}
+  blackPanel: {fileID: 0}
 --- !u!50 &8957005323626169555
 Rigidbody2D:
   serializedVersion: 4

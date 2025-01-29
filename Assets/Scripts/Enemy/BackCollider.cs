@@ -42,7 +42,7 @@ public class BackCollider : MonoBehaviour
             Vector2 knockbackDirection = new Vector2(-knockbackDirectionX, 1f).normalized; // Inclui a direção horizontal e vertical
 
             // Multiplicar pela força do knockback
-            Vector2 projectionForce = knockbackDirection * 20f; // Ajusta a força conforme necessário
+            Vector2 projectionForce = knockbackDirection * 10f; // Ajusta a força conforme necessário
 
             playerRb.AddForce(projectionForce, ForceMode2D.Impulse);
         }

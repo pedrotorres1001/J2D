@@ -8,16 +8,22 @@ public class ArtefactController : MonoBehaviour
     [SerializeField] Animator irisOutAnimation;
     [SerializeField] GameObject blackPanel;
 
+    private void Start() {
+        irisOutAnimation = GameObject.FindGameObjectWithTag("Canvas").GetComponentInChildren<Animator>();
+        blackPanel = GameObject.FindGameObjectWithTag("BlackPanel");
+    }
+
     private void OnTriggerStay2D(Collider2D other) {
+
         if(other.gameObject.CompareTag("Player") && Input.GetKey(KeyManager.KM.interact))
-        StartCoroutine(Wait());
+            StartCoroutine(Wait());
     }
 
     private IEnumerator Wait()
     {
         irisOutAnimation.SetTrigger("Close");
         yield return new WaitForSeconds(.8f);
-        blackPanel.SetActive(true);
+        //blackPanel.SetActive(true);
         SceneManager.LoadScene("Cutscene");
     }
 }

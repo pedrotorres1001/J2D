@@ -25,6 +25,8 @@ TagManager:
   - Potion
   - Mob
   - Crystal
+  - Canvas
+  - BlackPanel
   layers:
   - Default
   - TransparentFX
