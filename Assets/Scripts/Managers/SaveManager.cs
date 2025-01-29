@@ -58,6 +58,7 @@ public class SaveManager : MonoBehaviour
 
     [SerializeField] private Player playerScript;  // Refer�ncia ao script do Player
     [SerializeField] private GameObject enemyPrefab;  // Prefab do inimigo
+    [SerializeField] private GameObject potionPrefab;
 
     public Tilemap destructableTilemap;
     public Tilemap crystalsTilemap;
@@ -142,6 +143,7 @@ public class SaveManager : MonoBehaviour
         {
             playerData = playerData,
             enemies = enemyDataList,
+            potions = potionsDataList,
             destroyedTiles = destroyedTiles,
             destroyedCrystalTiles = destroyedCrystalTiles,
             lastSaveTime = currentTime,
@@ -202,8 +204,7 @@ public class SaveManager : MonoBehaviour
 
         foreach (var potionData in gameData.potions)
         {
-            GameObject potionObj = Instantiate(enemyPrefab, new Vector3(potionData.position[0], potionData.position[1], 0), Quaternion.identity);
-            // Configure o prefab da poção conforme necessário
+            GameObject potionObj = Instantiate(potionPrefab, new Vector3(potionData.position[0], potionData.position[1], 0), Quaternion.identity);
         }
 
         // Restaurar tiles destruídos
