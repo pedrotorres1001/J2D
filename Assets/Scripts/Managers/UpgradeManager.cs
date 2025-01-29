@@ -17,6 +17,7 @@ public class UpgradeManager : MonoBehaviour
         pickaxeAttack = pickaxe.GetComponent<PickaxeAttack>();
         pickaxeController = pickaxe.GetComponent<PickaxeController>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        Time.timeScale = 0;
     }
 
     public void activateUpgradeMenu()
@@ -29,10 +30,12 @@ public class UpgradeManager : MonoBehaviour
     public void UpgradeAttackDamage()
     {
         pickaxeAttack.attackDamage += 5;
+        Time.timeScale = 1;
     }
 
     public void UpgradeAttackSpeed()
-    { 
+    {         
         pickaxeController.attackSpeed -= 0.02f;
+        Time.timeScale = 1;
     }
 }

@@ -10,6 +10,7 @@ public class DoorController : MonoBehaviour
     [SerializeField] Sprite openedDoor;
     [SerializeField] Sprite closedDoor;
     private SpriteRenderer spriteRenderer;
+    private AudioManager audioManager;
 
     private bool isOpen;
 
@@ -17,6 +18,8 @@ public class DoorController : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         isOpen = false;
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
     }
 
     void Update()
@@ -40,6 +43,7 @@ public class DoorController : MonoBehaviour
     {
         camera.Follow = transform;
         yield return new WaitForSeconds(1.5f);
+        audioManager.Play("door");
         spriteRenderer.sprite = openedDoor;
         yield return new WaitForSeconds(1.5f);
         camera.Follow = player.transform;

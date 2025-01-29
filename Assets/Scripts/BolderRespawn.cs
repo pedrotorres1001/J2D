@@ -11,9 +11,12 @@ public class BolderRespawn : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Door"))
         {
-            // Converte a posição para Vector3 e usa Quaternion.identity para rotação padrão
+            ResetBolder();
+        }
+    }
+
+    public void ResetBolder(){
             Instantiate(bolder, new Vector3(bolderLocation.x, bolderLocation.y, 0), Quaternion.identity);
             Destroy(gameObject);
-        }
     }
 }

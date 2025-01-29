@@ -11,10 +11,13 @@ public class LeverTimer : MonoBehaviour
     [SerializeField] int damageWhenHit;
     private bool isColliding;
     private Transform player;
+    private AudioManager audioManager;
+    public BolderRespawn bolder;
 
     private void Start() {
         isColliding = false;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     private void Update() 
@@ -31,6 +34,8 @@ public class LeverTimer : MonoBehaviour
     }
     private IEnumerator ActivateSwitchWithTimer()
     {
+        audioManager.Play("ticking");
+
         // Ativa o switch e altera o sprite
         gameObject.GetComponent<SpriteRenderer>().sprite = switchUsed;
         door.SetActive(false);
@@ -49,6 +54,10 @@ public class LeverTimer : MonoBehaviour
             player.position = transform.position;
             player.GetComponent<Player>().TakeDamage(damageWhenHit);
         }
+
+        audioManager.Stop("ticking");
+        bolder.ResetBolder();
+
 
     }
 

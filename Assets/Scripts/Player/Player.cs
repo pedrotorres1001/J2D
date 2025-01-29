@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField] Animator irisOut;
     [SerializeField] GameObject blackPanel;
     [SerializeField] UpgradeManager upgradeManagerScript;
+    private AudioManager audioManager;
 
     private void Start() 
     {
@@ -25,6 +26,8 @@ public class Player : MonoBehaviour
         experience = 0;
         isAlive = true;
         isBlinking = false;
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
     }
 
     public int getMaxExperience()
@@ -34,6 +37,8 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        audioManager.Play("hurt");
+
         health -= damage;
 
         if(!isBlinking)
@@ -89,8 +94,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(2f);
         //blackPanel.SetActive(true);
 
-        AudioManager audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-        audioManager.PlayMusic("track1");
         isAlive = true;
         transform.position = new Vector2(PlayerPrefs.GetFloat("FirstRespawnX"), PlayerPrefs.GetFloat("FirstRespawnY"));
         //blackPanel.SetActive(false);

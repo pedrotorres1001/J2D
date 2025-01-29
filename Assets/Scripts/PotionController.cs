@@ -9,9 +9,13 @@ public class PotionController : MonoBehaviour
     public float floatRange = 0.5f; // Distância para baixo a flutuar
     private Vector3 startPosition;
     private Vector3 floatPosition;
+    private AudioManager audioManager;
+
     private void Start() {
         startPosition = transform.position; // Guardar posição inicial
         floatPosition = startPosition + Vector3.down * floatRange; // Calcular a posição ligeiramente abaixo
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
     }
 
     private void Update() {
@@ -22,6 +26,7 @@ public class PotionController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && collision.gameObject.GetComponent<Player>().health < collision.gameObject.GetComponent<Player>().maxHealth)
         {
+            audioManager.Play("pickUp");
             collision.GetComponent<Player>().health += potionHealth;
             Destroy(gameObject);
         }

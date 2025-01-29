@@ -13,12 +13,15 @@ public class CrystalController : MonoBehaviour
     public float floatRange = 0.5f; // Distância para baixo a flutuar
     public bool canFloat;
     private GameObject player;
+    private AudioManager audioManager;
 
     void Start()
     {
         
         player = GameObject.FindGameObjectWithTag("Player");
         canFloat = false;
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
     }
 
 
@@ -35,6 +38,7 @@ public class CrystalController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            audioManager.Play("pickUp");
             player.GetComponent<Player>().AddExperiencePoints(experience);
             Destroy(gameObject);
         }

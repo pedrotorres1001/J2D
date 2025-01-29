@@ -9,15 +9,16 @@ public class GameSceneManager : MonoBehaviour
 {
     [SerializeField] GameObject startRespawnPoint1;
     [SerializeField] GameObject startRespawnPoint2;
+    [SerializeField] GameObject startRespawnPoint3;
 
 
     [SerializeField] SaveManager saveManager;
     [SerializeField] GameObject player;
-    [SerializeField] GameObject map1;
-    [SerializeField] GameObject map2;
     [SerializeField] Animator irisOutAnimation;
     [SerializeField] GameObject blackPanel;
-    
+    [SerializeField] GameObject bolder1;
+    [SerializeField] GameObject bolder2;
+
 
     public int currentLevel;
     private AudioManager audioManager;
@@ -51,9 +52,12 @@ public class GameSceneManager : MonoBehaviour
         }
         else {
             saveManager.LoadData();
+
+            LoadBolders();
         }
 
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        audioManager.Play("track1");
 
 
         playerScript = player.GetComponent<Player>();
@@ -92,7 +96,26 @@ public class GameSceneManager : MonoBehaviour
         }
         else if(currentLevel == 3)
         {
+            PlayerPrefs.SetFloat("FirstRespawnX", startRespawnPoint3.transform.position.x);
+            PlayerPrefs.SetFloat("FirstRespawnY", startRespawnPoint3.transform.position.y);
+        }
+    }
 
+    private void LoadBolders(){
+        if (currentLevel == 1)
+        {
+            bolder1.SetActive(true);
+            bolder2.SetActive(true);
+        }
+        else if (currentLevel == 2)
+        {
+            bolder1.SetActive(false);
+            bolder2.SetActive(true);
+        }
+        else if(currentLevel == 3)
+        {
+            bolder1.SetActive(false);
+            bolder2.SetActive(false);
         }
     }
 

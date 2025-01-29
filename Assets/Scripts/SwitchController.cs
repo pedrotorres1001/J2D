@@ -8,11 +8,11 @@ public class SwitchController : MonoBehaviour
     [SerializeField] private GameObject door;
     [SerializeField] private Sprite switchUsed;
     private bool isColliding = false;
-
-    
+    private AudioManager audioManager;
 
     private void Start() {
         isColliding = false;
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     private void Update() 
@@ -21,9 +21,11 @@ public class SwitchController : MonoBehaviour
         {
             if(door != null) 
             {
+                audioManager.Play("lever");
 
                 door.GetComponent<DoorController>().OpenDoor();
                 gameObject.GetComponent<SpriteRenderer>().sprite = switchUsed;
+                this.enabled = false;
             
             }
         }
