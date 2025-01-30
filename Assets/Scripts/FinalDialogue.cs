@@ -103,7 +103,7 @@ public class FinalDialogue : MonoBehaviour
             {
                 characterImage.sprite = dougImage;
             }
-            else if (line.characterName == "Jeff")
+            else if (line.characterName == "Jeff" || line.characterName == "Boss")
             {
                 characterImage.sprite = jeffImage;
             }
