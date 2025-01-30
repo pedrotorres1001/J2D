@@ -13,7 +13,6 @@ public class DialogLineFinal
 public class FinalDialogue : MonoBehaviour
 {
     [SerializeField] private GameObject player;
-    [SerializeField] private GameObject enemy;
     [SerializeField] private GameObject dialogUI;
     [SerializeField] private TextMeshProUGUI dialogText;
     [SerializeField] private TextMeshProUGUI characterNameText;
@@ -44,7 +43,7 @@ public class FinalDialogue : MonoBehaviour
     {
         if (other.CompareTag("Player") && !hasDialogOccurred)
         {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().enabled = false;
+            Time.timeScale = 0;
             if (!isDialogActive)
             {
                 StartDialog();
@@ -73,7 +72,6 @@ public class FinalDialogue : MonoBehaviour
             currentLineIndex = 0;
             ShowDialogLine();
             Debug.Log(player.GetComponent<PlayerMovement>().enabled);
-            Debug.Log("Dialog started.");
         }
     }
 
@@ -117,9 +115,8 @@ public class FinalDialogue : MonoBehaviour
     {
         isDialogActive = false;
         dialogUI.SetActive(false);
-        //player.GetComponent<PlayerMovement>().enabled = true;
+        Time.timeScale = 1;
         GetChildObject(player, "Pickaxe").SetActive(true);
-        Debug.Log("Dialog ended.");
     }
 
     void CancelDialog()
@@ -128,8 +125,7 @@ public class FinalDialogue : MonoBehaviour
         {
             isDialogActive = false;
             dialogUI.SetActive(false);
-            player.GetComponent<PlayerMovement>().enabled = true;
-            Debug.Log("Dialog canceled.");
+            Time.timeScale = 1;
         }
     }
 
